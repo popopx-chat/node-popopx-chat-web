@@ -1,0 +1,16 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.DS_Store
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+.vite/
+coverage/
+deploy/centos/.staging/
+
+# Operator-owned and task-specification files that stay on disk only.
+node.popopx.chat_nginx.conf
+prompt.md

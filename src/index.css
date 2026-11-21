@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/*
+ * Design system for the POPOPX Mac Node portal.
+ *
+ * Direction: dark OLED. The page is genuinely black, depth comes from a single
+ * violet light source and 1px translucent edges rather than from grey fills, and
+ * the only typeface is the platform's own — no webfont, no CDN, nothing that
+ * phones home. Every colour below is derived from the official app icon
+ * (#7A2BBE / #3D0A6D / #FAF6FE) so the site cannot drift from the brand.
+ */
+
+@theme {
+  --color-void: #000000;
+  --color-abyss: #050508;
+  --color-hull: #0b0b11;
+  --color-panel: #111119;
+  --color-raise: #191922;
+
+  --color-brand: #7a2bbe;
+  --color-brand-deep: #3d0a6d;
+  --color-brand-lift: #9b5fd0;
+  --color-brand-haze: #c9a6ec;
+
+  --color-ink: #faf6fe;
+  --color-ink-dim: #b7b1c2;
+  --color-ink-mute: #857f93;
+
+  --color-edge: rgb(255 255 255 / 8%);
+  --color-edge-strong: rgb(255 255 255 / 14%);
+  --color-edge-brand: rgb(155 95 208 / 28%);
+
+  --font-sans:
+    ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --radius-panel: 20px;
+  --radius-pill: 999px;
+
+  --shadow-glass: 0 1px 0 0 rgb(255 255 255 / 5%) inset, 0 24px 60px -28px rgb(0 0 0 / 85%);
+  --shadow-brand: 0 18px 60px -22px rgb(122 43 190 / 55%);
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark only;
+    --glow-x: 50%;
+  }
+
+  * {
+    border-color: var(--color-edge);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* The single violet light source: a wide, low-opacity haze anchored above the
+     fold. Everything else on the page is black or near-black. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -40vh 0 auto 0;
+    height: 110vh;
+    background:
+      radial-gradient(60% 50% at var(--glow-x) 0%, rgb(122 43 190 / 30%) 0%, transparent 62%),
+      radial-gradient(38% 34% at 78% 6%, rgb(61 10 109 / 34%) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: saturate(1.1);
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-lift);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* CJK and Thai copy need a touch more leading to stay readable at small sizes. */
+  html:lang(ja) body,
+  html:lang(th) body,
+  html:lang(zh-Hans) body,
+  html:lang(zh-Hant) body {
+    line-height: 1.75;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@utility glass {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 4%) 0%, transparent 40%),
+    rgb(11 11 17 / 72%);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--color-edge);
+  box-shadow: var(--shadow-glass);
+}
+
+@utility glass-quiet {
+  background: rgb(11 11 17 / 55%);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--color-edge);
+}
+
+@utility edge-brand {
+  border-color: var(--color-edge-brand);
+}
+
+@utility text-gradient {
+  background: linear-gradient(96deg, var(--color-ink) 8%, var(--color-brand-haze) 58%, var(--color-brand-lift) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility rule-fade {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-edge-strong) 22%, var(--color-edge-strong) 78%, transparent);
+}
+
+@utility scroll-shadow {
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-edge-strong) transparent;
+}
+
+@layer components {
+  /* The encrypted link in the hero topology: a 1px violet rail with one travelling
+     light. The dot is a pseudo-element on a fixed-width gradient so the animation
+     is a single composited transform, not a repaint. */
+  .link-line {
+    position: relative;
+    flex: 1 1 0%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-edge-brand) 14%,
+      var(--color-edge-brand) 86%,
+      transparent
+    );
+    overflow: hidden;
+  }
+
+  .link-line::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 28%;
+    height: 3px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, transparent, var(--color-brand-lift) 45%, transparent);
+    animation: link-travel 3.4s var(--ease-out-soft) infinite;
+  }
+
+  /* Expanding ring behind a topology endpoint. */
+  .node-pulse {
+    position: relative;
+  }
+
+  .node-pulse::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-edge-brand);
+    animation: node-ring 2.9s ease-out infinite;
+  }
+
+  /* The animation is on the pseudo-element, so an inline animation-delay on the
+     node itself would be ignored; stagger it here instead. */
+  .node-pulse-offset::before {
+    animation-delay: 0.7s;
+  }
+
+  @keyframes link-travel {
+    0% {
+      transform: translate3d(-100%, 0, 0);
+    }
+    100% {
+      transform: translate3d(360%, 0, 0);
+    }
+  }
+
+  @keyframes node-ring {
+    0% {
+      opacity: 0.7;
+      transform: scale(0.82);
+    }
+    70% {
+      opacity: 0;
+      transform: scale(1.25);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.25);
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "node-popopx-chat-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Official product portal for POPOPX Mac Node and the POPOPX iOS client.",
+  "license": "AGPL-3.0-only",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^1.77.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "5.9.3",
+    "vite": "^8.3.8"
+  }
+}
