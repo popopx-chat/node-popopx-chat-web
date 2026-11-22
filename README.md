@@ -69,7 +69,11 @@ path, and they are bytes in a local file, never a URL anyone resolves.
 
 ## Build and run
 
-Requires Node.js 22 or newer.
+Requires Node.js 20.19 or newer. `package.json` declares
+`engines: { "node": ">=20.19.0" }`, and the locked Vite (8.3.8, in
+`package-lock.json`) declares `^20.19.0 || >=22.12.0` — so build on Node 20 LTS
+(≥ 20.19) or Node 22 LTS (≥ 22.12), which is the version
+`deploy/centos/deploy_centos.sh --build-on-host` asks for.
 
 ```sh
 npm ci
@@ -90,11 +94,22 @@ a reader switches to it. Language names are listed separately in
 
 ## Deploy
 
+Publishing is three facts: build on a workstation, mirror `dist/` into the document
+root, serve it with the vhost in `deploy/centos/`. The host never needs Node.js — the
+machine that serves this site runs an nginx old enough that Node.js 22 cannot start on
+it, which is why the script takes a prebuilt export (`--source`) as its default path.
+
 `deploy/centos/` holds the nginx server block and an idempotent script for CentOS
-Stream and Rocky/AlmaLinux 9 and 10: it installs the toolchain, builds, stages
-`dist/`, sets SELinux contexts, validates with `nginx -t` before touching the live
-configuration and keeps a timestamped backup. Read `deploy/centos/README.md` first;
-it lists the checks to run on the host afterwards.
+Stream and Rocky/AlmaLinux. It validates the export and stops if `index.html` is the
+development entry document, refuses to run from a document root that contains the
+repository (printing the `mv` that fixes the layout), tarballs the current web root to
+`/var/backups/popopx/` outside the tree, mirrors the export with `rsync --delete`,
+obtains the Let's Encrypt certificate **before** installing a vhost that references it,
+validates the rendered conf with `nginx -t` in a throwaway prefix before touching
+`/etc/nginx/conf.d/`, and restores the previous file — re-validating — if the live
+config rejects it. `deploy/centos/README.md` carries the flag list, the first-fix
+recipe for a web root that currently holds a `git clone`, the verification commands and
+both rollback paths.
 
 ## Licence
 
