@@ -61,7 +61,7 @@ export function DiscoverEnginesSection() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           titleId="engines-title"
-          index="02 / DISCOVER ENGINES"
+          index={`01 / ${dict.routes["/features"].eyebrow}`}
           title={dict.engines.heading}
           sub={dict.engines.sub}
         />

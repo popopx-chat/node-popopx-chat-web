@@ -12,7 +12,7 @@ export function HeroSection() {
 
   return (
     <section
-      id="top"
+      aria-label="POPOPX Mac Node"
       className="relative overflow-hidden border-b border-edge px-5 pb-20 pt-16 sm:px-8 sm:pt-20"
     >
       <div

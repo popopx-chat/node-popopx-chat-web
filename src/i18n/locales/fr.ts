@@ -4,24 +4,71 @@ export const fr: Dictionary = {
   dir: "ltr",
 
   nav: {
-    engines: "Moteurs",
-    architecture: "Architecture",
-    hardware: "Matériel",
-    install: "Installation",
-    faq: "FAQ",
-    github: "GitHub",
-    download: "Télécharger",
+    overview: "Vue d'ensemble",
+    node: "Ce qu'est un nœud",
+    features: "Capacités",
+    install: "Installation et configuration",
+    security: "Confidentialité et contrôle",
+    troubleshooting: "Dépannage",
+    releases: "Versions et GitHub",
+    download: "Télécharger le nœud",
     openMenu: "Ouvrir le menu",
     closeMenu: "Fermer le menu",
     chooseLanguage: "Langue",
   },
 
+  ecosystem: {
+    heading: "Le reste de POPOPX",
+    body:
+      "Trois portails, un seul projet, et ils sont tous à nous. Rien sur cette page ne charge quoi que ce soit depuis eux et aucune requête ne leur est envoyée : on ne quitte node.popopx.chat que si l'on clique.",
+    chat: "POPOPX Chat",
+    chatBody:
+      "Le réseau de messagerie lui-même — de bout en bout, sans identifiant global, et la file sur laquelle votre nœud écoute.",
+    botStudio: "Bot Studio",
+    botStudioBody:
+      "Là où les comptes de service derrière les dix moteurs sont écrits et hébergés, sur un serveur que vous contrôlez.",
+    serviceSuite: "Comptes de service",
+    serviceSuiteBody:
+      "L'écosystème de canaux chiffrés à connaissance nulle auquel ces moteurs parlent.",
+  },
+
+  routes: {
+    "/": {
+      eyebrow: "VUE D'ENSEMBLE",
+      title: "POPOPX Mac Node — votre propre Mac exécute les dix moteurs",
+    },
+    "/node": {
+      eyebrow: "CE QU'EST UN NŒUD",
+      title: "Ce qu'un nœud est, et ce qu'il n'est pas — POPOPX Mac Node",
+    },
+    "/features": {
+      eyebrow: "CAPACITÉS",
+      title: "Dix moteurs locaux et le matériel qui les fait tourner — POPOPX Mac Node",
+    },
+    "/install": {
+      eyebrow: "INSTALLATION ET CONFIGURATION",
+      title: "Installer, appairer, mettre à niveau, sauvegarder, supprimer — POPOPX Mac Node",
+    },
+    "/security": {
+      eyebrow: "CONFIDENTIALITÉ ET CONTRÔLE",
+      title: "Ce qui reste sur votre disque, et comment l'arrêter — POPOPX Mac Node",
+    },
+    "/troubleshooting": {
+      eyebrow: "DÉPANNAGE",
+      title: "Ports, pare-feu et plafonds mémoire — POPOPX Mac Node",
+    },
+    "/releases": {
+      eyebrow: "VERSIONS ET CODE SOURCE",
+      title: "Versions, empreintes et arbre source complet — POPOPX Mac Node",
+    },
+  },
+
   hero: {
     badge: "macOS 14+ · Apple Silicon · AGPL-3.0",
-    titleLead: "Votre Mac devient",
-    titleAccent: "la couche de calcul",
+    titleLead: "Votre appareil. Votre nœud.",
+    titleAccent: "Votre contrôle.",
     subtitle:
-      "POPOPX Mac Node exécute le calcul local et l'exécution déterministe qui se trouvent derrière les dix moteurs Discover du client POPOPX iOS. Zéro cloud, aucun compte, aucune télémétrie, chiffrement de bout en bout.",
+      "POPOPX Mac Node est le bord du réseau que vous possédez. Il exécute sur votre propre Mac, à côté de POPOPX Chat et de Bot Studio, les moteurs de modèles locaux, de médias et de fichiers qui se trouvent derrière les dix services Discover. Le réseau relaie vos messages chiffrés ; l'inférence, le rendu, l'archive scellée et les secrets restent sur un matériel que vous avez acheté.",
     ctaDownload: "Télécharger le DMG",
     ctaSource: "Lire le code source",
     releaseLabel: "Dernière version",
@@ -34,13 +81,48 @@ export const fr: Dictionary = {
     digestCopied: "Empreinte copiée",
     verifyTitle: "Vérifiez avant de l'ouvrir",
     verifyBody:
-      "Enregistrez le .dmg et son fichier annexe .sha256 dans le même dossier, puis lancez shasum -a 256 -c sur le fichier annexe, pas sur l'image. Il contient une seule empreinte et un seul nom de fichier relatif ; la réponse attendue est POPOPX-Mac-Node-Universal.dmg: OK.",
+      "Enregistrez l'image et le fichier d'empreintes de la version dans le même dossier, puis contrôlez-les avant d'ouvrir quoi que ce soit. Le fichier d'empreintes change selon la version — les versions récentes publient un manifeste SHA256SUMS.txt, les plus anciennes un .sha256 à un seul fichier — alors Versions et GitHub affiche les deux commandes exactes pour la version que vous êtes en train de regarder.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "Votre propre matériel",
-    statStorage: "Stockage local physique",
-    statIdentity: "Aucun compte, aucune identité",
+    statStorage: "Artefacts sur votre propre SSD",
+    statIdentity: "Aucun compte, aucun ID",
     statSource: "AGPL-3.0 de bout en bout",
+  },
+
+  overview: {
+    splitHeading: "Le réseau coordonne. Votre machine exécute.",
+    splitSub:
+      "C'est toute l'idée, et elle mérite d'être énoncée exactement, parce que la lecture habituelle d'un produit comme celui-ci est inversée : le cloud ne fait pas le travail et votre Mac n'est pas un client léger. Chacun des deux côtés ne fait que la part qui lui revient.",
+    cloudTitle: "Ce que le réseau transporte",
+    cloudBody:
+      "Les relais SMP et le stockage XFTP déplacent vos messages et vos fichiers de bout en bout entre vos propres appareils, et les dix comptes de service Discover envoient chacun un signal. Un relais voit du texte chiffré et des métadonnées de routage. Il ne reçoit jamais un modèle, une invite, une image ou un nom de fichier, et il n'exécute aucune partie d'aucun moteur.",
+    macTitle: "Ce que votre Mac fait",
+    macBody:
+      "Le nœud prend ce signal et fait le travail sur la machine devant vous : inférence quantifiée via Ollama sur loopback, rendu LTX-2.5 via MLX, FFmpeg et filigrane GOP, scellement CryptoKit et coffres à chaînage de hachage, diskutil et AppKit pour les actions physiques. Puis il écrit le résultat sur votre propre disque.",
+    pathsHeading: "Commencez là où vous êtes vraiment",
+    paths: [
+      {
+        title: "Comprendre la répartition",
+        body:
+          "Ce qu'est un nœud, la seule ligne sur laquelle il écoute, comment un téléphone obtient l'autorisation de le piloter, et quels ports sont concernés.",
+      },
+      {
+        title: "L'installer sur un Mac",
+        body:
+          "Prérequis, DMG vérifié, compilation depuis la source, premier appairage, mises à niveau, changement de machine et suppression complète.",
+      },
+      {
+        title: "Contrôler ce qui part",
+        body:
+          "Le détail de la racine de données, dossier par dossier, ce qui est renvoyé à votre téléphone, où vivent les clés, et comment arrêter ou révoquer.",
+      },
+      {
+        title: "Réparer ce qui a cassé",
+        body:
+          "Les pannes qui arrivent vraiment : un port déjà lié, un modèle qui n'a jamais répondu, des poids ignorés, un code expiré.",
+      },
+    ],
   },
 
   architecture: {
@@ -64,6 +146,80 @@ export const fr: Dictionary = {
           "Les dix moteurs, la passerelle SMP, la console web locale, le filigrane GOP et en domaine fréquentiel et le registre des points de calcul forment un seul et même arbre de sources AGPL-3.0-only. Il n'existe pas de cœur fermé : le code des attestations à signature aveugle et le registre cryptographique vivent dans popopxmq, en open source.",
       },
     ],
+  },
+
+  node: {
+    heading: "Un nœud est un ordinateur que vous possédez déjà",
+    sub:
+      "Pas une région, pas un type d'instance, pas un niveau d'abonnement. Un seul Mac qui exécute les parties de POPOPX qui ne devraient pas se passer ailleurs — et la seule chose à laquelle vous devez faire confiance est la machine à laquelle vous confiez déjà vos fichiers.",
+    points: [
+      {
+        title: "Le travail sensible ne sort jamais",
+        body:
+          "Les rapports médicaux sont analysés par Vision sur votre propre machine. Les rushes sont découpés et filigranés en local. Le scellement du coffre et l'archive scellée sont des opérations CryptoKit sur votre propre disque. Rien dans ces chemins n'a de point hébergé à appeler.",
+      },
+      {
+        title: "La distance est nulle",
+        body:
+          "L'inférence se fait sur la mémoire unifiée, à côté du processus qui l'a demandée. Le client de modèle est épinglé sur 127.0.0.1:11434, ce qui explique qu'il n'existe dans le nœud aucun chemin de code capable d'atteindre une API d'inférence hébergée, même par accident — il faudrait d'abord modifier le littéral d'hôte.",
+      },
+      {
+        title: "Vous l'avez déjà payé",
+        body:
+          "Les points de calcul mesurent les cycles dépensés par votre propre matériel, et Edge Compute Mesh est le seul moteur qui prête la capacité inutilisée au lieu de l'emprunter. Le palier que vous obtenez est une fonction de la mémoire que vous avez achetée.",
+      },
+      {
+        title: "L'autorisation est par appareil",
+        body:
+          "Un seul code d'appairage signé, à usage unique et valable quinze minutes autorise un appareil. La console liste ce qui est appairé, et la révocation tient dans un bouton — avec une réserve honnête sur ce que ce bouton ne fait pas, détaillée sur la page confidentialité.",
+      },
+    ],
+    wireHeading: "Une ligne, trois segments",
+    wireBody:
+      "Une commande venant du téléphone est un message ordinaire sur votre propre file popopx-chat, et à l'intérieur se trouve une ligne balise : un préfixe, l'identifiant du moteur, l'action, et une charge JSON. L'analyseur ne découpe que sur le premier séparateur, si bien qu'une charge contenant le séparateur survive intacte, et qu'une ligne dont l'identifiant de moteur est inconnu, dont la charge est vide, ou dont la charge dépasse le plafond accepté par la partie iOS est abandonnée plutôt qu'exécutée partiellement.",
+    wireSampleLabel: "La seule forme acceptée",
+    pairingHeading: "L'appairage, dans l'ordre où il se passe vraiment",
+    pairingSub:
+      "Le nœud fabrique une attestation, vous la montrez au téléphone une fois, et l'attestation ne vaut plus rien ensuite. Rien n'est stocké sur un serveur, parce qu'il n'y a aucun serveur qui pourrait le faire.",
+    pairingSteps: [
+      {
+        title: "Le nœud propose",
+        body:
+          "Depuis la barre de menus ou la console, le nœud écrit une offre, signe le corps avec sa propre clé Ed25519 — celle qui se trouve dans pairing/node.key sous sa racine de données — et la génère en QR code en local via CoreImage. Aucune image ne quitte la machine.",
+      },
+      {
+        title: "Le téléphone la revendique",
+        body:
+          "POPOPX iOS scanne le code, et le contact qui en résulte est la clé de l'appareil. Ce scan unique établit le pont SMP ; à partir de là, les comptes de service Discover parlent à votre nœud et à rien d'autre.",
+      },
+      {
+        title: "L'offre meurt",
+        body:
+          "La première revendication marque l'offre comme utilisée. Générer un nouveau code retire le précédent, donc un QR photographié n'est pas une invitation permanente — il expire de lui-même au bout de quinze minutes même si personne ne le scanne jamais.",
+      },
+    ],
+    pairingFacts: {
+      lifetime: "Durée de vie de l'offre",
+      singleUse: "Utilisation",
+      signature: "Signée par",
+      delivery: "Généré sous forme de",
+    },
+    portsHeading: "Le côté à l'écoute du nœud",
+    portsSub:
+      "Le nœud lui-même ouvre un seul port. Les deux autres appartiennent à des programmes qu'il démarre et auxquels il se connecte en tant que client, ce qui compte quand vous lisez un journal de pare-feu : une connexion vers 11434 ou 5225 a été faite par le nœud, pas acceptée par lui.",
+    portsColumns: ["Port", "Lié par", "Adresse", "Protocole", "Ce qui le protège"],
+    portsOwner: {
+      node: "Le nœud",
+      tool: "Ollama",
+      daemon: "popopx-chat",
+    },
+    portsPurpose: {
+      console: "Console web et flux de journal des moteurs",
+      inference: "Inférence de modèles locale",
+      control: "Socket de contrôle du démon de messagerie",
+    },
+    portsFootnote:
+      "Les trois sont en loopback. La console est du HTTP simple sans TLS, ce qui n'est une conception raisonnable que parce qu'elle ne quitte jamais la machine : les tentatives de liaison sur 0.0.0.0, une adresse LAN ou un nom d'hôte sont refusées avant même la création d'un socket, et l'adresse est codée en dur dans l'app plutôt que lue dans un fichier de configuration. Ce qui la protège à la place est un jeton aléatoire de vingt-quatre octets émis à chaque lancement, envoyé sous X-PPX-Token, conservé uniquement en mémoire, et mort quand le processus se termine. Le socket de contrôle du démon de messagerie n'a aucune authentification du tout — c'est la description honnête qu'on peut en faire — et il n'est sûr que tant qu'il reste sur 127.0.0.1.",
   },
 
   engines: {
@@ -108,34 +264,96 @@ export const fr: Dictionary = {
     rules: [
       "96 Go et plus — poids d'origine BF16 de LTX-2.5 avec Qwen3.8-27B en Q8_0.",
       "De 48 à 95 Go — LTX-2.5 MLX quantifié en 8-bit avec Qwen3.8-27B en Q4_K_M.",
-      "Moins de 48 Go — inférence légère ; les travaux vidéo lourds sont confiés à Edge Compute Mesh au lieu d'être calculés sur la machine.",
+      "Moins de 48 Go — un modèle 9B en Q4_K_M, rendus courts uniquement, vidéo lourde proposée à Edge Compute Mesh.",
     ],
+    plansHeading: "Ce que chaque palier déploie vraiment",
+    plansSub:
+      "Le tableau ci-dessus est le guide que vous lisez avant d'acheter. Celui-ci est ce que le nœud écrit pour lui-même après avoir mesuré la machine, directement sorti de la fonction de recommandation, y compris la balise de modèle qu'il récupère.",
+    plansColumns: [
+      "Bande de mémoire",
+      "Modèle de texte",
+      "Pile vidéo",
+      "Plafond résident",
+      "Vidéo lourde",
+      "Commande pull",
+    ],
+    heavyVideo: {
+      local: "Rendu ici",
+      mesh: "Proposé au mesh",
+    },
+    plansFootnote:
+      "Le plafond résident est une règle arithmétique sur la mémoire mesurée, pas un benchmark : chaque palier retranche une réserve fixe pour la session de bureau de la mémoire unifiée trouvée, avec un plafond pour qu'une très grosse machine ne promette pas plus que ce dont la pile a besoin. Les balises de modèle et les quantifications sont les chaînes que le nœud passe réellement à Ollama.",
   },
 
   install: {
-    heading: "Trois minutes, puis il est à vous",
+    heading: "Un DMG, un scan, dix interrupteurs",
     sub:
-      "Le nœud n'a ni installeur, ni compte de démon, ni rien à enregistrer. C'est une seule app de la barre de menus qui se lie à loopback.",
+      "Le nœud n'a ni installeur, ni compte de démon, ni rien à enregistrer. C'est une seule app de la barre de menus qui se lie à loopback, et la première exécution fait le profilage elle-même.",
+    prereqsHeading: "Avant de télécharger",
+    prereqNotes: {
+      system: "Le package cible macOS 14 et l'app est un agent de la barre de menus.",
+      memory:
+        "Metal, MLX et toute l'échelle des paliers partent de la mémoire unifiée. Le DMG contient une tranche x86_64, mais aucune partie de la pile n'est réglée pour Intel.",
+      disk:
+        "Les poids de modèle sont refusés tant que l'espace libre est inférieur ou égal à 40 Go, donc le plafond de l'échelle est aussi celui de votre disque.",
+      media:
+        "Cinq des dix moteurs appellent FFmpeg. L'assistant d'installation peut l'amener là via Homebrew.",
+      inference:
+        "Ollama pour les modèles de texte quantifiés, l'espace de travail LTX-2.5 MLX pour la vidéo. Ce sont deux outils locaux ; aucun des deux n'est un service.",
+      bridge:
+        "Nécessaire seulement pour l'étape d'appairage SMP et le chemin piloté par le téléphone. Les moteurs eux-mêmes tournent sans lui.",
+    },
+    prereqRequired: {
+      hard: "Requis",
+      wizard: "Installé par l'assistant",
+      optional: "Seulement pour l'appairage",
+    },
     steps: [
       {
         title: "Vérifiez et ouvrez le DMG",
         body:
-          "Récupérez POPOPX-Mac-Node-Universal.dmg et son .sha256 depuis Releases, les deux dans le même dossier, et contrôlez-les avant d'ouvrir quoi que ce soit : shasum -a 256 -c POPOPX-Mac-Node-Universal.dmg.sha256 doit afficher OK. Glissez l'app dans /Applications.",
+          "Placez POPOPX-Mac-Node-Universal.dmg et le fichier d'empreintes de la version dans le même dossier et contrôlez-les avant d'ouvrir quoi que ce soit ; Versions et GitHub affiche les deux commandes pour la version courante. Glissez POPOPX Mac Node.app dans /Applications. La compilation publiée porte une signature Developer ID et un ticket de notarification agrafé, donc Gatekeeper l'accepte sans aide — spctl -a -vv -t install répond accepted avec source=Notarized Developer ID. Une compilation que vous faites vous-même est signée ad hoc, et celle-là exige bien un clic droit puis Ouvrir la première fois.",
+      },
+      {
+        title: "Laissez le nœud profiler la machine",
+        body:
+          "Lancez-le et ouvrez la console depuis la barre de menus. La première étape lit la puce, le nombre de cœurs, la mémoire unifiée et le SSD libre dans sysctl, affiche le palier qu'il a choisi et la balise de modèle que ce palier implique, et montre les chiffres qu'il a échantillonnés plutôt que ceux que vous avez déclarés.",
       },
       {
         title: "Déployez les moteurs locaux",
         body:
-          "Ouvrez l'élément de la barre de menus et lancez l'assistant de la console. La première étape profile la puce, la mémoire unifiée et le SSD, récupère la quantification de Qwen3.8 qui correspond au palier, initialise l'espace de travail ltx2 et diffuse le journal d'installation sur la page au fur et à mesure.",
+          "L'assistant parcourt la liste dans l'ordre : Homebrew, FFmpeg, uv, Ollama, la quantification de Qwen qui correspond à votre palier, l'espace de travail LTX-2.5, puis une auto-vérification. Le journal d'installation est diffusé sur la page de console au fur et à mesure, et il est écrit dans logs/install.log pour qu'une panne puisse se lire après coup.",
       },
       {
         title: "Appairez l'iPhone",
         body:
-          "Scannez le QR d'appairage depuis la console avec le client POPOPX iOS. Ce scan unique établit le pont SMP ; ensuite, les comptes de service Discover parlent à votre nœud et à rien d'autre.",
+          "Générez le QR d'appairage — depuis la console, ou depuis l'élément de nouveau code de la barre de menus — et scannez-le avec le client POPOPX iOS. Le code est signé, à usage unique et expire au bout de quinze minutes. L'appareil apparaît dans la liste d'appairage de la console avec son modèle, son heure d'appairage et sa dernière apparition.",
       },
       {
         title: "Activez les moteurs",
         body:
-          "Dix interrupteurs. Un moteur ne tourne que si vous l'activez, et les quatre qui n'exigent aucun modèle local — le verrouillage physique, le coffre à verrou temporel, le traceur de filigrane, le lecteur de rapports de laboratoire — fonctionnent avant qu'un seul poids soit téléchargé. FFmpeg est toujours appelé ; la pile de modèles, non.",
+          "Dix interrupteurs dans la barre de menus et dans la console. Un moteur ne tourne que si vous l'activez, et les quatre qui n'exigent aucun modèle local — le verrouillage physique, le coffre à verrou temporel, le traceur de filigrane, le lecteur de rapports de laboratoire — fonctionnent avant qu'un seul poids soit téléchargé. FFmpeg est toujours appelé ; la pile de modèles, non.",
+      },
+    ],
+    buildHeading: "Ou compilez-le depuis le même tag",
+    buildBody:
+      "Les images de version sont conditionnées à partir de l'arbre que vous pouvez extraire. swift build, swift test, swift build -c release, puis bash Scripts/build_dmg.sh --output dist --version v1.0.2 écrit le DMG universel, le signe ad hoc et émet le fichier annexe avec. Le fichier publié, c'est l'autre script : Scripts/build-release.sh ajoute la signature Developer ID, la soumission de notarification et le ZIP, ce qui explique qu'une image téléchargée passe spctl alors que votre propre compilation non. Les deux ne tournent que sur macOS, parce qu'ils sont faits de hdiutil et de codesign.",
+    lifecycleHeading: "Après la première exécution",
+    lifecycle: [
+      {
+        title: "Monter de version",
+        body:
+          "Il n'y a ni outil de mise à jour ni vérification de mise à jour — encore une chose dont le nœud ne téléphone pas. La mise à niveau est une glissade de souris : téléchargez le DMG plus récent, vérifiez-le et remplacez l'app dans /Applications. Les réglages, l'état d'appairage, la clé du nœud, le coffre et tous les artefacts vivent sous Application Support plutôt que dans le bundle, donc une app remplacée hérite de la machine où elle arrive.",
+      },
+      {
+        title: "Sauvegarder et changer de machine",
+        body:
+          "L'app marque sa propre racine de données comme exclue de Time Machine, ce qui protège vos sauvegardes des poids de modèle et garde une surprise hors de votre restauration. Cela veut aussi dire que le dossier n'est pas dans votre sauvegarde. Pour déplacer un nœud, quittez-le, copiez ~/Library/Application Support/PopopxMacNode au même chemin sur le nouveau Mac et laissez-le se reprofiler : le palier peut changer, et pairing/node.key voyage avec le dossier, ce qui est toute la raison pour laquelle la copie doit être aussi privée que l'original.",
+      },
+      {
+        title: "Le supprimer complètement",
+        body:
+          "Coupez d'abord Launch at Login, puis Quit depuis la barre de menus — cela ferme la socket d'écoute et libère l'élément de connexion. Supprimez /Applications/POPOPX Mac Node.app, puis la racine de données dans ~/Library/Application Support/PopopxMacNode si vous voulez aussi faire disparaître le coffre scellé, les registres et les artefacts. Il n'y a pas de désinstalleur et pas de trace à oublier : rien n'a jamais été installé en dehors de ces deux chemins, et il n'existe aucun élément du Trousseau parce que l'app ne l'utilise jamais.",
       },
     ],
     bridgeTitle: "Pilotez les moteurs depuis votre propre script",
@@ -146,6 +364,238 @@ export const fr: Dictionary = {
       "L'étape 2 de l'assistant du nœud lui-même, le QR d'appairage et le pont SMP exigent un démon de messagerie popopx-chat sur votre PATH. Le nœud ne sonde qu'un seul exécutable et n'a aucun repli, parce qu'une compilation amont répond à la ligne de version puis rate toutes les commandes qui suivent. Les dix moteurs, eux, n'en ont pas besoin.",
     copyCommand: "Copier la commande",
     commandCopied: "Copié",
+  },
+
+  security: {
+    heading: "Ce qui reste, ce qui part, et comment l'arrêter",
+    sub:
+      "Une page de confidentialité qui ne liste que ce qui reste local est une page de marketing. Celle-ci liste aussi le trafic, parce que la version honnête de “vos données ne quittent jamais l'appareil” est plus longue et plus utile que le slogan.",
+    localHeading: "Ce qui reste sur votre disque",
+    localSub:
+      "Sous une seule racine de données, dans un dossier que l'app crée et exclut de Time Machine, avec les secrets écrits de façon atomique en mode 0600 et protection complète des fichiers.",
+    localItems: [
+      {
+        title: "Tous les artefacts",
+        body:
+          "Clips rendus, briefings, exports filigranés, archives scellées, rapports décodés et entrées mises en quarantaine atterrissent tous sous la racine de données et y restent. Le nœud ne garde une boîte d'envoi que pour les résultats qui attendent le retour en ligne de votre téléphone.",
+      },
+      {
+        title: "Les modèles et leurs poids",
+        body:
+          "La quantification de Qwen vit dans le magasin d'Ollama ; les poids de LTX-2.5 vivent dans le répertoire engines du nœud. Ce sont des fichiers locaux sur un disque local, récupérés une fois, et la récupération est refusée tant que l'espace libre est inférieur ou égal à 40 Go.",
+      },
+      {
+        title: "Clés et état d'appairage",
+        body:
+          "La clé de signature Ed25519 du nœud, la liste des appareils appairés et l'offre en cours sont de simples fichiers sous pairing/. Il n'y a aucune entrée de Trousseau à migrer, aucune sauvegarde cloud de la clé et aucun séquestre nulle part — ce qui a deux tranchants, comme le dit le paragraphe sur la perte plus bas.",
+      },
+      {
+        title: "La piste de preuve",
+        body:
+          "Les registres de verrouillage et de mesh sont complétés localement par chaînage de hachage, et le journal d'audit consigne ce qui a tourné, sur quel moteur, avec quel résultat. Il est écrit pour que vous le lisiez : logs/node.log est la réponse la plus rapide à “qu'est-ce que cette chose a fait à 03:14”.",
+      },
+    ],
+    transitHeading: "Ce qui quitte la machine",
+    transitSub:
+      "Quatre choses le font, et chacune est soit votre propre appareil, soit quelque chose que vous avez configuré. Il n'y a pas de cinquième catégorie, et il n'y a aucun point de collecte d'analytics à qui envoyer quoi que ce soit.",
+    transitItems: [
+      {
+        title: "Les résultats, renvoyés à votre propre téléphone",
+        body:
+          "Un travail terminé renvoie une carte d'au plus 1024 caractères plus un message par fichier artefact, par votre propre file popopx-chat avec SMP qui relaie et XFTP qui transporte. Le relais voit du texte chiffré. Si le téléphone est hors ligne, le résultat attend dans outbox/ et réessaie jusqu'à trente jours.",
+      },
+      {
+        title: "Les flux que vous lui avez demandé de lire",
+        body:
+          "Morning TV récupère les sources RSS que vous avez configurées, plafonnées à trois mégaoctets par réponse, et c'est une requête HTTPS sortante ordinaire vers l'hébergeur de vos flux.",
+      },
+      {
+        title: "Un webhook que vous avez configuré",
+        body:
+          "Le verrouillage physique peut poster un événement signé vers un point de domotique ou de présence. C'est une livraison au mieux, c'est opt-in, et l'URL est la vôtre — le nœud n'a aucune destination par défaut.",
+      },
+      {
+        title: "Installations et récupérations de modèles",
+        body:
+          "L'assistant télécharge les formules Homebrew, FFmpeg, uv, Ollama et la quantification que vous avez choisie. Ce trafic est le but d'une étape d'installation, et il arrive une fois, devant vous, journal à l'écran.",
+      },
+    ],
+    keysHeading: "Où vivent réellement les secrets",
+    keysBody:
+      "Pas dans le Trousseau. Le nœud est une app macOS qui n'a aucune dépendance au Trousseau, ce qui est une décision et non un oubli : les matériaux d'appairage et de coffre sont des fichiers sous sa racine de données, écrits par une écriture atomique, avec le mode POSIX 0600 et une protection complète des fichiers, donc ils sont illisibles au repos tant que la machine est verrouillée. L'échange que vous faites est réel — les permissions de fichiers sont auditables et portables, et elles ne sont aussi rien entre votre compte utilisateur et un lecteur qui a déjà votre compte utilisateur. Traitez la racine de données comme le secret qu'elle est : elle n'est pas dans Time Machine, et elle est la seule copie de la clé du nœud qui existe.",
+    dataNote: {
+      output:
+        "Les artefacts générés, et la file d'envoi qui contient les résultats attendant le téléphone.",
+      vault: "Les archives scellées à verrou temporel et le matériau de succession qui les ouvre.",
+      pairing: "La clé Ed25519 du nœud, la liste des appareils appairés et l'offre à usage unique en cours.",
+      weights: "Les poids des modèles et l'espace de travail LTX-2.5 MLX que les moteurs vidéo appellent.",
+      ledger: "Les registres de verrouillage et de mesh, complétés par chaînage de hachage.",
+      logs: "Le journal d'installation et le journal d'audit, écrits pour être lus par l'opérateur.",
+      config: "Les réglages, les interrupteurs des moteurs et la configuration que le pont et les intégrations partagent.",
+    },
+    rootLabel: "Racine de données",
+    controlHeading: "Votre côté de l'interrupteur d'arrêt",
+    controlSub:
+      "Quatre commandes, toutes locales, toutes visibles dans l'app plutôt qu'enterrées dans un écran de réglages. Aucune n'a besoin du réseau, ce qui est précisément ce qui les fait marcher quand le réseau est le problème.",
+    controls: [
+      {
+        title: "Arrêter un moteur",
+        body:
+          "Dix interrupteurs indépendants dans la barre de menus et dans la console. En couper un prend effet à la commande suivante, et une commande pour un moteur désactivé est refusée plutôt que mise en file.",
+      },
+      {
+        title: "Arrêter de prêter des cycles",
+        body:
+          "Pause Mesh Sharing sort le nœud du pool de calcul en bordure immédiatement ; la barre de menus affiche Paused et il cesse d'accepter des travaux. C'est la seule commande qui contient le mot pause, et elle concerne la capacité du mesh, pas le nœud entier.",
+      },
+      {
+        title: "Griller le code d'appairage en cours",
+        body:
+          "New Pairing QR retire l'offre en attente et en fabrique une nouvelle. Quiconque garde une photographie de l'ancien code a une signature expirée, pas une seconde chance.",
+      },
+      {
+        title: "Tout arrêter",
+        body:
+          "Quit est le vrai bouton d'arrêt d'urgence : il ferme la socket d'écoute en loopback, libère l'élément de connexion et fait tomber le jeton de lancement avec le processus. Un nœud qui ne tourne ne répond à rien, à personne, sur rien.",
+      },
+    ],
+    revokeHeading: "Et révoquer un appareil",
+    revokeBody:
+      "La liste des appareils appairés de la console a un bouton Revoke sur chaque ligne. Elle marque l'appareil comme révoqué, supprime sa mise en correspondance de contact et rejette ses commandes à partir de là — mais elle ne déchire pas la connexion SMP, et l'app le dit dans le même message qu'elle vous affiche. Pour finir le travail, supprimez le contact dans le client de messagerie. Tout ce qui est déjà écrit sur votre disque reste sur votre disque ; la révocation arrête les commandes futures, ce n'est pas un effacement à distance, et le nœud n'a jamais eu de capacité d'effacement à distance à supprimer.",
+    limitsHeading: "Ce que cette page ne promet pas",
+    limitsBody:
+      "La destruction sécurisée est une réécriture aléatoire, une synchronisation et une déliaison. Sur APFS un fichier modifié est écrit sur de nouveaux blocs et le SSD remappe les blocs logiques, donc cela supprime le fichier, déjoue les outils de récupération ordinaires et ne prouve pas que les anciens octets physiques ont disparu. C'est le mieux qu'une API de fichiers en espace utilisateur puisse faire, et le code le dit dans le résultat qu'il renvoie. Au-delà : pas de pause globale autre que quitter, pas d'effacement à distance, pas de séquestre de clés et donc pas de récupération si vous perdez la machine et la racine de données ensemble, et pas d'outil de mise à jour que l'on pourrait convaincre d'installer quelque chose que vous n'avez pas demandé.",
+  },
+
+  troubleshooting: {
+    heading: "Quand il ne fait pas ce que vous attendiez",
+    sub:
+      "Les pannes qui arrivent vraiment sur cette architecture, dans l'ordre où les gens les rencontrent. Chacune dit quoi regarder d'abord, parce que sur une machine sans côté serveur, le journal est toujours le chemin le plus court.",
+    columns: ["Symptôme", "Ce qui se passe", "Que faire"],
+    items: [
+      {
+        symptom: "La page de console ne s'ouvre pas",
+        cause:
+          "Le port est fixé à 127.0.0.1:18920 sans repli, donc une seconde instance en cours — ou n'importe quoi d'autre arrivé avant — garde la socket d'écoute. Le jeton est aussi par lancement : un ancien onglet ouvert avant un redémarrage porte une attestation morte.",
+        fix:
+          "Cherchez s'il y a un écouteur sur 18920 et quittez l'autre instance, puis utilisez Open Web Console depuis la barre de menus, qui construit l'URL courante avec le jeton courant au lieu d'un périmé.",
+      },
+      {
+        symptom: "Rien ne répond sur 11434",
+        cause:
+          "Les moteurs qui ont besoin d'un modèle parlent à Ollama en loopback uniquement. Si Ollama ne tourne pas, ou a été installé sans l'assistant, le moteur échoue au lieu de se replier sur quoi que ce soit d'hébergé.",
+        fix:
+          "Démarrez Ollama, vérifiez que OLLAMA_HOST est en loopback et récupérez la quantification que le tableau des paliers nomme pour votre machine. Le texte d'échec cite la commande qui aurait marché.",
+      },
+      {
+        symptom: "Les poids n'ont jamais été téléchargés",
+        cause:
+          "L'installeur passe les téléchargements de poids sauf si weightSources est déclaré dans config/engines.json, et refuse carrément tant que l'espace libre est inférieur ou égal à 40 Go.",
+        fix:
+          "Ajoutez la source que vous voulez récupérer, ou copiez les poids dans engines/weights et pointez la configuration dessus. Libérez d'abord le disque ; la garde est un seuil, pas un avertissement.",
+      },
+      {
+        symptom: "Un rendu revient comme une ligne de commande",
+        cause:
+          "Le travail vidéo a besoin de l'espace de travail LTX-2.5 et de ses poids. Sans eux, le moteur renvoie la commande exacte qu'il aurait exécutée au lieu de faire semblant d'avoir produit un fichier.",
+        fix:
+          "Terminez l'étape espace de travail de l'assistant, ou clonez l'espace de travail LTX-2-MLX qu'il nomme, puis relancez. C'est délibéré : un succès simulé est pire qu'un refus honnête.",
+      },
+      {
+        symptom: "Le code d'appairage est rejeté",
+        cause:
+          "Une offre est à usage unique et vit quinze minutes. Un second scan du même code, ou un code pris sur un écran dont l'image a depuis tourné, est correctement refusé.",
+        fix:
+          "Générez un nouveau code et scannez-le une fois. Si le téléphone réessaie seul après un succès, la première revendication a déjà gagné et le refus est la réponse attendue.",
+      },
+      {
+        symptom: "Les commandes du téléphone ne font rien",
+        cause:
+          "Le pont a besoin d'un démon popopx-chat sur le PATH et le nœud ne sonde qu'un seul exécutable, sans repli. La barre de menus affiche popopx-chat not installed quand il manque, et un moteur éteint ne répond à rien de toute façon.",
+        fix:
+          "Lisez d'abord la ligne du pont dans la barre de menus, puis les interrupteurs des moteurs, puis le journal d'audit. Une commande refusée et une commande jamais arrivée se ressemblent parfaitement depuis le téléphone.",
+      },
+      {
+        symptom: "Les résultats cessent d'arriver quand le téléphone est parti",
+        cause:
+          "La livraison sortante passe par votre propre démon et votre relais, donc un pare-feu qui bloque le sortant, un VPN qui ne porte pas le relais ou un démon qui s'est terminé se ressemblent tous vus d'ici. Les résultats ne sont pas perdus : ils s'alignent dans outbox/ et réessaient jusqu'à trente jours.",
+        fix:
+          "Vérifiez que le démon tourne, puis autorisez les connexions sortantes du nœud dans ce qui les filtre, puis attendez que la file se vide au lieu de relancer le travail.",
+      },
+      {
+        symptom: "La carte de téléchargement affiche la version épinglée",
+        cause:
+          "api.github.com était injoignable, bloqué, limité en débit, ou a répondu sans fichier téléchargeable. La page affiche alors la version compilée dans le bundle plutôt que de deviner.",
+        fix:
+          "Ouvrez directement la page des versions. Rien d'autre sur le site n'a besoin de cet appel, et aucune partie de la page n'est vide parce qu'un appel a échoué.",
+      },
+    ],
+    escalation:
+      "Deux fichiers répondent à la plupart des autres cas : logs/install.log pour tout ce que l'assistant a fait, et logs/node.log pour tout ce qui a suivi. Les deux sont du texte brut sous la racine de données, et le canal de journal de la console montre les mêmes événements en direct. Si une panne survit à leur lecture, le contrat que le nœud et les intégrations testent tous les deux est dans le dépôt, et les rapports d'anomalie vont sur popopx-mac-node.",
+  },
+
+  releases: {
+    heading: "Versions, empreintes et arbre complet",
+    sub:
+      "Tout ce dont le nœud est construit se trouve dans un seul dépôt AGPL-3.0-only, et chaque image publiée peut être contrôlée contre une empreinte avant d'être ouverte. Cette section est l'endroit où le site cesse de décrire et commence à pointer.",
+    assetsHeading: "Fichiers publiés",
+    assetsColumns: ["Fichier", "Ce que c'est", "Taille"],
+    assetKinds: {
+      dmg: "Image disque à glisser dans Applications, universelle arm64 et x86_64. C'est celle qu'il faut prendre.",
+      sidecar: "Une empreinte pour un seul fichier, écrite par l'étape de conditionnement qui l'a construit.",
+      zip: "Le bundle d'application signé en charge ZIP, pour une archive plutôt qu'un volume.",
+      sums: "Un manifeste listant chaque artefact de la version avec son empreinte.",
+    },
+    missingAsset:
+      "Toutes les versions ne publient pas tous les fichiers. Les versions plus anciennes n'ont que l'image disque et son fichier annexe, c'est pourquoi le contrôle ci-dessous lit la version que vous avez réellement ouverte.",
+    verifyHeading: "Vérifiez avant d'ouvrir quoi que ce soit",
+    verifyBody:
+      "Deux commandes, lancées dans le dossier où vous avez téléchargé. La forme manifeste est préférée et c'est ce que la version courante publie.",
+    verifySumsBody:
+      "Un manifeste de version liste tous les artefacts, donc un fichier que vous n'avez pas téléchargé est attendu plutôt que manquant : passez --ignore-missing et lisez la ligne qui correspond au fichier que vous avez pris. Le manifeste est écrit dans la même étape qui conditionne la charge qu'il nomme.",
+    verifySidecarBody:
+      "Une version plus ancienne publie à la place un fichier annexe à un seul fichier, et c'est contre lui qu'il faut contrôler. Quand une version porte les deux et qu'ils divergent, croyez le manifeste : l'annexe peut venir d'une autre compilation de la même version.",
+    pipelineHeading: "Comment une version arrive ici",
+    pipelineBody:
+      "Pousser un tag exécute le flux de publication sur un exécuteur macOS : il construit l'arbre, lance les tests de contrat, conditionne l'image universelle avec Scripts/build_dmg.sh, refuse de publier un fichier de sommes contenant un chemin absolu, et téléverse ce que ce script a écrit. Une image notarifiée à côté d'un manifeste SHA256SUMS.txt vient de Scripts/build-release.sh, qui ajoute la signature Developer ID, une soumission de notarification Apple et le ZIP. Les deux chemins finissent au même endroit : une empreinte que vous pouvez contrôler sans faire confiance à cette page.",
+    supportedHeading: "Ce qui tourne aujourd'hui",
+    supportedItems: [
+      "Les dix moteurs, chacun avec son propre jeu d'actions et ses chemins de refus, activés individuellement.",
+      "Choix automatique du palier depuis sysctl, avec la récupération de modèle que chaque palier implique.",
+      "Appairage signé, à usage unique, de quinze minutes, et une console qui ne se lie qu'en loopback.",
+      "Le pont TypeScript et deux adaptateurs d'agents sur la même console et avec le même jeton.",
+    ],
+    roadmapHeading: "Pas encore",
+    roadmapSub:
+      "Écrit comme des plans dans le dépôt, pas comme des promesses sur une page. Rien de tout cela ne tourne aujourd'hui.",
+    roadmap: [
+      {
+        title: "Mesures par moteur sur votre propre machine",
+        body:
+          "Un tableau de bord d'usage et des chronologies d'échec renvoyés au téléphone : relevés de jetons et de watts de la machine devant vous, remplaçant les estimations du tableau matériel.",
+      },
+      {
+        title: "Isolation plus dure du mesh et registre exportable",
+        body:
+          "Un confinement plus fort de la capacité prêtée et un registre que vous pouvez sortir de l'app plutôt que lire dedans.",
+      },
+      {
+        title: "Garde partagée pour plus d'un héritier",
+        body:
+          "Découpage du matériau de succession entre plusieurs héritiers, et plus de mises en page de rapports dans le moteur santé.",
+      },
+      {
+        title: "Canaux de distribution signés et plus de paliers vidéo",
+        body:
+          "Évaluation d'un canal de boutique au-delà de la notarification, et des paliers LTX supplémentaires pour les bandes de mémoire que l'échelle ne couvre pas encore.",
+      },
+    ],
+    sourceHeading: "La source, et ce que la licence impose",
+    sourceBody:
+      "Un seul dépôt, AGPL-3.0-only, aucun cœur fermé : les moteurs, la console, le filigrane et le registre y sont tous, et le code des attestations à signature aveugle ainsi que le registre des paramètres cryptographiques sont ouverts dans popopxmq à côté. L'article 13 s'applique de la façon ordinaire : exécutez-le, étudiez-le, modifiez-le librement, et si vous proposez un nœud modifié comme service à d'autres personnes, offrez-leur votre source correspondante. C'est tout le coût de conformité.",
+    licenceHeading: "Ce qui n'est pas couvert",
+    licenceBody:
+      "AGPL-3.0 n'accorde aucune licence sur le nom ou le logo POPOPX. Un fork peut tout prendre sauf les marques : renommer le logiciel, remplacer les marques, garder le code.",
   },
 
   faq: {
@@ -174,7 +624,7 @@ export const fr: Dictionary = {
       },
       {
         q: "À quel point dois-je faire confiance aux chiffres du tableau matériel ?",
-        a: "Autant que ce que dit la phrase juste en dessous. Ce sont des estimations sur le coin d'une table, pas des mesures de votre machine, et le débit réel varie d'un facteur deux à trois selon la chauffe et la charge. La version 1.1 du nœud les remplace par des relevés de jetons et de watts, moteur par moteur, mesurés sur la machine que vous utilisez réellement.",
+        a: "Autant que ce que dit la phrase juste en dessous. Ce sont des estimations sur le coin d'une table, pas des mesures de votre machine, et le débit réel varie d'un facteur deux à trois selon la chauffe et la charge. La version suivante du nœud les remplace par des relevés de jetons et de watts, moteur par moteur, mesurés sur la machine que vous utilisez réellement.",
       },
       {
         q: "Quelles machines sont prises en charge ?",

@@ -1,11 +1,38 @@
 # node.popopx.chat — the POPOPX Mac Node portal
 
-The product site for **POPOPX Mac Node**: the macOS companion that runs the local
-compute behind the ten Discover engines of the POPOPX iOS client. It is a static
-Vite + React + TypeScript single page. There is no backend, no build service and no
-runtime dependency on anything we host.
+The product site for **POPOPX Mac Node**: the macOS companion that turns a machine the
+reader already owns into the compute node behind the ten Discover engines of the POPOPX
+iOS client. Inference, video rendering, sealing and device control happen on that
+machine; the network only carries the request and the result. It is a static Vite +
+React + TypeScript single-page app with seven routes. There is no backend, no build
+service and no runtime dependency on anything we host.
 
 Live: <https://node.popopx.chat> · Source: <https://github.com/popopx-chat/popopx-mac-node>
+
+## Routes
+
+| Path | Destination |
+|---|---|
+| `/` | Hero, the network/machine split, the four entry points, architecture, FAQ |
+| `/node` | What a node is, the command wire, pairing, the listening ports |
+| `/features` | The ten engines and the Apple Silicon memory ladder, including the tier plans |
+| `/install` | Prerequisites, the five steps, building from the tag, upgrade/backup/removal, the bridge |
+| `/security` | What stays on disk, what leaves, where the keys live, the off switch, the limits |
+| `/troubleshooting` | The observed faults as a symptom / cause / fix table |
+| `/releases` | Published assets, the verification commands, the pipeline, supported versus planned, the licence |
+
+Routing is `src/router.tsx`: about a hundred lines over the History API, no dependency.
+`RouteLink` renders a real `href`, so middle-click, "copy link address" and a reader with
+JavaScript disabled all get the same destination, and the vhost's
+`try_files $uri $uri/ /index.html` answers any deep link.
+
+**`resolveRoute` defaults an unknown path to `/`, and that is a compatibility contract, not
+a 404 page.** The badge flow links `node.popopx.chat/badge`, and the deployed behaviour —
+measured with `curl --noproxy '*'` on 2026-11-25 — is that `/badge`,
+`/badge?app=desktop` and `/badge?app=android` each answer `200` with the entry document.
+The router never reads or rewrites `location.search`, so `?app=desktop` and `?app=android`
+survive a visit to this site unchanged. Nothing in the routing may turn one of those
+requests into an error page or a redirect.
 
 ## What the page claims, and where the claims come from
 
@@ -17,7 +44,9 @@ product will eventually contradict it.
 |---|---|
 | The ten engines, their shelves, prices, substrates, quick-menu commands, taglines, highlights | `apps/ios/Shared/DiscoverCatalogModels.swift` and `MacNodeModels.swift`, extracted by `tools/generate_engines_catalog.py` into `src/data/enginesCatalog.ts` |
 | The Apple Silicon memory ladder and the three tier rules | `PopopxMacNode/README.md`, with the band boundaries taken from `ComputeTier` in `MacNodeModels.swift` (`.light` below 48 GB, `.high` 48–95, `.flagship` from 96) |
-| The release version, asset URL, size and digest | `https://api.github.com/repos/popopx-chat/popopx-mac-node/releases/latest`, with a pinned fallback |
+| The pairing code, the command wire, the ports, the data-root layout, the tier plans, the prerequisites | `src/data/nodeRuntime.ts`, read out of `MacNodeModels.swift`, `MacNodePopopxBridge.swift` and `HardwareProfilerAndInstaller.swift`, with the file:line citations kept in that file's comments |
+| The release version, asset URLs, sizes and digests | `https://api.github.com/repos/popopx-chat/popopx-mac-node/releases/latest`, with a pinned fallback whose digests were measured by downloading and hashing each published asset (`src/data/release.ts` records the table and the recipe) |
+| The three sibling portals in the ecosystem row | `src/data/ecosystem.ts`, checked with `curl -sIL --max-time 25` against each host's document title |
 | The 18 interface languages | `knownRegions` in `apps/ios/POPOPX.xcodeproj/project.pbxproj`, minus `Base`, which is an Xcode artefact rather than a locale |
 
 Re-derive the language count yourself:
@@ -33,6 +62,25 @@ is dropped. `LOCALES` in `src/i18n/types.ts` is that eighteen.
 `src/data/enginesCatalog.ts` is a generated file: edit
 `tools/generate_engines_catalog.py`, not the output.
 
+### Checking a published digest
+
+The site prints the download-verification commands rather than asserting a digest of its
+own, and it prefers a release manifest (`SHA256SUMS.txt`) over the single-asset
+`.dmg.sha256` sidecar. That preference is a measurement, not a style choice: on
+2026-11-25 both v1.0.2 assets were downloaded and hashed, and the manifest lines matched
+the bytes while the sidecar published beside them named a digest
+(`9107bc89d54604f2c000afde8c92b374b33aef77cfd7022c2f6a146f71262eef`) that no published
+asset hashes to. The v1.0.1 sidecar did match, so the discrepancy is per-release and
+belongs upstream in `popopx-mac-node`'s packaging scripts, not in this repository. Re-derive
+from a release you can reach:
+
+```sh
+curl -sL -o SUMS  https://github.com/popopx-chat/popopx-mac-node/releases/download/<tag>/SHA256SUMS.txt
+curl -sL -o x.dmg https://github.com/popopx-chat/popopx-mac-node/releases/download/<tag>/POPOPX-Mac-Node-Universal.dmg
+shasum -a 256 x.dmg
+shasum -a 256 -c --ignore-missing SUMS
+```
+
 ## Zero tracking, by construction
 
 - No analytics, no cookies, no fingerprinting, no third-party script, no external
@@ -40,8 +88,11 @@ is dropped. `LOCALES` in `src/i18n/types.ts` is that eighteen.
 - The one outbound request the page can make is the GitHub Releases call for the
   download button, made client-side with `credentials: "omit"` and
   `referrerPolicy: "no-referrer"`, and it degrades to a pinned release when it fails.
-- Nothing is fetched from `popopx.chat` either: the site, its fonts and its icons are
-  all served from this one origin.
+- Nothing is fetched from the other POPOPX portals either. `src/data/ecosystem.ts`
+  links `popopx.chat`, `bot.popopx.chat` and `mp.popopx.chat` in the navigation and the
+  footer, and `src/data/release.ts` links GitHub. Those are anchors: no image, script,
+  stylesheet, font or favicon is loaded from them, and a reader only leaves this origin
+  by clicking one. Everything the page renders is served from this origin.
 
 Prove it against a build before you ship it:
 
@@ -53,11 +104,11 @@ grep -Eoh 'https?://[A-Za-z0-9._/~:-]+' dist/index.html dist/site.webmanifest \
 
 The expected set is exactly this, and nothing else: `https://api.github.com/repos/`
 (the one request the page may make), `https://github.com/` links a reader clicks,
-`https://github.com/popopx-chat/popopx-chat`, the four `http://www.w3.org/…` XML
-namespaces that live inside React's DOM code, `https://react.dev/errors/` inside
-React's minified error text, and the `https://tailwindcss.com` licence comment at the
-top of the stylesheet. Only the first is ever requested, and only by the reader's own
-browser.
+`https://github.com/popopx-chat/popopx-chat`, the three POPOPX portal origins named
+above, the four `http://www.w3.org/…` XML namespaces that live inside React's DOM code,
+`https://react.dev/errors/` inside React's minified error text, and the
+`https://tailwindcss.com` licence comment at the top of the stylesheet. Only the first is
+ever requested, and only by the reader's own browser.
 
 The command above reads text files. The three resampled icons (`favicon.png`,
 `favicon-32.png`, `apple-touch-icon.png`) additionally carry an `adobe.xmp` metadata
@@ -91,6 +142,12 @@ Translations are code-split: English is the fallback that ships in the entry chu
 and each of the other seventeen languages becomes its own chunk that loads only when
 a reader switches to it. Language names are listed separately in
 `src/i18n/types.ts` so the language menu is complete before any catalog has arrived.
+
+`Dictionary` in `src/i18n/types.ts` is a total type, so `tsc -b` **is** the catalog parity
+gate: a missing key in any of the eighteen files is a compile error, and a key that exists
+in a catalog but not in the interface is an excess-property error. Adding a string
+therefore means one key and eighteen values; adding a route means `ROUTES` in
+`src/router.tsx`, one key in `routes`, and one nav label per locale.
 
 ## Deploy
 

@@ -1,4 +1,8 @@
-export function SectionHeading({
+/**
+ * The page-level heading: a mono eyebrow, one balanced title, an optional standfirst.
+ * `SubHeading` is the same shape a level down, for the blocks inside a route.
+ */
+function SectionHeading({
   titleId,
   index,
   title,
@@ -31,3 +35,34 @@ export function SectionHeading({
     </header>
   );
 }
+
+function SubHeading({
+  titleId,
+  label,
+  title,
+  sub,
+}: {
+  titleId?: string;
+  label?: string;
+  title: string;
+  sub?: string;
+}) {
+  return (
+    <div className="max-w-3xl">
+      {label === undefined ? null : (
+        <p className="mb-2 font-mono text-[11px] tracking-[0.2em] text-brand-haze">{label}</p>
+      )}
+      <h3
+        id={titleId}
+        className="text-balance text-[22px] font-semibold leading-snug tracking-tight text-ink sm:text-[25px]"
+      >
+        {title}
+      </h3>
+      {sub === undefined ? null : (
+        <p className="mt-3 text-pretty text-[14.5px] leading-relaxed text-ink-dim">{sub}</p>
+      )}
+    </div>
+  );
+}
+
+export { SectionHeading, SubHeading };

@@ -4,24 +4,50 @@ export const tr: Dictionary = {
   dir: "ltr",
 
   nav: {
-    engines: "Motorlar",
-    architecture: "Mimari",
-    hardware: "Donanım",
-    install: "Kurulum",
-    faq: "SSS",
-    github: "GitHub",
-    download: "İndir",
+    overview: "Genel bakış",
+    node: "Düğüm nedir",
+    features: "Yetenekler",
+    install: "Kurulum ve yapılandırma",
+    security: "Gizlilik ve denetim",
+    troubleshooting: "Sorun giderme",
+    releases: "Sürümler ve GitHub",
+    download: "Düğümü edinin",
     openMenu: "Menüyü aç",
     closeMenu: "Menüyü kapat",
     chooseLanguage: "Dil",
   },
 
+  ecosystem: {
+    heading: "POPOPX'in geri kalanı",
+    body:
+      "Üç portal, tek proje ve üçü de bizim. Bu sayfa onlardan hiçbir şey yüklemiyor, onlara hiçbir istek göndermiyor: node.popopx.chat'i ancak kendiniz tıklarsanız terk edersiniz.",
+    chat: "POPOPX Chat",
+    chatBody:
+      "Mesajlaşma ağının kendisi — uçtan uca şifreli, global kimlik yok ve düğümünüzün dinlediği kuyruk bu.",
+    botStudio: "Bot Studio",
+    botStudioBody:
+      "On motorun arkasındaki hizmet hesaplarının yazıldığı ve barındırıldığı yer; kendi denetlediğiniz bir sunucuda.",
+    serviceSuite: "Hizmet hesapları",
+    serviceSuiteBody:
+      "Bu motorların konuştuğu, sıfır bilgi esaslı şifreli kanal ekosistemi.",
+  },
+
+  routes: {
+    "/": { eyebrow: "GENEL BAKIŞ", title: "POPOPX Mac Node — on motoru kendi Mac'iniz çalıştırır" },
+    "/node": { eyebrow: "DÜĞÜM NEDİR", title: "Düğümün ne olduğu ve ne olmadığı — POPOPX Mac Node" },
+    "/features": { eyebrow: "YETENEKLER", title: "Yerel on motor ve onları çalıştıran donanım — POPOPX Mac Node" },
+    "/install": { eyebrow: "KURULUM VE YAPILANDIRMA", title: "Kurulum, eşleştirme, yükseltme, yedekleme, kaldırma — POPOPX Mac Node" },
+    "/security": { eyebrow: "GİZLİLİK VE DENETİM", title: "Diskinizde ne kalıyor ve bunu nasıl durduruyorsunuz — POPOPX Mac Node" },
+    "/troubleshooting": { eyebrow: "SORUN GİDERME", title: "Portlar, güvenlik duvarları ve bellek tavanları — POPOPX Mac Node" },
+    "/releases": { eyebrow: "SÜRÜMLER VE KAYNAK", title: "Sürümler, sağlama değerleri ve tüm kaynak ağacı — POPOPX Mac Node" },
+  },
+
   hero: {
     badge: "macOS 14+ · Apple Silicon · AGPL-3.0",
-    titleLead: "Mac'in",
-    titleAccent: "hesap katmanı oluyor",
+    titleLead: "Cihazınız. Düğümünüz.",
+    titleAccent: "Kontrol de sizde.",
     subtitle:
-      "POPOPX Mac Node, POPOPX iOS istemcisine ait on Discover motorunun yerel hesaplamasını ve deterministik yürütmesini üstlenir. Bulut yok, hesap yok, telemetri yok, uçtan uca şifreleme var.",
+      "POPOPX Mac Node, sahip olduğunuz ağın ucudur. Discover hizmetlerindeki on motorun yerel modellerini, medya ve dosya motorlarını kendi Mac'inizde, POPOPX Chat ile Bot Studio'nun yanında çalıştırır. Ağ şifreli mesajlarınızı aktarır; çıkarım, işleme, mühürlü arşiv ve sırlar sizin satın aldığınız donanımın üzerinde kalır.",
     ctaDownload: "DMG dosyasını indir",
     ctaSource: "Kaynağı oku",
     releaseLabel: "Son sürüm",
@@ -34,13 +60,48 @@ export const tr: Dictionary = {
     digestCopied: "Sağlama değeri kopyalandı",
     verifyTitle: "Açmadan önce doğrula",
     verifyBody:
-      ".dmg dosyasını ve .sha256 yan dosyasını aynı klasöre kaydet, ardından shasum -a 256 -c komutunu kalıp dosyaya değil yan dosyaya karşı çalıştır. Yan dosya tek bir sağlama değeri ve tek bir göreli dosya adı taşır; beklenen yanıt POPOPX-Mac-Node-Universal.dmg: OK.",
+      "Disk görüntüsünü ve sürümün sağlama değer dosyasını aynı klasöre kaydedin, ardından hiçbir şeyi açmadan önce ikisini kontrol edin. Sağlama değer dosyası sürümden sürüme değişir — yeni sürümler bir SHA256SUMS.txt listesi yayımlar, eskileri tek varlıklı tek bir .sha256 taşır — bu yüzden Sürümler ve GitHub, baktığınız sürüm için tam olarak iki komut yazar.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "Kendi donanımın",
-    statStorage: "Fiziksel yerel depolama",
+    statStorage: "Çıktılar kendi SSD'nizde",
     statIdentity: "Hesap yok, kimlik yok",
     statSource: "Baştan sona AGPL-3.0",
+  },
+
+  overview: {
+    splitHeading: "Ağ koordinasyonu yapar. Makineniz yürütür.",
+    splitSub:
+      "Tüm fikir bu ve tam olarak söylenmeyi hak ediyor, çünkü bu tür bir ürüne dair alışıldık okuma ters yönde: işi bulut yapmıyor ve Mac'iniz ince bir istemci değil. Her taraf yalnızca yapması gereken kısmı yapıyor.",
+    cloudTitle: "Ağın taşıdığı şey",
+    cloudBody:
+      "SMP aktarıcıları ve XFTP depolaması mesajlarınızı ve dosyalarınızı kendi cihazlarınız arasında uçtan uca taşır; Discover hizmet hesaplarının onundan her biri tek bir sinyal gönderir. Bir aktarıcı şifreli metni ve yönlendirme üst verisini görür. Kendisine hiçbir model, istem, kare ya da dosya adı ulaşmaz ve hiçbir motorun hiçbir parçasını çalıştırmaz.",
+    macTitle: "Mac'inizin yaptığı iş",
+    macBody:
+      "Düğüm o sinyali alır ve işi önünüzdeki makinede yapar: loopback üzerinde Ollama ile kuantizanmış çıkarım, MLX üzerinden LTX-2.5 işleme, FFmpeg ve GOP filigranlama, CryptoKit mühürleme ve hash zincirli kasalar, fiziksel eylemler için diskutil ve AppKit. Sonra sonucu kendi diskinize yazar.",
+    pathsHeading: "Neredeyseniz oradan başlayın",
+    paths: [
+      {
+        title: "Ayrımı anlayın",
+        body:
+          "Düğüm nedir, dinlediği tek hat nedir, telefon onu sürme iznini nasıl alır ve hangi portlar işin içinde.",
+      },
+      {
+        title: "Bir Mac'e kurun",
+        body:
+          "Ön koşullar, doğrulanmış DMG, kaynaktan derleme, ilk eşleştirme, yükseltmeler, makine taşıma ve tamamen kaldırma.",
+      },
+      {
+        title: "Neyin dışarı çıktığını görün",
+        body:
+          "Veri kökünün dizin dizin hesabı, telefonunuza neyin geri gönderildiği, anahtarların nerede durduğu ve nasıl durdurulacağı ya da iptal edileceği.",
+      },
+      {
+        title: "Bozulanı onarın",
+        body:
+          "Gerçekte olan arızalar: önceden bağlanmış bir port, hiç yanıt vermeyen bir model, atlanmış ağırlıklar, süresi dolmuş bir kod.",
+      },
+    ],
   },
 
   architecture: {
@@ -64,6 +125,80 @@ export const tr: Dictionary = {
           "On motor, SMP ağ geçidi, yerel web konsolu, GOP ve frekans alanı filigranalama ile hesaplama kredisi defteri tek bir AGPL-3.0-only kaynak ağacıdır. Kapalı çekirdek yok: kör imzalı kimlik bilgisi kodu ve kriptografi kaydı popopxmq içinde, açık olarak duruyor.",
       },
     ],
+  },
+
+  node: {
+    heading: "Düğüm, zaten sahip olduğunuz bir bilgisayardır",
+    sub:
+      "Bölge değil, örnek tipi değil, abonelik paketi değil. POPOPX'in başka bir yerde olmaması gereken kısımlarını çalıştıran tek bir Mac — ve güvenmek zorunda olduğunuz tek şey, dosyalarınızı zaten emanet ettiğiniz makine.",
+    points: [
+      {
+        title: "Hassas iş hiçbir zaman dışarı çıkmaz",
+        body:
+          "Tıbbi raporlar kendi makinenizde Vision ile çözümlenir. Ham görüntüler yerelde dilimlenir ve filigranlanır. Kasa mühürleme ve mühürlü arşiv, kendi diskiniz üzerinde CryptoKit işlemleridir. Bu yolların hiçbirinde aranacak barındırılan bir uç nokta yoktur.",
+      },
+      {
+        title: "Mesafe sıfırdır",
+        body:
+          "Çıkarım, onu isteyen sürecin hemen yanındaki birleşik bellekte olur. Model istemcisi 127.0.0.1:11434 adresine sabitlenmiştir; bu yüzden düğümde barındırılan bir çıkarım API'sine kazara bile ulaşabilecek tek bir kod yolu yoktur — önce o sabit host dizisinin değişmesi gerekirdi.",
+      },
+      {
+        title: "Zaten ödemesini yaptınız",
+        body:
+          "Hesaplama kredileri, kendi donanımınızın harcadığı çevrimleri ölçer; Edge Compute Mesh ise atıl kapasiteyi dışarı ödünç veren tek motordur, içeri ödünç alan değil. Aldığınız katman, satın aldığınız belleğin bir fonksiyonudur.",
+      },
+      {
+        title: "İzin cihaz başınadır",
+        body:
+          "İmzalı, tek kullanımlık ve on beş dakikalık tek bir eşleştirme kodu tek bir cihazı yetkilendirir. Konsol eşleştirilmiş olanları listeler ve geri almak bir düğmeye bakar — o düğmenin neyi yapmadığına dair bir dürüst uyarıyla; gizlilik sayfasında anlatılıyor.",
+      },
+    ],
+    wireHeading: "Tek satır, üç bölüm",
+    wireBody:
+      "Telefondan gelen bir komut, kendi popopx-chat kuyruğunuzda sıradan bir mesajdır ve içinde tek bir işaret satırı taşır: bir ön ek, motor kimliği, eylem ve bir JSON yükü. Ayrıştırıcı yalnızca ilk ayırıcıda böler, böylece ayırıcı içeren bir yük bozulmadan kalır; motor kimliği bilinmeyen, yükü boş olan ya da iOS tarafının kabul ettiği tavanı aşan satır, kısmen yürütülmek yerine düşürülür.",
+    wireSampleLabel: "Kabul edilen tek biçim",
+    pairingHeading: "Eşleştirme, gerçekte olduğu sırayla",
+    pairingSub:
+      "Düğüm bir kimlik bilgisi basar, siz onu telefona bir kez gösterirsiniz ve sonrasında o bilginin hiçbir değeri kalmaz. Sunucuda hiçbir şey saklanmaz, çünkü onu saklayacak bir sunucu yoktur.",
+    pairingSteps: [
+      {
+        title: "Düğüm teklif eder",
+        body:
+          "Düğüm, menü çubuğundan ya da konsoldan bir teklif yazar, gövdeyi kendi Ed25519 anahtarıyla — veri kökünün altındaki pairing/node.key anahtarıyla — imzalar ve CoreImage üzerinden yerelde bir QR kodu olarak çizer. Makineden dışarı tek bir görüntü çıkmaz.",
+      },
+      {
+        title: "Telefon onu kullanır",
+        body:
+          "POPOPX iOS kodu tarar ve ortaya çıkan kişi kaydı, cihaz anahtarının ta kendisidir. O tek tarama SMP köprüsünü kurar; bundan sonra Discover hizmet hesapları yalnızca düğümünüzle konuşur, başka hiçbir şeyle değil.",
+      },
+      {
+        title: "Teklif ölür",
+        body:
+          "İlk kullanım teklifi kullanılmış olarak işaretler. Yeni bir kod üretmek öncekini emekliye ayırır, dolayısıyla fotoğrafı çekilmiş bir QR kalıcı bir davetiye değildir — on beş dakikanın sonunda, kimse taramasa bile kendiliğinden süresi dolar.",
+      },
+    ],
+    pairingFacts: {
+      lifetime: "Teklifin ömrü",
+      singleUse: "Kullanım",
+      signature: "İmzalayan",
+      delivery: "Sunum biçimi",
+    },
+    portsHeading: "Düğümün dinleyen tarafı",
+    portsSub:
+      "Düğümün kendisi tek bir port açar. Diğer ikisi, başlattığı ve istemci olarak bağlandığı programlara ait; bu, bir güvenlik duvarı günlüğü okurken önemli: 11434 ya da 5225 üzerindeki bir bağlantı düğüm tarafından kabul edilmemiş, düğüm tarafından kurulmuştur.",
+    portsColumns: ["Port", "Bağlayan", "Adres", "Hat", "Onu ne koruyor"],
+    portsOwner: {
+      node: "Düğüm",
+      tool: "Ollama",
+      daemon: "popopx-chat",
+    },
+    portsPurpose: {
+      console: "Web konsolu ve motor günlük akışı",
+      inference: "Yerel model çıkarımı",
+      control: "Sohbet daemon'ının kontrol soketi",
+    },
+    portsFootnote:
+      "Üçünün de adresi loopback. Konsol, TLS'siz düz HTTP; bu ancak makineden hiç çıkmadığı ölçüde makul bir tasarım: 0.0.0.0, bir yerel ağ adresi ya da bir host adı üzerinde bağlanma girişimleri bir soket oluşturulmadan reddedilir ve adres, bir yapılandırma dosyasından okunmak yerine uygulamaya sabit olarak yazılmıştır. Onu koruyan şey, her açılışta üretilen rastgele yirmi dört baytlık bir jetondur; X-PPX-Token olarak gönderilir, yalnızca bellekte tutulur ve süreç çıktığında ölür. Sohbet daemon'ının kontrol soketinde hiç kimlik doğrulama yoktur — bunun dürüst tarifi budur — ve güvenli kalabileceği tek şart, 127.0.0.1 üzerinde kalmaya devam etmesidir.",
   },
 
   engines: {
@@ -108,44 +243,337 @@ export const tr: Dictionary = {
     rules: [
       "96 GB ve üzeri — LTX-2.5 orijinal BF16 tam ağırlıkları, Qwen3.8-27B modeli Q8_0 ile.",
       "48 GB ile 95 GB arası — 8-bit MLX'e kuantılanmış LTX-2.5, Qwen3.8-27B modeli Q4_K_M ile.",
-      "48 GB altı — hafif çıkarım; ağır video işleri yerelde işlenmek yerine Edge Compute Mesh'e önerilir.",
+      "48 GB altı — Q4_K_M ile bir 9B model, yalnızca kısa işler; ağır video Edge Compute Mesh'e önerilir.",
     ],
+    plansHeading: "Her katman gerçekte neyi dağıtıyor",
+    plansSub:
+      "Yukarıdaki tablo satın almadan önce okuduğunuz rehber. Bu tablo ise düğümün makineyi ölçtükten sonra kendisi için yazdırdığı şey: doğrudan öneri işlevinden çıkıyor ve düğümün çektiği model etiketini de içeriyor.",
+    plansColumns: [
+      "Bellek aralığı",
+      "Metin modeli",
+      "Video yığını",
+      "Kalıcı bellek tavanı",
+      "Ağır video",
+      "Çekme komutu",
+    ],
+    heavyVideo: {
+      local: "Burada işleniyor",
+      mesh: "Mesh'e öneriliyor",
+    },
+    plansFootnote:
+      "Kalıcı bellek tavanı bir kıyas testi değil, ölçülen bellek üzerinde kurulu aritmetik bir kural: her katman, bulduğu birleşik bellekten masaüstü oturumu için sabit bir payı çıkarır ve çok büyük bir makinenin bu yığının ihtiyaç duyduğundan fazlasını vaat etmemesi için bir üst sınır uygular. Model etiketleri ve kuantizasyonlar, düğümün gerçekten Ollama'ya ilettiği dizilerdir.",
   },
 
   install: {
-    heading: "Üç dakika, sonra sana ait",
+    heading: "Tek DMG, tek tarama, on anahtar",
     sub:
-      "Düğümün kurulum programı, daemon hesabı ve kaydedilecek hiçbir şeyi yoktur. O, loopback'e bağlanan tek bir menü çubuğu uygulamasıdır.",
+      "Düğümün kurulum programı yok, daemon hesabı yok ve kaydedilecek hiçbir şeyi yok. O, loopback'e bağlanan tek bir menü çubuğu uygulamasıdır ve profili ilk çalışma kendisi çıkarır.",
+    prereqsHeading: "İndirmeden önce",
+    prereqNotes: {
+      system: "Paket macOS 14'ü hedefliyor ve uygulama bir menü çubuğu ajanı.",
+      memory:
+        "Metal, MLX ve tüm katman merdiveni birleşik belleği varsayar. DMG bir x86_64 dilimi taşıyor, ancak yığının hiçbir parçası Intel için ayarlanmış değil.",
+      disk:
+        "Boş alan 40 GB ya da altına düştüğünde model ağırlıkları reddedilir; dolayısıyla merdivenin tavanı aynı zamanda diskinizin tavanıdır.",
+      media:
+        "On motorun beşi FFmpeg çağırıyor. Kurulum sihirbazı Homebrew ile onu yükleyebilir.",
+      inference:
+        "Kuantizanmış metin modelleri için Ollama, video için LTX-2.5 MLX çalışma alanı. İkisi de yerel araç; ikisi de hizmet değil.",
+      bridge:
+        "Yalnızca SMP eşleştirme adımı ve telefonla sürülen yol için gerekiyor. Motorların kendisi onsuz çalışır.",
+    },
+    prereqRequired: {
+      hard: "Gerekli",
+      wizard: "Sihirbaz kurar",
+      optional: "Yalnızca eşleştirme için",
+    },
     steps: [
       {
         title: "DMG dosyasını doğrula ve aç",
         body:
-          "Releases üzerinden POPOPX-Mac-Node-Universal.dmg ve .sha256 dosyalarını, ikisini de aynı klasöre al ve hiçbir şeyi açmadan önce kontrol et: shasum -a 256 -c POPOPX-Mac-Node-Universal.dmg.sha256 komutu OK yazmalıdır. Uygulamayı /Applications klasörüne sürükle.",
+          "POPOPX-Mac-Node-Universal.dmg ile sürümün sağlama değer dosyasını aynı klasöre alın ve hiçbir şeyi açmadan önce kontrol edin; Sürümler ve GitHub, o sürüm için gereken iki komutu yazar. POPOPX Mac Node.app'i /Applications klasörüne sürükleyin. Yayımlanan derleme bir Developer ID imzası ve dosyaya iliştirilmiş bir noter onay kaydı taşır, bu yüzden Gatekeeper ona ekstra bir şey yapmadan izin verir — spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını verir. Kendiniz derlediğiniz sürümün imzası ad-hoc'tur; ilk açılışta sağ tıklayıp “Aç” demenizi isteyen de odur.",
       },
       {
-        title: "Yerel motorları kur",
+        title: "Makinenin profilini çıkarmasına izin verin",
         body:
-          "Menü çubuğu öğesini aç ve konsol sihirbazını başlat. Birinci adım çipin, birleşik belleğin ve SSD'nin profilini çıkarır, kata uyan Qwen3.8 kuantizasyonunu indirir, ltx2 çalışma alanını başlatır ve kurulum günlüğünü çalışırken sayfaya akıtır.",
+          "Uygulamayı başlatın ve konsolu menü çubuğundan açın. Birinci adım çipi, çekirdek sayısını, birleşik belleği ve boş SSD'yi sysctl'den okur, seçtiği katmanla o katmanın ima ettiği model etiketini yazar ve sizin bildirdiğiniz sayıları değil, kendisinin örneklediği sayıları gösterir.",
       },
       {
-        title: "iPhone'u eşleştir",
+        title: "Yerel motorları kurun",
         body:
-          "Konsoldaki eşleştirme QR kodunu POPOPX iOS istemcisiyle tara. O tek tarama SMP köprüsünü kurar; bundan sonra Discover hizmet hesapları düğümünle konuşur, başka hiçbir şeyle değil.",
+          "Sihirbaz listeyi aşağı doğru işler: Homebrew, FFmpeg, uv, Ollama, katmanınıza uyan Qwen kuantizasyonu, LTX-2.5 çalışma alanı ve ardından bir öz denetim. Kurulum günlüğü çalışırken konsol sayfasına akar ve logs/install.log dosyasına yazılır, böylece bir arıza sonrasında okunabilir.",
       },
       {
-        title: "Motorları aç",
+        title: "iPhone'u eşleştirin",
         body:
-          "On anahtar. Bir motor yalnızca sen etkinleştirirsen çalışır ve yerel model gerektirmeyen dördü — fiziksel kilitlenme, zamana kilitli kasa, filigran izleyici, laboratuvar raporu okuyucusu — tek bir ağırlık bile indirilmeden çalışır. FFmpeg yine de çağrılır; model yığını çağrılmaz.",
+          "Eşleştirme QR kodunu üretin — konsoldan ya da menü çubuğundaki yeni kod öğesinden — ve POPOPX iOS istemcisiyle tarayın. Kod imzalıdır, tek kullanımlıktır ve on beş dakikada süresi dolar. Cihaz; modeli, eşleştirme zamanı ve son görüldüğü anla birlikte konsoldaki eşleştirilmişler listesinde görünür.",
+      },
+      {
+        title: "Motorları açın",
+        body:
+          "Menü çubuğunda ve konsolda on anahtar. Bir motor yalnızca siz etkinleştirirseniz çalışır ve yerel model gerektirmeyen dördü — fiziksel kilitlenme, zamana kilitli kasa, filigran izleyici, laboratuvar raporu okuyucusu — tek bir ağırlık bile indirilmeden çalışır. FFmpeg yine de çağrılır; model yığını çağrılmaz.",
+      },
+    ],
+    buildHeading: "Ya da aynı etiketten kendiniz derleyin",
+    buildBody:
+      "Sürüm görüntüleri, sizin de çekebileceğiniz o ağaçtan paketlenir. swift build, swift test, swift build -c release, ardından bash Scripts/build_dmg.sh --output dist --version v1.0.2 universal DMG'yi yazar, ad-hoc imzalar ve yan dosyayı da birlikte üretir. Yayımlanan çıktı ise öteki betikten gelir: Scripts/build-release.sh Developer ID imzasını, noter onayına gönderimi ve ZIP dosyasını ekler; indirilen bir görüntünün spctl'den geçip kendi derlemenizin geçmemesinin sebebi budur. İkisi de yalnızca macOS'ta çalışır, çünkü zaten hdiutil ile codesign'dan yapılmışlardır.",
+    lifecycleHeading: "İlk çalıştırmadan sonra",
+    lifecycle: [
+      {
+        title: "Yükseltme",
+        body:
+          "Güncelleyici yok, güncelleme kontrolü de yok — düğümün dışarı aramadığı bir şey daha. Yükseltme bir sürükleme işidir: yeni DMG'yi indirin, doğrulayın ve /Applications içindeki uygulamanın yerine koyun. Ayarlar, eşleştirme durumu, düğüm anahtarı, kasa ve tüm çıktılar paketin içinde değil Application Support altında durur; bu yüzden yerine konan uygulama, düştüğü makineyi olduğu gibi devralır.",
+      },
+      {
+        title: "Yedekleme ve makine taşıma",
+        body:
+          "Uygulama kendi veri kökünü Time Machine dışında bırakır; bu, yedeklerinizi model ağırlıklarından korur ve bir geri yüklemede sürpriz olmasını engeller. Aynı zamanda o klasörün yedeğinizde olmadığı anlamına da gelir. Bir düğümü taşımak için onu kapatın, ~/Library/Application Support/PopopxMacNode klasörünü yeni Mac'te aynı yola kopyalayın ve yeniden profil çıkarmasına izin verin: katman değişebilir ve pairing/node.key de klasörle birlikte gelir; kopyanın en az orijinali kadar gizli tutulması gerektiğinin tüm sebebi budur.",
+      },
+      {
+        title: "Tamamen kaldırma",
+        body:
+          "Önce Launch at Login özelliğini kapatın, sonra menü çubuğundan Quit deyin — dinleyici kapanır ve oturum açma öğesi serbest bırakılır. /Applications/POPOPX Mac Node.app dosyasını silin, ardından mühürlü kasa, defterler ve çıktılar da gitsin istiyorsanız ~/Library/Application Support/PopopxMacNode veri kökünü silin. Kaldırma programı yok ve unutacak bir kayıt da yok: o iki yolun dışında hiçbiri kurulmadı; Keychain kaydı da yok, çünkü uygulama Keychain'i hiç kullanmaz.",
       },
     ],
     bridgeTitle: "Motorları kendi betiğinle sür",
     bridgeBody:
-      "Entegrasyon klasörü bir TypeScript köprüsü ile iki ajan arayüzü barındırır. Yeni bir port açmaz, ikinci bir daemon başlatmaz: 127.0.0.1:18920 üzerindeki konsolu ve süreç başına tek seferlik jetonu yeniden kullanır, telefonun gönderdiği NODE_CMD sinyalleşmesinin aynısını gönderir. Kilitlenme eylemi çift onay ister — allowLockdown true olmalı ve PPX_BRIDGE_SECRET en az on altı karakter olmalı — ve bir reddetme, gerçekleştiğini görebilmen için eklenti günlüğüne yazılır.",
+      "Entegrasyon klasörü bir TypeScript köprüsü ile iki ajan arayüzü barındırır. Yeni bir port açmaz, ikinci bir daemon başlatmaz: 127.0.0.1:18920 üzerindeki konsolu ve süreç başına tek seferlik jetonu yeniden kullanır, telefonun gönderdiği NODE_CMD sinyalleşmesinin aynısını gönderir. Kilitlenme eylemi çift onay ister — allowLockdown true olmalı ve PPX_BRIDGE_SECRET en az on altı karakter olmalı — ve bir reddetme, gerçekleştiğini görebilmeniz için eklenti günlüğüne yazılır.",
     requirementTitle: "Tek dürüst ön koşul",
     requirementBody:
       "Düğümün kendi sihirbazının 2. adımı, eşleştirme QR kodu ve SMP köprüsü, hepsi PATH yolunda bir popopx-chat sohbet daemon'ı ister. Düğüm tam olarak bir çalıştırılabilir dosyayı yoklar ve yedeği yoktur; çünkü bir upstream derlemesi bir sürüm satırına yanıt verir, ardından gelen her komutta başarısız olur. On motorun kendisi buna ihtiyaç duymaz.",
     copyCommand: "Komutu kopyala",
     commandCopied: "Kopyalandı",
+  },
+
+  security: {
+    heading: "Ne kalır, ne gider ve nasıl durdurulur",
+    sub:
+      "Yalnızca yerelde kalanı sayan bir gizlilik sayfası bir pazarlama sayfasıdır. Bu sayfa trafiği de yazıyor, çünkü “verileriniz cihazınızdan asla çıkmaz” cümlesinin dürüst hâli sloganından daha uzun ve daha faydalı.",
+    localHeading: "Diskinizde kalır",
+    localSub:
+      "Tek bir veri kökünün altında, uygulamanın oluşturduğu ve Time Machine dışında tuttuğu bir klasörde; sırlar atomik olarak 0600 kipinde ve tam dosya korumasıyla yazılır.",
+    localItems: [
+      {
+        title: "Her çıktı",
+        body:
+          "İşlenmiş klipler, brifingler, filigranlı dışa aktarımlar, mühürlü arşivler, çözümlenmiş raporlar ve karantinaya alınmış girdilerin hepsi veri kökünün altına iner ve orada kalır. Düğüm, yalnızca telefonunuzun yeniden çevrimiçi olmasını bekleyen sonuçlar için bir outbox tutar.",
+      },
+      {
+        title: "Modeller ve ağırlıkları",
+        body:
+          "Qwen kuantizasyonu Ollama'nın kendi deposunda durur; LTX-2.5 ağırlıkları düğümün engines dizininde durur. İkisi de yerel diskte yerel dosyalardır, bir kez çekilir ve çekme işlemi boş alan 40 GB ya da altına düştüğünde reddedilir.",
+      },
+      {
+        title: "Anahtarlar ve eşleştirme durumu",
+        body:
+          "Düğümün Ed25519 imzalama anahtarı, eşleştirilmiş cihazların listesi ve güncel teklif, pairing/ altında düz dosyalardır. Taşıyacağınız bir Keychain kaydı, anahtarın bulut yedeği ya da herhangi bir yerde bir emanet yoktur — bunun iki ucu da keser; aşağıdaki kayıp paragrafı bunu söylüyor.",
+      },
+      {
+        title: "Kanıt izi",
+        body:
+          "Kilitlenme ve mesh defterleri yerelde hash eklenerek büyütülür; denetim günlüğü neyin çalıştığını, hangi motorda ve hangi sonuçla bittiğini yazar. O, siz okuyasınız diye yazılır: logs/node.log, “bu şey saat 03:14'te ne yaptı” sorusunun en hızlı yanıtıdır.",
+      },
+    ],
+    transitHeading: "Makineden çıkar",
+    transitSub:
+      "Dört şey çıkar ve dördü de ya kendi cihazınızdır ya da sizin yapılandırdığınız bir şey. Beşinci bir kategori yoktur, hiçbir şey gönderilecek bir analitik uç noktası da yoktur.",
+    transitItems: [
+      {
+        title: "Sonuçlar, kendi telefonunuza geri",
+        body:
+          "Biten bir iş, en fazla 1024 karakterlik bir kart ve her çıktı dosyası için bir mesaj döndürür; kendi popopx-chat kuyruğunuz üzerinden, SMP aktarımı ve XFTP taşımasıyla. Aktarıcı şifreli metni görür. Telefon çevrim dışıysa sonuç outbox/ içinde bekler ve otuz güne kadar yeniden denemeye devam eder.",
+      },
+      {
+        title: "Okumasını istediğiniz beslemeler",
+        body:
+          "Morning TV yapılandırdığınız RSS kaynaklarını çeker; yanıt başına üç megabayt tavanı vardır ve bu, beslemelerinizi barındırana giden sıradan bir dış HTTPS isteğidir.",
+      },
+      {
+        title: "Yapılandırdığınız bir webhook",
+        body:
+          "Fiziksel kilitlenme, bir ev otomasyonu ya da varlık uç noktasına imzalı bir olay POST edebilir. Bu en iyi çabayla yapılır, siz seçmeden yürümez ve URL sizin — düğümün varsayılan bir adresi yoktur.",
+      },
+      {
+        title: "Kurulumlar ve model çekmeleri",
+        body:
+          "Sihirbaz Homebrew formüllerini, FFmpeg'i, uv'yi, Ollama'yı ve seçtiğiniz kuantizasyonu indirir. Bu trafik zaten bir kurulum adımının kendisidir; bir kez, sizin önünüzde, günlük ekranın üzerindeyken olur.",
+      },
+    ],
+    keysHeading: "Sırların gerçekte durduğu yer",
+    keysBody:
+      "Keychain'de değil. Düğüm, Keychain'e hiçbir bağımlılığı olmayan bir macOS uygulaması ve bu bir gözden kaçırma değil, bir tercih: eşleştirme ve kasa malzemesi, veri kökünün altındaki dosyalardır; atomik yazma, POSIX kipi 0600 ve tam dosya korumasıyla diske inerler, böylece makine kilitliyken diskteki hâlleri okunamaz. Göze aldığınız değişiklik gerçek: dosya izinleri denetlenebilir ve taşınabilir, ama sizin kullanıcı hesabınız ile kullanıcı hesabınızı zaten ele geçirmiş bir okuyucu arasına hiçbir şey koymazlar. Veri köküne bir sır gibi davranın: Time Machine içinde değildir ve düğüm anahtarının var olan tek kopyası odur.",
+    dataNote: {
+      output: "Üretilen çıktılar ve telefonunu bekleyen sonuçları tutan outbox kuyruğu.",
+      vault: "Zamana kilitli mühürlü arşivler ve onları açan halefiyet malzemesi.",
+      pairing: "Ed25519 düğüm anahtarı, eşleştirilmiş cihaz listesi ve güncel tek kullanımlık teklif.",
+      weights: "Model ağırlıkları ve video motorlarının çağırdığı LTX-2.5 MLX çalışma alanı.",
+      ledger: "Hash ile eklenen kilitlenme ve mesh defterleri.",
+      logs: "Kurulum günlüğü ve denetim günlüğü; operatör okusun diye yazılır.",
+      config: "Ayarlar, motor anahtarları ve köprü ile entegrasyonların paylaştığı yapılandırma.",
+    },
+    rootLabel: "Veri kökü",
+    controlHeading: "Kapanış düğmesinin sizin tarafınız",
+    controlSub:
+      "Dört denetim; hepsi yerel, hepsi bir ayarlar ekranına gömülü olmak yerine uygulamada görünür. Hiçbiri ağa ihtiyaç duymaz; ağ sorunken işe yaramalarının nedeni de bu.",
+    controls: [
+      {
+        title: "Bir motoru durdurun",
+        body:
+          "Menü çubuğunda ve konsolda on bağımsız anahtar. Birini kapatmak bir sonraki komutta etkili olur; kapalı bir motora giden komut kuyruğa alınmak yerine reddedilir.",
+      },
+      {
+        title: "Çevrim ödünç vermeyi durdurun",
+        body:
+          "Pause Mesh Sharing düğümü derhal uç hesaplama havuzundan çıkarır; menü çubuğu “Duraklatıldı” yazar ve düğüm iş almayı bırakır. Adında duraklatma sözcüğü bulunan tek denetim budur; kapsamı mesh kapasitesidir, tüm düğüm değildir.",
+      },
+      {
+        title: "Güncel eşleştirme kodunu yakın",
+        body:
+          "New Pairing QR bekleyen teklifi emekliye ayırır ve yerine bir yenisini basar. Eski kodun fotoğrafını elinde tutan biri ikinci bir şans değil, süresi dolmuş bir imza elde etmiş olur.",
+      },
+      {
+        title: "Her şeyi durdurun",
+        body:
+          "Quit gerçek kapanış anahtarıdır: loopback dinleyicisini kapatır, oturum açma öğesini serbest bırakır ve açılış jetonunu süreçle birlikte düşürür. Çalışmayan bir düğüm hiçbir soruya, hiçbir kimseye yanıt vermez.",
+      },
+    ],
+    revokeHeading: "Ve bir cihazın eşleştirmesini iptal ederken",
+    revokeBody:
+      "Konsoldaki eşleştirilmiş cihaz listesinde her satırda bir Revoke düğmesi var. Düğme o cihazı iptal edilmiş olarak işaretler, kişi eşlemesini kaldırır ve o andan sonra komutlarını düşürür — ama SMP bağlantısını sökmez ve uygulama bunu, size gösterdiği mesajın içinde kendisi söylüyor. İşe son vermek için sohbet istemcisinde kişiyi silin. Diske zaten yazılmış olan her şey diskinizde kalır; iptal gelecekteki komutları durdurur, uzaktan bir silme değildir ve düğümün hiç uzaktan silme yeteneği olmadı ki kaldırılmış olsun.",
+    limitsHeading: "Bu sayfanın vaat etmeyecekleri",
+    limitsBody:
+      "Güvenli yok etme; rastgele bir üzerine yazma, bir sync ve bir unlink. APFS üzerinde değiştirilen bir dosya yeni bloklara yazılır ve SSD mantıksal blokları yeniden eşler, dolayısıyla bu işlem dosyayı kaldırır ve sıradan kurtarma araçlarını atlatır, ama eski fiziksel baytların gittiğini kanıtlamaz. Bir kullanıcı alanı dosya API'sinin yapabileceği en iyi şey budur ve kod da döndürdüğü sonuçta bunu söylüyor. Ötesinde: Quit dışında küresel bir duraklatma yok, uzaktan silme yok, anahtar emaneti yok — yani makineyi ve veri kökünü birlikte kaybederseniz geri getirme de yok — ve siz istemediğiniz bir şeyi kurmaya ikna edilebilecek bir güncelleyici de yok.",
+  },
+
+  troubleshooting: {
+    heading: "Umduğunuz şeyi yapmadığında",
+    sub:
+      "Bu mimaride gerçekte olan arızalar, insanların onlara çarpma sırasıyla. Her biri önce nereye bakılacağını söylüyor; çünkü sunucu tarafı olmayan bir makinede en kısa yol her zaman günceldir.",
+    columns: ["Belirti", "Ne oluyor", "Ne yapmak gerek"],
+    items: [
+      {
+        symptom: "Konsol sayfası açılmıyor",
+        cause:
+          "Port 127.0.0.1:18920 üzerinde yedeksiz olarak sabittir; bu yüzden ikinci bir çalışan örnek — ya da oraya ilk varan başka bir şey — dinleyiciyi elinde tutar. Jeton da açılış başınadır: yeniden başlatmadan kalma eski bir sekme, ölmüş bir kimlik bilgisi taşır.",
+        fix:
+          "18920 üzerinde bir dinleyici olup olmadığına bakın ve diğer örneği kapatın, sonra menü çubuğundan Open Web Console'u kullanın; o, bayat bir jetonu yeniden kullanmak yerine geçerli URL'i geçerli jetonla kurar.",
+      },
+      {
+        symptom: "11434'e kimse yanıt vermiyor",
+        cause:
+          "Model isteyen motorlar yalnızca loopback üzerinde Ollama ile konuşur. Ollama çalışmıyorsa ya da sihirbaz olmadan kurulmuşsa motor, barındırılan herhangi bir şeye düşmek yerine başarısız olur.",
+        fix:
+          "Ollama'yı başlatın, OLLAMA_HOST adresinin loopback olduğunu doğrulayın ve katman tablosunun sizin makineniz için yazdığı kuantizasyonu çekin. Hata metni, işe yarayacak komutu olduğu gibi alıntılıyor.",
+      },
+      {
+        symptom: "Ağırlıklar hiç indirilmedi",
+        cause:
+          "Kurulum programı, config/engines.json içinde weightSources bildirilmedikçe ağırlık indirmeyi atlar ve boş alan 40 GB ya da altına düştüğünde doğrudan reddeder.",
+        fix:
+          "Çekmek istediğiniz kaynağı ekleyin ya da ağırlıkları engines/weights içine kopyalayın ve yapılandırmayı oraya yöneltin. Önce diski boşaltın; bu koruma bir eşik, bir uyarı değil.",
+      },
+      {
+        symptom: "Bir iş komut satırı olarak döndü",
+        cause:
+          "Video işi LTX-2.5 çalışma alanını ve ağırlıklarını ister. Onlar yokken motor, bir dosya üretmiş gibi yapmak yerine çalıştıracak olduğu komutun aynısını döndürür.",
+        fix:
+          "Sihirbazın çalışma alanı adımını tamamlayın ya da adını verdiği LTX-2-MLX çalışma alanını klonlayın, sonra yeniden çalıştırın. Bu bilinçli bir tercih: sahte bir başarı, dürüst bir reddetmeden daha kötü.",
+      },
+      {
+        symptom: "Eşleştirme kodu reddediliyor",
+        cause:
+          "Bir teklif tek kullanımlıktır ve on beş dakika yaşar. Aynı kodun ikinci kez taranması ya da o arada dönmüş bir ekrandan kalan bir kodun taranması doğru biçimde reddedilir.",
+        fix:
+          "Yeni bir kod üretin ve bir kez tarayın. Telefon başarılı bir kullanımdan sonra kendi başına yeniden denerse, ilk kullanım çoktan kazandı demektir ve reddedilme beklenen yanıttır.",
+      },
+      {
+        symptom: "Telefondan gelen komutlar hiçbir şey yapmıyor",
+        cause:
+          "Köprü, PATH üzerinde bir popopx-chat daemon'ı ister ve düğüm yedeksiz olarak tam olarak tek bir çalıştırılabilir dosyayı yoklar. Daemon yokken menü çubuğu popopx-chat not installed yazar; kapalı bir motor da zaten hiçbir şey yanıtlamaz.",
+        fix:
+          "Önce menü çubuğundaki köprü satırına, sonra motor anahtarlarına, sonra denetim günlüğüne bakın. Reddedilmiş bir komutla hiç ulaşmamış bir komut, telefondan bakınca aynı görünür.",
+      },
+      {
+        symptom: "Telefon uzaktayken sonuçlar gelmeyi kesiyor",
+        cause:
+          "Dışa teslimat kendi daemon'ınız ve aktarıcınız üzerinden gider; bu yüzden dış trafiği kesen bir güvenlik duvarı, aktarıcıyı taşımayan bir VPN ya da çıkmış bir daemon buradan bakınca aynı görünür. Sonuçlar kaybolmaz: outbox/ içinde sıraya girer ve otuz güne kadar yeniden dener.",
+        fix:
+          "Daemon'ın çalıştığını doğrulayın, sonra trafiği süzen şeyde düğümün dış bağlantılarına izin verin ve işi yeniden çalıştırmak yerine kuyruğun boşalmasını bekleyin.",
+      },
+      {
+        symptom: "İndir kartı “sabitlenen sürüm gösteriliyor” yazıyor",
+        cause:
+          "api.github.com erişilemezdi, engellendi, hız sınırına takıldı ya da indirilebilir bir varlık vermeden yanıtladı. Sayfa bu durumda tahmin etmek yerine pakete derlenmiş sürümü çizer.",
+        fix:
+          "Sürümler sayfasını doğrudan açın. Sitede başka hiçbir şey o çağa ihtiyaç duymaz ve başarısız bir çağrı yüzünden sayfanın hiçbir bölümü boş kalmaz.",
+      },
+    ],
+    escalation:
+      "Kalanın çoğunu iki dosya yanıtlar: sihirbazın yaptıklarının hesabı logs/install.log içinde, sonrasında olan her şey logs/node.log içinde. İkisi de veri kökünün altında düz metindir ve konsolun kendi günlük kanalı aynı olayları canlı gösterir. Bir arıza bunları okuduktan sonra da sürerse, düğüm ile entegrasyonların birlikte test ettiği sözleşme depodadır; sorun bildirimleri popopx-mac-node üzerinde açılır.",
+  },
+
+  releases: {
+    heading: "Sürümler, sağlama değerleri ve tüm kaynak ağacı",
+    sub:
+      "Düğümün üzerinden derlendiği her şey tek bir AGPL-3.0-only depoda; yayımlanan her görüntü, açılmadan önce bir sağlama değerine karşı kontrol edilebilir. Bu bölüm, sitenin tarif etmeyi bırakıp göstermeye başladığı yer.",
+    assetsHeading: "Yayımlanan varlıklar",
+    assetsColumns: ["Dosya", "Nedir", "Boyut"],
+    assetKinds: {
+      dmg: "Sürükle-bırak ile /Applications'a giden disk görüntüsü; universal arm64 ve x86_64. Alınması gereken dosya bu.",
+      sidecar: "Tek bir dosya için sağlama değeri; onu üreten paketleme adımı tarafından yazılmış.",
+      zip: "İmzalı uygulama paketinin ZIP yükü olarak hâli; bir disk görüntüsü yerine bir arşiv isterseniz.",
+      sums: "Sürümdeki tüm çıktıları sağlama değerleriyle birlikte listeleyen bir içerik listesi.",
+    },
+    missingAsset:
+      "Her sürüm her varlığı yayımlamaz. Eski sürümlerde yalnızca disk görüntüsü ve onun yan dosyası vardır; aşağıdaki kontrol de bu yüzden gerçekten açtığınız sürümü okur.",
+    verifyHeading: "Bir şey açmadan önce doğrulayın",
+    verifyBody:
+      "İki komut; indirdiğiniz klasörde çalıştırın. Tercih edilen biçim içerik listesi biçimidir ve güncel sürümün yayımladığı da bu.",
+    verifySumsBody:
+      "Bir sürüm listesi her çıktıyı sıralar; dolayısıyla indirmediğiniz bir dosya eksik sayılmaz, beklenir: --ignore-missing geçirin ve aldığınız dosyaya denk gelen satırı okuyun. Liste dosyası, adını verdiği yükü paketleyen adımla aynı adımda yazılır.",
+    verifySidecarBody:
+      "Eski bir sürüm bunun yerine tek varlıklı bir yan dosya yayımlar ve karşılaştırılacak dosya odur. Bir sürüm ikisini de taşıyıp da anlaşmıyorlarsa listeye inanın: yan dosya, aynı sürümün başka bir derlemesinden gelmiş olabilir.",
+    pipelineHeading: "Bir sürüm buraya nasıl geliyor",
+    pipelineBody:
+      "Bir etiket göndermek, bir macOS çalıştırıcısında sürüm iş akışını başlatır: ağacı derler, sözleşme testlerini çalıştırır, universal görüntüyü Scripts/build_dmg.sh ile paketler, içinde mutlak yol olan bir sağlama dosyasının yayımlanmasını reddeder ve o betiğin yazdıklarını yükler. Bir SHA256SUMS.txt listesiyle birlikte gelen noter onaylı görüntü ise Scripts/build-release.sh'ten çıkar; bu betik Developer ID imzası, Apple noter onayına gönderim ve ZIP ekler. İki yol da aynı yerde bitiyor: bu sayfaya güvenmeden doğrulayabileceğiniz bir sağlama değeri.",
+    supportedHeading: "Bugün çalışanlar",
+    supportedItems: [
+      "On motorun hepsi; her biri kendi eylem kümesi ve reddetme yollarıyla, ayrı ayrı açılıyor.",
+      "sysctl'den otomatik katman seçimi ve her katmanın ima ettiği model çekmesi.",
+      "İmzalı, tek kullanımlık, on beş dakikalık eşleştirme ve yalnızca loopback'e bağlanan konsol.",
+      "Aynı konsol ve aynı jeton üzerinden çalışan TypeScript köprüsü ile iki ajan arayüzü.",
+    ],
+    roadmapHeading: "Henüz yok",
+    roadmapSub:
+      "Bunlar bir sayfada vaat olarak değil, depoda plan olarak yazılmış durumda. Hiçbiri bugün çalışmıyor.",
+    roadmap: [
+      {
+        title: "Kendi makinenizde motor motor ölçümler",
+        body:
+          "Kullanım panosu ve arıza zaman çizelgelerinin telefona geri taşınması: önünüzdeki kutudan alınan token ve watt okumaları, donanım tablosundaki tahminlerin yerine geçer.",
+      },
+      {
+        title: "Sıkı mesh yalıtımı ve dışa aktarılabilir defter",
+        body:
+          "Ödünç verilen kapasite için daha güçlü bir hapsedme ve uygulamada okumak yerine uygulamadan dışarı taşıyabileceğiniz bir defter.",
+      },
+      {
+        title: "Birden fazla varis için parçalanmış emanet",
+        body:
+          "Halefiyet malzemesinin birden çok varise bölünmesi ve sağlık motorunda daha fazla rapor düzeni.",
+      },
+      {
+        title: "İmzalı dağıtım kanalları ve daha çok video katmanı",
+        body:
+          "Noter onayının ötesinde bir mağaza kanalı değerlendirmesi ve merdivenin henüz kapsamadığı bellek aralıkları için ek LTX katmanları.",
+      },
+    ],
+    sourceHeading: "Kaynak ve lisansın zorunlu kıldıkları",
+    sourceBody:
+      "Tek depo, AGPL-3.0-only, kapalı çekirdek yok: motorlar, konsol, filigranlama ve defterin hepsi onun içinde; kör imzalı kimlik bilgisi kodu ile kriptografik parametre kaydı ise yanındaki popopxmq içinde açık. Madde 13 alışıldık şekilde uygulanır: özgürce çalıştırın, inceleyin, değiştirin ve değiştirdiğiniz bir düğümü başkalarına hizmet olarak sunarsanız, onlara karşılık gelen kaynağınızı da sunun. Uyumluluğun toplam bedeli budur.",
+    licenceHeading: "Kapsam dışında kalanlar",
+    licenceBody:
+      "AGPL-3.0, POPOPX adı ya da logosu için hiçbir lisans vermez. Bir çatal, markalar dışında her şeyi alabilir: yazılımı yeniden adlandırın, markaları değiştirin, kodu koruyun.",
   },
 
   faq: {
@@ -174,7 +602,7 @@ export const tr: Dictionary = {
       },
       {
         q: "Donanım tablosundaki sayılara ne kadar güveneyim?",
-        a: "Altındaki cümlenin söylediği kadar. Bunlar kaba taslak hesaplar, senin makinenin ölçümleri değil, ve gerçek aktarım hızı ısı durumuna ve yüke göre iki-üç kat değişir. Düğümün 1.1 sürümü bunların yerine, bizzat kullandığın makine üzerinde ölçülmüş motora özgü token ve watt okumalarını koyar.",
+        a: "Altındaki cümlenin söylediği kadar. Bunlar kaba taslak hesaplar, senin makinenin ölçümleri değil, ve gerçek aktarım hızı ısı durumuna ve yüke göre iki-üç kat değişir. Düğümün bir sonraki sürümü bunların yerine, bizzat kullandığın makine üzerinde ölçülmüş motora özgü token ve watt okumalarını koyar.",
       },
       {
         q: "Hangi makineler destekleniyor?",

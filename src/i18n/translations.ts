@@ -179,11 +179,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = locale;
-    document.title =
-      locale === "en"
-        ? "POPOPX Mac Node — your own Mac runs the ten sovereign engines"
-        : `POPOPX Mac Node — ${dict.hero.titleAccent}`;
-  }, [locale, dict]);
+  }, [locale]);
 
   const setLocale = useCallback((next: LocaleCode) => {
     setLocaleState(next);

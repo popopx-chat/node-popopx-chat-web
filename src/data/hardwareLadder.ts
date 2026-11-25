@@ -27,12 +27,18 @@ export interface LadderRow {
   mode: LadderMode;
 }
 
+/**
+ * The `< 48 GB` row names the 9B quantisation and the 4-bit short-clip stack because
+ * that is what `ModelPlan.recommend` deploys on that band; the hand-off of heavy video
+ * to the mesh is a policy, so it lives in `hardware.rules` and in the
+ * `Heavy video` column of the tier-plan table rather than in a spec cell.
+ */
 export const LADDER: LadderRow[] = [
   {
     memory: "< 48 GB",
     chip: "M1 / M2 Max · Pro class",
-    textModel: "Qwen3.8",
-    videoModel: "→ Edge Compute Mesh",
+    textModel: "Qwen3.8-9B Q4_K_M",
+    videoModel: "LTX-2.5 MLX 4-bit · short clips",
     firstToken: "~0.6–1.5 s",
     throughput: "25–45 tok/s",
     residentPeak: "~10–18 GB",

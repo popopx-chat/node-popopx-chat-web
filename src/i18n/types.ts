@@ -1,3 +1,5 @@
+import type { RoutePath } from "../router";
+
 /**
  * The 18 languages the portal ships.
  *
@@ -66,26 +68,55 @@ export interface QaPair {
   a: string;
 }
 
+/** One reported fault: what the reader sees, why it happens, what to do. */
+export interface FaultItem {
+  symptom: string;
+  cause: string;
+  fix: string;
+}
+
 /**
  * Site chrome only. Engine names, taglines, quick-menu labels, highlights, shelf
  * titles and the price chip are not here — they come from the official catalogs in
- * `src/data/enginesCatalog.ts`, so this file cannot drift from the apps.
+ * `src/data/enginesCatalog.ts`, so this file cannot drift from the apps. The same
+ * rule holds for ports, model references and pairing strings, which live in
+ * `src/data/nodeRuntime.ts` because they are wire values.
  */
 export interface Dictionary {
   dir: "ltr";
 
   nav: {
-    engines: string;
-    architecture: string;
-    hardware: string;
+    overview: string;
+    node: string;
+    features: string;
     install: string;
-    faq: string;
-    github: string;
+    security: string;
+    troubleshooting: string;
+    releases: string;
     download: string;
     openMenu: string;
     closeMenu: string;
     chooseLanguage: string;
   };
+
+  /**
+   * The other POPOPX portals. These are the project's own sites, not third parties:
+   * nothing is loaded from them and no request is made to them, so a reader only
+   * leaves this origin by clicking one.
+   */
+  ecosystem: {
+    heading: string;
+    body: string;
+    chat: string;
+    chatBody: string;
+    botStudio: string;
+    botStudioBody: string;
+    serviceSuite: string;
+    serviceSuiteBody: string;
+  };
+
+  /** Drives `<title>` and the section eyebrow of each route. */
+  routes: Record<RoutePath, { eyebrow: string; title: string }>;
 
   hero: {
     badge: string;
@@ -112,10 +143,45 @@ export interface Dictionary {
     statSource: string;
   };
 
+  overview: {
+    splitHeading: string;
+    splitSub: string;
+    cloudTitle: string;
+    cloudBody: string;
+    macTitle: string;
+    macBody: string;
+    pathsHeading: string;
+    paths: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+  };
+
   architecture: {
     heading: string;
     sub: string;
     items: [LocalizedText, LocalizedText, LocalizedText];
+  };
+
+  node: {
+    heading: string;
+    sub: string;
+    points: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    wireHeading: string;
+    wireBody: string;
+    wireSampleLabel: string;
+    pairingHeading: string;
+    pairingSub: string;
+    pairingSteps: [LocalizedText, LocalizedText, LocalizedText];
+    pairingFacts: {
+      lifetime: string;
+      singleUse: string;
+      signature: string;
+      delivery: string;
+    };
+    portsHeading: string;
+    portsSub: string;
+    portsColumns: [string, string, string, string, string];
+    portsOwner: { node: string; tool: string; daemon: string };
+    portsPurpose: { console: string; inference: string; control: string };
+    portsFootnote: string;
   };
 
   engines: {
@@ -141,18 +207,100 @@ export interface Dictionary {
     modes: { lightweight: string; balanced: string; full: string };
     footnote: string;
     rules: [string, string, string];
+    plansHeading: string;
+    plansSub: string;
+    plansColumns: [string, string, string, string, string, string];
+    heavyVideo: { local: string; mesh: string };
+    plansFootnote: string;
   };
 
   install: {
     heading: string;
     sub: string;
-    steps: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    prereqsHeading: string;
+    prereqNotes: {
+      system: string;
+      memory: string;
+      disk: string;
+      media: string;
+      inference: string;
+      bridge: string;
+    };
+    prereqRequired: { hard: string; wizard: string; optional: string };
+    steps: [LocalizedText, LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    buildHeading: string;
+    buildBody: string;
+    lifecycleHeading: string;
+    lifecycle: [LocalizedText, LocalizedText, LocalizedText];
     bridgeTitle: string;
     bridgeBody: string;
     requirementTitle: string;
     requirementBody: string;
     copyCommand: string;
     commandCopied: string;
+  };
+
+  security: {
+    heading: string;
+    sub: string;
+    localHeading: string;
+    localSub: string;
+    localItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    transitHeading: string;
+    transitSub: string;
+    transitItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    keysHeading: string;
+    keysBody: string;
+    /** Explains one directory under the data root; keyed by `DataLocation.note`. */
+    dataNote: {
+      output: string;
+      vault: string;
+      pairing: string;
+      weights: string;
+      ledger: string;
+      logs: string;
+      config: string;
+    };
+    rootLabel: string;
+    controlHeading: string;
+    controlSub: string;
+    controls: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    revokeHeading: string;
+    revokeBody: string;
+    limitsHeading: string;
+    limitsBody: string;
+  };
+
+  troubleshooting: {
+    heading: string;
+    sub: string;
+    columns: [string, string, string];
+    items: FaultItem[];
+    escalation: string;
+  };
+
+  releases: {
+    heading: string;
+    sub: string;
+    assetsHeading: string;
+    assetsColumns: [string, string, string];
+    assetKinds: { dmg: string; sidecar: string; zip: string; sums: string };
+    missingAsset: string;
+    verifyHeading: string;
+    verifyBody: string;
+    verifySumsBody: string;
+    verifySidecarBody: string;
+    pipelineHeading: string;
+    pipelineBody: string;
+    supportedHeading: string;
+    supportedItems: [string, string, string, string];
+    roadmapHeading: string;
+    roadmapSub: string;
+    roadmap: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    sourceHeading: string;
+    sourceBody: string;
+    licenceHeading: string;
+    licenceBody: string;
   };
 
   faq: {

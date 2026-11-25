@@ -1,7 +1,21 @@
 import { useI18n } from "../i18n/translations";
 import { LADDER } from "../data/hardwareLadder";
+import type { LadderMode } from "../data/hardwareLadder";
+import { TIER_PLANS } from "../data/nodeRuntime";
+import type { TierPlan } from "../data/nodeRuntime";
 import { GlassPanel } from "./GlassPanel";
 import { SectionHeading } from "./SectionHeading";
+
+/**
+ * The plan tier and the ladder mode are the same three cases named twice — `ComputeTier`
+ * in the node and the column label in the table — so this maps one onto the other instead
+ * of carrying a second untranslated list of tier names.
+ */
+const TIER_MODE: Record<TierPlan["tier"], LadderMode> = {
+  flagship: "full",
+  high: "balanced",
+  light: "lightweight",
+};
 
 export function HardwareLadderSection() {
   const { dict } = useI18n();
@@ -16,7 +30,7 @@ export function HardwareLadderSection() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           titleId="hardware-title"
-          index="03 / HARDWARE"
+          index={`02 / ${dict.routes["/features"].eyebrow}`}
           title={dict.hardware.heading}
           sub={dict.hardware.sub}
         />
@@ -95,6 +109,76 @@ export function HardwareLadderSection() {
         <p className="mt-6 max-w-4xl text-pretty text-[13px] leading-relaxed text-ink-mute">
           {dict.hardware.footnote}
         </p>
+
+        <div className="mt-16">
+          <SectionHeading
+            titleId="plans-title"
+            index="03"
+            title={dict.hardware.plansHeading}
+            sub={dict.hardware.plansSub}
+          />
+
+          <GlassPanel className="scroll-shadow mt-2 overflow-x-auto">
+            <table className="w-full min-w-[860px] border-collapse text-left">
+              <caption className="sr-only">{dict.hardware.plansHeading}</caption>
+              <thead>
+                <tr className="border-b border-edge-strong">
+                  {dict.hardware.plansColumns.map((column) => (
+                    <th
+                      key={column}
+                      scope="col"
+                      className="px-4 py-3.5 font-mono text-[11px] font-medium tracking-[0.1em] text-ink-mute"
+                    >
+                      {column}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {TIER_PLANS.map((plan) => (
+                  <tr
+                    key={plan.tier}
+                    className="border-b border-edge align-top last:border-b-0 transition-colors duration-200 hover:bg-raise/60"
+                  >
+                    <th scope="row" className="px-4 py-4 text-left">
+                      <span className="block whitespace-nowrap font-mono text-[13px] text-ink">
+                        {plan.band}
+                      </span>
+                      <span className="mt-1 block text-[12px] text-ink-mute">
+                        {modes[TIER_MODE[plan.tier]]}
+                      </span>
+                    </th>
+                    <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-dim">
+                      {plan.llm}
+                    </td>
+                    <td className="px-4 py-4 font-mono text-[12.5px] text-ink-dim">{plan.video}</td>
+                    <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-mute">
+                      {plan.residentGB}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-4">
+                      <span
+                        className={`rounded-pill px-3 py-1 text-[12px] ${
+                          plan.heavyVideo === "local"
+                            ? "edge-brand bg-brand/22 text-ink"
+                            : "border border-edge text-ink-mute"
+                        }`}
+                      >
+                        {dict.hardware.heavyVideo[plan.heavyVideo]}
+                      </span>
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-4 font-mono text-[12px] text-brand-haze">
+                      {plan.pull}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </GlassPanel>
+
+          <p className="mt-6 max-w-4xl text-pretty text-[13px] leading-relaxed text-ink-mute">
+            {dict.hardware.plansFootnote}
+          </p>
+        </div>
       </div>
     </section>
   );
