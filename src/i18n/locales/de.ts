@@ -127,6 +127,38 @@ export const de: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview – Designmockup der Oberfläche, kein Live-Status eines Nodes",
+    heading: "Was die Konsole zeigt, wenn der Node läuft",
+    sub:
+      "Die App trägt genau eine lokale Web-Konsole, und dies ist ein Bild ihres Statusbildschirms: die Maschine, die sie vorgefunden hat, das Unified Memory, dessen Reservierung sie beschlossen hat, die Engines, die sie auf Bitte ausführen kann, und die Telefone, die sie eingelassen hat. Das Layout, die Spaltennamen und die Arithmetik stammen von dem ausgelieferten Produkt. Nichts hier ist von einem laufenden Prozess abgelesen.",
+    machineLabel: "Beispielmaschine",
+    machineHint:
+      "Der Node liest Chip, Kernanzahl und physischen Speicher beim Start aus sysctl. Ihren physischen Speicher kann ein Browser nicht lesen – navigator.deviceMemory ist in jeder Implementierung auf 8 GB gedeckelt –, also wählen Sie eine dieser Konfigurationen, und die Zahlen unten rechnen sich neu.",
+    statusHeading: "Status",
+    statusConnected: "Verbunden",
+    daemonRunning: "Daemon läuft",
+    loopbackNote:
+      "Die Konsole bindet 127.0.0.1 und weist ein Binden auf 0.0.0.0, auf einer LAN-Adresse oder auf einem Hostnamen ab, darum ist sie nur von diesem Mac aus erreichbar.",
+    memHeading: "Zuteilung des Unified Memory",
+    memTotalLabel: "Unified Memory",
+    memCeilingLabel: "Belegungsobergrenze",
+    memMeshLabel: "Mesh-Obergrenze",
+    memHeadroomLabel: "Für die Desktop-Sitzung zurückbehalten",
+    usageLabel: "Arbeitsmenge der Engines (Schätzung)",
+    servicesHeading: "Lokale Engines und Dienste",
+    servicesNote:
+      "Links die zehn Engines und die drei Bereiche, unter denen sie ausgeliefert werden – derselbe Katalog, den das Menü auf dem Telefon ausdruckt. Rechts die drei Adressen, die der Node kennt: die eine, auf der er lauscht, und die zwei, die er als Client anruft. Beides sind feste Listen, keine Messwerte, und eine Engine läuft nur, wenn Sie sie aktivieren.",
+    devicesHeading: "Gekoppelte Geräte",
+    deviceColumns: ["Gerät", "Gekoppelt", "Zuletzt gesehen", "Widerrufen"],
+    devicesActive: "aktiv",
+    revoke: "Widerrufen",
+    revokedRow: "widerrufen",
+    neverSeen: "nie gesehen",
+    disclaimer:
+      "Diese Karte ist ein Bild, kein Client. Sie öffnet keine Verbindung und liest keinen Prozess: Eine Beispielmaschine zu wählen, wendet nur die veröffentlichte Stufenregel des Nodes in Ihrem eigenen Browser an, und „Widerrufen“ ändert bloß die Zeile, die Sie gerade ansehen. In der echten Konsole markiert dieser Knopf das Gerät als widerrufen, verwirft von da an seine Befehle und baut die Chat-Verbindung nicht ab – „Privatsphäre & Kontrolle“ sagt genau, was er nicht tut.",
+  },
+
   node: {
     heading: "Ein Node ist ein Rechner, den Sie schon besitzen",
     sub:
@@ -291,7 +323,7 @@ export const de: Dictionary = {
       {
         title: "DMG prüfen und öffnen",
         body:
-          "Nehmen Sie POPOPX-Mac-Node-Universal.dmg und die Prüfsummendatei des Releases in denselben Ordner und prüfen Sie beide, bevor Sie irgendetwas öffnen; unter „Releases & GitHub“ stehen die zwei Befehle für das aktuelle Release. Ziehen Sie POPOPX Mac Node.app nach /Applications. Der veröffentlichte Build trägt eine Developer ID-Signatur und ein angeheftetes Notarisierungs-Ticket, darum akzeptiert Gatekeeper ihn ohne Ihr Zutun – spctl -a -vv -t install antwortet accepted mit source=Notarized Developer ID. Ein Build, den Sie selbst erstellen, ist dagegen ad hoc signiert, und der verlangt beim ersten Start ein Öffnen per Rechtsklick.",
+          "Nehmen Sie POPOPX-Mac-Node-Universal.dmg und die Prüfsummendatei des Releases in denselben Ordner und prüfen Sie beide, bevor Sie irgendetwas öffnen; unter „Releases & GitHub“ stehen die zwei Befehle für das aktuelle Release. Ziehen Sie POPOPX Mac Node.app nach /Applications. Der veröffentlichte Build trägt eine Developer ID-Signatur und ein angeheftetes Notarisierungs-Ticket, darum akzeptiert Gatekeeper ihn ohne Ihr Zutun – spctl -a -vv -t install antwortet accepted mit source=Notarized Developer ID. Ein Build aus dem Tag-Workflow, der mit Scripts/build_dmg.sh paketiert, und ein Build, den Sie selbst mit demselben Skript erstellen, sind dagegen ad hoc signiert, und der erste Start verlangt dort ein Öffnen per Rechtsklick.",
       },
       {
         title: "Die Maschine profilieren lassen",
@@ -341,6 +373,18 @@ export const de: Dictionary = {
     requirementTitle: "Eine ehrliche Voraussetzung",
     requirementBody:
       "Schritt 2 des Assistenten des Nodes selbst, der Pairing-QR-Code und die SMP-Brücke brauchen einen popopx-chat-Chat-Daemon im PATH. Der Node prüft genau eine ausführbare Datei und hat keinen Fallback, weil ein Upstream-Build zwar eine Versionszeile beantwortet, danach aber jeden Befehl scheitern lässt. Die zehn Engines selbst brauchen ihn nicht.",
+    signHeading: "So ist der veröffentlichte Build signiert",
+    signBody:
+      "Das Anwendungsbundle in dem Image trägt eine Developer ID Application-Signatur, den hardened runtime-Flag und einen sicheren Zeitstempel, und ein Notarisierungs-Ticket ist in es hinein angeheftet. Deshalb lässt Gatekeeper es ohne Ihr Zutun laufen: spctl -a -vv -t install antwortet accepted mit source=Notarized Developer ID. Der Block darunter ist am 2026-11-25 aus genau den Bytes abgelesen worden, die v1.0.2 veröffentlicht – führen Sie die ersten zwei Befehle gegen die App in /Applications aus, und Sie sollten dieselbe Identität zurückbekommen. Kein Apple-Account wird befragt und nichts wird gegen einen Server geprüft, weil das Ticket zusammen mit der App auf der Festplatte mitwandert.",
+    containerTitle: "Das Image selbst ist nicht signiert",
+    containerBody:
+      "Führen Sie spctl auf dem heruntergeladenen .dmg aus, antwortet es rejected mit source=no usable signature; codesign -dvv sagt über dieselbe Datei, dass sie gar nicht signiert ist. Das ist die erwartete Antwort, kein Alarm wegen Manipulation. Apples Codesignatur sitzt auf dem Anwendungsbundle, das Notarisierungs-Ticket dagegen ist an das Bundle und an das Disk-Image darum herum angeheftet. Die einzige Integritätskontrolle des Images ist sein SHA-256-Wert, und das ist die Prüfung weiter unten auf dieser Seite.",
+    provenanceTitle: "Welches Skript liefert welches Artefakt",
+    provenanceBody:
+      "Zwei Skripte verpacken diese App, und sie enden nicht am selben Ort. Scripts/build_dmg.sh – das Skript, das der Tag-Workflow auf einem macOS-Runner ausführt, und das Ende der Build-Schritte weiter oben – signiert ad-hoc mit --sign - --timestamp=none und ohne hardened runtime, darum verlangt ein Build aus diesem Pfad beim ersten Start tatsächlich ein Öffnen per Rechtsklick. Scripts/build-release.sh ist der Developer ID-Pfad: Er signiert mit hardened runtime, reicht die Notarisierung ein, heftet das Ticket an Bundle und Image und schreibt das ZIP neben ein SHA256SUMS.txt-Manifest. Das Image, das Sie herunterladen, stammt aus dem zweiten Skript, und ein Runner, der das Zertifikat nie in den Händen hielt, kann es nicht erzeugen.",
+    digestHeading: "Prüfen Sie die Prüfsumme, bevor Sie irgendetwas öffnen",
+    digestBody:
+      "Zwei Befehle, ausgeführt in dem Ordner, in den Sie die Dateien gespeichert haben. Das Release-Manifest ist die Datei, gegen die Sie prüfen sollen, denn es nennt jedes Artefakt des Releases und wird von demselben Schritt geschrieben, der sie verpackt hat – während die .dmg.sha256 für ein einzelnes Asset, die neben v1.0.2 veröffentlicht ist, eine Prüfsumme nennt, die bei keinem veröffentlichten Asset herauskommt. Unter „Releases & GitHub“ stehen die zwei Befehle für das Release, das die Seite gerade auflöst, und das kann neuer sein als das unten.",
     copyCommand: "Befehl kopieren",
     commandCopied: "Kopiert",
   },

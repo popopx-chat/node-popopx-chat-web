@@ -127,6 +127,38 @@ export const pl: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview — makieta interfejsu, nie działający węzeł",
+    heading: "Co konsola pokazuje, gdy węzeł już działa",
+    sub:
+      "Aplikacja niesie jedną lokalną konsolę internetową i to jest obraz jej ekranu stanu: maszyna, którą znalazła, pamięć zunifikowana, którą zdecydowała się zarezerwować, silniki, o których może dostać polecenie uruchomienia, i telefony, które wpuściła. Układ, nazwy kolumn i arytmetyka są dokładnie te z wydanego produktu. Nic tutaj nie zostało odczytane z uruchomionego procesu.",
+    machineLabel: "Maszyna przykładowa",
+    machineHint:
+      "Węzeł odczytuje przy uruchomieniu model układu, liczbę rdzeni i fizyczną pamięć z sysctl. Przeglądarka nie odczyta Twojej — navigator.deviceMemory jest we wszystkich implementacjach ograniczona do 8 GB — więc wybierz jedną z tych konfiguracji, a liczby poniżej przeliczą się od nowa.",
+    statusHeading: "Stan",
+    statusConnected: "Połączono",
+    daemonRunning: "Demon działa",
+    loopbackNote:
+      "Konsola wiąże się z 127.0.0.1 i odrzuca związanie z 0.0.0.0, adresem LAN albo nazwą hosta, więc jest osiągalna wyłącznie z tego Maca.",
+    memHeading: "Przydział pamięci zunifikowanej",
+    memTotalLabel: "Pamięć zunifikowana",
+    memCeilingLabel: "Limit rezydentny",
+    memMeshLabel: "Limit meshu",
+    memHeadroomLabel: "Zachowane na sesję pulpitu",
+    usageLabel: "Zestaw roboczy silników (szacunek)",
+    servicesHeading: "Lokalne silniki i usługi",
+    servicesNote:
+      "Po lewej dziesięć silników i trzy półki, pod którymi je wydano — ten sam katalog, który wypisuje menu w telefonie. Po prawej trzy adresy, które węzeł zna: ten, na którym nasłuchuje, i dwa, na które dzwoni jako klient. Oba to listy ustalone z góry, nie pomiary, a silnik działa tylko wtedy, gdy go włączysz.",
+    devicesHeading: "Sparowane urządzenia",
+    deviceColumns: ["Urządzenie", "Sparowanie", "Ostatnie wykrycie", "Unieważnij"],
+    devicesActive: "aktywne",
+    revoke: "Unieważnij",
+    revokedRow: "unieważnione",
+    neverSeen: "nigdy nie wykryte",
+    disclaimer:
+      "Ta karta to obraz, nie klient. Nie otwiera żadnego połączenia i nie odczytuje żadnego procesu: wybranie maszyny stosuje w Twojej własnej przeglądarce opublikowaną regułę poziomów węzła, a Unieważnij zmienia tylko ten wiersz, który właśnie oglądasz. W prawdziwej konsoli ten przycisk oznacza urządzenie jako unieważnione, od tej pory odrzuca jego polecenia i nie zrywa połączenia czatu — Prywatność i kontrola mówi dokładnie, czego ten przycisk nie robi.",
+  },
+
   node: {
     heading: "Węzeł to komputer, który już masz",
     sub:
@@ -291,7 +323,7 @@ export const pl: Dictionary = {
       {
         title: "Zweryfikuj i otwórz DMG",
         body:
-          "Weź POPOPX-Mac-Node-Universal.dmg i plik ze skrótem wydania do tego samego folderu i sprawdź je, zanim otworzysz cokolwiek; Wydania i GitHub wypisują dwa polecenia dla bieżącego wydania. Przeciągnij POPOPX Mac Node.app do /Applications. Opublikowany build niesie podpis Developer ID i zszyty bilet notarizacji, więc Gatekeeper akceptuje go bez pomocy — spctl -a -vv -t install odpowiada accepted z source=Notarized Developer ID. Build, który zrobisz sam, jest podpisany ad-hoc i to właśnie on wymaga pierwszego razem kliknięcia prawym przyciskiem i wybrania Open.",
+          "Weź POPOPX-Mac-Node-Universal.dmg i plik ze skrótem wydania do tego samego folderu i sprawdź je, zanim otworzysz cokolwiek; Wydania i GitHub wypisują dwa polecenia dla bieżącego wydania. Przeciągnij POPOPX Mac Node.app do /Applications. Opublikowany build niesie podpis Developer ID i zszyty bilet notarizacji, więc Gatekeeper akceptuje go bez pomocy — spctl -a -vv -t install odpowiada accepted z source=Notarized Developer ID. Build z obiegu tagu, który pakuje się przez Scripts/build_dmg.sh, i build, który zrobisz sam tym samym skryptem, są podpisane ad-hoc i to właśnie one wymagają pierwszego razem kliknięcia prawym przyciskiem i wybrania Open.",
       },
       {
         title: "Pozwól mu zmierzyć maszynę",
@@ -341,6 +373,18 @@ export const pl: Dictionary = {
     requirementTitle: "Jeden uczciwy warunek wstępny",
     requirementBody:
       "Drugi krok kreatora samego węzła, kod QR parowania i most SMP potrzebują demona czatu popopx-chat w Twojej zmiennej PATH. Węzeł sprawdza dokładnie jeden plik wykonywalny i nie ma żadnej ścieżki awaryjnej, ponieważ build z upstreamu odpowiada na linię z wersją, a potem psuje każde kolejne polecenie. Dziesięć silników samych w sobie tego nie potrzebuje.",
+    signHeading: "Jak podpisany jest opublikowany build",
+    signBody:
+      "Bundle aplikacji wewnątrz obrazu niesie podpis Developer ID Application, flagę hardened runtime i bezpieczny znacznik czasu, a do tego jest w niego zszyty bilet notarizacji. Dlatego Gatekeeper pozwala go uruchomić bez niczyjej pomocy: spctl -a -vv -t install odpowiada accepted z source=Notarized Developer ID. Poniższy blok został odczytany z dokładnie tych bajtów, które v1.0.2 publikuje 2026-11-25 — uruchom pierwsze dwa polecenia względem aplikacji w /Applications, a w odpowiedzi powinieneś dostać tę samą tożsamość. Żadne konto Apple nie jest odpytywane i nic nie jest sprawdzane na serwerze, bo bilet jedzie na dysku razem z aplikacją.",
+    containerTitle: "Sam obraz nie jest podpisany",
+    containerBody:
+      "Uruchom spctl na pobranym .dmg, a odpowiedź to rejected z source=no usable signature; codesign -dvv mówi o tym samym pliku, że nie jest podpisany w ogóle. To oczekiwana odpowiedź, nie alarm o ingerencji. Podpis kodu Apple znajduje się na bundlu aplikacji, a bilet notarizacji jest zszyty z bundlem i z obrazem dysku wokół niego. Jedyną kontrolą integralności samego obrazu jest jego skrót SHA-256, czyli sprawdzenie opisane dalej na tej stronie.",
+    provenanceTitle: "Który skrypt produkuje który artefakt",
+    provenanceBody:
+      "Dwa skrypty pakują tę aplikację i nie kończą w tym samym miejscu. Scripts/build_dmg.sh — ten, który przepływ wydaniowy dla taga uruchamia na runnerze macOS, i ten, na którym kończą powyższe kroki budowania — podpisuje ad-hoc przez --sign - --timestamp=none i bez hardened runtime, więc build z tej ścieżki naprawdę wymaga pierwszego razem kliknięcia prawym przyciskiem i wybrania Open. Scripts/build-release.sh to ścieżka Developer ID: podpisuje z hardened runtime, zgłasza do notarizacji, zszywa bilet i z bundlem, i z obrazem, a potem odkłada ZIP obok manifestu SHA256SUMS.txt. Obraz, który pobierasz, powstał z tego drugiego skryptu, a runner, który nigdy nie trzymał certyfikatu, nie jest w stanie go wytworzyć.",
+    digestHeading: "Sprawdź skrót, zanim otworzysz cokolwiek",
+    digestBody:
+      "Dwa polecenia, uruchomione w folderze, do którego zapisałeś pliki. To względem manifestu wydania trzeba sprawdzać, bo wylicza on każdy artefakt wydania i zapisuje go ten sam krok, który je spakował, podczas gdy pojedynczy .dmg.sha256 dla jednego zasobu, opublikowany obok v1.0.2, podaje skrót, do którego nie haszuje żaden opublikowany zasób. Wydania i GitHub wypisują tę parę dla wydania, które akurat rozpoznają, a może ono być nowsze niż to poniżej.",
     copyCommand: "Kopiuj polecenie",
     commandCopied: "Skopiowano",
   },

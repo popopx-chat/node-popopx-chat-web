@@ -92,7 +92,7 @@ function downloadUrl(tag: string, asset: string): string {
   return `https://github.com/${RELEASE_REPO}/releases/download/${tag}/${asset}`;
 }
 
-function fallbackRelease(): ReleaseInfo {
+export function fallbackRelease(): ReleaseInfo {
   const entries: Array<[string, number]> = [
     [DMG_ASSET, FALLBACK_SIZE_BYTES],
     [SIDECAR_ASSET, 96],

@@ -125,6 +125,39 @@ export const fi: Dictionary = {
       },
     ],
   },
+  dashboard: {
+    badge:
+      "UI Preview — käyttöliittymän suunnittelumock-up, ei käynnissä oleva solmu",
+    heading: "Mitä konsoli näyttää, kun solmu on käynnissä",
+    sub:
+      "Sovelluksessa on yksi paikallinen web-konsoli, ja tämä on kuva sen tilanäkymästä: kone, jonka se löysi, yhtenäinen muisti, jonka se päätti varata, moottorit jotka se voi suorittaa pyynnöstä, ja puhelimet jotka se päästi sisään. Asettelu, sarakeotsikot ja laskenta ovat täsmälleen toimitetun tuotteen. Mikään tässä ei ole luettu käynnissä olevasta prosessista.",
+    machineLabel: "Esimerkkikone",
+    machineHint:
+      "Solmu lukee sirun, ytimien lukumäärän ja fyysisen muistin sysctl:stä käynnistyessään. Selain ei pysty lukemaan sitä sinun koneeltasi — navigator.deviceMemory on jokaisessa toteutuksessa rajattu korkeintaan 8 GB:hen — joten valitse yksi näistä kokoonpanoista, niin alla olevat luvut lasketaan uudelleen.",
+    statusHeading: "Tila",
+    statusConnected: "Yhdistetty",
+    daemonRunning: "Daemon käynnissä",
+    loopbackNote:
+      "Konsoli sitoutuu osoitteeseen 127.0.0.1 ja hylkää sidoksen 0.0.0.0-osoitteeseen, LAN-osoitteeseen tai isäntänimeen, joten se on tavoitettavissa ainoastaan tästä Macistä.",
+    memHeading: "Yhtenäisen muistin varaus",
+    memTotalLabel: "Yhtenäinen muisti",
+    memCeilingLabel: "Muistissa pysyvän katto",
+    memMeshLabel: "Mesh-katto",
+    memHeadroomLabel: "Työpöytäistunnolle jätetty",
+    usageLabel: "Moottorien työmuisti (arvio)",
+    servicesHeading: "Paikalliset moottorit ja palvelut",
+    servicesNote:
+      "Vasemmalla kymmenen moottoria ja kolme hyllyä joiden alle ne toimitetaan — sama luettelo jonka puhelimen valikko tulostaa. Oikealla kolme osoitetta jotka solmu tuntee: se jota se kuuntelee ja ne kaksi joihin se soittaa asiakkaana. Molemmat ovat kiinteitä luetteloita, eivät mittauksia, ja moottori on käynnissä ainoastaan jos otat sen käyttöön.",
+    devicesHeading: "Pariliitetyt laitteet",
+    deviceColumns: ["Laite", "Pariliitetty", "Viimeksi nähty", "Peruuta"],
+    devicesActive: "aktiivinen",
+    revoke: "Peruuta",
+    revokedRow: "peruutettu",
+    neverSeen: "ei koskaan nähty",
+    disclaimer:
+      "Tämä kortti on kuva, ei asiakas. Se ei avaa yhteyttä eikä lue prosesseja: koneen valitseminen soveltaa solmun julkaisemia tasosääntöjä omassa selaimessasi, ja Peruuta muuttaa ainoastaan sitä riviä jota katsot. Oikeassa konsolissa tuo painike merkitsee laitteen peruutetuksi — pariliitoksen valtuutus mitätöityy eikä sitä voi perua — hylkää sen komennot siitä hetkestä eikä pura chat-yhteyttä. Yksityisyys ja hallinta -sivu kertoo täsmälleen sen, mitä tuo painike ei tee.",
+  },
+
   node: {
     heading: "Solmu on tietokone, joka sinulla jo on",
     sub:
@@ -287,7 +320,7 @@ export const fi: Dictionary = {
       {
         title: "Tarkista DMG ja avaa se",
         body:
-          "Hae POPOPX-Mac-Node-Universal.dmg ja julkaisun tiivistetiedosto samaan kansioon ja tarkista ne ennen kuin avaat mitään; Julkaisut ja GitHub -sivu näyttää nykyisen julkaisun kaksi komentoa. Vedä POPOPX Mac Node.app kansioon /Applications. Julkaistu buildi tulee Developer ID -allekirjoituksen ja niitatun notarointitodistuksen kanssa, joten Gatekeeper hyväksyy sen ilman erillisiä toimia — spctl -a -vv -t install vastaa accepted ja source=Notarized Developer ID. Itse kääntämäsi buildi on sen sijaan ad-hoc-allekirjoitettu, ja juuri se vaatii ensimmäisellä käynnistyksellä oikean painikkeen “Open”-valintaa.",
+          "Hae POPOPX-Mac-Node-Universal.dmg ja julkaisun tiivistetiedosto samaan kansioon ja tarkista ne ennen kuin avaat mitään; Julkaisut ja GitHub -sivu näyttää nykyisen julkaisun kaksi komentoa. Vedä POPOPX Mac Node.app kansioon /Applications. Julkaistu buildi tulee Developer ID -allekirjoituksen ja niitatun notarointitodistuksen kanssa, joten Gatekeeper hyväksyy sen ilman erillisiä toimia — spctl -a -vv -t install vastaa accepted ja source=Notarized Developer ID. Tagin työkulun Scripts/build_dmg.sh:llä paketoima buildi ja itse samalla skriptillä kääntämäsi buildi ovat sen sijaan ad-hoc-allekirjoitettuja, ja juuri ne vaativat ensimmäisellä käynnistyksellä oikean painikkeen “Open”-valintaa.",
       },
       {
         title: "Anna sen profiloida kone",
@@ -337,6 +370,18 @@ export const fi: Dictionary = {
     requirementTitle: "Yksi reilu edellytys",
     requirementBody:
       "Solmun oman ohjatun asennuksen toinen vaihe, pariliitoksen QR-koodi ja SMP-silta tarvitsevat kaikki popopx-chat-ohjelman chat-daemonin PATH-polullasi. Solmu tutkii täsmälleen yhden suoritettavan tiedoston eikä sillä ole varamahdollisuutta, koska upstream-käännös vastaa versiokyselyyn mutta epäonnistuu sen jälkeen jokaisessa komennossa. Itse kymmenen moottoria eivät tarvitse sitä.",
+    signHeading: "Miten julkaistu buildi on allekirjoitettu",
+    signBody:
+      "Levykuvan sisällä olevassa sovelluspaketissa on Developer ID Application -allekirjoitus, hardened runtime -lippu ja suojattu aikaleima, ja siihen on niitattu notarointitodistus. Siksi Gatekeeper sallii sen suorittamisen ilman apua: spctl -a -vv -t install vastaa accepted ja source=Notarized Developer ID. Alla oleva lohko on luettu 2026-11-25 täsmälleen niistä tavuista, jotka v1.0.2 julkaisee — aja kaksi ensimmäistä komentoa kansiossa /Applications olevalle sovellukselle, ja sinun pitäisi saada takaisin sama identiteetti. Apple-tiliä ei kysytä eikä mitään tarkisteta palvelimelta, koska todistus kulkee levyllä sovelluksen mukana.",
+    containerTitle: "Itse levykuva ei ole allekirjoitettu",
+    containerBody:
+      "Jos ajat spctl:n ladatulle .dmg-tiedostolle, se vastaa rejected ja source=no usable signature; codesign -dvv sanoo, että sama tiedosto ei ole allekirjoitettu ollenkaan. Se on odotettu vastaus, ei hälytys manipuloinnista. Applen koodiallekirjoitus on sovelluspaketissa, kun taas notarointitodistus on niitattu sekä pakettiin että sitä ympäröivään levykuvaan. Levykuvan ainoaksi eheydenvalvonnaksi jää sen SHA-256, joka on tämä sivun alempana tehtävä tarkistus.",
+    provenanceTitle: "Kumpi skripti on tuottanut mikäkin lopputulos",
+    provenanceBody:
+      "Tätä sovellusta paketoivat kaksi skriptiä, eivätkä ne päätty samaan paikkaan. Scripts/build_dmg.sh — jota tagin julkaisutyönkulku ajaa macOS-ajajalla, ja siihen päättyvät yllä olevat rakennusvaiheet — allekirjoittaa ad-hoc arvoilla --sign - --timestamp=none eikä aseta hardened runtime -lippua, joten siitä polusta tuleva buildi todella vaatii ensimmäisellä käynnistyksellä oikean painikkeen “Open”-valintaa. Scripts/build-release.sh on Developer ID -polku: se allekirjoittaa hardened runtime -lippu päällä, lähettää notarointiin, niittaa todistuksen sekä pakettiin että levykuvaan ja kirjoittaa ZIP-paketin viereen SHA256SUMS.txt-taulukon. Latamasi levykuva tulee toisesta skriptistä, eikä macOS-ajaja, jolla ei ole koskaan ollut varmenetta hallussaan, voi tuottaa sitä.",
+    digestHeading: "Tarkista tiiviste ennen kuin avaat mitään",
+    digestBody:
+      "Kaksi komentoa, jotka ajetaan kansiossa johon tallensit tiedostot. Julkaisun taulukko on se tiedosto jota vastaan tarkistetaan, koska se nimeää jokaisen julkaisun lopputuloksen ja sen kirjoittaa sama vaihe joka paketoi ne, kun taas v1.0.2:n vieressä julkaistu yksittäisen tiedoston .dmg.sha256 nimeää tiivisteen, jota mikään julkaistu lopputulos ei vastaa. Julkaisut ja GitHub -sivu tulostaa parin sen julkaisun mukaan jonka se on ratkaissut, ja se voi olla uudempi kuin alla oleva.",
     copyCommand: "Kopioi komento",
     commandCopied: "Kopioitu",
   },

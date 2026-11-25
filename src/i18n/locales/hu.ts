@@ -127,6 +127,38 @@ export const hu: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview – a felület tervezési mockupja, nem egy élő node",
+    heading: "Ezt mutatja a konzol, amikor a node már fut",
+    sub:
+      "Az alkalmazás egyetlen helyi webes konzolt tartalmaz, és ez egy kép annak állapotképernyőjéről: a gép, amelyet megtalált, az az egységesített memória, amelyet le kíván foglalni, a motorok, amelyeknek a futtatását kérheted tőle, és a telefonok, amelyeket beengedett. Az elrendezés, az oszlopnevek és a számtani szabályok ugyanazok, mint a kiadott termékben. Ezek egyike sem egy élő folyamatból lett kiolvasva.",
+    machineLabel: "Mintagép",
+    machineHint:
+      "A node induláskor a sysctl-ből olvassa ki a lapkát, a magok számát és a fizikai memóriát. Egy böngésző a tiédet nem tudja kiolvasni – a navigator.deviceMemory minden megvalósításban 8 GB-re van korlátozva –, ezért válassz egyet az alábbi konfigurációk közül, és a számok újraszámolódnak.",
+    statusHeading: "Állapot",
+    statusConnected: "Csatlakozva",
+    daemonRunning: "A démon fut",
+    loopbackNote:
+      "A konzol a 127.0.0.1 címre köt ki, és elutasítja a 0.0.0.0-ra, egy helyihálózati címre vagy egy gépnévre történő kikötést, így csak erről a Macről érhető el.",
+    memHeading: "Az egységesített memória felosztása",
+    memTotalLabel: "Egységesített memória",
+    memCeilingLabel: "Memóriaplafon",
+    memMeshLabel: "Mesh-plafon",
+    memHeadroomLabel: "Fenntartás az asztali munkamenetnek",
+    usageLabel: "A motorok munkakészlete (becslés)",
+    servicesHeading: "Helyi motorok és szolgáltatások",
+    servicesNote:
+      "Balra a tíz motor és a három polc, amelyik alatt érkeznek – ugyanaz a katalógus, amelyet a telefon menüje nyomtat. Jobbra a három cím, amelyet a node ismer: az egy, amelyiken figyel, és a kettő, amelyet kliensként kezdeményez. Mindkettő rögzített lista, nem mérés, és egy motor csak akkor fut, ha bekapcsolod.",
+    devicesHeading: "Párosított eszközök",
+    deviceColumns: ["Eszköz", "Párosítva", "Utolsó megfigyelés", "Visszavonás"],
+    devicesActive: "aktív",
+    revoke: "Visszavonás",
+    revokedRow: "visszavonva",
+    neverSeen: "sosem jelent meg",
+    disclaimer:
+      "Ez a kártya egy kép, nem egy kliens. Nem nyit kapcsolatot és nem olvas ki folyamatot: egy gép kiválasztása a node közzétett szintszabályát alkalmazza a saját böngésződben, a Visszavonás pedig csak azon a soron változtat, amelyiket éppen nézed. Az igazi konzolban az a gomb visszavontnak jelöli az eszközt, onnantól eldobja a parancsait, és a chatkapcsolatot nem bontja le – az Adatvédelem és irányítás oldal pontosan azt írja le, amit nem tesz.",
+  },
+
   node: {
     heading: "A node egy olyan számítógép, amelyik már a tiéd",
     sub:
@@ -291,7 +323,7 @@ export const hu: Dictionary = {
       {
         title: "A DMG ellenőrzése és megnyitása",
         body:
-          "Vedd a POPOPX-Mac-Node-Universal.dmg fájlt és a kiadás ellenőrzőösszeg-fájlját ugyanabba a mappába, és ellenőrizd őket, mielőtt bármit megnyitsz; a Kiadások és GitHub szakaszban találod a két parancsot az aktuális kiadásra. Húzd át a POPOPX Mac Node.app alkalmazást az /Applications mappába. A közzétett build Developer ID-aláírással és a lemezképre rátűzött notarizációs jeggyel érkezik, ezért a Gatekeeper minden segítséged nélkül elfogadja — a spctl -a -vv -t install parancs az accepted választ adja, forrásként pedig a source=Notarized Developer ID van mellette. Ezzel szemben a magad építette build csak ad hoc aláírt, és valóban ahhoz kell az első indításkor a jobb klikkból választott megnyitás.",
+          "Vedd a POPOPX-Mac-Node-Universal.dmg fájlt és a kiadás ellenőrzőösszeg-fájlját ugyanabba a mappába, és ellenőrizd őket, mielőtt bármit megnyitsz; a Kiadások és GitHub szakaszban találod a két parancsot az aktuális kiadásra. Húzd át a POPOPX Mac Node.app alkalmazást az /Applications mappába. A közzétett build Developer ID-aláírással és a lemezképre rátűzött notarizációs jeggyel érkezik, ezért a Gatekeeper minden segítséged nélkül elfogadja — a spctl -a -vv -t install parancs az accepted választ adja, forrásként pedig a source=Notarized Developer ID van mellette. Ezzel szemben a címke-munkafolyamat – amely a Scripts/build_dmg.sh-val csomagol – buildje, és a magad építette build ugyanazzal a szkripttel, csak ad hoc aláírtak, és valóban ezekhez kell az első indításkor a jobb klikkból választott megnyitás.",
       },
       {
         title: "A gép profilalkotása",
@@ -341,6 +373,18 @@ export const hu: Dictionary = {
     requirementTitle: "Egy becsületes előfeltétel",
     requirementBody:
       "A node saját varázslójának 2. lépése, a párosítás QR-kódja és az SMP-híd egyaránt egy popopx-chat chat daemon-t igényel a PATH-odon. A node egyetlen futtatható fájlt vizsgál meg, és nincs tartalék útvonala, mert egy upstream build válaszol egy verziósorra, aztán minden utána jövő parancsra elbukik. A tíz motor maga nem igényli.",
+    signHeading: "Hogy van aláírva a közzétett build",
+    signBody:
+      "A lemezképen belül lévő alkalmazáscsomag Developer ID Application aláírást, a hardened runtime jelzőt és egy biztonságos időbélyeget hordoz, és rá van tűzve egy notarizációs jegy is. Ezért engedi futni a Gatekeeper minden segítség nélkül: a spctl -a -vv -t install parancs az accepted választ adja, forrásként pedig a source=Notarized Developer ID áll mellette. Az alábbi blokkot a v1.0.2 által közzétett pontos bájtokból olvastuk ki 2026-11-25-én – futtasd az első két parancsot az /Applications mappában lévő alkalmazáson, és ugyanezt az identitást kell visszaadnia. Egy Apple-fiókot sem kérdezünk meg, és szervert sem ellenőrzünk, mert a jegy az alkalmazással együtt a lemezen utazik.",
+    containerTitle: "Magát a lemezképet nem írják alá",
+    containerBody:
+      "Futtasd az spctl parancsot a letöltött .dmg fájlon, és a rejected választ adja, forrásként a source=no usable signature értékkel; a codesign -dvv pedig ugyanerről a fájlról azt mondja, hogy egyáltalán nincs aláírva. Ez a várt válasz, nem egy feltörésre utaló riasztás. Az Apple kódaláírása az alkalmazáscsomagon van, a notarizációs jegyet viszont mind a csomagra, mind az azt körülvevő lemezképre rá tűzik. A lemezkép egyetlen épségvizsgálata a saját SHA-256 értéke, ez az az ellenőrzés, amelyik ezen az oldalon lejjebb szerepel.",
+    provenanceTitle: "Melyik szkript melyik eredményt állítja elő",
+    provenanceBody:
+      "Két szkript csomagolja ezt az alkalmazást, és nem ugyanott végződnek. A Scripts/build_dmg.sh – azt futtatja le a tag workflow egy macOS futtatón, és ezzel végződnek a fenti buildelők is – ad-hoc módban írja alá a --sign - --timestamp=none kapcsolókkal, hardened runtime nélkül, ezért egy ezen az útvonalon épült buildnek valóban kell az első indításkori jobb klikkes megnyitás. A Scripts/build-release.sh a Developer ID-útvonal: hardened runtime-mal ír alá, beküldi a notarizációba, a jegyet mind a csomagra, mind a lemezképre rátűzi, és a ZIP-fájlt egy SHA256SUMS.txt jegyzék mellé írja. A letöltött lemezkép a második szkriptből jött, és egy olyan futtató, amelyik sosem tartotta a kezében a tanúsítványt, nem tudja előállítani.",
+    digestHeading: "Ellenőrizd az ellenőrzőösszeget, mielőtt bármit megnyitsz",
+    digestBody:
+      "Két parancs, abban a mappában futtatva, amelyikbe a fájlokat mentetted. A kiadási jegyzék az a fájl, amelyikhez viszonyítani kell, mert minden, a kiadásban szereplő eredményt néven nevesíti, és ugyanaz a lépés írja, amelyik a csomagokat elkészítette; ezzel szemben a v1.0.2 mellé közzétett, egyetlen assethez tartozó .dmg.sha256 egy olyan ellenőrzőösszeget nevez meg, amelyiket egyetlen közzétett asset sem adja ki. A Kiadások és GitHub szakasz azt a két parancsot írja ki, amelyik az éppen feloldott kiadáshoz tartozik – ez lehet újabb, mint amelyik alább szerepel.",
     copyCommand: "Parancs másolása",
     commandCopied: "Kimásolva",
   },

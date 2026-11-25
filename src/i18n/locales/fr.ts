@@ -148,6 +148,38 @@ export const fr: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview — maquette de design d'interface, pas un nœud réel en marche",
+    heading: "Ce que la console affiche une fois le nœud en marche",
+    sub:
+      "L'app embarque une seule console web locale, et ceci est une image de son écran d'état : la machine qu'elle a trouvée, la mémoire unifiée qu'elle a décidé de réserver, les moteurs qu'on peut lui demander d'exécuter et les téléphones qu'elle a laissés entrer. La disposition, les noms de colonnes et l'arithmétique sont ceux du produit livré. Rien ici n'est relevé d'un processus en marche.",
+    machineLabel: "Machine d'exemple",
+    machineHint:
+      "Au lancement, le nœud lit la puce, le nombre de cœurs et la mémoire physique dans sysctl. Un navigateur ne peut pas lire la vôtre — navigator.deviceMemory est plafonné à 8 GB dans toutes les implémentations — alors choisissez une de ces configurations et les chiffres en dessous se recalculent.",
+    statusHeading: "État",
+    statusConnected: "Connecté",
+    daemonRunning: "Démon en marche",
+    loopbackNote:
+      "La console se lie à 127.0.0.1 et refuse toute liaison sur 0.0.0.0, une adresse LAN ou un nom d'hôte : elle n'est donc atteignable que depuis ce Mac.",
+    memHeading: "Allocation de la mémoire unifiée",
+    memTotalLabel: "Mémoire unifiée",
+    memCeilingLabel: "Plafond résident",
+    memMeshLabel: "Plafond du mesh",
+    memHeadroomLabel: "Réservé à la session de bureau",
+    usageLabel: "Jeu de travail des moteurs (estimation)",
+    servicesHeading: "Moteurs et services locaux",
+    servicesNote:
+      "À gauche, les dix moteurs et les trois rayons sous lesquels ils sont livrés — le même catalogue que celui qu'imprime le menu du téléphone. À droite, les trois adresses que le nœud connaît : celle sur laquelle il écoute et les deux qu'il appelle en tant que client. Ce sont deux listes fixes, pas des mesures, et un moteur ne tourne que si vous l'activez.",
+    devicesHeading: "Appareils appairés",
+    deviceColumns: ["Appareil", "Appairé", "Dernière apparition", "Révoquer"],
+    devicesActive: "actifs",
+    revoke: "Révoquer",
+    revokedRow: "révoqué",
+    neverSeen: "jamais vu",
+    disclaimer:
+      "Cette carte est une image, pas un client. Elle n'ouvre aucune connexion et ne lit aucun processus : choisir une machine applique dans votre propre navigateur la règle de palier publiée par le nœud, et Révoquer ne change que la ligne que vous êtes en train de regarder. Dans la vraie console, ce bouton marque l'appareil comme révoqué, rejette ses commandes à partir de là et ne déchire pas la connexion de messagerie — Confidentialité et contrôle dit exactement ce que ce bouton ne fait pas.",
+  },
+
   node: {
     heading: "Un nœud est un ordinateur que vous possédez déjà",
     sub:
@@ -312,7 +344,7 @@ export const fr: Dictionary = {
       {
         title: "Vérifiez et ouvrez le DMG",
         body:
-          "Placez POPOPX-Mac-Node-Universal.dmg et le fichier d'empreintes de la version dans le même dossier et contrôlez-les avant d'ouvrir quoi que ce soit ; Versions et GitHub affiche les deux commandes pour la version courante. Glissez POPOPX Mac Node.app dans /Applications. La compilation publiée porte une signature Developer ID et un ticket de notarification agrafé, donc Gatekeeper l'accepte sans aide — spctl -a -vv -t install répond accepted avec source=Notarized Developer ID. Une compilation que vous faites vous-même est signée ad hoc, et celle-là exige bien un clic droit puis Ouvrir la première fois.",
+          "Placez POPOPX-Mac-Node-Universal.dmg et le fichier d'empreintes de la version dans le même dossier et contrôlez-les avant d'ouvrir quoi que ce soit ; Versions et GitHub affiche les deux commandes pour la version courante. Glissez POPOPX Mac Node.app dans /Applications. La compilation publiée porte une signature Developer ID et un ticket de notarification agrafé, donc Gatekeeper l'accepte sans aide — spctl -a -vv -t install répond accepted avec source=Notarized Developer ID. Une compilation issue du workflow d'étiquette, qui emballe avec Scripts/build_dmg.sh, et une compilation que vous faites vous-même avec ce même script sont signées ad hoc, et ce sont elles qui exigent un clic droit puis Ouvrir la première fois.",
       },
       {
         title: "Laissez le nœud profiler la machine",
@@ -362,6 +394,18 @@ export const fr: Dictionary = {
     requirementTitle: "Un seul prérequis, dit honnêtement",
     requirementBody:
       "L'étape 2 de l'assistant du nœud lui-même, le QR d'appairage et le pont SMP exigent un démon de messagerie popopx-chat sur votre PATH. Le nœud ne sonde qu'un seul exécutable et n'a aucun repli, parce qu'une compilation amont répond à la ligne de version puis rate toutes les commandes qui suivent. Les dix moteurs, eux, n'en ont pas besoin.",
+    signHeading: "Comment la compilation publiée est signée",
+    signBody:
+      "Le bundle d'applications à l'intérieur de l'image porte une signature Developer ID Application, l'indicateur hardened runtime et un horodatage sécurisé, et un ticket de notarification y est agrafé. C'est pourquoi Gatekeeper le laisse s'exécuter sans aide : spctl -a -vv -t install répond accepted avec source=Notarized Developer ID. Le bloc ci-dessous a été relevé sur les octets exacts publiés par v1.0.2 le 2026-11-25 — lancez les deux premières commandes contre l'app dans /Applications et vous devriez retrouver la même identité. Aucun compte Apple n'est consulté et rien n'est vérifié contre un serveur, parce que le ticket voyage sur le disque avec l'app.",
+    containerTitle: "L'image elle-même n'est pas signée",
+    containerBody:
+      "Lancez spctl sur le .dmg téléchargé et il répond rejected avec source=no usable signature ; codesign -dvv dit que ce même fichier n'est pas signé du tout. C'est la réponse attendue, pas une alerte de falsification. La signature de code d'Apple est sur le bundle d'applications, tandis que le ticket de notarification est agrafé au bundle et à l'image de disque qui l'entoure. Le seul contrôle d'intégrité de l'image est son SHA-256, qui est la vérification plus bas sur cette page.",
+    provenanceTitle: "Quel script produit quel artefact",
+    provenanceBody:
+      "Deux scripts conditionnent cette app et ils ne finissent pas au même endroit. Scripts/build_dmg.sh — ce que lance le flux de tag sur un exécuteur macOS, et ce sur quoi s'arrêtent les étapes de compilation ci-dessus — signe ad-hoc avec --sign - --timestamp=none et sans hardened runtime, donc une compilation venant de ce chemin exige bien un clic droit puis Ouvrir la première fois. Scripts/build-release.sh est le chemin Developer ID : il signe avec le hardened runtime, soumet à la notarification, agrafe le ticket au bundle et à l'image, et écrit le ZIP à côté d'un manifeste SHA256SUMS.txt. L'image que vous téléchargez vient du second script, et un exécuteur qui n'a jamais détenu le certificat ne peut pas la produire.",
+    digestHeading: "Contrôlez l'empreinte avant d'ouvrir quoi que ce soit",
+    digestBody:
+      "Deux commandes, à lancer dans le dossier où vous avez enregistré les fichiers. Le manifeste de la version est le fichier à utiliser pour le contrôle, parce qu'il nomme tous les artefacts de la version et qu'il est écrit par la même étape qui les a conditionnés, alors que le .dmg.sha256 à un seul fichier publié à côté de v1.0.2 nomme une empreinte qu'aucun artefact publié ne produit par hachage. Versions et GitHub affiche la paire pour la version qu'il a résolue, qui peut être plus récente que celle du dessous.",
     copyCommand: "Copier la commande",
     commandCopied: "Copié",
   },

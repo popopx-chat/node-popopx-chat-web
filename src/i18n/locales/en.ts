@@ -127,6 +127,38 @@ export const en: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview — interface design mock-up, not a live node",
+    heading: "What the console shows once the node is running",
+    sub:
+      "The app carries one local web console, and this is a picture of its status screen: the machine it found, the unified memory it decided to reserve, the engines it can be asked to run, and the phones it let in. The layout, the column names and the arithmetic are the shipped product's. Nothing here is read off a live process.",
+    machineLabel: "Sample machine",
+    machineHint:
+      "The node reads chip, core count and physical memory from sysctl on launch. A browser cannot read yours — navigator.deviceMemory is capped at 8 GB on every implementation — so pick one of these configurations and the figures below recompute.",
+    statusHeading: "Status",
+    statusConnected: "Connected",
+    daemonRunning: "Daemon running",
+    loopbackNote:
+      "The console binds 127.0.0.1 and refuses a bind on 0.0.0.0, a LAN address or a hostname, so it is reachable from this Mac only.",
+    memHeading: "Unified memory allocation",
+    memTotalLabel: "Unified memory",
+    memCeilingLabel: "Resident ceiling",
+    memMeshLabel: "Mesh ceiling",
+    memHeadroomLabel: "Kept for the desktop session",
+    usageLabel: "Engine working set (estimate)",
+    servicesHeading: "Local engines and services",
+    servicesNote:
+      "On the left, the ten engines and the three shelves they ship under — the same catalog the phone's menu prints. On the right, the three addresses the node knows about: the one it listens on and the two it dials as a client. Both are fixed lists, not measurements, and an engine runs only if you enable it.",
+    devicesHeading: "Paired devices",
+    deviceColumns: ["Device", "Paired", "Last seen", "Revoke"],
+    devicesActive: "active",
+    revoke: "Revoke",
+    revokedRow: "revoked",
+    neverSeen: "never seen",
+    disclaimer:
+      "This card is a picture, not a client. It opens no connection and reads no process: choosing a machine applies the node's published tier rule in your own browser, and Revoke changes only the row you are looking at. In the real console that button marks the device revoked, drops its commands from then on, and does not tear down the chat connection — Privacy & Control says exactly what it does not do.",
+  },
+
   node: {
     heading: "A node is a computer you already own",
     sub:
@@ -291,7 +323,7 @@ export const en: Dictionary = {
       {
         title: "Verify and open the DMG",
         body:
-          "Take POPOPX-Mac-Node-Universal.dmg and the release digest file into the same folder and check them before you open anything; Releases & GitHub prints the two commands for the current release. Drag POPOPX Mac Node.app to /Applications. The published build carries a Developer ID signature and a stapled notarization ticket, so Gatekeeper accepts it without help — spctl -a -vv -t install answers accepted with source=Notarized Developer ID. A build you make yourself is ad-hoc signed instead, and that one does want a right-click Open the first time.",
+          "Take POPOPX-Mac-Node-Universal.dmg and the release digest file into the same folder and check them before you open anything; Releases & GitHub prints the two commands for the current release. Drag POPOPX Mac Node.app to /Applications. The published build carries a Developer ID signature and a stapled notarization ticket, so Gatekeeper accepts it without help — spctl -a -vv -t install answers accepted with source=Notarized Developer ID. A build from the tag workflow, which packages with Scripts/build_dmg.sh, and a build you make yourself with that same script are ad-hoc signed instead, and that one does want a right-click Open the first time.",
       },
       {
         title: "Let it profile the machine",
@@ -341,6 +373,18 @@ export const en: Dictionary = {
     requirementTitle: "One honest prerequisite",
     requirementBody:
       "Step 2 of the node's own wizard, the pairing QR, and the SMP bridge all need a popopx-chat chat daemon on your PATH. The node probes exactly one executable and has no fallback, because an upstream build answers a version line and then fails every command after it. The ten engines themselves do not need it.",
+    signHeading: "How the published build is signed",
+    signBody:
+      "The application bundle inside the image carries a Developer ID Application signature, the hardened runtime flag and a secure timestamp, and a notarization ticket is stapled into it. That is why Gatekeeper lets it run with no help: spctl -a -vv -t install answers accepted with source=Notarized Developer ID. The block below was read off the exact bytes v1.0.2 publishes on 2026-11-25 — run the first two commands against the app in /Applications and you should get the same identity back. No Apple account is consulted and nothing is checked against a server, because the ticket travels on the disk with the app.",
+    containerTitle: "The image itself is not signed",
+    containerBody:
+      "Run spctl on the downloaded .dmg and it answers rejected with source=no usable signature; codesign -dvv says the same file is not signed at all. That is the expected answer, not a tamper alarm. Apple's code signature is on the application bundle, while the notarization ticket is stapled to the bundle and to the disk image around it. The image's one integrity control is its SHA-256, which is the check further down this page.",
+    provenanceTitle: "Which script produced which artifact",
+    provenanceBody:
+      "Two scripts package this app and they do not end at the same place. Scripts/build_dmg.sh — what the tag workflow runs on a macOS runner, and what the build steps above end with — signs ad-hoc with --sign - --timestamp=none and no hardened runtime, so a build from that path does want a right-click Open the first time. Scripts/build-release.sh is the Developer ID path: it signs with the hardened runtime, submits to notarization, staples the ticket to both the bundle and the image, and writes the ZIP beside a SHA256SUMS.txt manifest. The image you download came from the second script, and a runner that has never held the certificate cannot produce it.",
+    digestHeading: "Check the digest before you open anything",
+    digestBody:
+      "Two commands, run in the folder you saved the files to. The release manifest is the file to check against, because it names every artifact in the release and is written by the same step that packaged them, whereas the single-asset .dmg.sha256 published beside v1.0.2 names a digest that no published asset hashes to. Releases & GitHub prints the pair for whatever release it resolved, which may be newer than the one below.",
     copyCommand: "Copy command",
     commandCopied: "Copied",
   },

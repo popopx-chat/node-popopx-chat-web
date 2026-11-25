@@ -1,11 +1,25 @@
 import { useRef, useState } from "react";
-import { Check, CircleAlert, Copy, Terminal } from "lucide-react";
+import { Check, CircleAlert, Copy, Fingerprint, ShieldCheck, Terminal } from "lucide-react";
 import { GlassPanel } from "../components/GlassPanel";
 import { SectionHeading } from "../components/SectionHeading";
 import { useI18n } from "../i18n/translations";
 import { PREREQUISITES, WIRE } from "../data/nodeRuntime";
-import { DMG_ASSET, SIDECAR_ASSET, SUMS_ASSET } from "../data/release";
+import {
+  DMG_ASSET,
+  fallbackRelease,
+  SIDECAR_ASSET,
+  SUMS_ASSET,
+  verifyCommands,
+} from "../data/release";
+import { SIGNATURE_COMMANDS, SIGNATURE_EVIDENCE } from "../data/signing";
 import { RouteLink } from "../router";
+
+/**
+ * The digest commands on this page are the pinned release's, so the page renders them without
+ * waiting on the release feed; `/releases` prints the same pair for whatever it resolved.
+ */
+const PINNED_RELEASE = fallbackRelease();
+const DIGEST_COMMANDS = verifyCommands(PINNED_RELEASE);
 
 const BUILD_COMMANDS = [
   "swift build",
@@ -145,6 +159,74 @@ export function InstallPage() {
                 >
                   {dict.nav.releases}
                 </RouteLink>
+              </p>
+            </GlassPanel>
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+            <GlassPanel className="min-w-0 p-6 sm:p-7">
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck size={16} aria-hidden="true" className="text-brand-lift" />
+                <h3 className="text-[15.5px] font-semibold text-ink">{install.signHeading}</h3>
+              </div>
+              <p className="mt-3 text-pretty text-[13.5px] leading-relaxed text-ink-dim">
+                {install.signBody}
+              </p>
+              <ul className="mt-5 flex flex-col gap-2">
+                {SIGNATURE_COMMANDS.map((command) => (
+                  <CommandRow
+                    key={command}
+                    command={command}
+                    label={install.copyCommand}
+                    copied={copied}
+                    onCopy={onCopy}
+                  />
+                ))}
+              </ul>
+              <p className="mt-5 overflow-x-auto whitespace-pre border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute">
+                {SIGNATURE_EVIDENCE.join("\n")}
+              </p>
+              <div className="mt-5 space-y-4 border-t border-edge pt-4">
+                <div>
+                  <h4 className="text-[13.5px] font-semibold text-ink">
+                    {install.containerTitle}
+                  </h4>
+                  <p className="mt-1.5 text-pretty text-[13px] leading-relaxed text-ink-dim">
+                    {install.containerBody}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-[13.5px] font-semibold text-ink">
+                    {install.provenanceTitle}
+                  </h4>
+                  <p className="mt-1.5 text-pretty text-[13px] leading-relaxed text-ink-dim">
+                    {install.provenanceBody}
+                  </p>
+                </div>
+              </div>
+            </GlassPanel>
+
+            <GlassPanel className="min-w-0 p-6 sm:p-7">
+              <div className="flex items-center gap-2.5">
+                <Fingerprint size={16} aria-hidden="true" className="text-brand-haze" />
+                <h3 className="text-[15.5px] font-semibold text-ink">{install.digestHeading}</h3>
+              </div>
+              <p className="mt-3 text-pretty text-[13.5px] leading-relaxed text-ink-dim">
+                {install.digestBody}
+              </p>
+              <ul className="mt-5 flex flex-col gap-2">
+                {DIGEST_COMMANDS.map((command) => (
+                  <CommandRow
+                    key={command}
+                    command={command}
+                    label={install.copyCommand}
+                    copied={copied}
+                    onCopy={onCopy}
+                  />
+                ))}
+              </ul>
+              <p className="mt-5 border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute">
+                {PINNED_RELEASE.tag} · {DMG_ASSET} · {SUMS_ASSET}
               </p>
             </GlassPanel>
           </div>

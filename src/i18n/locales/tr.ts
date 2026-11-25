@@ -127,6 +127,38 @@ export const tr: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview — arayüz tasarım maketi, canlı bir düğüm durumu değil",
+    heading: "Düğüm çalışmaya başladığında konsolun gösterdikleri",
+    sub:
+      "Uygulama tek bir yerel web konsolu taşıyor ve bu, o konsolun durum ekranının bir görseli: düğümün bulduğu makine, ayırmaya karar verdiği birleşik bellek, çalıştırması istenebilecek motorlar ve içeri aldığı telefonlar. Düzen, sütun adları ve aritmetik yayımlanmış ürüne ait; buradaki hiçbir şey çalışan bir süreçten okunmadı.",
+    machineLabel: "Örnek makine",
+    machineHint:
+      "Düğüm çipi, çekirdek sayısını ve fiziksel belleği açılışta sysctl'den okur. Tarayıcı sizinkini okuyamaz — navigator.deviceMemory her uygulamada 8 GB ile sınırlı — o yüzden bu yapılandırmalardan birini seçin, aşağıdaki sayılar yeniden hesaplansın.",
+    statusHeading: "Durum",
+    statusConnected: "Bağlı",
+    daemonRunning: "Daemon çalışıyor",
+    loopbackNote:
+      "Konsol 127.0.0.1 adresine bağlanır ve 0.0.0.0, bir yerel ağ adresi ya da bir host adı üzerinden bağlanma girişimini reddeder; bu yüzden yalnızca bu Mac'ten erişilebilir.",
+    memHeading: "Birleşik bellek tahsisi",
+    memTotalLabel: "Birleşik bellek",
+    memCeilingLabel: "Kalıcı bellek tavanı",
+    memMeshLabel: "Mesh tavanı",
+    memHeadroomLabel: "Masaüstü oturumu için ayrılan",
+    usageLabel: "Motorların çalışma kümesi (tahmini)",
+    servicesHeading: "Yerel motorlar ve hizmetler",
+    servicesNote:
+      "Solda on motor ve altında dağıtıldıkları üç raf — telefonun menüsünün yazdırdığı katalogla aynı katalog. Sağda düğümün bildiği üç adres var: kendisinin dinlediği biri ve istemci olarak bağlandığı ikisi. İkisi de ölçüm değil, sabit liste; üstelik bir motor yalnızca siz etkinleştirirseniz çalışır.",
+    devicesHeading: "Eşleştirilmiş cihazlar",
+    deviceColumns: ["Cihaz", "Eşleştirme", "Son görülme", "İptal et"],
+    devicesActive: "etkin",
+    revoke: "İptal et",
+    revokedRow: "iptal edildi",
+    neverSeen: "hiç görülmedi",
+    disclaimer:
+      "Bu kart bir görsel, istemci değil. Hiçbir bağlantı açmıyor ve hiçbir süreç okumuyor: makine seçmek, düğümün yayımladığı katman kuralını yalnızca kendi tarayıcınızda uygular ve “İptal et” de baktığınız satırı değiştirir. Gerçek konsolda o düğme cihazı iptal edilmiş olarak işaretler, o andan itibaren komutlarını düşürür ve sohbet bağlantısını sökmez — tam olarak ne yapmadığını “Gizlilik ve denetim” sayfası anlatıyor.",
+  },
+
   node: {
     heading: "Düğüm, zaten sahip olduğunuz bir bilgisayardır",
     sub:
@@ -291,7 +323,7 @@ export const tr: Dictionary = {
       {
         title: "DMG dosyasını doğrula ve aç",
         body:
-          "POPOPX-Mac-Node-Universal.dmg ile sürümün sağlama değer dosyasını aynı klasöre alın ve hiçbir şeyi açmadan önce kontrol edin; Sürümler ve GitHub, o sürüm için gereken iki komutu yazar. POPOPX Mac Node.app'i /Applications klasörüne sürükleyin. Yayımlanan derleme bir Developer ID imzası ve dosyaya iliştirilmiş bir noter onay kaydı taşır, bu yüzden Gatekeeper ona ekstra bir şey yapmadan izin verir — spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını verir. Kendiniz derlediğiniz sürümün imzası ad-hoc'tur; ilk açılışta sağ tıklayıp “Aç” demenizi isteyen de odur.",
+          "POPOPX-Mac-Node-Universal.dmg ile sürümün sağlama değer dosyasını aynı klasöre alın ve hiçbir şeyi açmadan önce kontrol edin; Sürümler ve GitHub, o sürüm için gereken iki komutu yazar. POPOPX Mac Node.app'i /Applications klasörüne sürükleyin. Yayımlanan derleme bir Developer ID imzası ve dosyaya iliştirilmiş bir noter onay kaydı taşır, bu yüzden Gatekeeper ona ekstra bir şey yapmadan izin verir — spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını verir. Etiket iş akışının Scripts/build_dmg.sh ile paketleyip ürettiği derleme ile aynı betiği kendinizin çalıştırarak derlediği sürüm ad-hoc imzaladır; ilk açılışta sağ tıklayıp “Aç” demenizi isteyen de odur.",
       },
       {
         title: "Makinenin profilini çıkarmasına izin verin",
@@ -341,6 +373,18 @@ export const tr: Dictionary = {
     requirementTitle: "Tek dürüst ön koşul",
     requirementBody:
       "Düğümün kendi sihirbazının 2. adımı, eşleştirme QR kodu ve SMP köprüsü, hepsi PATH yolunda bir popopx-chat sohbet daemon'ı ister. Düğüm tam olarak bir çalıştırılabilir dosyayı yoklar ve yedeği yoktur; çünkü bir upstream derlemesi bir sürüm satırına yanıt verir, ardından gelen her komutta başarısız olur. On motorun kendisi buna ihtiyaç duymaz.",
+    signHeading: "Yayımlanan derleme nasıl imzalanıyor",
+    signBody:
+      "Görüntünün içindeki uygulama paketi bir Developer ID Application imzası, hardened runtime bayrağı ve güvenli bir zaman damgası taşıyor; bir noter onay kaydı da paketin içine iliştirilmiş durumda. Gatekeeper'ın hiçbir yardım olmadan çalışmasına izin vermesinin sebebi bu: spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını veriyor. Aşağıdaki blok, 2026-11-25 tarihinde v1.0.2'nin yayımladığı tam baytlardan okundu — ilk iki komutu /Applications içindeki uygulamaya karşı çalıştırın ve aynı kimliği geri almanız gerekir. Kayıt, uygulama ile birlikte diskte taşındığı için Apple hesabına danışılmaz ve hiçbir şey bir sunucuya karşı kontrol edilmez.",
+    containerTitle: "Görüntünün kendisi imzalı değil",
+    containerBody:
+      "İndirdiğiniz .dmg üzerinde spctl çalıştırırsanız source=no usable signature ile rejected yanıtı alırsınız; codesign -dvv ise aynı dosyanın hiç imzalanmadığını söyler. Bu beklenen yanıt, bir kurcalama uyarısı değil. Apple'ın kod imzası uygulama paketinin üstünde, noter onay kaydı ise hem pakete hem onu saran disk görüntüsüne iliştirilmiş. Görüntünün tek bütünlük denetimi kendi SHA-256 değeridir ve bu sayfanın aşağısında yapılan kontrol de odur.",
+    provenanceTitle: "Hangi betik hangi çıktıyı üretiyor",
+    provenanceBody:
+      "Bu uygulamayı iki betik paketliyor ve ikisi aynı yerde bitmiyor. Scripts/build_dmg.sh — üstteki derleme adımlarının vardığı yer ve etiket iş akışının bir macOS çalıştırıcısında yürüttüğü betik — hardened runtime olmadan, --sign - --timestamp=none ile ad-hoc imzalıyor; o yüzden bu yoldan çıkan bir derleme ilk açılışta gerçekten sağ tıklayıp “Aç” demenizi istiyor. Scripts/build-release.sh ise Developer ID yolu: hardened runtime ile imzalıyor, noter onayına gönderiyor, kaydı hem pakete hem görüntüye iliştiriyor ve ZIP dosyasını bir SHA256SUMS.txt listesinin yanına yazıyor. İndirdiğiniz görüntü ikinci betikten çıktı ve sertifikayı hiç elinde tutmamış bir çalıştırıcı onu üretemez.",
+    digestHeading: "Bir şeyi açmadan önce sağlama değerini kontrol edin",
+    digestBody:
+      "İki komut, dosyaları kaydettiğiniz klasörde çalıştırılıyor. Esas alınacak dosya sürüm listesidir: sürümdeki her çıktıyı adlandırıyor ve o dosyayı, çıktıları paketleyen aynı adım yazıyor. Oysa v1.0.2'nin yanına yayımlanan tek varlıklı .dmg.sha256, yayımlanmış hiçbir varlığın sağlama değeriyle uyuşmayan bir değer adlandırıyor. Sürümler ve GitHub, kendi çözdüğü sürüm için o iki komutu yazar ve bu, aşağıdaki sürümden daha yeni olabilir.",
     copyCommand: "Komutu kopyala",
     commandCopied: "Kopyalandı",
   },

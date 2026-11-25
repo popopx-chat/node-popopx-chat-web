@@ -160,6 +160,41 @@ export interface Dictionary {
     items: [LocalizedText, LocalizedText, LocalizedText];
   };
 
+  /**
+   * The console preview card on `/`. Every number in it is derived in
+   * `src/data/consolePreview.ts` from the node's own tier rules, and none of it comes from a
+   * running machine, so the wording carries that: a label may name what the real console names,
+   * but no string here may suggest the page is talking to anything.
+   */
+  dashboard: {
+    /** Always visible on the card face, not on hover. */
+    badge: string;
+    heading: string;
+    sub: string;
+    machineLabel: string;
+    machineHint: string;
+    statusHeading: string;
+    statusConnected: string;
+    daemonRunning: string;
+    loopbackNote: string;
+    memHeading: string;
+    memTotalLabel: string;
+    memCeilingLabel: string;
+    memMeshLabel: string;
+    memHeadroomLabel: string;
+    usageLabel: string;
+    servicesHeading: string;
+    /** Says what the two columns are: a catalog list and the fixed port table, not live state. */
+    servicesNote: string;
+    devicesHeading: string;
+    deviceColumns: [string, string, string, string];
+    devicesActive: string;
+    revoke: string;
+    revokedRow: string;
+    neverSeen: string;
+    disclaimer: string;
+  };
+
   node: {
     heading: string;
     sub: string;
@@ -236,6 +271,19 @@ export interface Dictionary {
     bridgeBody: string;
     requirementTitle: string;
     requirementBody: string;
+    /**
+     * The integrity pair on `/install`. The signing claims are read off the published artifact
+     * (`src/data/signing.ts` records the measurement and the recipe), and the digest copy must
+     * keep agreeing with `verifyCommands`, which emits exactly two commands.
+     */
+    signHeading: string;
+    signBody: string;
+    containerTitle: string;
+    containerBody: string;
+    provenanceTitle: string;
+    provenanceBody: string;
+    digestHeading: string;
+    digestBody: string;
     copyCommand: string;
     commandCopied: string;
   };

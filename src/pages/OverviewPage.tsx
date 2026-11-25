@@ -2,6 +2,7 @@ import { ArrowRight, HardDrive, Network } from "lucide-react";
 import { ArchitectureBentoSection } from "../components/ArchitectureBentoSection";
 import { GlassPanel } from "../components/GlassPanel";
 import { HeroSection } from "../components/HeroSection";
+import { NodeConsolePreviewSection } from "../components/NodeConsolePreviewSection";
 import { SectionHeading } from "../components/SectionHeading";
 import { useI18n } from "../i18n/translations";
 import { RouteLink } from "../router";
@@ -91,6 +92,8 @@ export function OverviewPage() {
       </section>
 
       <ArchitectureBentoSection />
+
+      <NodeConsolePreviewSection />
     </>
   );
 }

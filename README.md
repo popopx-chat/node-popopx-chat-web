@@ -13,10 +13,10 @@ Live: <https://node.popopx.chat> · Source: <https://github.com/popopx-chat/popo
 
 | Path | Destination |
 |---|---|
-| `/` | Hero, the network/machine split, the four entry points, architecture, FAQ |
+| `/` | Hero, the network/machine split, the four entry points, architecture, the console UI preview, FAQ |
 | `/node` | What a node is, the command wire, pairing, the listening ports |
 | `/features` | The ten engines and the Apple Silicon memory ladder, including the tier plans |
-| `/install` | Prerequisites, the five steps, building from the tag, upgrade/backup/removal, the bridge |
+| `/install` | Prerequisites, the five steps, building from the tag, how the published build is signed and how to check its digest, upgrade/backup/removal, the bridge |
 | `/security` | What stays on disk, what leaves, where the keys live, the off switch, the limits |
 | `/troubleshooting` | The observed faults as a symptom / cause / fix table |
 | `/releases` | Published assets, the verification commands, the pipeline, supported versus planned, the licence |
@@ -46,6 +46,8 @@ product will eventually contradict it.
 | The Apple Silicon memory ladder and the three tier rules | `PopopxMacNode/README.md`, with the band boundaries taken from `ComputeTier` in `MacNodeModels.swift` (`.light` below 48 GB, `.high` 48–95, `.flagship` from 96) |
 | The pairing code, the command wire, the ports, the data-root layout, the tier plans, the prerequisites | `src/data/nodeRuntime.ts`, read out of `MacNodeModels.swift`, `MacNodePopopxBridge.swift` and `HardwareProfilerAndInstaller.swift`, with the file:line citations kept in that file's comments |
 | The release version, asset URLs, sizes and digests | `https://api.github.com/repos/popopx-chat/popopx-mac-node/releases/latest`, with a pinned fallback whose digests were measured by downloading and hashing each published asset (`src/data/release.ts` records the table and the recipe) |
+| The console preview card on `/` | `src/data/consolePreview.ts` — the published `LADDER` rows with a numeric size attached, plus a port of `ComputeTier`, `ModelPlan.recommend` and `meshMemoryCeilingGB` from `MacNodeModels.swift`. The three device rows are fixtures in the real `PairedDevice` shape; the card labels itself a UI preview and requests nothing |
+| The signing state on `/install` | `src/data/signing.ts` — recorded `codesign`/`spctl`/`stapler` output from the published v1.0.2 bytes, with the mount-and-inspect recipe in that file's header and the same table under “How the published build is signed” below |
 | The three sibling portals in the ecosystem row | `src/data/ecosystem.ts`, checked with `curl -sIL --max-time 25` against each host's document title |
 | The 18 interface languages | `knownRegions` in `apps/ios/POPOPX.xcodeproj/project.pbxproj`, minus `Base`, which is an Xcode artefact rather than a locale |
 
@@ -79,6 +81,50 @@ curl -sL -o SUMS  https://github.com/popopx-chat/popopx-mac-node/releases/downlo
 curl -sL -o x.dmg https://github.com/popopx-chat/popopx-mac-node/releases/download/<tag>/POPOPX-Mac-Node-Universal.dmg
 shasum -a 256 x.dmg
 shasum -a 256 -c --ignore-missing SUMS
+```
+
+### How the published build is signed
+
+`/install` prints the signing state as measured, including the part that looks like a
+problem. Every value below is tool output read off the artifact, recorded on 2026-11-25
+against `POPOPX-Mac-Node-Universal.dmg` for v1.0.2 — the local build hashed to
+`a8d762867381bc5f6cac7aee4b528e6cee8ace46c4400c6be4cb8d09d94a1d36`, which is exactly the
+digest `src/data/release.ts` pins for the published asset, so these are the published bytes
+under inspection rather than a reconstruction of them. The same table, in code, is the
+comment header of `src/data/signing.ts`.
+
+| Probe | Answer |
+|---|---|
+| `codesign -dvv "POPOPX Mac Node.app"` | `Developer ID Application: gang sun (PDBA6XRBQT)` → `Developer ID Certification Authority` → `Apple Root CA`; `TeamIdentifier=PDBA6XRBQT`; `flags=0x10000(runtime)`; secure timestamp present; `Notarization Ticket=stapled` |
+| `codesign --verify --deep --strict` | `valid on disk`, `satisfies its Designated Requirement` |
+| `spctl -a -vv -t install` on the **.app** | `accepted` / `source=Notarized Developer ID` |
+| `xcrun stapler validate …dmg` | ticket validates |
+| `codesign -dvv` on the **.dmg container** | `code object is not signed at all` |
+| `spctl -a -vv` on the **.dmg container** | `rejected` / `source=no usable signature` |
+
+The last two rows are the reason the page explains itself. The application bundle is
+notarized; the UDIF image wrapped around it carries a stapled ticket but no code signature
+of its own, so a reader who runs `spctl` on the downloaded file gets `rejected` and needs to
+be told that is expected. The image's only integrity control is the SHA-256 above.
+
+Provenance, from the node repository: `Scripts/build_dmg.sh:615-619` signs ad-hoc
+(`--sign - --timestamp=none`, no hardened runtime) and `:780` expects `spctl` to reject that
+— and `.github/workflows/release.yml:115` runs only `build_dmg.sh`, so the tag pipeline
+publishes an ad-hoc image with a single-asset sidecar. `Scripts/build-release.sh` is the
+Developer ID path: it signs with the runtime flag, submits to notarization, staples the
+ticket to bundle and image, and writes the ZIP beside a `SHA256SUMS.txt` manifest. The
+container, ZIP and manifest that are actually on the release can only come from that second
+script, which needs the certificate, so a runner that never held it cannot produce them.
+
+Re-derive it from the image on your own machine:
+
+```sh
+hdiutil attach -readonly -nobrowse -mountpoint /tmp/ppx-node-dmg POPOPX-Mac-Node-Universal.dmg
+codesign -dvv "/tmp/ppx-node-dmg/POPOPX Mac Node.app"
+spctl -a -vv -t install "/tmp/ppx-node-dmg/POPOPX Mac Node.app"
+codesign -dvv POPOPX-Mac-Node-Universal.dmg
+spctl -a -vv POPOPX-Mac-Node-Universal.dmg
+hdiutil detach /tmp/ppx-node-dmg
 ```
 
 ## Zero tracking, by construction
@@ -220,3 +266,10 @@ engineering estimates derived from memory bandwidth and weight footprint, printe
 estimates and labelled as such in the table's own footnote. They are there to help a
 reader pick a tier, not to be quoted as a benchmark. The node's 1.1 plans to replace
 them with per-engine measurements taken on the machine in front of the reader.
+
+The console preview on `/` is a picture of an interface, not a status page. It is labelled
+`UI Preview` on its face in every locale, it requests nothing, and it never ticks: the
+machine rows are fixtures the reader selects, the ceilings are the node's published
+arithmetic applied to that selection, the engine list is the same catalog `/features`
+prints, and the port table is `nodeRuntime.ts`. What it does not have is a node — so no
+string in the `dashboard` block may read as if the page were reporting a running process.

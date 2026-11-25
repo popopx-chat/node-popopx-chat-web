@@ -127,6 +127,38 @@ export const nl: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview — mock-up van het interfaceontwerp, geen live node",
+    heading: "Wat de console toont zodra de node draait",
+    sub:
+      "De app brengt één lokale webconsole mee, en dit is een afbeelding van zijn statusscherm: de machine die hij vond, het unified memory dat hij besloot te reserveren, de engines die je hem kunt vragen te draaien, en de telefoons die hij binnenliet. De lay-out, de kolomnamen en de rekenregels zijn die van het product zoals het is uitgeleverd. Hier wordt niets afgelezen van een levend proces.",
+    machineLabel: "Voorbeeldmachine",
+    machineHint:
+      "Bij het opstarten leest de node chip, aantal kernen en fysiek geheugen uit sysctl. Een browser kan dat van de jouwe niet — navigator.deviceMemory is in elke implementatie begrensd op 8 GB — dus kies een van deze configuraties en de getallen hieronder worden opnieuw berekend.",
+    statusHeading: "Status",
+    statusConnected: "Verbonden",
+    daemonRunning: "Daemon draait",
+    loopbackNote:
+      "De console bindt op 127.0.0.1 en weigert een bind op 0.0.0.0, een LAN-adres of een hostname, dus hij is alleen vanaf deze Mac bereikbaar.",
+    memHeading: "Toewijzing van unified memory",
+    memTotalLabel: "Unified memory",
+    memCeilingLabel: "Plafond resident geheugen",
+    memMeshLabel: "Plafond mesh-geheugen",
+    memHeadroomLabel: "Ruimte voor de desktopsessie",
+    usageLabel: "Werkverzameling van de engines (schatting)",
+    servicesHeading: "Lokale engines en diensten",
+    servicesNote:
+      "Links de tien engines en de drie schappen waaronder ze worden uitgeleverd — dezelfde catalogus die het menu van de telefoon afdrukt. Rechts de drie adressen die de node kent: het ene waarop hij luistert en de twee die hij als client belt. Allebei vaste lijsten, geen metingen, en een engine draait alleen als je hem inschakelt.",
+    devicesHeading: "Gekoppelde apparaten",
+    deviceColumns: ["Apparaat", "Gekoppeld", "Laatst gezien", "Intrekken"],
+    devicesActive: "actief",
+    revoke: "Intrekken",
+    revokedRow: "ingetrokken",
+    neverSeen: "nooit gezien",
+    disclaimer:
+      "Deze kaart is een afbeelding, geen client. Hij opent geen verbinding en leest geen proces: een machine kiezen past alleen de gepubliceerde niveau-regel van de node toe in je eigen browser, en Intrekken verandert alleen de regel die je bekijkt. In de echte console markeert die knop het apparaat als ingetrokken, vallen zijn commando's vanaf dat moment weg, en wordt de chatverbinding er niet door verbroken — bij Privacy & controle staat precies wat die knop niet doet.",
+  },
+
   node: {
     heading: "Een node is een computer die je al bezit",
     sub:
@@ -291,7 +323,7 @@ export const nl: Dictionary = {
       {
         title: "De DMG verifiëren en openen",
         body:
-          "Neem POPOPX-Mac-Node-Universal.dmg en het digestbestand van de release in dezelfde map en controleer ze voordat je iets opent; bij Releases & GitHub staan de twee commando's voor de huidige release. Sleep POPOPX Mac Node.app naar /Applications. De gepubliceerde build draagt een Developer ID-ondertekening en er zit een genotarieerd ticket aan vast, dus Gatekeeper accepteert hem zonder hulp — spctl -a -vv -t install antwoordt accepted met source=Notarized Developer ID. Een build die je zelf maakt, wordt ad-hoc ondertekend, en juist die wil bij de eerste start een Open via rechtsklik.",
+          "Neem POPOPX-Mac-Node-Universal.dmg en het digestbestand van de release in dezelfde map en controleer ze voordat je iets opent; bij Releases & GitHub staan de twee commando's voor de huidige release. Sleep POPOPX Mac Node.app naar /Applications. De gepubliceerde build draagt een Developer ID-ondertekening en er zit een genotarieerd ticket aan vast, dus Gatekeeper accepteert hem zonder hulp — spctl -a -vv -t install antwoordt accepted met source=Notarized Developer ID. Een build uit de tag-workflow, die verpakt met Scripts/build_dmg.sh, en een build die je zelf met datzelfde script maakt, worden ad-hoc ondertekend, en juist die willen bij de eerste start een Open via rechtsklik.",
       },
       {
         title: "Laat de machine profileren",
@@ -341,6 +373,18 @@ export const nl: Dictionary = {
     requirementTitle: "Eén eerlijke voorwaarde",
     requirementBody:
       "Stap twee van de wizard van de node zelf, de koppelings-QR en de SMP-brug hebben alle drie op je PATH een popopx-chat-chatdaemon nodig. De node test precies één uitvoerbaar bestand en kent geen terugvalroute, want een upstream-build antwoordt wel op een versieregel maar laat daarna elk commando falen. De tien engines zelf hebben hem niet nodig.",
+    signHeading: "Hoe de gepubliceerde build ondertekend is",
+    signBody:
+      "Het application bundle in de image draagt een Developer ID Application-ondertekening, de vlag voor hardened runtime en een secure timestamp, en er is een notarisation-ticket in vastgemaakt. Daarom laat Gatekeeper hem zonder hulp draaien: spctl -a -vv -t install antwoordt accepted met source=Notarized Developer ID. Het blok hieronder is afgelezen van de exacte bytes die v1.0.2 op 2026-11-25 publiceert — draai de eerste twee commando's tegen de app in /Applications en je krijgt naar verwachting dezelfde identiteit terug. Er wordt geen Apple-account geraadpleegd en er wordt niets tegen een server gecontroleerd, want het ticket reist op de schijf mee met de app.",
+    containerTitle: "De image zelf is niet ondertekend",
+    containerBody:
+      "Draai spctl tegen de gedownloade .dmg en hij antwoordt rejected met source=no usable signature; codesign -dvv zegt dat datzelfde bestand helemaal niet ondertekend is. Dat is het verwachte antwoord, geen alarm over knoeien. De code-ondertekening van Apple staat op het application bundle, terwijl het notarisation-ticket aan het bundle en aan de schijfimage eromheen vastgemaakt is. De image heeft maar één integriteitscontrole: zijn SHA-256, en dat is de controle verder onderaan deze pagina.",
+    provenanceTitle: "Welk script welke artefact oplevert",
+    provenanceBody:
+      "Twee scripts verpakken deze app en ze komen niet op hetzelfde punt uit. Scripts/build_dmg.sh — het script dat de tag-workflow op een macOS-runner draait, en waar de buildstappen hierboven mee eindigen — signiert ad-hoc met --sign - --timestamp=none en zonder hardened runtime, dus een build uit dat pad wil bij de eerste start wél een Open via rechtsklik. Scripts/build-release.sh is het Developer ID-pad: het signiert met de hardened runtime, stuurt ter notarisation in, maakt het ticket vast aan zowel het bundle als de image, en schrijft de ZIP naast een SHA256SUMS.txt-manifest. De image die je downloadt kwam uit het tweede script, en een runner die het certificaat nooit in handen heeft gehad, kan hem niet opleveren.",
+    digestHeading: "Controleer het digest voordat je iets opent",
+    digestBody:
+      "Twee commando's, uitgevoerd in de map waarin je de bestanden hebt opgeslagen. Het manifest van de release is het bestand waartegen je controleert, want het noemt elk artefact in de release en wordt geschreven door dezelfde stap die ze verpakte, terwijl de .dmg.sha256 voor één asset die naast v1.0.2 gepubliceerd is, een digest noemt waar geen enkel gepubliceerd artefact op hasht. Releases & GitHub drukt het paar af voor de release die het op dat moment vindt, en die kan nieuwer zijn dan degene hieronder.",
     copyCommand: "Commando kopiëren",
     commandCopied: "Gekopieerd",
   },

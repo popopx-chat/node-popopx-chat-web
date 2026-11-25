@@ -60,7 +60,7 @@ export const zhHant: Dictionary = {
     digestCopied: "摘要已複製",
     verifyTitle: "開啟之前先驗證",
     verifyBody:
-      "把映像檔與發布頁的摘要檔放進同一個資料夾，在開啟任何東西之前先比對。摘要檔的形態因版本而異 —— 較新的發布提供 SHA256SUMS.txt 清單，較舊的只提供單一產物的 .sha256 —— 所以「發布與 GitHub」會針對你正在看的那個版本，列出正確的那兩條指令。",
+      "把映像檔與發布頁的摘要檔放進同一個資料夾，在開啟任何東西之前先比對。摘要檔的形態因版本而異 —— 較新的發布提供 SHA256SUMS.txt 清單，較舊的只提供單一產物的 .sha256 —— 所以「發布與原始碼」會針對你正在看的那個版本，列出正確的那兩條指令。",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "你自己的硬體",
@@ -125,6 +125,37 @@ export const zhHant: Dictionary = {
           "十個引擎、SMP 閘道、本機網頁控制台、GOP 與頻域隱形浮水印、算力點帳本，是同一棵 AGPL-3.0-only 原始碼樹。沒有閉源核心：盲簽憑證程式碼與密碼學登記表都在 popopxmq 裡，公開可查。",
       },
     ],
+  },
+
+  dashboard: {
+    badge: "介面設計示意（UI Preview），非即時執行狀態",
+    heading: "節點控制台介面示意",
+    sub:
+      "節點自帶一份本機網頁控制台，這裡是它狀態頁的示意圖：辨識到的機器、決定保留的統一記憶體、可被要求執行的引擎，以及放進來的手機。版面、欄名與演算都取自真實產品，沒有任何一項讀數來自執行中的程序。",
+    machineLabel: "示例機型",
+    machineHint:
+      "統一記憶體以 GB 計，取自 Apple Silicon 的常見配置；本機真實數值由控制台第一步讀 sysctl 得出。網頁 API（navigator.deviceMemory）為了指紋防護最多只回報 8 GB，所以示意裡的數字不可能來自瀏覽器。",
+    statusHeading: "執行狀態",
+    statusConnected: "已連線",
+    daemonRunning: "守護程序執行中",
+    loopbackNote: "控制台綁定在 127.0.0.1，並拒絕綁定到 0.0.0.0、區域網路位址或主機名稱，所以只有這台 Mac 能存取它。",
+    memHeading: "統一記憶體儀表",
+    memTotalLabel: "統一記憶體",
+    memCeilingLabel: "常駐上限",
+    memMeshLabel: "算力共享上限",
+    memHeadroomLabel: "留給桌面工作階段的餘裕",
+    usageLabel: "引擎工作集（估算）",
+    servicesHeading: "本機引擎與服務",
+    servicesNote:
+      "左邊是十個引擎與它們所屬的三個貨架，和手機選單印出的那份目錄相同；右邊是節點知道的三個位址——它自己監聽的那一個，以及它作為用戶端撥號的那兩個。兩份都是固定清單，不是量測結果，而且引擎只有你啟用才會執行。",
+    devicesHeading: "已配對裝置",
+    deviceColumns: ["裝置", "配對時間", "最後通訊", "撤銷"],
+    devicesActive: "活躍",
+    revoke: "撤銷",
+    revokedRow: "已撤銷",
+    neverSeen: "尚未通訊",
+    disclaimer:
+      "這張卡是示意圖，不是客戶端：它不建立任何連線，也不讀取任何程序。切換機型只是在你自己的瀏覽器裡套用節點公開的檔位規則，撤銷也只變動你正在看的這一行。真實控制台裡那個按鈕會把裝置標為已撤銷、從此丟棄它送來的指令，但不會切斷聊天連線——「隱私與控制」寫清了它不做什麼。",
   },
 
   node: {
@@ -291,7 +322,7 @@ export const zhHant: Dictionary = {
       {
         title: "驗證並開啟 DMG",
         body:
-          "把 POPOPX-Mac-Node-Universal.dmg 與發布頁的摘要檔取到同一個資料夾，在開啟任何東西之前先比對；「發布與 GitHub」會列出目前那個版本對應的兩條指令。再把 POPOPX Mac Node.app 拖進 /Applications。發布出來的建置帶著 Developer ID 簽章，以及一枚釘附在映像檔上的公證票據，所以 Gatekeeper 會自己放行 —— spctl -a -vv -t install 回答 accepted，source=Notarized Developer ID。你自己建置的那一份只有 ad-hoc 簽章，而那一個首次啟動確實需要右鍵選「打開」。",
+          "把 POPOPX-Mac-Node-Universal.dmg 與發布頁的摘要檔取到同一個資料夾，在開啟任何東西之前先比對；「發布與原始碼」會列出目前那個版本對應的兩條指令。再把 POPOPX Mac Node.app 拖進 /Applications。發布出來的建置帶著 Developer ID 簽章，以及一枚釘附在映像檔上的公證票據，所以 Gatekeeper 會自己放行 —— spctl -a -vv -t install 回答 accepted，source=Notarized Developer ID。標籤工作流在 runner 上跑的是 Scripts/build_dmg.sh，你自己建置用的也是這個腳本，兩條路出來的只有 ad-hoc 簽章，而那一個首次啟動確實需要右鍵選「打開」。",
       },
       {
         title: "讓它檢查這台機器",
@@ -341,6 +372,18 @@ export const zhHant: Dictionary = {
     requirementTitle: "一個誠實的前提",
     requirementBody:
       "節點自己精靈的第二步、配對 QR Code、還有 SMP 橋接，都需要 PATH 上有一個 popopx-chat 聊天守護行程。節點只探測一個可執行檔案，沒有任何備援：某個上游建置會先回應一行版本號，然後把之後每一條指令都弄失敗。十個引擎本身不需要它。",
+    signHeading: "目前發布版怎麼簽章",
+    signBody:
+      "映像檔裡的應用程式帶有 Developer ID Application 簽章、hardened runtime 旗標與安全時間戳，公證票據已釘附在套件內。所以 Gatekeeper 不需要你幫忙就會放行：spctl -a -vv -t install 回答 accepted、source=Notarized Developer ID。下面這塊是 2026-11-25 從 v1.0.2 實際發布的那份位元組裡讀出來的——把前兩條指令跑在 /Applications 裡的應用程式上，應該取回同一個身份。全程不查詢 Apple 帳號，也不向任何伺服器核對，因為票據就與應用程式一起帶在磁碟上。",
+    containerTitle: "映像檔本身沒有簽章",
+    containerBody:
+      "對下載的 .dmg 跑 spctl，它會回答 rejected、source=no usable signature；codesign -dvv 對同一個檔案說「完全沒有簽章」。這是預期答案，不是被竄改的警報。Apple 的簽章加在應用程式套件上，公證票據釘附在套件與外層磁碟映像檔上，而映像檔自身的完整性控制只有 SHA-256——就是這一頁往下那項檢查。",
+    provenanceTitle: "哪個腳本產出哪個成品",
+    provenanceBody:
+      "這個應用有兩條打包路徑，終點不同。Scripts/build_dmg.sh——標籤工作流在 macOS runner 上跑的就是它，也是本頁前面建置步驟的終點——用 --sign - --timestamp=none 做 ad-hoc 簽章，不開 hardened runtime，所以這條路產出的建置首次啟動確實需要右鍵選「打開」。Scripts/build-release.sh 是 Developer ID 路徑：帶 hardened runtime 簽章、提交公證、把票據釘附到應用程式與映像檔兩端，並在 ZIP 之外寫出 SHA256SUMS.txt。你下載到的映像檔出自第二個腳本；從未持有憑證的 runner 做不出它。",
+    digestHeading: "先核對摘要，再打開任何東西",
+    digestBody:
+      "兩條指令，在你儲存檔案的那個目錄裡跑。要對照的是發布清單：它列出該版本目錄下的每一個成品，且與打包在同一步寫出；而 v1.0.2 旁邊那份單檔 .dmg.sha256 寫著一個沒有任何已發布成品能對上哈希的摘要。「發布與原始碼」會依它解析到的版本印出這一對指令，可能比下面這個更新。",
     copyCommand: "複製指令",
     commandCopied: "已複製",
   },

@@ -127,6 +127,38 @@ export const cs: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview — maketa návrhu rozhraní, ne živý uzel",
+    heading: "Co konzole ukáže, když uzel běží",
+    sub:
+      "Aplikace obsahuje jedinou lokální webovou konzoli a tohle je obrázek její obrazovky stavu: stroj, který našla, sjednocená paměť, kterou se rozhodla vyhradit, enginy, které jí můžete nařídit, a telefony, které pustila dovnitř. Rozvržení, názvy sloupců i aritmetika jsou přesně ty z dodávaného výrobku. Nic z toho se nepřečetlo z běžícího procesu.",
+    machineLabel: "Ukázkový stroj",
+    machineHint:
+      "Uzel si při startu přečte z sysctl čip, počet jader a fyzickou paměť. Prohlížeč tu vaši přečíst neumí — navigator.deviceMemory je ve všech implementacích omezena na 8 GB — takže zvolte jednu z těchto konfigurací a čísla níže se přepočítají.",
+    statusHeading: "Stav",
+    statusConnected: "Připojeno",
+    daemonRunning: "Démon běží",
+    loopbackNote:
+      "Konzole se váže na 127.0.0.1 a bind na 0.0.0.0, adresu v LAN nebo hostitelské jméno odmítá, takže je dosažitelná jen z tohoto Macu.",
+    memHeading: "Příděl sjednocené paměti",
+    memTotalLabel: "Sjednocená paměť",
+    memCeilingLabel: "Strop rezidentní paměti",
+    memMeshLabel: "Strop meshu",
+    memHeadroomLabel: "Vyhrazeno pro desktopovou relaci",
+    usageLabel: "Pracovní množina enginů (odhad)",
+    servicesHeading: "Lokální enginy a služby",
+    servicesNote:
+      "Vlevo je deset enginů a tři police, pod kterými se dodávají — přesně ten katalog, který vypisuje menu telefonu. Vpravo jsou tři adresy, o kterých uzel ví: ta, na které poslouchá, a ty dvě, na které volá jako klient. Obojí jsou pevné seznamy, ne naměřená čísla, a engine běží jen tehdy, když ho zapnete.",
+    devicesHeading: "Spárovaná zařízení",
+    deviceColumns: ["Zařízení", "Spárováno", "Naposledy viděno", "Odvolat"],
+    devicesActive: "aktivní",
+    revoke: "Odvolat",
+    revokedRow: "odvoláno",
+    neverSeen: "nikdy neviděno",
+    disclaimer:
+      "Tenhle panel je obrázek, ne klient. Neotvírá žádné spojení a nečte žádný proces: vybrání stroje aplikuje ve vašem vlastním prohlížeči zveřejněné pravidlo stupňů uzlu a tlačítko Odvolat změní jen ten řádek, na který se díváte. V opravdové konzoli to tlačítko označí zařízení jako odvolané, od té chvíle zahazuje jeho příkazy a nerozbije spojení chatu — stránka Soukromí a kontrola přesně říká, co to nedělá.",
+  },
+
   node: {
     heading: "Uzel je počítač, který už máte",
     sub:
@@ -291,7 +323,7 @@ export const cs: Dictionary = {
       {
         title: "Ověřte a otevřete DMG",
         body:
-          "Vezměte POPOPX-Mac-Node-Universal.dmg a soubor s otisky vydání do stejné složky a zkontrolujte je, než něco otevřete; Vydání a GitHub vypíše ty dva příkazy pro aktuální vydání. Aplikaci POPOPX Mac Node.app přetáhněte do /Applications. Zveřejněné sestavení nese podpis Developer ID a v obrazu přiložený notarizační tiket, takže Gatekeeper ho přijme sám — spctl -a -vv -t install odpoví accepted se source=Notarized Developer ID. Sestavení, které si uděláte sami, má jen ad-hoc podpis, a právě to při prvním spuštění vyžaduje klik pravým tlačítkem a Otevřít.",
+          "Vezměte POPOPX-Mac-Node-Universal.dmg a soubor s otisky vydání do stejné složky a zkontrolujte je, než něco otevřete; Vydání a GitHub vypíše ty dva příkazy pro aktuální vydání. Aplikaci POPOPX Mac Node.app přetáhněte do /Applications. Zveřejněné sestavení nese podpis Developer ID a v obrazu přiložený notarizační tiket, takže Gatekeeper ho přijme sám — spctl -a -vv -t install odpoví accepted se source=Notarized Developer ID. Sestavení z workflow štítku, které balí přes Scripts/build_dmg.sh, i sestavení, které si uděláte sami týmž skriptem, mají jen ad-hoc podpis, a právě ta při prvním spuštění vyžadují klik pravým tlačítkem a Otevřít.",
       },
       {
         title: "Nechte ho změřit stroj",
@@ -341,6 +373,18 @@ export const cs: Dictionary = {
     requirementTitle: "Jedna poctivá podmínka",
     requirementBody:
       "Druhý krok průvodce samotného uzlu, párovací QR kód i SMP můstek potřebují demona chatu popopx-chat ve vaší proměnné PATH. Uzel zkouší přesně jeden spustitelný soubor a žádnou zálohu nemá, protože build z upstreamu sice odpoví na řádek s verzí, ale potom zkazí každý další příkaz. Samotných deset enginů ho nepotřebuje.",
+    signHeading: "Jak je podepsané zveřejněné sestavení",
+    signBody:
+      "Bundle aplikace uvnitř obrazu nese podpis Developer ID Application, příznak hardened runtime a bezpečné časové razítko a notarizační tiket je v něm přiložený. Proto Gatekeeper dovolí aplikaci spustit bez cizí pomoci: spctl -a -vv -t install odpoví accepted se source=Notarized Developer ID. Ten blok níže byl přečten z přesně těch bajtů, které vydání v1.0.2 zveřejnilo dne 2026-11-25 — spusťte ty první dva příkazy proti aplikaci v /Applications a měli byste dostat tu samou identitu. Žádný účet Apple se na nic neptá a nic se nekontroluje proti serveru, protože tiket jede na disku spolu s aplikací.",
+    containerTitle: "Samotný obraz podepsaný není",
+    containerBody:
+      "Spusťte spctl na staženém .dmg a odpoví rejected se source=no usable signature; codesign -dvv řekne o témže souboru, že není podepsaný vůbec. To je očekávaná odpověď, ne poplach o manipulaci. Podpis kódu od Applu je na bundle aplikace, zatímco notarizační tiket je přiložený na bundle i na diskový obraz kolem něj. Jedinou kontrolou integrity obrazu je jeho SHA-256, což je ta kontrola níže na této stránce.",
+    provenanceTitle: "Který skript vyrobil který artifact",
+    provenanceBody:
+      "Tuhle aplikaci balí dva skripty a nekončí na stejném místě. Scripts/build_dmg.sh — ten, který spouští workflow ze tagu na runneru s macOS, a ten, kterým končí i kroky sestavení výše — podepisuje ad-hoc pomocí --sign - --timestamp=none a bez hardened runtime, takže sestavení z téhle cesty při prvním spuštění opravdu chce klik pravým tlačítkem a Otevřít. Scripts/build-release.sh je ta cesta Developer ID: podepisuje s hardened runtime, podává to k notarizaci, přiloží tiket na bundle i na obraz a napíše ZIP vedle manifestu SHA256SUMS.txt. Obraz, který stahujete, vzešel z toho druhého skriptu a runner, který certifikát nikdy neměl v ruce, ho nedokáže vyrobit.",
+    digestHeading: "Zkontrolujte otisk, než něco otevřete",
+    digestBody:
+      "Dva příkazy, spusťte je ve složce, do které soubory uložíte. Kontrolovat se má proti manifestu vydání, protože ten jmenuje každý artifact vydání a zapisuje ho stejný krok, který je zabalil — kdežto .dmg.sha256 pro jedinou přílohu, zveřejněný vedle v1.0.2, jmenuje otisk, který neodpovídá hash žádné zveřejněné přílohy. Vydání a GitHub vypíše tu dvojici pro jakékoli vydání, které právě vyhledalo, a ono může být novější než to níže.",
     copyCommand: "Zkopírovat příkaz",
     commandCopied: "Zkopírováno",
   },

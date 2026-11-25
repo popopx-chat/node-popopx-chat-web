@@ -127,6 +127,37 @@ export const zhHans: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "界面设计示意（UI Preview），非实时运行状态",
+    heading: "节点控制台界面示意",
+    sub:
+      "节点自带一份本地网页控制台，这里是它状态页的示意图：识别到的机器、决定预留的统一内存、可被要求运行的引擎，以及放行进来的手机。版式、列名与算法都取自真实产品，没有任何一项读数来自运行中的进程。",
+    machineLabel: "示例机型",
+    machineHint:
+      "统一内存以 GB 计，取自 Apple Silicon 的常见配置；本机真实数值由控制台第一步读 sysctl 得出。网页 API（navigator.deviceMemory）出于指纹保护最多只报 8 GB，所以示意里的数字不可能来自浏览器。",
+    statusHeading: "运行状态",
+    statusConnected: "已连接",
+    daemonRunning: "守护进程运行中",
+    loopbackNote: "控制台绑定在 127.0.0.1，并且拒绝绑定到 0.0.0.0、局域网地址或主机名，所以只有这台 Mac 能访问它。",
+    memHeading: "统一内存仪表盘",
+    memTotalLabel: "统一内存",
+    memCeilingLabel: "常驻上限",
+    memMeshLabel: "算力共享上限",
+    memHeadroomLabel: "留给桌面会话的余量",
+    usageLabel: "引擎工作集（估算）",
+    servicesHeading: "本地引擎与服务",
+    servicesNote:
+      "左边是十个引擎和它们所属的三个货架，与手机菜单印出的那份目录相同；右边是节点知道的三个地址——它自己监听的那一个，以及它作为客户端拨号的那两个。两份都是固定清单，不是测量结果，而且引擎只有你启用才会执行。",
+    devicesHeading: "已配对设备",
+    deviceColumns: ["设备", "配对时间", "最后通信", "撤销"],
+    devicesActive: "活跃",
+    revoke: "撤销",
+    revokedRow: "已撤销",
+    neverSeen: "尚未通信",
+    disclaimer:
+      "这张卡是示意图，不是客户端：它不建立任何连接，也不读取任何进程。切换机型只是在你自己的浏览器里套用节点公开的档位规则，撤销也只改动你正在看的这一行。真实控制台里那个按钮会把设备标为已撤销、从此丢弃它发来的指令，但不会切断聊天连接——「隐私与控制」写清了它不做什么。",
+  },
+
   node: {
     heading: "节点就是你已经拥有的一台电脑",
     sub:
@@ -291,7 +322,7 @@ export const zhHans: Dictionary = {
       {
         title: "校验并打开 DMG",
         body:
-          "从 Releases 取 POPOPX-Mac-Node-Universal.dmg 和发布页的摘要文件，放进同一个目录，打开任何东西之前先校验；「发布与源码」会印出当前版本对应的两条命令。再把 POPOPX Mac Node.app 拖进 /Applications。发布出去的构建带 Developer ID 签名和已经 staple 的公证票据，Gatekeeper 会直接放行 —— spctl -a -vv -t install 回答 accepted、source=Notarized Developer ID。而你自己构建出来的是 ad-hoc 签名，那一个首次启动确实需要右键选「打开」。",
+          "从 Releases 取 POPOPX-Mac-Node-Universal.dmg 和发布页的摘要文件，放进同一个目录，打开任何东西之前先校验；「发布与源码」会印出当前版本对应的两条命令。再把 POPOPX Mac Node.app 拖进 /Applications。发布出去的构建带 Developer ID 签名和已经 staple 的公证票据，Gatekeeper 会直接放行 —— spctl -a -vv -t install 回答 accepted、source=Notarized Developer ID。而标签工作流在 runner 上跑的是 Scripts/build_dmg.sh，你自己构建用的也是这个脚本，两条路出来的是 ad-hoc 签名，那一个首次启动确实需要右键选「打开」。",
       },
       {
         title: "让它体检这台机器",
@@ -341,6 +372,18 @@ export const zhHans: Dictionary = {
     requirementTitle: "一个诚实的前提",
     requirementBody:
       "节点自己向导的第 2 步、配对二维码、还有 SMP 桥接，都需要 PATH 上有一个 popopx-chat 聊天守护进程。节点只探测一个可执行文件，没有任何回退：上游构建会先答一行版本号，然后把之后每一条指令都跑失败。十个引擎本身不需要它。",
+    signHeading: "当前发布版怎么签名",
+    signBody:
+      "镜像里的应用带有 Developer ID Application 签名、hardened runtime 标志与安全时间戳，公证票据已 staple 进包内。所以 Gatekeeper 不需要你帮忙就放行：spctl -a -vv -t install 回答 accepted、source=Notarized Developer ID。下面这块是 2026-11-25 从 v1.0.2 实际发布的那份字节里读出来的——把前两条命令跑在 /Applications 里的应用上，应当拿回同一个身份。全程不查询 Apple 账号，也不向任何服务器核对，因为票据就随应用一起带在盘上。",
+    containerTitle: "镜像本身没有签名",
+    containerBody:
+      "对下载的 .dmg 跑 spctl，它会回答 rejected、source=no usable signature；codesign -dvv 对同一个文件说「完全没有签名」。这是预期答案，不是被篡改的警报。Apple 的签名加在应用包上，公证票据钉在包和外层磁盘镜像上，而镜像自身的完整性控制只有 SHA-256——就是这一页往下那项检查。",
+    provenanceTitle: "哪个脚本产出哪个产物",
+    provenanceBody:
+      "这个应用有两条打包路径，终点不同。Scripts/build_dmg.sh——标签工作流在 macOS runner 上跑的就是它，也是本页前面构建步骤的终点——用 --sign - --timestamp=none 做临时签名，不开 hardened runtime，所以这条路径产出的构建第一次打开确实需要右键「打开」。Scripts/build-release.sh 是 Developer ID 路径：带 hardened runtime 签名、提交公证、把票据钉到应用和镜像两端，并在 ZIP 之外写出 SHA256SUMS.txt。你下载到的镜像出自第二个脚本；从未持有证书的 runner 做不出它。",
+    digestHeading: "先校验摘要，再打开任何东西",
+    digestBody:
+      "两条命令，在你保存文件的目录里跑。要对照的是发布清单：它列出该版本目录下的每一个产物，且与打包在同一步写出；而 v1.0.2 旁边那份单文件 .dmg.sha256 写着一个没有任何已发布产物能对上哈希的摘要。「发布与源码」会按它解析到的版本打印这一对命令，可能比下面这个更新。",
     copyCommand: "复制命令",
     commandCopied: "已复制",
   },

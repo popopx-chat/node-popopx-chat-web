@@ -148,6 +148,38 @@ export const it: Dictionary = {
     ],
   },
 
+  dashboard: {
+    badge: "UI Preview — mock-up di design dell'interfaccia, non un nodo in funzione",
+    heading: "Cosa mostra la console quando il nodo è in esecuzione",
+    sub:
+      "L'app porta una sola console web locale, e questa è un'immagine della sua schermata di stato: la macchina che ha trovato, la memoria unificata che ha deciso di riservare, i motori che le si può chiedere di eseguire, e i telefoni a cui ha dato accesso. Il layout, i nomi delle colonne e l'aritmetica sono quelli del prodotto distribuito. Niente, qui, è letto da un processo in esecuzione.",
+    machineLabel: "Macchina di esempio",
+    machineHint:
+      "Il nodo legge chip, numero di core e memoria fisica da sysctl all'avvio. Un browser non può leggere la tua — navigator.deviceMemory è limitato a 8 GB in ogni implementazione — quindi scegli una di queste configurazioni e i numeri qui sotto si ricalcolano.",
+    statusHeading: "Stato",
+    statusConnected: "Connesso",
+    daemonRunning: "Demone in esecuzione",
+    loopbackNote:
+      "La console si lega a 127.0.0.1 e rifiuta un bind su 0.0.0.0, su un indirizzo LAN o su un nome host, quindi è raggiungibile solo da questo Mac.",
+    memHeading: "Allocazione della memoria unificata",
+    memTotalLabel: "Memoria unificata",
+    memCeilingLabel: "Limite residente",
+    memMeshLabel: "Limite mesh",
+    memHeadroomLabel: "Riservata alla sessione desktop",
+    usageLabel: "Working set dei motori (stima)",
+    servicesHeading: "Motori e servizi locali",
+    servicesNote:
+      "A sinistra i dieci motori e i tre scaffali sotto cui vengono distribuiti — lo stesso catalogo che stampa il menu del telefono. A destra i tre indirizzi che il nodo conosce: quello su cui ascolta e i due che chiama come client. Sono entrambe liste fisse, non misurazioni, e un motore funziona solo se lo abiliti.",
+    devicesHeading: "Dispositivi abbinati",
+    deviceColumns: ["Dispositivo", "Abbinato", "Visto l'ultima volta", "Revoca"],
+    devicesActive: "attivo",
+    revoke: "Revoca",
+    revokedRow: "revocato",
+    neverSeen: "mai visto",
+    disclaimer:
+      "Questa scheda è un'immagine, non un client. Non apre alcuna connessione e non legge alcun processo: scegliere una macchina applica la regola dei livelli pubblicata dal nodo, nel tuo browser, e Revoca cambia solo la riga che stai guardando. Nella console vera quel pulsante segna il dispositivo come revocato, da allora in poi scarta i suoi comandi, e non interrompe la connessione di chat — “Riservatezza e controllo” dice esattamente cosa quel pulsante non fa.",
+  },
+
   node: {
     heading: "Un nodo è un computer che possiedi già",
     sub:
@@ -312,7 +344,7 @@ export const it: Dictionary = {
       {
         title: "Verifica e apri il DMG",
         body:
-          "Metti POPOPX-Mac-Node-Universal.dmg e il file delle impronte della versione nella stessa cartella e controllali prima di aprire qualsiasi cosa; Versioni e GitHub stampa i due comandi per la versione corrente. Trascina POPOPX Mac Node.app in /Applications. La build pubblicata porta una firma Developer ID e un ticket di notarizzazione allegato, quindi Gatekeeper la accetta senza aiuto — spctl -a -vv -t install risponde accepted with source=Notarized Developer ID. Una build che fai tu è firmata in via ad hoc, e quella sì che vuole un clic destro con Apri la prima volta.",
+          "Metti POPOPX-Mac-Node-Universal.dmg e il file delle impronte della versione nella stessa cartella e controllali prima di aprire qualsiasi cosa; Versioni e GitHub stampa i due comandi per la versione corrente. Trascina POPOPX Mac Node.app in /Applications. La build pubblicata porta una firma Developer ID e un ticket di notarizzazione allegato, quindi Gatekeeper la accetta senza aiuto — spctl -a -vv -t install risponde accepted with source=Notarized Developer ID. Una build dal workflow del tag, che pacchettizza con Scripts/build_dmg.sh, e una build che fai tu con quello stesso script sono firmate in via ad hoc, e quelle sì che vogliono un clic destro con Apri la prima volta.",
       },
       {
         title: "Lascialo profilare la macchina",
@@ -362,6 +394,18 @@ export const it: Dictionary = {
     requirementTitle: "Un solo prerequisito, detto onestamente",
     requirementBody:
       "Il secondo passo della procedura del nodo stesso, il QR di abbinamento e il ponte SMP richiedono un demone chat popopx-chat nel tuo PATH. Il nodo verifica un unico eseguibile e non ha alternativa, perché una build upstream risponde a una riga di versione e poi fallisce ogni comando successivo. I dieci motori in sé non ne hanno bisogno.",
+    signHeading: "Come è firmata la build pubblicata",
+    signBody:
+      "Il bundle applicativo dentro l'immagine porta una firma Developer ID Application, il flag hardened runtime e un timestamp sicuro, e al suo interno è allegato un ticket di notarizzazione. È per questo che Gatekeeper lo esegue senza aiuto: spctl -a -vv -t install risponde accepted con source=Notarized Developer ID. Il blocco qui sotto è stato letto il 2026-11-25 dai byte esatti che v1.0.2 pubblica — esegui i primi due comandi sull'app in /Applications e dovresti riottenere la stessa identità. Nessun account Apple viene consultato e nulla viene verificato contro un server, perché il ticket viaggia sul disco insieme all'app.",
+    containerTitle: "L'immagine in sé non è firmata",
+    containerBody:
+      "Esegui spctl sul .dmg scaricato e risponde rejected con source=no usable signature; codesign -dvv dice che quello stesso file non è firmato affatto. È la risposta attesa, non un allarme di manomissione. La firma del codice di Apple sta sul bundle applicativo, mentre il ticket di notarizzazione è allegato sia al bundle sia all'immagine del disco che lo avvolge. L'unico controllo di integrità dell'immagine è il suo SHA-256, ed è la verifica più avanti in questa pagina.",
+    provenanceTitle: "Quale script produce quale artefatto",
+    provenanceBody:
+      "Due script confezionano questa app, e non finiscono nello stesso punto. Scripts/build_dmg.sh — quello che il workflow dei tag esegue su un runner macOS, e il punto in cui finiscono i passi di costruzione qui sopra — firma ad-hoc con --sign - --timestamp=none e senza hardened runtime, quindi una build di quel percorso sì che la prima volta richiede un clic destro con Apri. Scripts/build-release.sh è il percorso Developer ID: firma con hardened runtime, sottopone alla notarizzazione, allega il ticket sia al bundle sia all'immagine e scrive lo ZIP accanto a un manifest SHA256SUMS.txt. L'immagine che scarichi viene dal secondo script, e un runner che non ha mai detenuto il certificato non può produrla.",
+    digestHeading: "Controlla l'impronta prima di aprire qualsiasi cosa",
+    digestBody:
+      "Due comandi, da eseguire nella cartella in cui hai salvato i file. Il manifest della versione è il file contro cui verificare, perché nomina ogni artefatto della versione ed è scritto dallo stesso passo che li ha confezionati; il .dmg.sha256 a un solo file, pubblicato accanto a v1.0.2, nomina invece un'impronta che non corrisponde all'hash di alcun asset pubblicato. Versioni e GitHub stampa la coppia di comandi per la versione che riesce a risolvere, che potrebbe essere più recente di quella qui sotto.",
     copyCommand: "Copia il comando",
     commandCopied: "Copiato",
   },
