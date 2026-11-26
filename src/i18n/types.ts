@@ -211,12 +211,44 @@ export interface Dictionary {
       signature: string;
       delivery: string;
     };
+    /**
+     * The sealed `/i/v1/` envelope. The shape and every cryptographic fact come from
+     * `src/data/edgeHub.ts`, which reads them out of `OpaquePairingCodec.swift`; the
+     * dictionary only carries the labels and the explanation of what the envelope does
+     * and does not promise.
+     */
+    sealedHeading: string;
+    sealedSub: string;
+    sealedShapeLabel: string;
+    sealedFacts: {
+      kdf: string;
+      cipher: string;
+      nonce: string;
+      caps: string;
+    };
+    sealedBody: string;
     portsHeading: string;
     portsSub: string;
     portsColumns: [string, string, string, string, string];
     portsOwner: { node: string; tool: string; daemon: string };
     portsPurpose: { console: string; inference: string; control: string };
     portsFootnote: string;
+  };
+
+  /**
+   * The source-line edge-hub bridges, shown on `/features`. Every limit and protocol name is in
+   * `src/data/edgeHub.ts`; this block is only prose. The badge and status exist because
+   * the bridges are on `main` but not yet in the signed v1.0.2 download.
+   */
+  hub: {
+    badge: string;
+    heading: string;
+    sub: string;
+    status: string;
+    cards: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    boundaryHeading: string;
+    boundaryItems: [LocalizedText, LocalizedText, LocalizedText];
+    footnote: string;
   };
 
   engines: {
@@ -310,6 +342,14 @@ export interface Dictionary {
       config: string;
     };
     rootLabel: string;
+    /**
+     * The edge hub's boundary. The four items are the admission rule, the receipt, the
+     * secret store and the data minimum — the parts of the source-line bridges that belong
+     * on a privacy page rather than a feature list.
+     */
+    hubHeading: string;
+    hubSub: string;
+    hubItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
     controlHeading: string;
     controlSub: string;
     controls: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];

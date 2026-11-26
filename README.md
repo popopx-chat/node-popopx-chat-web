@@ -46,6 +46,7 @@ product will eventually contradict it.
 | The Apple Silicon memory ladder and the three tier rules | `PopopxMacNode/README.md`, with the band boundaries taken from `ComputeTier` in `MacNodeModels.swift` (`.light` below 48 GB, `.high` 48–95, `.flagship` from 96) |
 | The pairing code, the command wire, the ports, the data-root layout, the tier plans, the prerequisites | `src/data/nodeRuntime.ts`, read out of `MacNodeModels.swift`, `MacNodePopopxBridge.swift` and `HardwareProfilerAndInstaller.swift`, with the file:line citations kept in that file's comments |
 | The release version, asset URLs, sizes and digests | `https://api.github.com/repos/popopx-chat/popopx-mac-node/releases/latest`, with a pinned fallback whose digests were measured by downloading and hashing each published asset (`src/data/release.ts` records the table and the recipe) |
+| The five source-line capabilities on `/features` and `/security` — discovery, MCP, Home Assistant/MQTT, CalDAV, sealed pairing — and every limit, protocol name and redaction field | `src/data/edgeHub.ts`, read out of `LocalCapabilityDiscovery.swift`, `HubBridgeConfig.swift`, `MCPBridge.swift`, `SmartHomeBridge.swift`, `CalDavBridge.swift`, `ICalendarFreeBusy.swift`, `PrivacyProposalLedger.swift`, `HubSecrets.swift` and `OpaquePairingCodec.swift`, with file:line citations in that file's header. The section badge says these are on `main` (5858b3c, 040ef25) and **not** in the signed v1.0.2 image the download button serves |
 | The console preview card on `/` | `src/data/consolePreview.ts` — the published `LADDER` rows with a numeric size attached, plus a port of `ComputeTier`, `ModelPlan.recommend` and `meshMemoryCeilingGB` from `MacNodeModels.swift`. The three device rows are fixtures in the real `PairedDevice` shape; the card labels itself a UI preview and requests nothing |
 | The signing state on `/install` | `src/data/signing.ts` — recorded `codesign`/`spctl`/`stapler` output from the published v1.0.2 bytes, with the mount-and-inspect recipe in that file's header and the same table under “How the published build is signed” below |
 | The three sibling portals in the ecosystem row | `src/data/ecosystem.ts`, checked with `curl -sIL --max-time 25` against each host's document title |
@@ -151,7 +152,10 @@ grep -Eoh 'https?://[A-Za-z0-9._/~:-]+' dist/index.html dist/site.webmanifest \
 The expected set is exactly this, and nothing else: `https://api.github.com/repos/`
 (the one request the page may make), `https://github.com/` links a reader clicks,
 `https://github.com/popopx-chat/popopx-chat`, the three POPOPX portal origins named
-above, the four `http://www.w3.org/…` XML namespaces that live inside React's DOM code,
+above, `https://popopx.chat/i/v1/` (the sealed pairing link shape, displayed as a code
+sample and never fetched), `http://127.0.0.1:11434` (the loopback Ollama origin in the
+discovery facts, a literal for the reader rather than a request from the page), the four
+`http://www.w3.org/…` XML namespaces that live inside React's DOM code,
 `https://react.dev/errors/` inside React's minified error text, and the
 `https://tailwindcss.com` licence comment at the top of the stylesheet. Only the first is
 ever requested, and only by the reader's own browser.

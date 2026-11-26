@@ -215,6 +215,18 @@ export const de: Dictionary = {
       signature: "Signiert von",
       delivery: "Gerendert als",
     },
+    sealedHeading: "Der QR-Code ist ein versiegelter Umschlag",
+    sealedSub:
+      "Seit 040ef25 tragen der QR-Code und die Kopier-Schaltfläche des Assistenten eine einzige undurchsichtige URL statt des rohen Credentials. Der Umschlag hält die Relay-Adresse aus einem Screenshot, einer Link-Vorschau oder einer Weiterleitung heraus; er ist kein Geheimnis, das der Besitzer der App nicht öffnen könnte.",
+    sealedShapeLabel: "Form des versiegelten Links",
+    sealedFacts: {
+      kdf: "Schlüsselableitung",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Obergrenzen der Nutzlast",
+    },
+    sealedBody:
+      "Der Schlüssel wird mit HKDF-SHA256 aus einer im Programm veröffentlichten Eingabe abgeleitet, und die Box ist ChaCha20-Poly1305 mit einem festen Associated-Data-String, also kann jeder, der den Quellcode liest, einen Umschlag öffnen. Das ist Absicht: Der Link verbirgt die SMP-Queue-Adresse vor Vorschauen, Screenshots und Weiterleitungen, während das signierte, einmalig gültige fünfzehnminütige Credential darin das ist, was ein Gerät tatsächlich autorisiert. Der rohe PPXNODE1-…-Code und die Einladungs-URI, die die Queue-Adresse trägt, bleiben in der Diagnoseschublade der Konsole; der öffentliche Schlüssel des Nodes erscheint dort und auf den Zeilen der gekoppelten Geräte, nie auf der Vorderseite des Assistenten. Das QR-Bild wird lokal gerendert und nur auf loopback unter /api/pairing/qr.png ausgeliefert.",
     portsHeading: "Die lauschende Seite des Nodes",
     portsSub:
       "Der Node selbst öffnet einen Port. Die anderen zwei gehören Programmen, die er startet und als Client anruft – das zählt, wenn Sie ein Firewall-Log lesen: Eine Verbindung zu 11434 oder 5225 hat der Node aufgebaut, nicht angenommen.",
@@ -231,6 +243,57 @@ export const de: Dictionary = {
     },
     portsFootnote:
       "Alle drei liegen auf loopback. Die Konsole ist reines HTTP ohne TLS, was nur deshalb ein vertretbares Design ist, weil sie die Maschine nie verlässt: Bind-Versuche auf 0.0.0.0, auf einer LAN-Adresse oder auf einem Hostnamen werden abgewiesen, bevor ein Socket entsteht, und die Adresse steht im Programm statt in einer Konfigurationsdatei. Was sie stattdessen absichert, ist ein zufälliger vierundzwanzig Byte langer Token, der bei jedem Start neu ausgestellt wird, als X-PPX-Token geschickt wird, nur im Speicher gehalten wird und mit dem Prozess stirbt. Das Control-Socket des Chat-Daemons hat überhaupt keine Authentifizierung – das ist die ehrliche Beschreibung davon –, und es ist nur so lange sicher, wie es auf 127.0.0.1 bleibt.",
+  },
+
+  hub: {
+    badge: "QUELLCODE-ZWEIG · NICHT IM SIGNIERTEN BUILD 1.0.2",
+    heading: "Fünf lokale Fähigkeiten, eine Grenze",
+    sub:
+      "Der Quellcode-Zweig fügt eine eigentümerbezogene Fähigkeitserkennung, vier Protokolladapter und einen versiegelten Pairing-Link hinzu. Die Brücken sind standardmäßig aus, jedes Ziel wird von derselben positiven Allow-List zugelassen, und jede Schreiboperation wird zu einem signierten Vorschlag, den ein Mensch freigeben muss. Nichts davon ist ein gehosteter Dienst, und nichts davon öffnet einen neuen Listener.",
+    status:
+      "Im Quellcode seit dem 26. November 2026 (5858b3c und 040ef25). Der signierte Download v1.0.2 auf dieser Seite ist älter als beide Commits, darum lesen Sie diesen Abschnitt als Vertrag des Quellcode-Zweigs, nicht als Funktion des Images, das Sie gerade herunterladen.",
+    cards: [
+      {
+        title: "Erkennung, die nur über sich selbst Auskunft gibt",
+        body:
+          "Die Konsole berichtet, was dieser Mac bereits hat: Ollama auf 127.0.0.1:11434 und die Modelle, die es bedient, die von Ihnen freigegebenen Workspace-Ordner, den Berechtigungsstatus von EventKit, und eine TCP-Erreichbarkeitszeile für bis zu acht LAN-Ziele, die Sie selbst eingetragen haben. Das ist ein rein lesendes GET /v1/discovery/capabilities. Es gibt keinen mDNS-Advertiser, keinen Port-Sweep und keinen Subnetz-Durchlauf; zugelassen sind nur loopback, RFC 1918-Literale, ULA und .local-Namen, und eine öffentliche Adresse wird abgewiesen, bevor ein Socket geöffnet wird.",
+      },
+      {
+        title: "MCP, innerhalb der Allow-List",
+        body:
+          "Ein lokaler MCP-Client spricht JSON-RPC 2.0 initialize, tools/list und tools/call. Server werden von Hand in config/mcp_servers.json registriert – höchstens acht. Ein stdio-Befehl muss ein absoluter Pfad aus einer Liste allowedCommands mit sechzehn Einträgen sein, ohne Shell-Metazeichen; ein HTTP-Server muss auf loopback antworten. Ein rein lesendes Tool darf laufen; ein veränderndes Tool wird nie auf Anforderung ausgeführt, sondern nur in einen Vorschlag verwandelt.",
+      },
+      {
+        title: "Home Assistant und MQTT im LAN",
+        body:
+          "Home Assistant über seine lokale REST-API und ein handgeschriebener MQTT 3.1.1-Client, beide beschränkt auf loopback, RFC 1918 und .local. Nur Entitäten, die in exposedEntities benannt sind, existieren für die Brücke, der Nur-Lese-Modus ist standardmäßig an, und ein Broker-Publish kann nur eine exponierte Entität unter einem von Ihnen konfigurierten Präfix adressieren. Credentials sind Keychain-Referenzen; settings.json enthält keinen Token.",
+      },
+      {
+        title: "CalDAV behält die Lücken, nicht den Text",
+        body:
+          "PROPFIND und REPORT gegen bis zu vier selbst gehostete CalDAV-Server im LAN. Der iCalendar-Parser behält DTSTART und DTEND und verwirft SUMMARY, DESCRIPTION, LOCATION, ORGANIZER und jeden ATTENDEE innerhalb des Parsens, sodass es keinen späteren Schwärzungsschritt gibt, der schiefgehen könnte. Blöcke belegter Zeit von außen werden mit einem Boden von fünfzehn Minuten aus den lokalen freien Slots ausgeschnitten; eine Wiederholung, die der Parser nicht auswerten kann, wird als Untergrenze gemeldet statt geraten.",
+      },
+    ],
+    boundaryHeading: "Was die Grenze abweist",
+    boundaryItems: [
+      {
+        title: "Öffentliche Adressen und unaufgelöste Namen",
+        body:
+          "Ein Brückenziel muss loopback, RFC 1918, ULA oder ein .local-Name sein. Ein nackter Hostname wird nicht aufgelöst, um herauszufinden, ob er öffentlich ist; Credentials in einer URL werden abgewiesen, und eine HTTP-Brücke folgt keiner Weiterleitung – ein Host auf der Allow-List kann den Node also nicht auf den Server von jemand anderem umlenken.",
+      },
+      {
+        title: "Schreibvorgänge ohne einen Menschen",
+        body:
+          "Eine Smart-Home-Auslösung oder ein veränderndes MCP-Tool wird zu einem Vorschlag in pending_user_approval mit einem HMAC-SHA256-Beleg, der an seine Id und sein Verb gebunden ist und fünfzehn Minuten gilt. Die Nutzlast, die läuft, ist die Nutzlast, die Ihnen gezeigt wurde; sie wird im lokalen Audit-Protokoll gebucht, und das Ausschalten der Brücke macht das Ausstehende ungültig.",
+      },
+      {
+        title: "Geheimnisse ohne Klartext-Rückfall",
+        body:
+          "Der Home-Assistant-Token, das MQTT-Passwort und das CalDAV-Passwort sind Keychain-Einträge, die über eine Referenz adressiert werden; ein Lauf außerhalb des Pakets hält sie nur im Speicher, und nichts fällt auf eine Datei zurück. Das MCP-Dokument speichert Umgebungsvariablen-Namen, nie Werte.",
+      },
+    ],
+    footnote:
+      "„Privatsphäre & Kontrolle“ legt dieselbe Grenze Regel für Regel dar, einschließlich dessen, was der Node nicht versprechen kann.",
   },
 
   engines: {
@@ -338,7 +401,7 @@ export const de: Dictionary = {
       {
         title: "Das iPhone koppeln",
         body:
-          "Erzeugen Sie den Pairing-QR-Code – aus der Konsole oder über den Menüleisten-Eintrag für einen neuen Code – und scannen Sie ihn mit dem POPOPX iOS-Client. Der Code ist signiert, einmalig und läuft in fünfzehn Minuten ab. Das Gerät erscheint in der Pairing-Liste der Konsole mit Modell, Pairing-Zeitpunkt und letzter Sichtung.",
+          "Erzeugen Sie den Pairing-QR-Code – aus der Konsole oder über den Menüleisten-Eintrag für einen neuen Code – und scannen Sie ihn mit dem POPOPX iOS-Client. Seit 040ef25 tragen der QR-Code und die Kopier-Schaltfläche einen versiegelten Link https://popopx.chat/i/v1/… statt des rohen Credentials, damit ein Screenshot oder eine Chat-Vorschau die Queue-Adresse nicht offenlegt. Der Code darin ist weiterhin signiert, einmalig und läuft in fünfzehn Minuten ab; der rohe PPXNODE1-Code und die Einladungs-URI bleiben in der Diagnoseschublade der Konsole. Das Gerät erscheint in der Pairing-Liste der Konsole mit Modell, Pairing-Zeitpunkt und letzter Sichtung.",
       },
       {
         title: "Die Engines einschalten",
@@ -364,7 +427,7 @@ export const de: Dictionary = {
       {
         title: "Vollständig entfernen",
         body:
-          "Schalten Sie zuerst Launch at Login aus, dann Quit über die Menüleiste – das schließt den Listener und gibt das Login-Item frei. Löschen Sie /Applications/POPOPX Mac Node.app und danach das Datenstammverzeichnis unter ~/Library/Application Support/PopopxMacNode, wenn auch der versiegelte Tresor, die Ledger und die Artefakte weg sollen. Es gibt keinen Deinstaller und keinen Beleg, den man vergessen könnte: Außerhalb dieser zwei Pfade wurde nie etwas installiert, und es existieren keine Keychain-Einträge, weil die App das Keychain nie benutzt.",
+          "Schalten Sie zuerst Launch at Login aus, dann Quit über die Menüleiste – das schließt den Listener und gibt das Login-Item frei. Löschen Sie /Applications/POPOPX Mac Node.app und danach das Datenstammverzeichnis unter ~/Library/Application Support/PopopxMacNode, wenn auch der versiegelte Tresor, die Ledger und die Artefakte weg sollen. Es gibt keinen Deinstaller und keinen Beleg, den man vergessen könnte: Außerhalb dieser zwei Pfade wurde nie etwas installiert. Das Einzige, was diese zwei Pfade nicht abdecken, ist ein Keychain-Eintrag – wenn Sie eine Hub-Brücke eingerichtet haben, überlebt ihr Credential unter im.popopx.macnode.hub beide Löschungen, weil der Keychain kein Ordner ist; entfernen Sie es in Keychain Access oder über die Trennen-Schaltfläche der Brücke selbst.",
       },
     ],
     bridgeTitle: "Steuern Sie die Engines aus Ihrem eigenen Skript",
@@ -410,7 +473,7 @@ export const de: Dictionary = {
       {
         title: "Schlüssel und Pairing-Zustand",
         body:
-          "Der Ed25519-Signierschlüssel des Nodes, die Liste der gekoppelten Geräte und das aktuelle Angebot sind gewöhnliche Dateien unter pairing/. Es gibt keinen Keychain-Eintrag, den man migrieren müsste, kein Cloud-Backup des Schlüssels und nirgends eine Hinterlegung – was nach beiden Seiten wirkt, wie der Absatz über den Verlust unten sagt.",
+          "Der Ed25519-Signierschlüssel des Nodes, die Liste der gekoppelten Geräte und das aktuelle Angebot sind gewöhnliche Dateien unter pairing/. Es gibt kein Cloud-Backup des Schlüssels und nirgends eine Hinterlegung – was nach beiden Seiten wirkt, wie der Absatz über den Verlust unten sagt. Die eine Ausnahme ist das Credential einer Hub-Brücke: Der Home-Assistant-Token, ein MQTT-Passwort oder ein CalDAV-Passwort ist ein Keychain-Eintrag, und settings.json trägt nur die Referenz, die ihn holt.",
       },
       {
         title: "Die Beweisspur",
@@ -420,7 +483,7 @@ export const de: Dictionary = {
     ],
     transitHeading: "Verlässt die Maschine",
     transitSub:
-      "Vier Dinge tun das, und jedes davon ist entweder Ihr eigenes Gerät oder etwas, das Sie eingerichtet haben. Es gibt keine fünfte Kategorie, und es gibt keinen Analytics-Endpunkt, an den man irgendetwas schicken könnte.",
+      "Vier Arten von Verkehr verlassen den Rechner ins weitere Netz, und jede davon ist entweder Ihr eigenes Gerät oder etwas, das Sie eingerichtet haben. Eine fünfte existiert nur, wenn Sie eine LAN-Brücke einschalten: Anfragen an Home Assistant, MQTT und CalDAV, die auf loopback-, RFC 1918- und .local-Adressen bleiben. Es gibt in keinem davon einen Analytics-Endpunkt, an den man etwas schicken könnte.",
     transitItems: [
       {
         title: "Ergebnisse, zurück auf Ihr eigenes Telefon",
@@ -445,7 +508,7 @@ export const de: Dictionary = {
     ],
     keysHeading: "Wo die Geheimnisse wirklich liegen",
     keysBody:
-      "Nicht im Keychain. Der Node ist eine macOS-App ohne jede Keychain-Abhängigkeit, und das ist eine Entscheidung und kein Versehen: Pairing- und Tresormaterial sind Dateien unter seinem Datenstammverzeichnis, geschrieben mit atomarem Write, POSIX-Modus 0600 und vollständigem Dateischutz, sodass sie im Ruhezustand nicht lesbar sind, solange der Rechner gesperrt ist. Der Tausch, den Sie eingehen, ist real – Dateirechte sind auditierbar und portabel, und sie sind auch nichts zwischen Ihrem Benutzerkonto und einem Leser, der Ihr Benutzerkonto bereits hat. Behandeln Sie das Datenstammverzeichnis als das Geheimnis, das es ist: Es steht nicht in Time Machine, und es ist die einzige Kopie des Node-Schlüssels, die es gibt.",
+      "Pairing- und Tresormaterial sind Dateien unter dem Datenstammverzeichnis, geschrieben mit atomarem Write, POSIX-Modus 0600 und vollständigem Dateischutz, sodass sie im Ruhezustand nicht lesbar sind, solange der Rechner gesperrt ist. Der Tausch, den Sie eingehen, ist real – Dateirechte sind auditierbar und portabel, und sie sind auch nichts zwischen Ihrem Benutzerkonto und einem Leser, der Ihr Benutzerkonto bereits hat. Behandeln Sie das Datenstammverzeichnis als das Geheimnis, das es ist: Es steht nicht in Time Machine, und es ist die einzige Kopie des Node-Schlüssels, die es gibt. Ein Hub-Credential nimmt den anderen Weg. Der Home-Assistant-Token, das MQTT-Passwort und das CalDAV-Passwort sind generic-password-Einträge unter dem Dienst im.popopx.macnode.hub, angelegt mit kSecAttrAccessibleWhenUnlockedThisDeviceOnly, und das Einstellungsdokument speichert nur eine Referenz. Ein Prozess ohne die Bundle-Identität der App – swift run, ein Test-Harness – bekommt stattdessen einen Store im Speicher; es gibt bewusst keinen Klartext-Datei-Rückfall, also wird ein Credential, das den Keychain nicht erreichen kann, gar nicht gespeichert.",
     dataNote: {
       output: "Erzeugte Artefakte und die Outbox-Warteschlange, die Ergebnisse zurückhält, welche auf das Telefon warten.",
       vault: "Zeitversiegelte Archive und das Nachlassmaterial, das sie wieder öffnet.",
@@ -456,6 +519,31 @@ export const de: Dictionary = {
       config: "Einstellungen, Engineschalter und die Konfiguration, die sich Brücke und Integrationen teilen.",
     },
     rootLabel: "Datenstammverzeichnis",
+    hubHeading: "Die eigene Grenze des Edge-Hubs",
+    hubSub:
+      "Die vier Brücken, die der Quellcode-Zweig hinzufügt, halten sich an die Regeln oben und an vier weitere. Sie stehen hier statt auf einer Funktionskarte, weil es Behauptungen sind, die ein Leser aus dem Code widerlegen können sollte.",
+    hubItems: [
+      {
+        title: "Ein einziger Zulassungspunkt",
+        body:
+          "Jedes Brückenziel – MCP über HTTP, Home Assistant, MQTT, CalDAV – passiert dieselbe EdgeBoundary-Prüfung, bevor ein Socket existiert: loopback, RFC 1918, ULA oder .local, ohne DNS-Abfrage, um herauszufinden, ob ein Name öffentlich ist, ohne Credentials in der URL und ohne gefolgte Weiterleitung. Eine Ablehnung ist eine Zeile in der Konsole, kein stiller Neuversuch anderswo.",
+      },
+      {
+        title: "Ein Beleg, kein Prompt",
+        body:
+          "Eine verändernde Aktion wird nicht durch ein Textfeld in der Konsole abgesichert. Sie wird zu einem Vorschlag im Zustand pending_user_approval, genehmigt mit einem 24 Zeichen langen HMAC-SHA256-Beleg, der an die Id und das Verb des Vorschlags gebunden ist, fünfzehn Minuten gilt und im lokalen Audit-Protokoll festgehalten wird. Die Nutzlast, die die Ausführung ausführt, ist die, die der Eigentümer gesehen hat, und das Ausschalten der Brücke macht ausstehende Vorschläge ungültig.",
+      },
+      {
+        title: "Keychain oder Speicher, nie eine Datei",
+        body:
+          "Brücken-Credentials liegen in Keychain-Einträgen, die über eine Referenz adressiert werden, oder im Prozessspeicher bei einem Lauf außerhalb des Pakets. Eine dritte Option gibt es nicht: nicht settings.json, nicht ein Protokoll, nicht ein DMG. Das MCP-Dokument speichert die Namen von Umgebungsvariablen, also wird ein Token, das über stdio an einen MCP-Server geht, aus der Umgebung gelesen, die der Eigentümer gesetzt hat, nicht aus einer Datei, die der Node geschrieben hat.",
+      },
+      {
+        title: "Das Minimum lernen",
+        body:
+          "CalDAV parst DTSTART und DTEND und verwirft Titel, Beschreibungen, Orte und Teilnehmer innerhalb des Parsers, sodass die geschäftigsten Felder gar nicht erst ins Modell gelangen. Eine Vorschau eines Vorschlags zeigt kurze skalare Argumente und verbirgt jeden Wert, dessen Schlüssel auf der Schwärzungsliste steht – content, token, password, payload und mehr. Discovery ist ein rein lesendes GET, das den eigenen Zustand der Maschine berichtet.",
+      },
+    ],
     controlHeading: "Ihr Teil des Abschaltknopfs",
     controlSub:
       "Vier Kontrollen, alle lokal, alle in der App sichtbar statt in einem Einstellbildschirm vergraben. Keine von ihnen braucht das Netzwerk, und deshalb funktionieren sie auch dann, wenn das Netzwerk das Problem ist.",
@@ -631,6 +719,18 @@ export const de: Dictionary = {
       {
         q: "Was muss ich registrieren?",
         a: "Nichts. Es gibt nirgends im Produkt ein Konto, eine Telefonnummer, eine E-Mail-Adresse oder eine Werbe-ID. Das Telefon mit dem Node zu koppeln ist ein einziger QR-Scan, die Web-Konsole bindet ausschließlich an loopback, dreht bei jedem Start ein zufälliges Token und ist aus dem Rest Ihres LAN nicht erreichbar.",
+      },
+      {
+        q: "Durchsucht der Node mein LAN nach Geräten?",
+        a: "Nein. Discovery ist ein rein lesendes GET /v1/discovery/capabilities, das berichtet, was dieser Mac bereits hat: Ollama auf loopback, die von Ihnen freigegebenen Workspace-Ordner, den Berechtigungsstatus von EventKit und ob eine TCP-Verbindung zu einem LAN-Host gelingt, den Sie in den Einstellungen eingetragen haben. Es gibt keinen mDNS-Advertiser, keinen Port-Sweep und keinen Subnetz-Durchlauf im Code. Ein Ziel wird nur zugelassen, wenn es loopback, ein RFC 1918-Literal, eine ULA-Adresse oder ein .local-Name ist; eine öffentliche Adresse wird abgewiesen, bevor ein Socket geöffnet wird, und der Quellcode-Zweig akzeptiert keine Hostnamen, die eine DNS-Abfrage bräuchten.",
+      },
+      {
+        q: "Kann ein MCP-Tool oder ein Smart-Home-Befehl ohne mich laufen?",
+        a: "Ein rein lesendes schon, innerhalb der Grenze, die der Eigentümer konfiguriert hat. Ein veränderndes nicht: Es wird zu einem Vorschlag in pending_user_approval und braucht eine Genehmigung, die einen 24 Zeichen langen HMAC-SHA256-Beleg an die Id und das Verb des Vorschlags bindet, fünfzehn Minuten gültig. Der Executor führt genau die Nutzlast aus, die gezeigt wurde, die Aktion wird im lokalen Audit-Protokoll gebucht, und das Ausschalten der Brücke macht das Ausstehende ungültig. Eine Aktion für Schloss, Alarmanlage, Sirene, Kamera oder Saugroboter wird auch in einer sonst großzügigen Konfiguration als hohes Risiko behandelt.",
+      },
+      {
+        q: "Ist der Pairing-QR-Code verschlüsselt?",
+        a: "Versiegelt, und der Unterschied zählt. Der QR-Code und die Kopier-Schaltfläche tragen https://popopx.chat/i/v1/ gefolgt von einer ChaCha20-Poly1305-Box, deren Schlüssel mit HKDF-SHA256 aus einer im Quellcode der App veröffentlichten Eingabe abgeleitet wird. Das verbirgt die SMP-Queue-Adresse vor Link-Vorschauen, Screenshots und Weiterleitungen; es hält den Inhalt nicht vor jemandem geheim, der die App hat. Was das Gerät autorisiert, ist das signierte, einmalig gültige fünfzehnminütige Credential darin, und der rohe PPXNODE1-Code und die Einladungs-URI bleiben in der Diagnoseschublade der Konsole statt auf der Vorderseite des Assistenten.",
       },
       {
         q: "Warum AGPL-3.0, und wozu verpflichtet Abschnitt 13 mich?",

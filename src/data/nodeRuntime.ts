@@ -67,6 +67,9 @@ export const RUNTIME_PORTS: RuntimePort[] = [
  * The signature is Ed25519 over the node's own key
  * (`~/Library/Application Support/PopopxMacNode/pairing/node.key`,
  * `MacNodeModels.swift:2342`, signed at `MacNodePopopxBridge.swift:563-581`).
+ * Since `040ef25` this is the credential *inside* the sealed envelope: the QR and copy
+ * button carry `https://popopx.chat/i/v1/…` (`data/edgeHub.ts`), and the raw code is
+ * only shown in the console's diagnostics drawer.
  */
 export const PAIRING = {
   codePrefix: "PPXNODE1",
@@ -96,11 +99,12 @@ export const WIRE = {
 /**
  * Where the node puts things, under one data root.
  *
- * `AppPaths` in `MacNodeModels.swift:2305-2376`. There is no Keychain in this app:
- * `SecItem` appears in the sources only inside a comment explaining why an SSD
- * overwrite cannot be a hardware erase (`TenBusinessEngines.swift:3869`). Secrets are
+ * `AppPaths` in `MacNodeModels.swift:2305-2376`. Pairing and vault material are
  * ordinary files written atomically with `.completeFileProtection` and mode `0600`
- * (`MacNodePopopxBridge.swift:877-881`, `MacNodeModels.swift:2505`).
+ * (`MacNodePopopxBridge.swift:877-881`, `MacNodeModels.swift:2505`). The exception is
+ * a hub-bridge credential, which is a Keychain item under `im.popopx.macnode.hub`
+ * (`HubBridges/HubSecrets.swift`), because the bridges landed after this file was
+ * first written; `DATA_LOCATIONS` below still lists the data-root layout only.
  */
 export const DATA_ROOT = "~/Library/Application Support/PopopxMacNode";
 

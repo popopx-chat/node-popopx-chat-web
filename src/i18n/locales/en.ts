@@ -215,6 +215,18 @@ export const en: Dictionary = {
       signature: "Signed by",
       delivery: "Rendered as",
     },
+    sealedHeading: "The QR is a sealed envelope",
+    sealedSub:
+      "Since 040ef25 the wizard's QR and copy button carry one opaque URL instead of the raw credential. The envelope keeps the relay address out of a screenshot, a link preview or a forward; it is not a secret that the holder of the app cannot open.",
+    sealedShapeLabel: "Sealed link shape",
+    sealedFacts: {
+      kdf: "Key derivation",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Payload caps",
+    },
+    sealedBody:
+      "The key is derived with HKDF-SHA256 from an input published inside the app, and the box is ChaCha20-Poly1305 with a fixed associated-data string, so anyone who reads the source can open an envelope. That is the design: the link hides the SMP queue address from previews, screenshots and forwards, while the signed, single-use, fifteen-minute credential inside is what actually authorises a device. The raw PPXNODE1-… code and the invitation URI that carries the queue address stay in the console's diagnostics drawer; the node public key appears there and on the paired-device rows, never on the wizard's face. The QR image is rendered locally and served only on loopback at /api/pairing/qr.png.",
     portsHeading: "The listening side of the node",
     portsSub:
       "The node itself opens one port. The other two belong to programs it starts and connects to as a client, which matters when you are reading a firewall log: a connection to 11434 or 5225 was made by the node, not accepted by it.",
@@ -231,6 +243,57 @@ export const en: Dictionary = {
     },
     portsFootnote:
       "All three are loopback. The console is plain HTTP with no TLS, which is only a reasonable design because it never leaves the machine: bind attempts on 0.0.0.0, a LAN address or a hostname are refused before a socket is created, and the address is hardcoded in the app rather than read from a config file. What guards it instead is a random twenty-four-byte token issued at every launch, sent as X-PPX-Token, held in memory only, and dead when the process exits. The chat daemon's control socket has no authentication at all — that is the honest description of it — and it is safe only for as long as it stays on 127.0.0.1.",
+  },
+
+  hub: {
+    badge: "SOURCE LINE · NOT IN THE SIGNED 1.0.2 BUILD",
+    heading: "Five local capabilities, one boundary",
+    sub:
+      "The source line adds owner-scoped capability discovery, four protocol adapters and a sealed pairing link. The bridges are off by default, every target is admitted by the same positive allow-list, and every write becomes a signed proposal a human has to approve. None of it is a hosted service, and none of it opens a new listener.",
+    status:
+      "In the source since 26 November 2026 (5858b3c and 040ef25). The signed v1.0.2 download on this site predates both commits, so read this section as the source-line contract, not as a feature of the image you are downloading.",
+    cards: [
+      {
+        title: "Discovery that answers only about itself",
+        body:
+          "The console reports what this Mac already has: Ollama on 127.0.0.1:11434 and the models it serves, the workspace folders you authorised, the EventKit permission state, and a TCP reachability row for up to eight LAN targets you typed yourself. It is a read-only GET /v1/discovery/capabilities. There is no mDNS advertiser, no port sweep and no subnet walk; only loopback, RFC 1918 literals, ULA and .local names are admitted, and a public address is refused before a socket is opened.",
+      },
+      {
+        title: "MCP, inside the allow-list",
+        body:
+          "A local MCP client speaks JSON-RPC 2.0 initialize, tools/list and tools/call. Servers are registered by hand in config/mcp_servers.json — at most eight. A stdio command must be an absolute path inside a sixteen-entry allowedCommands list with no shell metacharacters; an HTTP server must answer on loopback. A read-only tool may run; a mutating tool is never executed on request, only turned into a proposal.",
+      },
+      {
+        title: "Home Assistant and MQTT on the LAN",
+        body:
+          "Home Assistant over its local REST API and a hand-written MQTT 3.1.1 client, both restricted to loopback, RFC 1918 and .local. Only entities named in exposedEntities exist to the bridge, read-only mode is on by default, and a broker publish can only address an exposed entity under a prefix you configured. Credentials are Keychain references; settings.json holds no token.",
+      },
+      {
+        title: "CalDAV keeps the gaps, not the text",
+        body:
+          "PROPFIND and REPORT against up to four self-hosted CalDAV servers on the LAN. The iCalendar parser keeps DTSTART and DTEND and drops SUMMARY, DESCRIPTION, LOCATION, ORGANIZER and every ATTENDEE inside the parse, so there is no later redaction step to get wrong. Remote busy blocks are cut out of local free slots with a fifteen-minute floor; a recurrence the parser cannot evaluate is reported as a floor rather than guessed.",
+      },
+    ],
+    boundaryHeading: "What the boundary refuses",
+    boundaryItems: [
+      {
+        title: "Public addresses and unresolved names",
+        body:
+          "A bridge target must be loopback, RFC 1918, ULA or a .local name. A bare hostname is not resolved to find out whether it is public, credentials in a URL are refused, and an HTTP bridge will not follow a redirect — so an allow-listed host cannot bounce the node to somebody else's server.",
+      },
+      {
+        title: "Writes without a human",
+        body:
+          "A smart-home actuation or a mutating MCP tool becomes a pending_user_approval proposal carrying an HMAC-SHA256 receipt bound to its id and verb, valid for fifteen minutes. The payload that runs is the payload you were shown, it is booked in the local audit log, and switching the bridge off voids what was pending.",
+      },
+      {
+        title: "Secrets with no plaintext fallback",
+        body:
+          "The Home Assistant token, MQTT password and CalDAV password are Keychain items addressed by a reference; an unpackaged run keeps them in memory only, and nothing falls back to a file. The MCP document stores environment variable names, never values.",
+      },
+    ],
+    footnote:
+      "Privacy & Control states the same boundary rule by rule, including what the node cannot promise.",
   },
 
   engines: {
@@ -338,7 +401,7 @@ export const en: Dictionary = {
       {
         title: "Pair the iPhone",
         body:
-          "Generate the pairing QR — from the console, or from the menu bar's new-code item — and scan it with the POPOPX iOS client. The code is signed, single-use and expires in fifteen minutes. The device appears in the console's paired list with its model, its pairing time and its last sighting.",
+          "Generate the pairing QR — from the console, or from the menu bar's new-code item — and scan it with the POPOPX iOS client. Since 040ef25 the QR and the copy button carry a sealed https://popopx.chat/i/v1/… link rather than the raw credential, so a screenshot or a chat preview does not expose the queue address. The code inside is still signed, single-use and expires in fifteen minutes; the raw PPXNODE1 code and the invitation URI stay in the console's diagnostics drawer. The device appears in the paired list with its model, its pairing time and its last sighting.",
       },
       {
         title: "Switch the engines on",
@@ -364,7 +427,7 @@ export const en: Dictionary = {
       {
         title: "Removing it completely",
         body:
-          "Turn off Launch at Login first, then Quit from the menu bar — that closes the listener and releases the login item. Delete /Applications/POPOPX Mac Node.app, then the data root at ~/Library/Application Support/PopopxMacNode if you want the sealed vault, the ledgers and the artifacts gone as well. There is no uninstaller and no receipt to forget: nothing was ever installed outside those two paths, and no Keychain items exist because the app never uses the Keychain.",
+          "Turn off Launch at Login first, then Quit from the menu bar — that closes the listener and releases the login item. Delete /Applications/POPOPX Mac Node.app, then the data root at ~/Library/Application Support/PopopxMacNode if you want the sealed vault, the ledgers and the artifacts gone as well. There is no uninstaller and no receipt to forget: nothing was installed outside those two paths. The one thing those two paths do not cover is a Keychain item — if you configured a hub bridge, its credential under im.popopx.macnode.hub survives both deletions, because the Keychain is not a folder; remove it in Keychain Access, or from the bridge's own disconnect button.",
       },
     ],
     bridgeTitle: "Drive the engines from your own script",
@@ -410,7 +473,7 @@ export const en: Dictionary = {
       {
         title: "Keys and pairing state",
         body:
-          "The node's Ed25519 signing key, the list of paired devices and the current offer are plain files under pairing/. There is no Keychain entry to migrate, no cloud backup of the key, and no escrow anywhere — which cuts both ways, as the loss paragraph below says.",
+          "The node's Ed25519 signing key, the list of paired devices and the current offer are plain files under pairing/. There is no cloud backup of the key and no escrow anywhere — which cuts both ways, as the loss paragraph below says. The one exception is a hub bridge's credential: the Home Assistant token, an MQTT password or a CalDAV password is a Keychain item, and settings.json carries only the reference that fetches it.",
       },
       {
         title: "The evidence trail",
@@ -420,7 +483,7 @@ export const en: Dictionary = {
     ],
     transitHeading: "Leaves the machine",
     transitSub:
-      "Four things do, and every one of them is either your own device or something you configured. There is no fifth category, and there is no analytics endpoint to send anything to.",
+      "Four kinds of traffic leave for the wider network, and every one of them is either your own device or something you configured. A fifth only exists when you switch on a LAN bridge: Home Assistant, MQTT and CalDAV requests, which stay on loopback, RFC 1918 and .local addresses. There is no analytics endpoint in any of them to send anything to.",
     transitItems: [
       {
         title: "Results, back to your own phone",
@@ -445,7 +508,7 @@ export const en: Dictionary = {
     ],
     keysHeading: "Where the secrets actually live",
     keysBody:
-      "Not the Keychain. The node is a macOS app that has no Keychain dependency at all, which is a decision rather than an oversight: pairing and vault material are files under its data root, written with an atomic write, POSIX mode 0600, and complete file protection, so they are unreadable at rest while the machine is locked. The trade you make is real — file permissions are auditable and portable, and they are also nothing between your user account and a reader that already has your user account. Treat the data root as the secret it is: it is not in Time Machine, and it is the only copy of the node key there is.",
+      "Pairing and vault material are files under the data root, written with an atomic write, POSIX mode 0600, and complete file protection, so they are unreadable at rest while the machine is locked. The trade you make is real — file permissions are auditable and portable, and they are also nothing between your user account and a reader that already has your user account. Treat the data root as the secret it is: it is not in Time Machine, and it is the only copy of the node key there is. A hub credential takes the other path. The Home Assistant token, the MQTT password and the CalDAV password are generic-password items under the service im.popopx.macnode.hub, created with kSecAttrAccessibleWhenUnlockedThisDeviceOnly, and the settings document stores only a reference. A process without the app's bundle identity — swift run, a test harness — gets an in-memory store instead; there is deliberately no plaintext file fallback, so a credential that cannot reach the Keychain is not saved at all.",
     dataNote: {
       output: "Generated artifacts, and the outbox queue holding results that are waiting for the phone.",
       vault: "Time-locked sealed archives and the succession material that opens them.",
@@ -456,6 +519,31 @@ export const en: Dictionary = {
       config: "Settings, engine switches, and the config the bridge and integrations share.",
     },
     rootLabel: "Data root",
+    hubHeading: "The edge hub's own boundary",
+    hubSub:
+      "The four bridges added in the source line are held to the rules above and to four more. They are written down here rather than on a feature card because they are the claims a reader should be able to falsify from the code.",
+    hubItems: [
+      {
+        title: "One admission point",
+        body:
+          "Every bridge target — MCP over HTTP, Home Assistant, MQTT, CalDAV — passes the same EdgeBoundary check before a socket exists: loopback, RFC 1918, ULA or .local, with no DNS lookup to discover whether a name is public, no credentials in the URL, and no redirect followed. A refusal is a row in the console, not a silent retry somewhere else.",
+      },
+      {
+        title: "A receipt, not a prompt",
+        body:
+          "A mutating action is not gated by a text box in the console. It becomes a proposal in state pending_user_approval, approved with a 24-character HMAC-SHA256 receipt bound to the proposal id and verb, valid for fifteen minutes, and recorded in the local audit log. The payload the executor runs is the one the owner saw, and turning the bridge off voids pending proposals.",
+      },
+      {
+        title: "Keychain, or memory, never a file",
+        body:
+          "Bridge credentials live in Keychain items addressed by a reference, or in process memory for an unpackaged run. There is no third option: not settings.json, not a log, not a DMG. The MCP document stores environment-variable names, so a token handed to an MCP server over stdio is read from the environment the owner set, not from a file the node wrote.",
+      },
+      {
+        title: "Learn the minimum",
+        body:
+          "CalDAV parses DTSTART and DTEND and discards titles, descriptions, locations and attendees inside the parser, so the busiest fields never enter the model at all. A proposal preview shows short scalar arguments and hides every value whose key is on the redaction list — content, token, password, payload and more. Discovery is a read-only GET that reports the machine's own state.",
+      },
+    ],
     controlHeading: "Your side of the off switch",
     controlSub:
       "Four controls, all of them local, all of them visible in the app rather than buried in a settings screen. None of them need the network, which is what makes them work when the network is the problem.",
@@ -631,6 +719,18 @@ export const en: Dictionary = {
       {
         q: "What do I have to register?",
         a: "Nothing. There is no account, no phone number, no email address and no advertising identifier anywhere in the product. Pairing the phone to the node is one QR scan, and the web console binds to loopback only, rotates a random token on every launch and is unreachable from the rest of your LAN.",
+      },
+      {
+        q: "Does the node scan my LAN for devices?",
+        a: "No. Discovery is a read-only GET /v1/discovery/capabilities that reports what this Mac already has: Ollama on loopback, the workspace folders you authorised, the EventKit permission state, and whether a TCP connection succeeds to a LAN host you typed into the settings. There is no mDNS advertiser, no port sweep and no subnet walk in the code. A target is admitted only if it is loopback, an RFC 1918 literal, a ULA address or a .local name; a public address is refused before a socket is opened, and the source line does not accept hostnames that would need a DNS lookup.",
+      },
+      {
+        q: "Can an MCP tool or a smart-home command run without me?",
+        a: "A read-only one can, inside the boundary the owner configured. A mutating one cannot: it becomes a proposal in pending_user_approval and needs an approval that mints a 24-character HMAC-SHA256 receipt bound to the proposal id and verb, valid for fifteen minutes. The executor runs exactly the payload that was shown, the action is booked in the local audit log, and switching the bridge off voids what was pending. A lock, alarm, siren, camera or vacuum action is treated as high risk even inside an otherwise permissive configuration.",
+      },
+      {
+        q: "Is the pairing QR encrypted?",
+        a: "Sealed, and the distinction matters. The QR and the copy button carry https://popopx.chat/i/v1/ followed by a ChaCha20-Poly1305 box whose key is derived with HKDF-SHA256 from an input published in the app's own source. That hides the SMP queue address from link previews, screenshots and forwards; it does not keep the contents from anyone who has the app. What authorises the device is the signed, single-use, fifteen-minute credential inside, and the raw PPXNODE1 code and the invitation URI remain in the console's diagnostics drawer rather than on the wizard's face.",
       },
       {
         q: "Why AGPL-3.0, and what does section 13 oblige me to do?",

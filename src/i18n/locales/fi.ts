@@ -214,6 +214,18 @@ export const fi: Dictionary = {
       signature: "Allekirjoittaja",
       delivery: "Esitysmuoto",
     },
+    sealedHeading: "QR-koodi on sinetöity kirjekuori",
+    sealedSub:
+      "Commitista 040ef25 lähtien ohjatun asennuksen QR-koodi ja kopiointipainike kuljettavat yhden läpinäkymättömän URL-osoitteen raa'an tositteen sijaan. Kirjekuori pitää releen osoitteen poissa kuvakaappauksesta, linkin esikatselusta ja edelleenlähetyksestä; se ei ole salaisuus, jota sovelluksen haltija ei voisi avata.",
+    sealedShapeLabel: "Sinetöidyn linkin muoto",
+    sealedFacts: {
+      kdf: "Avaimen johtaminen",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Hyötykuorman rajat",
+    },
+    sealedBody:
+      "Avain johdetaan HKDF-SHA256:lla sovelluksen sisällä julkaistusta syötteestä, ja laatikko on ChaCha20-Poly1305 kiinteällä associated-data-merkkijonolla, joten kuka tahansa lähteen lukenut voi avata kirjekuoren. Se on suunnittelun tarkoitus: linkki piilottaa SMP-jonon osoitteen esikatseluilta, kuvakaappauksilta ja edelleenlähetyksiltä, kun taas sen sisällä oleva allekirjoitettu, kertaluonteinen ja viidentoista minuutin tosite on se, mikä laitteen todella valtuuttaa. Raaka PPXNODE1-…-koodi ja jonon osoitteen kantava kutsun URI pysyvät konsolin diagnostiikkalaatikossa; solmun julkinen avain näkyy siellä ja pariliitettyjen laitteiden riveillä, ei koskaan ohjatun asennuksen etupuolella. QR-kuva hahmontaa paikallisesti ja tarjoillaan ainoastaan loopback-osoitteessa polussa /api/pairing/qr.png.",
     portsHeading: "Solmun kuunteleva puoli",
     portsSub:
       "Solmu itse avaa yhden portin. Kaksi muuta kuuluvat ohjelmiin, jotka se käynnistää ja joihin se yhdistää asiakkaana — sillä on väliä kun luet palomuurin lokia: yhteys osoitteeseen 11434 tai 5225 on solmun tekemä, ei sen hyväksymä.",
@@ -230,6 +242,56 @@ export const fi: Dictionary = {
     },
     portsFootnote:
       "Kaikki kolme ovat loopback-osoitteita. Konsoli on tavallista HTTP:tä ilman TLS:ää, mikä on järkevä suunnittelu ainoastaan siksi ettei se koskaan poistu koneelta: sidontayritykset osoitteeseen 0.0.0.0, lähiverkon osoitteeseen tai isäntänimeen evätään jo ennen kuin pistoke luodaan, ja osoite on kovakoodattu sovellukseen eikä lueta config-tiedostosta. Sen sijaan sitä vartioi satunnainen, jokaisessa käynnistyksessä uusi kaksikymmentäneljän tavun mittainen tunniste, joka lähetetään kentässä X-PPX-Token, jota pidetään ainoastaan muistissa ja joka kuolee prosessin päättyessä. Chat-daemonin hallintapistokkeella ei ole lainkaan todennusta — se on sen rehellinen kuvaus — ja se on turvallinen ainoastaan niin kauan kuin se pysyy osoitteessa 127.0.0.1.",
+  },
+  hub: {
+    badge: "LÄHDEHAARA · EI ALLEKIRJOITETUSSA 1.0.2-BUILDISSA",
+    heading: "Viisi paikallista kykyä, yksi raja",
+    sub:
+      "Lähdehaara lisää omistajakohtaisen kykyjen havaitsemisen, neljä protokollasovitinta ja sinetöidyn pariliitoslinkin. Sillat ovat oletuksena pois, jokainen kohde päästetään läpi samasta positiivisesta allow-listasta, ja jokaisesta kirjoituksesta tulee allekirjoitettu ehdotus, jonka ihmisen on hyväksyttävä. Mikään siitä ei ole isännöity palvelu, eikä mikään siitä avaa uutta kuuntelijaa.",
+    status:
+      "Lähteessä 26. marraskuuta 2026 alkaen (5858b3c ja 040ef25). Tämän sivuston allekirjoitettu v1.0.2-lataus on molempia committeja vanhempi, joten lue tämä osio lähdehaaran sopimuksena, ei sen levykuvan ominaisuutena jonka lataat.",
+    cards: [
+      {
+        title: "Havaitseminen, joka vastaa vain itsestään",
+        body:
+          "Konsoli kertoo, mitä tällä Macilla jo on: Ollama osoitteessa 127.0.0.1:11434 ja sen tarjoamat mallit, valtuuttamasi työtilakansiot, EventKit-käyttöoikeuden tila ja TCP-tavoitettavuusrivi enintään kahdeksalle itse kirjoittamallesi lähiverkon kohteelle. Se on vain luku -tyyppinen GET /v1/discovery/capabilities. mDNS-mainostajaa, porttiskannausta ja aliverkon läpikäyntiä ei ole; vain loopback, RFC 1918 -literaalit, ULA ja .local-nimet päästetään läpi, ja julkinen osoite evätään ennen kuin pistoke avataan.",
+      },
+      {
+        title: "MCP, allow-listin sisällä",
+        body:
+          "Paikallinen MCP-asiakas puhuu JSON-RPC 2.0:n initialize-, tools/list- ja tools/call-kutsuja. Palvelimet rekisteröidään käsin tiedostoon config/mcp_servers.json — enintään kahdeksan. stdio-komennon on oltava absoluuttinen polku kuusitoistakohtaisen allowedCommands-luettelon sisällä ilman shell-metamerkkejä; HTTP-palvelimen on vastattava loopback-osoitteessa. Vain luku -työkalu saa suorittua; muuttavaa työkalua ei koskaan suoriteta pyynnöstä, vaan se muutetaan ainoastaan ehdotukseksi.",
+      },
+      {
+        title: "Home Assistant ja MQTT lähiverkossa",
+        body:
+          "Home Assistant paikallisen REST-rajapintansa kautta ja käsin kirjoitettu MQTT 3.1.1 -asiakas, molemmat rajattuina loopbackiin, RFC 1918:aan ja .local-nimiin. Vain exposedEntities-luettelossa nimetyt entiteetit ovat sillalle olemassa, vain luku -tila on oletuksena päällä, ja broker-julkaisu voi kohdistaa vain paljastettuun entiteettiin itse määrittämäsi etuliitteen alla. Tunnukset ovat Keychain-viittauksia; settings.json ei sisällä tokenia.",
+      },
+      {
+        title: "CalDAV säilyttää aukot, ei tekstiä",
+        body:
+          "PROPFIND ja REPORT enintään neljää itse isännöityä lähiverkon CalDAV-palvelinta vastaan. iCalendar-jäsentäjä säilyttää kentät DTSTART ja DTEND ja pudottaa kentät SUMMARY, DESCRIPTION, LOCATION, ORGANIZER ja ATTENDEE jo jäsentämisen aikana, joten myöhempää redaktiota, joka voisi mennä pieleen, ei ole. Etäiset varattu-jaksot leikataan paikallisista vapaista aukoista viidentoista minuutin lattialla; toistuma, jota jäsentäjä ei osaa arvioida, raportoidaan lattiana eikä arvauksena.",
+      },
+    ],
+    boundaryHeading: "Mitä raja evää",
+    boundaryItems: [
+      {
+        title: "Julkiset osoitteet ja selvittämättömät nimet",
+        body:
+          "Siltakohteen on oltava loopback, RFC 1918, ULA tai .local-nimi. Paljasta isäntänimeä ei selvitetä, jotta tiedettäisiin onko se julkinen, URL-osoitteen tunnukset evätään, eikä HTTP-silta seuraa uudelleenohjausta — joten allow-listalla oleva isäntä ei voi pompauttaa solmua jonkun toisen palvelimelle.",
+      },
+      {
+        title: "Kirjoitukset ilman ihmistä",
+        body:
+          "Älykodin toimilaitteen käyttö tai muuttava MCP-työkalu muuttuu pending_user_approval-tilassa olevaksi ehdotukseksi, jossa on HMAC-SHA256-tosite, sidottu sen tunnukseen ja verbiin ja voimassa viisitoista minuuttia. Suoritettava hyötykuorma on se, joka sinulle näytettiin, se kirjataan paikalliseen tarkastuslokiin, ja sillan pois kytkeminen mitätöi odottavan.",
+      },
+      {
+        title: "Salaisuudet ilman selkokielistä varareittiä",
+        body:
+          "Home Assistant -token, MQTT-salasana ja CalDAV-salasana ovat Keychain-tietueita, joihin viittauksella osoitetaan; paketin ulkopuolinen ajo pitää ne vain muistissa, eikä varavaihtoehtona ole tiedosto. MCP-dokumentti tallentaa ympäristömuuttujien nimet, ei koskaan arvoja.",
+      },
+    ],
+    footnote:
+      "Yksityisyys ja hallinta esittää saman rajan sääntö sääntöltä, mukaan lukien sen, mitä solmu ei voi luvata.",
   },
   engines: {
     heading: "Kymmenen suvereenia moottoria",
@@ -335,7 +397,7 @@ export const fi: Dictionary = {
       {
         title: "iPhonein pariliitos",
         body:
-          "Luo pariliitoksen QR-koodi — konsolista tai valikkopalkin uuden koodin valinnasta — ja skannaa se POPOPX iOS -asiakkaalla. Koodi on allekirjoitettu, kertaluonteinen ja vanhenee viidentoista minuutin kuluttua. Laite näkyy konsolin pariliitettyjen luettelossa mallinsa, pariliityshetkensä ja viimeisen havaintonsa kanssa.",
+          "Luo pariliitoksen QR-koodi — konsolista tai valikkopalkin uuden koodin valinnasta — ja skannaa se POPOPX iOS -asiakkaalla. Commitista 040ef25 lähtien QR-koodi ja kopiointipainike kuljettavat sinetöidyn linkin https://popopx.chat/i/v1/… raa'an tositteen sijaan, joten kuvakaappaus tai chat-esikatselu ei paljasta jonon osoitetta. Sen sisällä oleva koodi on edelleen allekirjoitettu, kertaluonteinen ja vanhenee viidentoista minuutin kuluttua; raaka PPXNODE1-koodi ja kutsun URI pysyvät konsolin diagnostiikkalaatikossa. Laite näkyy konsolin pariliitettyjen luettelossa mallinsa, pariliityshetkensä ja viimeisen havaintonsa kanssa.",
       },
       {
         title: "Kytke moottorit päälle",
@@ -361,7 +423,7 @@ export const fi: Dictionary = {
       {
         title: "Kokonaan poistaminen",
         body:
-          "Kytke ensin Launch at Login pois päältä ja valitse sitten Quit valikkopalkista — se sulkee kuuntelijan ja vapauttaa kirjautumisalkion. Poista /Applications/POPOPX Mac Node.app ja sen jälkeen data-juuri kohdassa ~/Library/Application Support/PopopxMacNode, jos haluat sinetöidyn holvin, kirjanpidot ja lopputuloksetkin lähtevän. Ei ole poisto-ohjelmaa eikä kuittia jonka voisi unohtaa: mitään ei ole koskaan asennettu näiden kahden polun ulkopuolelle, eikä Keychain-tietueita ole, koska sovellus ei koskaan käytä Keychainia.",
+          "Kytke ensin Launch at Login pois päältä ja valitse sitten Quit valikkopalkista — se sulkee kuuntelijan ja vapauttaa kirjautumisalkion. Poista /Applications/POPOPX Mac Node.app ja sen jälkeen data-juuri kohdassa ~/Library/Application Support/PopopxMacNode, jos haluat sinetöidyn holvin, kirjanpidot ja lopputuloksetkin lähtevän. Ei ole poisto-ohjelmaa eikä kuittia jonka voisi unohtaa: mitään ei ole koskaan asennettu näiden kahden polun ulkopuolelle. Ainoa asia, jota nuo kaksi polkua eivät kata, on Keychain-tietue — jos määritit reunakeskuksen sillan, sen tunnus kohdassa im.popopx.macnode.hub selviää molemmista poistoista, koska Keychain ei ole kansio; poista se Keychain Access -ohjelmassa tai sillan omasta katkaisupainikkeesta.",
       },
     ],
     bridgeTitle: "Ohjaa moottoreita omasta skriptistä",
@@ -406,7 +468,7 @@ export const fi: Dictionary = {
       {
         title: "Avaimet ja pariliitoksen tila",
         body:
-          "Solmun Ed25519-allekirjoitusavain, luettelo pariliitetyistä laitteista ja voimassa oleva tarjous ovat tavallisia tiedostoja pairing/-hakemiston alla. Ei ole Keychain-tietuetta jota siirtäisi, ei avaimesta tehtyä pilvivarastointia, eikä missään ole säilöntäpalvelua — ja leikkaa molempiin suuntiin, kuten alla oleva kappale menetyksestä kertoo.",
+          "Solmun Ed25519-allekirjoitusavain, luettelo pariliitetyistä laitteista ja voimassa oleva tarjous ovat tavallisia tiedostoja pairing/-hakemiston alla. Avaimesta ei ole pilvivarastointia eikä missään ole säilöntäpalvelua — ja leikkaa molempiin suuntiin, kuten alla oleva kappale menetyksestä kertoo. Ainoa poikkeus on reunakeskuksen sillan tunnus: Home Assistant -token, MQTT-salasana tai CalDAV-salasana on Keychain-tietue, ja settings.json sisältää vain sen viittauksen, joka sen hakee.",
       },
       {
         title: "Todistusketju",
@@ -416,7 +478,7 @@ export const fi: Dictionary = {
     ],
     transitHeading: "Poistuu koneelta",
     transitSub:
-      "Neljät asiat tekevät niin, ja jokainen niistä on joko oma laitteesi tai jotain mitä sinä olet määrittänyt. Viidettä kategoriaa ei ole, eikä ole analytiikkapäätepistettä jolle mitään lähetettäisiin.",
+      "Neljänlaista liikennettä poistuu laajempaan verkkoon, ja jokainen niistä on joko oma laitteesi tai jotain, jonka itse määritit. Viides on olemassa vain, kun kytket lähiverkkosillan päälle: Home Assistant-, MQTT- ja CalDAV-pyynnöt, jotka pysyvät loopback-, RFC 1918- ja .local-osoitteissa. Yhdessäkään niistä ei ole analytiikkapäätepistettä, jolle mitään lähetettäisiin.",
     transitItems: [
       {
         title: "Tulokset takaisin omaan puhelimeesi",
@@ -441,7 +503,7 @@ export const fi: Dictionary = {
     ],
     keysHeading: "Missä salaisuudet todella ovat",
     keysBody:
-      "Ei Keychainissa. Solmu on macOS-sovellus, jolla ei ole lainkaan riippuvuutta Keychainista, ja se on päätös eikä unohtumus: pariliitoksen ja holvin materiaali ovat tavallisia tiedostoja sen data-juuren alla, kirjoitettuina atomisesti, POSIX-moodilla 0600 ja täydellistä tiedostonsuojaa käyttäen, joten ne eivät ole luettavissa levyllä koneen ollessa lukittuna. Tekemäsi vaihtokauppa on todellinen — tiedosto-oikeudet ovat tarkastettavissa ja siirrettäviä, mutta ne eivät merkitse mitään käyttäjätilisi ja sellaisen lukijan välillä, jolla on jo käyttäjätilisi. Kohdele data-juurta sellaisena salaisuutena kuin se on: se ei ole Time Machine -varmuuskopiossa, ja se on ainoa kopio solmun avaimesta.",
+      "Pariliitoksen ja holvin materiaali ovat tiedostoja data-juuren alla, kirjoitettuina atomisesti, POSIX-moodilla 0600 ja täydellistä tiedostonsuojaa käyttäen, joten ne eivät ole luettavissa levyllä koneen ollessa lukittuna. Tekemäsi vaihtokauppa on todellinen — tiedosto-oikeudet ovat tarkastettavissa ja siirrettäviä, mutta ne eivät merkitse mitään käyttäjätilisi ja sellaisen lukijan välillä, jolla on jo käyttäjätilisi. Kohtele data-juurta sellaisena salaisuutena kuin se on: se ei ole Time Machine -varmuuskopiossa, ja se on ainoa kopio solmun avaimesta. Reunakeskuksen tunnus kulkee toista reittiä. Home Assistant -token, MQTT-salasana ja CalDAV-salasana ovat generic-password-tietueita palvelun im.popopx.macnode.hub alla, luotuina asetuksella kSecAttrAccessibleWhenUnlockedThisDeviceOnly, ja asetustiedosto tallentaa vain viittauksen. Prosessi ilman sovelluksen paketti-identiteettiä — swift run, testiajuri — saa sen sijaan muistivaraston; selkokielistä tiedostovaraa ei tarkoituksella ole, joten tunnusta, joka ei yllä Keychainiin, ei tallenneta lainkaan.",
     dataNote: {
       output: "Tuotetut lopputulokset, sekä outbox/-jono joka pitää sisällään ne tulokset jotka odottavat puhelinta.",
       vault: "Aikalukolla sinetöidyt arkistot ja perintämateriaali, joka avaa ne.",
@@ -452,6 +514,31 @@ export const fi: Dictionary = {
       config: "Asetukset, moottorien kytkimet, sekä se config, jota silta ja integraatiot käyttävät yhteisesti.",
     },
     rootLabel: "Data-juuri",
+    hubHeading: "Reunakeskuksen oma raja",
+    hubSub:
+      "Lähdehaarassa lisätyt neljä siltaa pidetään yllä olevien sääntöjen ja neljän muun varassa. Ne on kirjoitettu tähän eikä ominaisuuskortille, koska ne ovat väitteitä, jotka lukijan pitäisi voida kumota koodista.",
+    hubItems: [
+      {
+        title: "Yksi päästökohta",
+        body:
+          "Jokainen siltakohde — MCP HTTP:n yli, Home Assistant, MQTT, CalDAV — läpäisee saman EdgeBoundary-tarkistuksen ennen kuin pistoketta on olemassa: loopback, RFC 1918, ULA tai .local, ilman DNS-kyselyä sen selvittämiseksi onko nimi julkinen, ilman tunnuksia URL-osoitteessa ja ilman seurattua uudelleenohjausta. Kieltäytyminen on rivi konsolissa, ei hiljainen uusiyritys jossain muualla.",
+      },
+      {
+        title: "Tosite, ei kehote",
+        body:
+          "Muuttavaa toimintoa ei vartioida konsolin tekstikentällä. Siitä tulee ehdotus tilaan pending_user_approval, joka hyväksytään 24 merkin HMAC-SHA256-tositeella, sidottuna ehdotuksen tunnukseen ja verbiin, voimassa viisitoista minuuttia, ja kirjataan paikalliseen tarkastuslokiin. Suorittajan ajama hyötykuorma on se, jonka omistaja näki, ja sillan pois kytkeminen mitätöi odottavat ehdotukset.",
+      },
+      {
+        title: "Keychain tai muisti, ei koskaan tiedosto",
+        body:
+          "Siltatunnukset ovat Keychain-tietueissa, joihin osoitetaan viittauksella, tai prosessimuistissa paketin ulkopuolisessa ajossa. Kolmatta vaihtoehtoa ei ole: ei settings.json, ei loki, ei DMG. MCP-dokumentti tallentaa ympäristömuuttujien nimet, joten stdio:n yli MCP-palvelimelle annettu token luetaan ympäristöstä, jonka omistaja asetti, ei tiedostosta, jonka solmu kirjoitti.",
+      },
+      {
+        title: "Opi minimi",
+        body:
+          "CalDAV jäsentää kentät DTSTART ja DTEND ja hylkää otsikot, kuvaukset, sijainnit ja osallistujat jo jäsentimen sisällä, joten kiireisimmät kentät eivät koskaan päädy malliin. Ehdotuksen esikatselu näyttää lyhyet skalaariargumentit ja kätkee jokaisen arvon, jonka avain on redaktiolistalla — content, token, password, payload ja muut. Havaitseminen on vain luku -tyyppinen GET, joka raportoi koneen oman tilan.",
+      },
+    ],
     controlHeading: "Sinun puolesi katkaisimesta",
     controlSub:
       "Neljä hallintaa, kaikki paikallisia, kaikki näkyvillä sovelluksessa eivätkä hautautuneina asetusnäkymään. Yksikään niistä ei tarvitse verkkoa, ja siksi ne toimivat silloinkin kun verkko on ongelmana.",
@@ -624,6 +711,18 @@ export const fi: Dictionary = {
       {
         q: "Mitä minun pitää rekisteröidä?",
         a: "Mitään. Tiliä, puhelinnumeroa, sähköpostiosoitetta tai mainostunnistetta ei ole missään tuotteen osassa. Puhelimen liittäminen solmuun on yhden QR-koodin skannaus, ja web-konsoli sitoutuu vain loopback-osoitteeseen, vaihtaa satunnaisen tunnisteen jokaisessa käynnistyksessä eikä ole tavoitettavissa lähiverkkosi muista laitteista.",
+      },
+      {
+        q: "Skannaako solmu lähiverkkoani laitteiden varalta?",
+        a: "Ei. Havaitseminen on vain luku -tyyppinen GET /v1/discovery/capabilities, joka raportoi, mitä tällä Macilla jo on: Ollama loopback-osoitteessa, valtuuttamasi työtilakansiot, EventKit-käyttöoikeuden tila ja se, onnistuuko TCP-yhteys asetuksiin kirjoittamaasi lähiverkon isäntään. Koodissa ei ole mDNS-mainostajaa, porttiskannausta eikä aliverkon läpikäyntiä. Kohde päästetään läpi vain, jos se on loopback, RFC 1918 -literaali, ULA-osoite tai .local-nimi; julkinen osoite evätään ennen kuin pistoke avataan, eikä lähdehaara hyväksy isäntänimiä, jotka vaatisivat DNS-kyselyn.",
+      },
+      {
+        q: "Voiko MCP-työkalu tai älykodin komento suorittua ilman minua?",
+        a: "Vain luku -työkalu voi, omistajan määrittämän rajan sisällä. Muuttava ei voi: siitä tulee ehdotus tilaan pending_user_approval, ja se tarvitsee hyväksynnän, joka lyö 24 merkin HMAC-SHA256-tositeen sidottuna ehdotuksen tunnukseen ja verbiin, voimassa viisitoista minuuttia. Suorittaja ajaa täsmälleen sen hyötykuorman, joka näytettiin, toiminto kirjataan paikalliseen tarkastuslokiin, ja sillan pois kytkeminen mitätöi odottavan. Lukon, hälyttimen, sireenin, kameran tai robotti-imurin toimintoa pidetään suurena riskinä myös muuten sallivassa kokoonpanossa.",
+      },
+      {
+        q: "Onko pariliitoksen QR-koodi salattu?",
+        a: "Sinetöity, ja ero on olennainen. QR-koodi ja kopiointipainike kuljettavat osoitteen https://popopx.chat/i/v1/ ja sen perässä ChaCha20-Poly1305-laatikon, jonka avain johdetaan HKDF-SHA256:lla sovelluksen omassa lähteessä julkaistusta syötteestä. Se piilottaa SMP-jonon osoitteen linkin esikatseluilta, kuvakaappauksilta ja edelleenlähetyksiltä; se ei pidä sisältöä salassa siltä, jolla sovellus on. Laitteen valtuuttaa sen sisällä oleva allekirjoitettu, kertaluonteinen ja viidentoista minuutin tosite, ja raaka PPXNODE1-koodi ja kutsun URI pysyvät konsolin diagnostiikkalaatikossa eikä ohjatun asennuksen etupuolella.",
       },
       {
         q: "Miksi AGPL-3.0, ja mihin 13. pykälä minut velvoittaa?",

@@ -215,6 +215,18 @@ export const hu: Dictionary = {
       signature: "Aláírta",
       delivery: "Renderelés formája",
     },
+    sealedHeading: "A QR-kód egy lepecsételt boríték",
+    sealedSub:
+      "A 040ef25 óta a varázsló QR-kódja és másológombja egyetlen átlátszatlan URL-t hordoz a nyers hitelesítő helyett. A boríték távol tartja a relé címét a képernyőképtől, a hivatkozás-előnézettől és a továbbítástól; ez nem olyan titok, amelyet az alkalmazás birtokosa ne tudna kinyitni.",
+    sealedShapeLabel: "A lepecsételt hivatkozás alakja",
+    sealedFacts: {
+      kdf: "Kulcsszármaztatás",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Tartalomkorlátok",
+    },
+    sealedBody:
+      "A kulcsot HKDF-SHA256 származtatja az alkalmazás belsejében közzétett bemenetből, a tartalmat pedig ChaCha20-Poly1305 titkosítja rögzített asszociáltadat-sorozattal, így a borítékot bárki kinyitja, aki olvassa a forráskódot. Ez a terv: a hivatkozás elrejti az SMP üzenetsor címét az előnézetek, képernyőképek és továbbítások elől, a benne lévő aláírt, egyszer használható, tizenöt perces hitelesítő pedig valójában engedélyezi az eszközt. A nyers PPXNODE1-… kód és az üzenetsor címét hordozó meghívó URI a konzol diagnosztikai rekeszében marad; a node nyilvános kulcsa ott és a párosított eszközök soraiban jelenik meg, soha nem a varázsló lapján. A QR-kép helyben renderelődik, és csak loopbacken szolgálódik ki a /api/pairing/qr.png címen.",
     portsHeading: "A node figyelő oldala",
     portsSub:
       "Magának a node-nak egyetlen kinyitott portja van. A másik kettő olyan programoké, amelyiket a node elindít, és amelyekhez kliensként kapcsolódik – ez számít, amikor egy tűzfalnaplót olvasol: a 11434 vagy az 5225 felé irányuló kapcsolatot a node kezdeményezte, nem fogadta.",
@@ -231,6 +243,57 @@ export const hu: Dictionary = {
     },
     portsFootnote:
       "Harmójuk loopback. A konzol nyers HTTP TLS nélkül, ami csak azért ésszerű terv, mert sosem hagyja el a gépet: a 0.0.0.0-ra, egy helyihálózati címre vagy egy gépnévre kötési kísérleteket a rendszer már a socket létrehozása előtt elutasítja, és a cím az alkalmazásban van rögzítve, nem egy konfigurációs fájlból olvasódik. Amit védőként használ helyette, az egy huszonnégy bájt hosszú véletlen token, amelyet minden indításkor újból kiad a rendszer, X-PPX-Token fejléccel küldi el, csak a memóriában tartja, és a folyamat kilépésével megszűnik. A chat daemon vezérlő socketjének egyetlen hitelesítése sincs – ez a becsületes leírása –, és csak addig biztonságos, amíg a 127.0.0.1 címen marad.",
+  },
+
+  hub: {
+    badge: "FORRÁSVONAL · NINCS BENNE AZ ALÁÍRT 1.0.2-ES BUILD-BEN",
+    heading: "Öt helyi képesség, egy határ",
+    sub:
+      "A forrásvonal tulajdonoshoz kötött képességfeltárást, négy protokolladaptert és lepecsételt párosítási hivatkozást ad. A hidak alapból kikapcsolva állnak, minden cél ugyanazon a pozitív engedélylistán megy át, és minden írás olyan aláírt javaslattá válik, amelyet embernek kell jóváhagynia. Ebből semmi nem hosztolt szolgáltatás, és semmi nem nyit új figyelőt.",
+    status:
+      "A forrásban 2026. november 26. óta (5858b3c és 040ef25). Az oldalon lévő aláírt v1.0.2 letöltés mindkét commit előtt készült, ezért ezt a szakaszt a forrásvonal szerződéseként olvasd, nem a letöltött lemezkép funkciójaként.",
+    cards: [
+      {
+        title: "Feltárás, amely csak önmagáról válaszol",
+        body:
+          "A konzol azt jelenti, ami ezen a Macen már megvan: az Ollama a 127.0.0.1:11434 címen és a kiszolgált modellek, az általad engedélyezett munkaterület-mappák, az EventKit engedélyállapota, valamint egy TCP-elérhetőségi sor legfeljebb nyolc olyan LAN-célhoz, amelyet te magad gépeltél be. Ez egy kizárólag olvasó GET /v1/discovery/capabilities. Nincs mDNS-hirdető, nincs portpásztázás és nincs alhálózat-bejárás; csak loopback, RFC 1918 literál, ULA és .local név kerülhet be, és egy nyilvános cím még a socket megnyitása előtt elutasításra kerül.",
+      },
+      {
+        title: "MCP, az engedélylistán belül",
+        body:
+          "Egy helyi MCP-kliens JSON-RPC 2.0 initialize, tools/list és tools/call üzeneteket beszél. A szervereket kézzel kell regisztrálni a config/mcp_servers.json fájlban — legfeljebb nyolcat. A stdio parancsnak abszolút útvonalnak kell lennie egy tizenhat elemű allowedCommands listából, héjmetakarakterek nélkül; a HTTP szervernek loopbacken kell válaszolnia. Egy csak olvasó eszköz futhat; egy állapotot módosító eszköz soha nem fut le kérésre, csak javaslattá alakul.",
+      },
+      {
+        title: "Home Assistant és MQTT a helyi hálózaton",
+        body:
+          "Home Assistant a helyi REST API-n és egy kézzel írt MQTT 3.1.1 kliens, mindkettő loopbackre, RFC 1918-ra és .local-ra korlátozva. A híd számára csak az exposedEntities alatt nevesített entitások léteznek, a csak olvasó mód alapból be van kapcsolva, és egy broker-közzététel csak az általad beállított előtag alatt lévő, kitett entitást címezheti. A hitelesítők Keychain-hivatkozások; a settings.json nem tart tokent.",
+      },
+      {
+        title: "A CalDAV a réseket tartja meg, nem a szöveget",
+        body:
+          "PROPFIND és REPORT legfeljebb négy, a helyi hálózaton magad által hosztolt CalDAV-szerver ellen. Az iCalendar-feldolgozó megtartja a DTSTART és DTEND mezőket, a SUMMARY, DESCRIPTION, LOCATION, ORGANIZER és minden ATTENDEE mezőt pedig már a feldolgozás közben eldobja, így nincs későbbi redakciós lépés, amely elronthatná. A távoli foglaltsági blokkok tizenöt perces alsó korláttal vágódnak ki a helyi szabad helyekből; egy ismétlődést, amelyet a feldolgozó nem tud kiértékelni, alsó korlátként jelent, nem tippel.",
+      },
+    ],
+    boundaryHeading: "Amit a határ elutasít",
+    boundaryItems: [
+      {
+        title: "Nyilvános címek és fel nem oldott nevek",
+        body:
+          "A híd céljának loopbacknek, RFC 1918-as címnek, ULA-címnek vagy .local névnek kell lennie. Egy csupasz hosztnevet nem old fel a rendszer, hogy kiderüljön, nyilvános-e, az URL-ben lévő hitelesítőket elutasítja, a HTTP híd pedig nem követ átirányítást — így egy engedélyezett hoszt nem tudja a node-ot valaki más szerverére pattintani.",
+      },
+      {
+        title: "Ember nélküli írások",
+        body:
+          "Egy okosotthon-vezérlés vagy egy állapotot módosító MCP-eszköz pending_user_approval állapotú javaslattá válik, HMAC-SHA256 nyugtával, amely a javaslat azonosítójához és igéjéhez kötődik, és tizenöt percig érvényes. A végrehajtó pontosan azt a tartalmat futtatja, amelyet láttál, a művelet a helyi vizsgálati naplóba kerül, a híd kikapcsolása pedig érvényteleníti a függőben lévőket.",
+      },
+      {
+        title: "Titkok fájlos tartalék nélkül",
+        body:
+          "A Home Assistant tokenje, az MQTT-jelszó és a CalDAV-jelszó hivatkozással címzett Keychain-elemek; egy csomagolatlan futás csak a memóriában tartja őket, és semmi nem esik vissza fájlra. Az MCP-dokumentum környezetiváltozó-neveket tárol, soha nem értékeket.",
+      },
+    ],
+    footnote:
+      "Az „Adatvédelem és irányítás” oldal ugyanezt a határt sorolja fel szabályról szabályra, beleértve azt is, amit a node nem tud megígérni.",
   },
 
   engines: {
@@ -338,7 +401,7 @@ export const hu: Dictionary = {
       {
         title: "Az iPhone párosítása",
         body:
-          "Generáld le a párosítás QR-kódját – a konzolból, vagy a menüsáv új kód pontjából –, és olvasd be a POPOPX iOS klienssel. A kód aláírt, egyszer használható, és tizenöt perc múlva lejár. Az eszköz a konzol párosított listájában jelenik meg a modelljével, a párosítás időbélyegével és az utolsó megfigyelés idejével.",
+          "Generáld le a párosítás QR-kódját – a konzolból, vagy a menüsáv új kód pontjából –, és olvasd be a POPOPX iOS klienssel. A 040ef25 óta a QR-kód és a másológomb a nyers hitelesítő helyett egy lepecsételt https://popopx.chat/i/v1/… hivatkozást hordoz, így sem egy képernyőkép, sem egy chat-előnézet nem tárja fel az üzenetsor címét. A benne lévő kód továbbra is aláírt, egyszer használható, és tizenöt perc múlva lejár; a nyers PPXNODE1 kód és a meghívó URI a konzol diagnosztikai rekeszében marad. Az eszköz a párosított listában jelenik meg a modelljével, a párosítás időbélyegével és az utolsó megfigyelés idejével.",
       },
       {
         title: "A motorok bekapcsolása",
@@ -364,7 +427,7 @@ export const hu: Dictionary = {
       {
         title: "Teljes eltávolítás",
         body:
-          "Először kapcsold ki a Launch at Login elemet, majd a menüsávról válasszd a Quit pontot – ez bezárja a figyelőt és felszabadítja a bejelentkezési elemet. Töröld a /Applications/POPOPX Mac Node.app fájlt, aztán a gyökérmappát a ~/Library/Application Support/PopopxMacNode alatt, ha a lepecsételt safet, a naplókat és az elkészült eredményeket is el akarod tüntetni. Nincs eltávolító program és nincs bizonylat sem, amit elfelejthetnél: a két útvonalon kívül sosem települt semmi, és Keychain-bejegyzés sincs, mert az alkalmazás a Keychain-t sosem használja.",
+          "Először kapcsold ki a Launch at Login elemet, majd a menüsávról válaszd a Quit pontot – ez bezárja a figyelőt és felszabadítja a bejelentkezési elemet. Töröld a /Applications/POPOPX Mac Node.app fájlt, aztán a gyökérmappát a ~/Library/Application Support/PopopxMacNode alatt, ha a lepecsételt széfet, a naplókat és az elkészült eredményeket is el akarod tüntetni. Nincs eltávolító program és nincs bizonylat sem, amit elfelejthetnél: a két útvonalon kívül semmi nem települt. Az egyetlen dolog, amit ez a két útvonal nem fed le, egy Keychain-elem – ha beállítottál egy edge hub hidat, a hitelesítője az im.popopx.macnode.hub alatt mindkét törlést túléli, mert a Keychain nem mappa; töröld a Keychain Accessben, vagy a híd saját leválasztás gombjával.",
       },
     ],
     bridgeTitle: "Futtasd a motorokat a saját szkriptedből",
@@ -410,7 +473,7 @@ export const hu: Dictionary = {
       {
         title: "A kulcsok és a párosítási állapot",
         body:
-          "A node Ed25519 aláíró kulcsa, a párosított eszközök listája és az érvényes ajánlat egyszerű fájlok a pairing/ alatt. Nincs Keychain-bejegyzés, amelyet átvihetnél, nincs a kulcs felhőbeli mentése, és sehol sincs kulcsőrzés – ami kétélű fegyver, ahogy az alábbi, elvesztésről szóló bekezdés mondja.",
+          "A node Ed25519 aláíró kulcsa, a párosított eszközök listája és az érvényes ajánlat egyszerű fájlok a pairing/ alatt. A kulcsnak nincs felhőbeli mentése, és sehol sincs kulcsőrzés – ami kétélű fegyver, ahogy az alábbi, elvesztésről szóló bekezdés mondja. Az egyetlen kivétel az edge hub hídjának hitelesítője: a Home Assistant token, egy MQTT-jelszó vagy egy CalDAV-jelszó Keychain-elem, a settings.json pedig csak azt a hivatkozást hordozza, amelyik előhozza.",
       },
       {
         title: "A bizonyítéknyom",
@@ -420,7 +483,7 @@ export const hu: Dictionary = {
     ],
     transitHeading: "Kimegy a gépből",
     transitSub:
-      "Négy dolog megy ki, és mindegyik vagy a saját eszközödre megy, vagy valami olyanhoz, amit te állítottál be. Ötödik kategória nincs, és analitikai végpont sincs, amerre bármit elküldhetnél.",
+      "Négyféle forgalom megy ki a tágabb hálózat felé, és mindegyik vagy a saját eszközöd, vagy valami, amit te állítottál be. Ötödik csak akkor létezik, ha bekapcsolsz egy LAN-hidat: a Home Assistant, MQTT és CalDAV kérések, amelyek loopbacken, RFC 1918-as és .local címeken maradnak. Egyikükben sincs olyan analitikai végpont, amerre bármit is el lehetne küldeni.",
     transitItems: [
       {
         title: "Eredmények, vissza a saját telefonodra",
@@ -445,7 +508,7 @@ export const hu: Dictionary = {
     ],
     keysHeading: "Hol is laknak a titkok",
     keysBody:
-      "Nem a Keychainben. A node egy olyan macOS alkalmazás, amelyiknek egyetlen Keychain-függősége sincs, és ez döntés, nem figyelmetlenség: a párosítási és széfanyag a gyökérmappája alatt lévő fájlok, atomi írással, POSIX 0600 móddal és teljes fájlvédelemmel írva, így a gép lezárása alatt a lemezen nem olvashatók. A mérleg, amit elfogadsz, valós – a fájljogok ellenőrizhetők és hordozhatók, és ugyanakkor semmit nem érnek a felhasználói fiókod és olyan olvasó között, amelyik már rendelkezik a felhasználói fiókoddal. Kezeld a gyökérmappát úgy, mint a titkot, amelyik: nincs benne a Time Machine mentésben, és ez a node-kulcs egyetlen létező példánya.",
+      "A párosítási és széfanyag a gyökérmappa alatt lévő fájlok, atomi írással, POSIX 0600 móddal és teljes fájlvédelemmel írva, így a gép lezárása alatt a lemezen nem olvashatók. A mérleg, amit elfogadsz, valós – a fájljogok ellenőrizhetők és hordozhatók, és ugyanakkor semmit nem érnek a felhasználói fiókod és olyan olvasó között, amelyik már rendelkezik a felhasználói fiókoddal. Kezeld a gyökérmappát úgy, mint a titkot, amelyik: nincs benne a Time Machine mentésben, és ez a node-kulcs egyetlen létező példánya. A hub hitelesítője a másik utat választja. A Home Assistant token, az MQTT-jelszó és a CalDAV-jelszó az im.popopx.macnode.hub szolgáltatás alatt lévő generic-password elemek, kSecAttrAccessibleWhenUnlockedThisDeviceOnly beállítással létrehozva, a beállításdokumentum pedig csak egy hivatkozást tárol. Az alkalmazás csomagidentitása nélküli folyamat – swift run, tesztkeret – helyette memóriabeli tárolót kap; szándékosan nincs egyszerű szöveges fájlos tartalék, így egy hitelesítő, amelyik nem ér el a Keychainig, egyáltalán nem íródik ki.",
     dataNote: {
       output: "A generált eredmények, és az a kimeneti sor, amelyik a telefonra váró eredményeket tartja.",
       vault: "Időzítve lepecsételt archívumok és az öröklési anyag, amelyik kinyitja őket.",
@@ -456,6 +519,31 @@ export const hu: Dictionary = {
       config: "A beállítások, a motor kapcsolók, és az a konfiguráció, amelyet a híd és az integrációk megosztanak.",
     },
     rootLabel: "Gyökérmappa",
+    hubHeading: "Az edge hub saját határa",
+    hubSub:
+      "A forrásvonalban hozzáadott négy híd a fenti szabályokhoz és még négyhez tartja magát. Itt vannak leírva, nem egy funkciókártyán, mert ezek olyan állítások, amelyeket az olvasónak a kódból meg kell tudnia cáfolni.",
+    hubItems: [
+      {
+        title: "Egy beléptetési pont",
+        body:
+          "Minden híd célja — MCP HTTP-n, Home Assistant, MQTT, CalDAV — ugyanazon az EdgeBoundary-ellenőrzésen megy át, mielőtt socket létezne: loopback, RFC 1918, ULA vagy .local, DNS-lekérdezés nélkül arra, hogy egy név nyilvános-e, hitelesítő nélkül az URL-ben, és átirányítás követése nélkül. Az elutasítás egy sor a konzolon, nem csendes újrapróbálkozás valahol máshol.",
+      },
+      {
+        title: "Nyugta, nem párbeszédablak",
+        body:
+          "Egy állapotot módosító műveletet nem egy szövegmező engedélyez a konzolon. A pending_user_approval állapotú javaslattá válik, amelyet egy 24 karakteres HMAC-SHA256 nyugta hagy jóvá – a javaslat azonosítójához és igéjéhez kötve, tizenöt percig érvényesen –, és amely bekerül a helyi vizsgálati naplóba. A végrehajtó azt a tartalmat futtatja, amelyet a tulajdonos látott, a híd kikapcsolása pedig érvényteleníti a függő javaslatokat.",
+      },
+      {
+        title: "Keychain vagy memória, soha fájl",
+        body:
+          "A hidak hitelesítői hivatkozással címzett Keychain-elemekben vagy csomagolatlan futásnál a folyamat memóriájában élnek. Harmadik lehetőség nincs: sem settings.json, sem napló, sem DMG. Az MCP-dokumentum környezetiváltozó-neveket tárol, ezért a stdio-n át MCP-szervernek adott token abból a környezetből olvasódik, amelyet a tulajdonos állított be, nem egy fájlból, amelyet a node írt.",
+      },
+      {
+        title: "Csak a minimumot tudja meg",
+        body:
+          "A CalDAV a DTSTART és DTEND mezőket dolgozza fel, a címeket, leírásokat, helyszíneket és résztvevőket pedig már a feldolgozón belül eldobja, így a legterheltebb mezők soha nem kerülnek be a modellbe. Egy javaslat előnézete rövid skaláris argumentumokat mutat, és minden olyan értéket elrejt, amelynek kulcsa a redakciós listán van — content, token, password, payload és mások. A feltárás egy csak olvasó GET, amely a gép saját állapotát jelenti.",
+      },
+    ],
     controlHeading: "A te részed a leállító kapcsolón",
     controlSub:
       "Négy irányítás, mind helyi, mind látható az alkalmazásban ahelyett, hogy egy beállítás képernyőn lenne elásva. Egyiküknek sincs szüksége a hálózatra, és éppen ezért működnek akkor is, ha a hálózat a ludas.",
@@ -631,6 +719,18 @@ export const hu: Dictionary = {
       {
         q: "Mit kell regisztrálnom?",
         a: "Semmit. A termékben nincs fiók, nincs telefonszám, nincs e-mail-cím és nincs hirdetési azonosító. A telefon párosítása a node-dal egyetlen QR-kód beolvasása, a webes konzol pedig csak a loopbackre köt ki, minden induláskor véletlenszerű tokent forgat, és a helyi hálózatod többi részéről nem érhető el.",
+      },
+      {
+        q: "Átpásztázza a node a helyi hálózatomat eszközök után?",
+        a: "Nem. A feltárás egy csak olvasó GET /v1/discovery/capabilities, amely azt jelenti, ami ezen a Macen már megvan: az Ollama loopbacken, az általad engedélyezett munkaterület-mappák, az EventKit engedélyállapota, és hogy sikerül-e egy TCP-kapcsolat ahhoz a LAN-hoszthoz, amelyet a beállításokban beírtál. A kódban nincs mDNS-hirdető, nincs portpásztázás és nincs alhálózat-bejárás. Egy cél csak akkor kerülhet be, ha loopback, RFC 1918 literál, ULA-cím vagy .local név; egy nyilvános cím még a socket megnyitása előtt elutasításra kerül, és a forrásvonal nem fogad el olyan hosztneveket, amelyek DNS-lekérdezést igényelnének.",
+      },
+      {
+        q: "Lefuthat egy MCP-eszköz vagy egy okosotthon-parancs nélkülem?",
+        a: "Egy csak olvasó lefuthat, a tulajdonos által beállított határokon belül. Egy állapotot módosító nem: pending_user_approval állapotú javaslattá válik, és olyan jóváhagyás kell hozzá, amely 24 karakteres HMAC-SHA256 nyugtát állít ki, a javaslat azonosítójához és igéjéhez kötve, tizenöt percig érvényesen. A végrehajtó pontosan azt a tartalmat futtatja, amelyet megmutattak, a művelet a helyi vizsgálati naplóba kerül, a híd kikapcsolása pedig érvényteleníti a függőben lévőket. Egy zár, riasztó, sziréna, kamera vagy porszívó művelete akkor is magas kockázatúnak számít, ha a konfiguráció egyébként megengedő.",
+      },
+      {
+        q: "Titkosítva van a párosítási QR-kód?",
+        a: "Le van pecsételve, és a különbség számít. A QR-kód és a másológomb a https://popopx.chat/i/v1/ címet hordozza, amit ChaCha20-Poly1305-tel titkosított tartalom követ; ennek kulcsa HKDF-SHA256-tal származik az alkalmazás saját forrásában közzétett bemenetből. Ez elrejti az SMP üzenetsor címét a hivatkozás-előnézetek, képernyőképek és továbbítások elől; nem rejti el a tartalmat az elől, akinek ott van az alkalmazás. Az eszközt a benne lévő aláírt, egyszer használható, tizenöt perces hitelesítő engedélyezi, a nyers PPXNODE1 kód és a meghívó URI pedig a konzol diagnosztikai rekeszében marad, nem a varázsló lapján.",
       },
       {
         q: "Miért AGPL-3.0, és mire kötelez a 13. szakasz?",

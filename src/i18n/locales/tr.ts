@@ -215,6 +215,18 @@ export const tr: Dictionary = {
       signature: "İmzalayan",
       delivery: "Sunum biçimi",
     },
+    sealedHeading: "QR kod, mühürlü bir zarf",
+    sealedSub:
+      "040ef25'ten beri sihirbazın QR kodu ve kopyalama düğmesi, ham kimlik bilgisi yerine tek bir opak URL taşır. Zarf, aktarıcı adresini bir ekran görüntüsünden, bağlantı önizlemesinden veya iletiden uzak tutar; uygulamanın sahibinin açamayacağı bir sır değildir.",
+    sealedShapeLabel: "Mühürlü bağlantı biçimi",
+    sealedFacts: {
+      kdf: "Anahtar türetme",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Yük sınırları",
+    },
+    sealedBody:
+      "Anahtar, uygulamanın içinde yayımlanan bir girdiden HKDF-SHA256 ile türetilir ve kutu, sabit bir ilişkili veri dizisiyle ChaCha20-Poly1305'tir; bu yüzden kaynağı okuyan herkes bir zarfı açabilir. Tasarım budur: bağlantı, SMP kuyruk adresini önizlemelerden, ekran görüntülerinden ve iletmelerden saklar; bir cihazı yetkilendiren şey ise içindeki imzalı, tek kullanımlık ve on beş dakikalık kimlik bilgisidir. Ham PPXNODE1-… kodu ve kuyruk adresini taşıyan davet URI'si konsolun tanılama çekmecesinde kalır; düğümün ortak anahtarı orada ve eşleştirilmiş cihaz satırlarında görünür, sihirbazın ön yüzünde asla. QR görüntüsü yerelde çizilir ve yalnızca loopback üzerinde /api/pairing/qr.png adresinden sunulur.",
     portsHeading: "Düğümün dinleyen tarafı",
     portsSub:
       "Düğümün kendisi tek bir port açar. Diğer ikisi, başlattığı ve istemci olarak bağlandığı programlara ait; bu, bir güvenlik duvarı günlüğü okurken önemli: 11434 ya da 5225 üzerindeki bir bağlantı düğüm tarafından kabul edilmemiş, düğüm tarafından kurulmuştur.",
@@ -231,6 +243,57 @@ export const tr: Dictionary = {
     },
     portsFootnote:
       "Üçünün de adresi loopback. Konsol, TLS'siz düz HTTP; bu ancak makineden hiç çıkmadığı ölçüde makul bir tasarım: 0.0.0.0, bir yerel ağ adresi ya da bir host adı üzerinde bağlanma girişimleri bir soket oluşturulmadan reddedilir ve adres, bir yapılandırma dosyasından okunmak yerine uygulamaya sabit olarak yazılmıştır. Onu koruyan şey, her açılışta üretilen rastgele yirmi dört baytlık bir jetondur; X-PPX-Token olarak gönderilir, yalnızca bellekte tutulur ve süreç çıktığında ölür. Sohbet daemon'ının kontrol soketinde hiç kimlik doğrulama yoktur — bunun dürüst tarifi budur — ve güvenli kalabileceği tek şart, 127.0.0.1 üzerinde kalmaya devam etmesidir.",
+  },
+
+  hub: {
+    badge: "KAYNAK HATTI · İMZALI 1.0.2 DERLEMESİNDE YOK",
+    heading: "Beş yerel yetenek, tek sınır",
+    sub:
+      "Kaynak hattı, sahibiyle sınırlı yetenek keşfini, dört protokol bağdaştırıcısını ve mühürlü bir eşleştirme bağlantısını ekler. Köprüler varsayılan olarak kapalıdır, her hedef aynı olumlu izin listesinden geçer ve her yazma, bir insanın onaylaması gereken imzalı bir öneriye dönüşür. Hiçbiri barındırılan bir hizmet değildir ve hiçbiri yeni bir dinleyici açmaz.",
+    status:
+      "26 Kasım 2026'dan beri kaynakta (5858b3c ve 040ef25). Bu sitedeki imzalı v1.0.2 indirmesi her iki commit'ten de önce gelir; bu bölümü indirdiğiniz görüntünün bir özelliği olarak değil, kaynak hattının sözleşmesi olarak okuyun.",
+    cards: [
+      {
+        title: "Yalnızca kendisi hakkında yanıt veren keşif",
+        body:
+          "Konsol, bu Mac'in zaten sahip olduklarını bildirir: 127.0.0.1:11434 üzerindeki Ollama ve sunduğu modeller, yetkilendirdiğiniz çalışma klasörleri, EventKit izin durumu ve kendi yazdığınız en fazla sekiz yerel ağ hedefi için bir TCP erişilebilirlik satırı. Bu, salt okunur bir GET /v1/discovery/capabilities isteğidir. Ne bir mDNS duyurucusu, ne port taraması ne de alt ağ taraması vardır; yalnızca loopback, RFC 1918 sabitleri, ULA ve .local adları kabul edilir ve genel bir adres, soket açılmadan reddedilir.",
+      },
+      {
+        title: "MCP, izin listesinin içinde",
+        body:
+          "Yerel bir MCP istemcisi JSON-RPC 2.0 initialize, tools/list ve tools/call konuşur. Sunucular config/mcp_servers.json içine elle kaydedilir — en fazla sekiz. stdio komutu, on altı girişlik allowedCommands listesi içinde mutlak bir yol olmalı ve kabuk metakarakteri içermemelidir; HTTP sunucusu loopback üzerinde yanıt vermelidir. Salt okunur bir araç çalışabilir; değişiklik yapan bir araç istek üzerine asla yürütülmez, yalnızca bir öneriye dönüştürülür.",
+      },
+      {
+        title: "Yerel ağda Home Assistant ve MQTT",
+        body:
+          "Home Assistant yerel REST API'si üzerinden ve elle yazılmış bir MQTT 3.1.1 istemcisi; ikisi de loopback, RFC 1918 ve .local ile sınırlı. Köprü için yalnızca exposedEntities içinde adı geçen varlıklar vardır, salt okunur kip varsayılan olarak açıktır ve bir aracıya yapılan yayın yalnızca yapılandırdığınız bir ön ek altındaki açık bir varlığı hedefleyebilir. Kimlik bilgileri Keychain referanslarıdır; settings.json hiçbir token tutmaz.",
+      },
+      {
+        title: "CalDAV metni değil, boşlukları saklar",
+        body:
+          "Yerel ağdaki en fazla dört kendi barındırdığınız CalDAV sunucusuna PROPFIND ve REPORT. iCalendar ayrıştırıcısı DTSTART ve DTEND'i tutar; SUMMARY, DESCRIPTION, LOCATION, ORGANIZER ve her ATTENDEE'yi ayrıştırmanın içinde düşürür, böylece sonradan yanlış yapılabilecek bir redaksiyon adımı yoktur. Uzak meşgul blokları yerel boş dilimlerden on beş dakikalık bir tabanla kesilip çıkarılır; ayrıştırıcının değerlendiremediği bir yineleme, tahmin edilmek yerine bir taban olarak bildirilir.",
+      },
+    ],
+    boundaryHeading: "Sınırın reddettikleri",
+    boundaryItems: [
+      {
+        title: "Genel adresler ve çözümlenmeyen adlar",
+        body:
+          "Bir köprü hedefi loopback, RFC 1918, ULA ya da .local bir ad olmalıdır. Çıplak bir host adı, genel olup olmadığını öğrenmek için çözümlenmez, URL'deki kimlik bilgileri reddedilir ve bir HTTP köprüsü yönlendirmeyi izlemez — böylece izin listesindeki bir host düğümü başkasının sunucusuna sıçratamaz.",
+      },
+      {
+        title: "İnsansız yazmalar",
+        body:
+          "Bir akıllı ev eylemi ya da değişiklik yapan bir MCP aracı, kimliğine ve fiiline bağlı, on beş dakika geçerli HMAC-SHA256 makbuzu taşıyan bir pending_user_approval önerisine dönüşür. Yürüyen yük, size gösterilen yüktür, yerel denetim günlüğüne kaydedilir ve köprüyü kapatmak bekleyen ne varsa geçersiz kılar.",
+      },
+      {
+        title: "Düz metin yedeği olmayan sırlar",
+        body:
+          "Home Assistant token'ı, MQTT parolası ve CalDAV parolası, bir referansla adreslenen Keychain öğeleridir; paketlenmemiş bir çalıştırma onları yalnızca bellekte tutar ve hiçbir şey bir dosyaya geri düşmez. MCP belgesi ortam değişkeni adlarını saklar, değerleri asla.",
+      },
+    ],
+    footnote:
+      "Gizlilik ve denetim aynı sınırı kural kural anlatır, düğümün söz veremeyeceği şeyler dahil.",
   },
 
   engines: {
@@ -338,7 +401,7 @@ export const tr: Dictionary = {
       {
         title: "iPhone'u eşleştirin",
         body:
-          "Eşleştirme QR kodunu üretin — konsoldan ya da menü çubuğundaki yeni kod öğesinden — ve POPOPX iOS istemcisiyle tarayın. Kod imzalıdır, tek kullanımlıktır ve on beş dakikada süresi dolar. Cihaz; modeli, eşleştirme zamanı ve son görüldüğü anla birlikte konsoldaki eşleştirilmişler listesinde görünür.",
+          "Eşleştirme QR kodunu üretin — konsoldan ya da menü çubuğundaki yeni kod öğesinden — ve POPOPX iOS istemcisiyle tarayın. 040ef25'ten beri QR kodu ve kopyalama düğmesi ham kimlik bilgisi yerine mühürlü bir https://popopx.chat/i/v1/… bağlantısı taşır, böylece bir ekran görüntüsü ya da sohbet önizlemesi kuyruk adresini açığa çıkarmaz. İçindeki kod yine imzalıdır, tek kullanımlıktır ve on beş dakikada süresi dolar; ham PPXNODE1 kodu ve davet URI'si konsolun tanılama çekmecesinde kalır. Cihaz; modeli, eşleştirme zamanı ve son görüldüğü anla birlikte eşleştirilmişler listesinde görünür.",
       },
       {
         title: "Motorları açın",
@@ -364,7 +427,7 @@ export const tr: Dictionary = {
       {
         title: "Tamamen kaldırma",
         body:
-          "Önce Launch at Login özelliğini kapatın, sonra menü çubuğundan Quit deyin — dinleyici kapanır ve oturum açma öğesi serbest bırakılır. /Applications/POPOPX Mac Node.app dosyasını silin, ardından mühürlü kasa, defterler ve çıktılar da gitsin istiyorsanız ~/Library/Application Support/PopopxMacNode veri kökünü silin. Kaldırma programı yok ve unutacak bir kayıt da yok: o iki yolun dışında hiçbiri kurulmadı; Keychain kaydı da yok, çünkü uygulama Keychain'i hiç kullanmaz.",
+          "Önce Launch at Login özelliğini kapatın, sonra menü çubuğundan Quit deyin — dinleyici kapanır ve oturum açma öğesi serbest bırakılır. /Applications/POPOPX Mac Node.app dosyasını silin, ardından mühürlü kasa, defterler ve çıktılar da gitsin istiyorsanız ~/Library/Application Support/PopopxMacNode veri kökünü silin. Kaldırma programı yok ve unutacak bir kayıt da yok: o iki yolun dışında hiçbir şey kurulmadı. O iki yolun kapsamadığı tek şey bir Keychain öğesidir: bir hub köprüsü yapılandırdıysanız im.popopx.macnode.hub altındaki kimlik bilgisi iki silme işlemini de atlatır, çünkü Keychain bir klasör değildir; onu Keychain Access içinde ya da köprünün kendi bağlantı kesme düğmesinden kaldırın.",
       },
     ],
     bridgeTitle: "Motorları kendi betiğinle sür",
@@ -410,7 +473,7 @@ export const tr: Dictionary = {
       {
         title: "Anahtarlar ve eşleştirme durumu",
         body:
-          "Düğümün Ed25519 imzalama anahtarı, eşleştirilmiş cihazların listesi ve güncel teklif, pairing/ altında düz dosyalardır. Taşıyacağınız bir Keychain kaydı, anahtarın bulut yedeği ya da herhangi bir yerde bir emanet yoktur — bunun iki ucu da keser; aşağıdaki kayıp paragrafı bunu söylüyor.",
+          "Düğümün Ed25519 imzalama anahtarı, eşleştirilmiş cihazların listesi ve güncel teklif, pairing/ altında düz dosyalardır. Anahtarın bulut yedeği ya da herhangi bir yerde bir emanet yoktur — bunun iki ucu da keser; aşağıdaki kayıp paragrafı bunu söylüyor. Tek istisna bir hub köprüsünün kimlik bilgisidir: Home Assistant token'ı, bir MQTT parolası ya da bir CalDAV parolası bir Keychain öğesidir ve settings.json yalnızca onu getiren referansı taşır.",
       },
       {
         title: "Kanıt izi",
@@ -420,7 +483,7 @@ export const tr: Dictionary = {
     ],
     transitHeading: "Makineden çıkar",
     transitSub:
-      "Dört şey çıkar ve dördü de ya kendi cihazınızdır ya da sizin yapılandırdığınız bir şey. Beşinci bir kategori yoktur, hiçbir şey gönderilecek bir analitik uç noktası da yoktur.",
+      "Dört tür trafik daha geniş ağa çıkar ve her biri ya kendi cihazınızdır ya da sizin yapılandırdığınız bir şeydir. Beşincisi yalnızca bir yerel ağ köprüsü açıkken vardır: loopback, RFC 1918 ve .local adreslerinde kalan Home Assistant, MQTT ve CalDAV istekleri. Hiçbirinde bir şey gönderilecek bir analitik uç noktası yoktur.",
     transitItems: [
       {
         title: "Sonuçlar, kendi telefonunuza geri",
@@ -445,7 +508,7 @@ export const tr: Dictionary = {
     ],
     keysHeading: "Sırların gerçekte durduğu yer",
     keysBody:
-      "Keychain'de değil. Düğüm, Keychain'e hiçbir bağımlılığı olmayan bir macOS uygulaması ve bu bir gözden kaçırma değil, bir tercih: eşleştirme ve kasa malzemesi, veri kökünün altındaki dosyalardır; atomik yazma, POSIX kipi 0600 ve tam dosya korumasıyla diske inerler, böylece makine kilitliyken diskteki hâlleri okunamaz. Göze aldığınız değişiklik gerçek: dosya izinleri denetlenebilir ve taşınabilir, ama sizin kullanıcı hesabınız ile kullanıcı hesabınızı zaten ele geçirmiş bir okuyucu arasına hiçbir şey koymazlar. Veri köküne bir sır gibi davranın: Time Machine içinde değildir ve düğüm anahtarının var olan tek kopyası odur.",
+      "Eşleştirme ve kasa malzemesi, veri kökünün altındaki dosyalardır; atomik yazma, POSIX kipi 0600 ve tam dosya korumasıyla diske inerler, böylece makine kilitliyken diskteki hâlleri okunamaz. Göze aldığınız değişiklik gerçek: dosya izinleri denetlenebilir ve taşınabilir, ama sizin kullanıcı hesabınız ile kullanıcı hesabınızı zaten ele geçirmiş bir okuyucu arasına hiçbir şey koymazlar. Veri köküne bir sır gibi davranın: Time Machine içinde değildir ve düğüm anahtarının var olan tek kopyası odur. Bir hub kimlik bilgisi öteki yolu izler. Home Assistant token'ı, MQTT parolası ve CalDAV parolası, im.popopx.macnode.hub servisi altında kSecAttrAccessibleWhenUnlockedThisDeviceOnly ile oluşturulmuş generic-password öğeleridir ve ayarlar belgesi yalnızca bir referans saklar. Uygulamanın paket kimliği olmayan bir süreç — swift run, bir test koşum takımı — bunun yerine bellek içi bir depo alır; düz metin dosyasına düşüş bilerek yoktur, yani Keychain'e ulaşamayan bir kimlik bilgisi hiç kaydedilmez.",
     dataNote: {
       output: "Üretilen çıktılar ve telefonunu bekleyen sonuçları tutan outbox kuyruğu.",
       vault: "Zamana kilitli mühürlü arşivler ve onları açan halefiyet malzemesi.",
@@ -456,6 +519,31 @@ export const tr: Dictionary = {
       config: "Ayarlar, motor anahtarları ve köprü ile entegrasyonların paylaştığı yapılandırma.",
     },
     rootLabel: "Veri kökü",
+    hubHeading: "Uç hub'ın kendi sınırı",
+    hubSub:
+      "Kaynak hattında eklenen dört köprü, yukarıdaki kurallara ve dört kurala daha uyar. Bunlar bir özellik kartında değil burada yazılı, çünkü bir okurun koddan yanlışlayabilmesi gereken iddialardır.",
+    hubItems: [
+      {
+        title: "Tek giriş noktası",
+        body:
+          "Her köprü hedefi — HTTP üzerinden MCP, Home Assistant, MQTT, CalDAV — bir soket doğmadan önce aynı EdgeBoundary denetiminden geçer: loopback, RFC 1918, ULA ya da .local; bir adın genel olup olmadığını keşfetmek için DNS sorgusu yok, URL'de kimlik bilgisi yok ve yönlendirme izlenmiyor. Ret, konsolda bir satırdır, başka bir yerde sessiz bir yeniden deneme değil.",
+      },
+      {
+        title: "İstem değil, makbuz",
+        body:
+          "Değişiklik yapan bir eylem konsoldaki bir metin kutusuyla geçitlenmez. pending_user_approval durumunda bir öneriye dönüşür, öneri kimliğine ve fiiline bağlı 24 karakterlik bir HMAC-SHA256 makbuzuyla onaylanır, on beş dakika geçerlidir ve yerel denetim günlüğüne yazılır. Yürütücünün çalıştırdığı yük, sahibinin gördüğü yüktür ve köprüyü kapatmak bekleyen önerileri geçersiz kılar.",
+      },
+      {
+        title: "Keychain ya da bellek, asla dosya",
+        body:
+          "Köprü kimlik bilgileri, bir referansla adreslenen Keychain öğelerinde ya da paketlenmemiş bir çalıştırma için süreç belleğinde yaşar. Üçüncü bir seçenek yok: ne settings.json, ne bir günlük, ne bir DMG. MCP belgesi ortam değişkeni adlarını saklar; böylece stdio yoluyla bir MCP sunucusuna verilen token, düğümün yazdığı bir dosyadan değil, sahibin ayarladığı ortamdan okunur.",
+      },
+      {
+        title: "En azını öğren",
+        body:
+          "CalDAV, DTSTART ve DTEND'i ayrıştırır; başlıkları, açıklamaları, konumları ve katılımcıları ayrıştırıcının içinde atar, böylece en yoğun alanlar modele hiç girmez. Bir öneri önizlemesi kısa skaler argümanları gösterir ve anahtarı redaksiyon listesinde olan her değeri gizler — content, token, password, payload ve daha fazlası. Keşif, makinenin kendi durumunu bildiren salt okunur bir GET'tir.",
+      },
+    ],
     controlHeading: "Kapanış düğmesinin sizin tarafınız",
     controlSub:
       "Dört denetim; hepsi yerel, hepsi bir ayarlar ekranına gömülü olmak yerine uygulamada görünür. Hiçbiri ağa ihtiyaç duymaz; ağ sorunken işe yaramalarının nedeni de bu.",
@@ -631,6 +719,18 @@ export const tr: Dictionary = {
       {
         q: "Neyi kaydetmem gerekiyor?",
         a: "Hiçbir şey. Ürünün hiçbir yerinde hesap, telefon numarası, e-posta adresi veya reklam tanımlayıcısı yoktur. Telefonu düğüme eşleştirmek tek bir QR taramasıdır; web konsolu yalnızca loopback'e bağlanır, her açılışta rastgele bir jeton yeniler ve yerel ağının geri kalanından erişilemez.",
+      },
+      {
+        q: "Düğüm cihazlar için yerel ağımı tarıyor mu?",
+        a: "Hayır. Keşif, bu Mac'in zaten sahip olduklarını bildiren salt okunur bir GET /v1/discovery/capabilities isteğidir: loopback üzerindeki Ollama, yetkilendirdiğiniz çalışma klasörleri, EventKit izin durumu ve ayarlara yazdığınız bir yerel ağ ana bilgisayarına TCP bağlantısının kurulup kurulamadığı. Kodda ne bir mDNS duyurucusu, ne port taraması ne de alt ağ taraması var. Bir hedef yalnızca loopback, bir RFC 1918 sabiti, bir ULA adresi ya da .local adıysa kabul edilir; genel bir adres bir soket açılmadan reddedilir ve kaynak hattı DNS sorgusu gerektirecek ana bilgisayar adlarını kabul etmez.",
+      },
+      {
+        q: "Bir MCP aracı ya da akıllı ev komutu bensiz çalışabilir mi?",
+        a: "Salt okunur olan çalışabilir, sahibin yapılandırdığı sınırın içinde. Değişiklik yapan çalışamaz: pending_user_approval içinde bir öneriye dönüşür ve öneri kimliğine ve fiiline bağlı, on beş dakika geçerli 24 karakterlik bir HMAC-SHA256 makbuzu üreten bir onay gerektirir. Yürütücü tam olarak gösterilen yükü çalıştırır, eylem yerel denetim günlüğüne kaydedilir ve köprüyü kapatmak bekleyenleri geçersiz kılar. Kilit, alarm, siren, kamera ya da robot süpürge eylemi, aksi hâlde izin verici bir yapılandırmanın içinde bile yüksek riskli sayılır.",
+      },
+      {
+        q: "Eşleştirme QR kodu şifreli mi?",
+        a: "Mühürlü — ve aradaki fark önemli. QR kodu ve kopyalama düğmesi https://popopx.chat/i/v1/ ve ardından, anahtarı uygulamanın kendi kaynağında yayımlanan bir girdiden HKDF-SHA256 ile türetilen bir ChaCha20-Poly1305 kutusu taşır. Bu, SMP kuyruk adresini bağlantı önizlemelerinden, ekran görüntülerinden ve iletmelerden saklar; içeriği uygulamaya sahip olan herkesten saklamaz. Cihazı yetkilendiren şey içindeki imzalı, tek kullanımlık ve on beş dakikalık kimlik bilgisidir; ham PPXNODE1 kodu ve davet URI'si ise sihirbazın ön yüzünde değil, konsolun tanılama çekmecesinde kalır.",
       },
       {
         q: "Neden AGPL-3.0 ve Madde 13 beni neye zorunlu tutuyor?",

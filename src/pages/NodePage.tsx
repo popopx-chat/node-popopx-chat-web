@@ -3,6 +3,7 @@ import { GlassPanel } from "../components/GlassPanel";
 import { SectionHeading, SubHeading } from "../components/SectionHeading";
 import { useI18n } from "../i18n/translations";
 import { PAIRING, RUNTIME_PORTS, WIRE } from "../data/nodeRuntime";
+import { SEALED_PAIRING } from "../data/edgeHub";
 import { RouteLink } from "../router";
 
 /**
@@ -19,7 +20,7 @@ export function NodePage() {
 
   const facts = [
     { label: node.pairingFacts.lifetime, value: `${PAIRING.lifetimeSeconds} s` },
-    { label: node.pairingFacts.singleUse, value: `${PAIRING.codePrefix} · once` },
+    { label: node.pairingFacts.singleUse, value: PAIRING.singleUse ? "1×" : "—" },
     { label: node.pairingFacts.signature, value: PAIRING.signature },
     { label: node.pairingFacts.delivery, value: PAIRING.deliveredAs },
   ];
@@ -120,6 +121,38 @@ export function NodePage() {
               </div>
             ))}
           </dl>
+
+          <div className="mt-12">
+            <SubHeading title={node.sealedHeading} sub={node.sealedSub} />
+            <p className="mt-6 font-mono text-[11px] tracking-[0.16em] text-ink-mute">
+              {node.sealedShapeLabel}
+            </p>
+            <code className="scroll-shadow mt-2 block overflow-x-auto rounded-[14px] border border-edge bg-void/60 px-4 py-3.5 font-mono text-[12.5px] text-brand-haze">
+              {SEALED_PAIRING.linkShape}
+            </code>
+            <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { label: node.sealedFacts.kdf, value: SEALED_PAIRING.kdf },
+                { label: node.sealedFacts.cipher, value: SEALED_PAIRING.cipher },
+                {
+                  label: node.sealedFacts.nonce,
+                  value: `${SEALED_PAIRING.nonceBytes} B · ${SEALED_PAIRING.tagBytes} B tag`,
+                },
+                {
+                  label: node.sealedFacts.caps,
+                  value: `${SEALED_PAIRING.maxSealableBytes} / ${SEALED_PAIRING.maxOpenableBytes} B`,
+                },
+              ].map((fact) => (
+                <div key={fact.label} className="glass-quiet rounded-[16px] px-5 py-4">
+                  <dt className="text-[12.5px] text-ink-mute">{fact.label}</dt>
+                  <dd className="mt-1.5 truncate font-mono text-[13px] text-ink">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-4 max-w-4xl text-pretty text-[13.5px] leading-relaxed text-ink-dim">
+              {node.sealedBody}
+            </p>
+          </div>
         </div>
       </section>
 

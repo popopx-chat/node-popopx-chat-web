@@ -215,6 +215,18 @@ export const cs: Dictionary = {
       signature: "Podepisuje",
       delivery: "Vykresleno jako",
     },
+    sealedHeading: "QR kód je zapečetěná obálka",
+    sealedSub:
+      "Od commitu 040ef25 nesou QR kód průvodce a tlačítko kopírování jednu neprůhlednou URL adresu místo surového pověření. Obálka drží adresu relé mimo snímek obrazovky, náhled odkazu i přeposlání; není to tajemství, které by držitel aplikace nedokázal otevřít.",
+    sealedShapeLabel: "Podoba zapečetěného odkazu",
+    sealedFacts: {
+      kdf: "Odvození klíče",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Limity payloadu",
+    },
+    sealedBody:
+      "Klíč se odvozuje pomocí HKDF-SHA256 ze vstupu zveřejněného uvnitř aplikace a obsah je zašifrovaný algoritmem ChaCha20-Poly1305 s pevným řetězcem přidružených dat, takže obálku otevře každý, kdo si přečte zdrojový kód. To je záměr: odkaz skrývá adresu fronty SMP před náhledy, snímky obrazovky a přeposláním, kdežto zařízení ve skutečnosti autorizuje podepsané, jednorázové, patnáctiminutové pověření uvnitř. Surový kód PPXNODE1-… a URI pozvánky, které nese adresu fronty, zůstávají v diagnostickém šuplíku konzole; veřejný klíč uzlu se objevuje tam a v řádcích spárovaných zařízení, nikdy na tváři průvodce. Obraz QR kódu se vykresluje lokálně a servíruje se výhradně na loopbacku na /api/pairing/qr.png.",
     portsHeading: "Naslouchající strana uzlu",
     portsSub:
       "Uzel sám otevře jeden port. Ty dva další patří programům, které spouští a k nimž se připojuje jako klient — a to je rozhodující ve chvíli, kdy čtete log firewallu: spojení na 11434 nebo 5225 navázal uzel, nepřijal.",
@@ -231,6 +243,57 @@ export const cs: Dictionary = {
     },
     portsFootnote:
       "Všechny tři jsou loopback. Konzole je čistý HTTP bez TLS, což je rozumný návrh jen proto, že nikdy neopustí stroj: pokusy navázat se na 0.0.0.0, adresu v LAN nebo hostname se zamítnou dřív, než socket vůbec vznikne, a adresa je v aplikaci zakódovaná, ne přečtená z konfiguračního souboru. Místo toho ji střeží náhodný čtyřiadvacetibajtový token vydávaný při každém spuštění, posílaný jako X-PPX-Token, držený jen v paměti, který po skončení procesu umírá. Řídicí socket chatovacího démona nemá autentizaci vůbec — to je jeho upřímný popis — a bezpečný je jen tak dlouho, jak dlouho zůstává na 127.0.0.1.",
+  },
+
+  hub: {
+    badge: "ZDROJOVÁ LINIE · NENÍ V PODEPSANÉM SESTAVENÍ 1.0.2",
+    heading: "Pět lokálních schopností, jedna hranice",
+    sub:
+      "Zdrojová linie přidává objevování schopností v rozsahu vlastníka, čtyři protokolové adaptéry a zapečetěný párovací odkaz. Můstky jsou ve výchozím stavu vypnuté, každý cíl prochází stejným pozitivním seznamem povolených a každý zápis se změní na podepsaný návrh, který musí schválit člověk. Nic z toho není hostovaná služba a nic z toho neotevírá nový listener.",
+    status:
+      "Ve zdrojích od 26. listopadu 2026 (5858b3c a 040ef25). Podepsané vydání v1.0.2 na tomto webu vzniklo před oběma commity, takže tuto sekci čtěte jako smlouvu zdrojové linie, ne jako vlastnost obrazu, který si právě stahujete.",
+    cards: [
+      {
+        title: "Objevování, které odpovídá jen samo o sobě",
+        body:
+          "Konzole hlásí, co tenhle Mac už má: Ollama na 127.0.0.1:11434 a modely, které servíruje, složky pracovního prostoru, které jste autorizovali, stav oprávnění EventKit a řádek dosažitelnosti TCP pro nejvýš osm cílů v síti LAN, které jste sami zadali. Je to GET /v1/discovery/capabilities pouze pro čtení. Není tu žádné mDNS vysílání, žádné skenování portů ani průchod podsítí; připuštěn je jen loopback, literály RFC 1918, ULA a jména .local, a veřejná adresa se zamítne dřív, než se otevře socket.",
+      },
+      {
+        title: "MCP, uvnitř seznamu povolených",
+        body:
+          "Lokální klient MCP mluví JSON-RPC 2.0 initialize, tools/list a tools/call. Servery se registrují ručně v config/mcp_servers.json — nejvýš osm. Příkaz stdio musí být absolutní cesta ze šestnáctipoložkového seznamu allowedCommands a nesmí obsahovat metaznaky shellu; server HTTP musí odpovídat na loopbacku. Nástroj pouze pro čtení se může spustit; nástroj měnící stav se nikdy nespouští na požádání, jen se změní na návrh.",
+      },
+      {
+        title: "Home Assistant a MQTT v síti LAN",
+        body:
+          "Home Assistant přes lokální REST API a ručně napsaný klient MQTT 3.1.1, obojí omezené na loopback, RFC 1918 a .local. Pro můstek existují jen entity uvedené v exposedEntities, režim pouze pro čtení je ve výchozím stavu zapnutý a publikace do brokeru může adresovat jen vystavenou entitu pod vámi nastaveným prefixem. Pověření jsou odkazy do Keychainu; settings.json nedrží žádný token.",
+      },
+      {
+        title: "CalDAV si nechává mezery, ne text",
+        body:
+          "PROPFIND a REPORT proti nejvýš čtyřem vlastnoručně hostovaným serverům CalDAV v síti LAN. Parser iCalendar zachová DTSTART a DTEND a SUMMARY, DESCRIPTION, LOCATION, ORGANIZER i každé ATTENDEE zahodí uvnitř parsování, takže žádný pozdější krok redakce nemůže selhat. Vzdálené bloky obsazenosti se vyřezávají z lokálních volných slotů s podlahou patnácti minut; opakování, které parser neumí vyhodnotit, se hlásí jako podlaha, ne jako odhad.",
+      },
+    ],
+    boundaryHeading: "Co hranice odmítá",
+    boundaryItems: [
+      {
+        title: "Veřejné adresy a nevyřešená jména",
+        body:
+          "Cíl můstku musí být loopback, adresa RFC 1918, ULA nebo jméno .local. Holé jméno hostitele se nerozlišuje překladem DNS, aby se zjistilo, zda je veřejné, pověření v URL se zamítají a HTTP můstek nenásleduje přesměrování — takže host ze seznamu povolených nemůže uzel odklonit na cizí server.",
+      },
+      {
+        title: "Zápisy bez člověka",
+        body:
+          "Aktivace v chytré domácnosti nebo nástroj MCP měnící stav se změní na návrh ve stavu pending_user_approval s potvrzením HMAC-SHA256 vázaným na jeho id a sloveso, platným patnáct minut. Spouští se přesně ten payload, který vám byl ukázán, akce se zapíše do lokálního audit logu a vypnutí můstku zruší to, co čekalo.",
+      },
+      {
+        title: "Tajemství bez záložní cesty v podobě souboru",
+        body:
+          "Token Home Assistant, heslo MQTT a heslo CalDAV jsou položky Keychainu adresované odkazem; běh bez balíčku je drží jen v paměti a nic nesklouzává k souboru. Dokument MCP ukládá názvy proměnných prostředí, nikdy hodnoty.",
+      },
+    ],
+    footnote:
+      "Stránka Soukromí a kontrola vypisuje stejnou hranici pravidlo po pravidle, včetně toho, co uzel nemůže slíbit.",
   },
 
   engines: {
@@ -338,7 +401,7 @@ export const cs: Dictionary = {
       {
         title: "Spárujte iPhone",
         body:
-          "Vyrobte párovací QR kód — z konzole nebo z položky nového kódu v liště nabídek — a naskenujte ho klientem POPOPX iOS. Kód je podepsaný, jednorázový a za patnáct minut vyprší. Zařízení se objeví v seznamu spárovaných v konzoli se svým modelem, časem spárování a údajem, kdy ho uzel naposledy viděl.",
+          "Vyrobte párovací QR kód — z konzole nebo z položky nového kódu v liště nabídek — a naskenujte ho klientem POPOPX iOS. Od commitu 040ef25 nesou QR kód i tlačítko kopírování zapečetěný odkaz https://popopx.chat/i/v1/… místo surového pověření, takže snímek obrazovky ani náhled chatu neodhalí adresu fronty. Kód uvnitř je pořád podepsaný, jednorázový a za patnáct minut vyprší; surový kód PPXNODE1 a URI pozvánky zůstávají v diagnostickém šuplíku konzole. Zařízení se objeví v seznamu spárovaných se svým modelem, časem spárování a posledním spatřením.",
       },
       {
         title: "Zapněte enginy",
@@ -364,7 +427,7 @@ export const cs: Dictionary = {
       {
         title: "Úplné odstranění",
         body:
-          "Nejdřív vypněte Launch at Login, pak dejte Quit z lišty nabídek — to zavře listener a uvolní položku při přihlášení. Smažte /Applications/POPOPX Mac Node.app a pak i datový kořen ~/Library/Application Support/PopopxMacNode, pokud chcete odstranit i zapečetěný trezor, knihy záznamů a výstupy. Žádný odinstalační nástroj tu není a na nic se nedá zapomenout: nic se nenainstalovalo mimo ty dvě cesty a žádné položky v Keychainu neexistují, protože aplikace Keychain nikdy nepoužívá.",
+          "Nejdřív vypněte Launch at Login, pak dejte Quit z lišty nabídek — to zavře listener a uvolní položku při přihlášení. Smažte /Applications/POPOPX Mac Node.app a pak i datový kořen ~/Library/Application Support/PopopxMacNode, pokud chcete odstranit i zapečetěný trezor, knihy záznamů a výstupy. Žádný odinstalační nástroj tu není a na nic se nedá zapomenout: mimo ty dvě cesty se neinstalovalo nic. Jediné, co ty dvě cesty nepokrývají, je položka v Keychainu — pokud jste nastavili můstek edge hubu, jeho pověření pod im.popopx.macnode.hub přežije obě smazání, protože Keychain není složka; odstraňte je v Keychain Access nebo tlačítkem odpojení v samotném můstku.",
       },
     ],
     bridgeTitle: "Ovládejte enginy vlastním skriptem",
@@ -410,7 +473,7 @@ export const cs: Dictionary = {
       {
         title: "Klíče a stav párování",
         body:
-          "Podepisovací klíč uzlu Ed25519, seznam spárovaných zařízení i aktuální nabídka jsou obyčejné soubory pod pairing/. Není tam žádný záznam v Keychainu, který by se migroval, žádná cloudová záloha klíče a žádná úschova nikde — což platí oběma směry, jak říká odstavec o ztrátě níže.",
+          "Podepisovací klíč uzlu Ed25519, seznam spárovaných zařízení i aktuální nabídka jsou obyčejné soubory pod pairing/. Žádná cloudová záloha klíče neexistuje a nikde není žádná úschova — což platí oběma směry, jak říká odstavec o ztrátě níže. Jedinou výjimkou je pověření můstku edge hubu: token Home Assistant, heslo MQTT nebo heslo CalDAV je položka Keychainu a settings.json nese jen odkaz, který ji načte.",
       },
       {
         title: "Stopa důkazů",
@@ -420,7 +483,7 @@ export const cs: Dictionary = {
     ],
     transitHeading: "Opouští stroj",
     transitSub:
-      "Odcházejí čtyři věci, a každá z nich míří buď na vaše vlastní zařízení, nebo na něco, co jste si nastavili. Pátá kategorie neexistuje a neexistuje ani analytický endpoint, kam by něco šlo posílat.",
+      "Ze stroje odcházejí čtyři druhy provozu a každý z nich je buď vaše vlastní zařízení, nebo něco, co jste si nastavili. Pátý existuje jen tehdy, když zapnete můstek v síti LAN: požadavky Home Assistant, MQTT a CalDAV, které zůstávají na loopbacku, adresách RFC 1918 a .local. V žádném z nich není analytický endpoint, kam by se dalo něco poslat.",
     transitItems: [
       {
         title: "Výsledky zpět do vašeho vlastního telefonu",
@@ -445,7 +508,7 @@ export const cs: Dictionary = {
     ],
     keysHeading: "Kde tajné údaje skutečně leží",
     keysBody:
-      "Ne v Keychainu. Uzel je aplikace pro macOS, která na Keychainu nezávisí vůbec, a to je rozhodnutí, ne přehlédnutí: párovací materiál i materiál trezoru jsou soubory pod jeho datovým kořenem, zapsané atomickým zápisem, POSIX módem 0600 a s úplným chráněním souborů, takže dokud je stroj zamčený, za klidu na disku se přečíst nedají. Ten kompromis je reálný — oprávnění souborů jsou auditovatelná a přenositelná, a zároveň nejsou ničím mezi vaším uživatelským účtem a čtečkou, která váš uživatelský účet už má. Považte datový kořen za to, čím je: není v záloze Time Machine a je to jediná kopie klíče uzlu, která existuje.",
+      "Materiál párování i materiál trezoru jsou soubory pod datovým kořenem, zapsané atomickým zápisem, v POSIX módu 0600 a s úplným chráněním souborů, takže dokud je stroj zamčený, v klidu se přečíst nedají. Ten kompromis je reálný — oprávnění souborů jsou auditovatelná a přenositelná, a zároveň nejsou ničím mezi vaším uživatelským účtem a čtečkou, která váš uživatelský účet už má. Považujte datový kořen za to, čím je: není v záloze Time Machine a je to jediná kopie klíče uzlu, která existuje. Pověření hubu jde jinou cestou. Token Home Assistant, heslo MQTT a heslo CalDAV jsou položky typu generic-password pod službou im.popopx.macnode.hub, vytvořené s kSecAttrAccessibleWhenUnlockedThisDeviceOnly, a dokument nastavení ukládá jen odkaz. Proces bez identity balíčku aplikace — swift run, testovací harness — dostane místo toho úložiště v paměti; záložní cesta v podobě souboru s otevřeným textem záměrně neexistuje, takže pověření, které se do Keychainu nedostane, se neuloží vůbec.",
     dataNote: {
       output:
         "Vygenerované výstupy a fronta outbox, která drží výsledky čekající na telefon.",
@@ -457,6 +520,31 @@ export const cs: Dictionary = {
       config: "Nastavení, přepínače enginů a konfigurace, kterou si dělí můstek a integrations.",
     },
     rootLabel: "Datový kořen",
+    hubHeading: "Vlastní hranice edge hubu",
+    hubSub:
+      "Čtyři můstky přidané ve zdrojové linii se drží výše uvedených pravidel a ještě čtyř dalších. Jsou zapsané tady, ne na kartě vlastností, protože to jsou tvrzení, která by čtenář měl umět vyvrátit z kódu.",
+    hubItems: [
+      {
+        title: "Jeden vstupní bod",
+        body:
+          "Každý cíl můstku — MCP přes HTTP, Home Assistant, MQTT, CalDAV — projde stejnou kontrolou EdgeBoundary, než vznikne socket: loopback, RFC 1918, ULA nebo .local, bez dotazu do DNS na to, zda je jméno veřejné, bez pověření v URL a bez následování přesměrování. Odmítnutí je řádek v konzoli, ne tiché opakování jinde.",
+      },
+      {
+        title: "Potvrzení, ne dialog",
+        body:
+          "Akce, která mění stav, není podmíněná textovým polem v konzoli. Změní se na návrh ve stavu pending_user_approval, schvalovaný čtyřiadvacetiznakovým potvrzením HMAC-SHA256 vázaným na id návrhu a sloveso, platným patnáct minut, a zapsaný do lokálního audit logu. Payload, který vykonavatel spustí, je ten, který viděl vlastník, a vypnutí můstku zruší čekající návrhy.",
+      },
+      {
+        title: "Keychain, nebo paměť, nikdy soubor",
+        body:
+          "Pověření můstků žijí v položkách Keychainu adresovaných odkazem, nebo v paměti procesu u běhu bez balíčku. Třetí možnost není: ne settings.json, ne log, ne DMG. Dokument MCP ukládá názvy proměnných prostředí, takže token předaný serveru MCP přes stdio se čte z prostředí, které nastavil vlastník, ne ze souboru, který napsal uzel.",
+      },
+      {
+        title: "Naučit se minimum",
+        body:
+          "CalDAV parsuje DTSTART a DTEND a tituly, popisy, místa i účastníky zahazuje uvnitř parseru, takže nejvytíženější pole se do modelu vůbec nedostanou. Náhled návrhu ukazuje krátké skalární argumenty a skrývá každou hodnotu, jejíž klíč je na seznamu redakce — content, token, password, payload a další. Objevování je pouze čtecí GET, který hlásí stav samotného stroje.",
+      },
+    ],
     controlHeading: "Vaše strana vypínače",
     controlSub:
       "Čtyři ovládací prvky, všechny lokální, všechny viditelné v aplikaci, ne zahrabané na obrazovce nastavení. Žádný z nich nepotřebuje síť, a právě proto fungují ve chvíli, kdy je problém ta síť.",
@@ -632,6 +720,18 @@ export const cs: Dictionary = {
       {
         q: "Co musím registrovat?",
         a: "Nic. Produkt nikde neobsahuje účet, telefonní číslo, e-mailovou adresu ani reklamní identifikátor. Telefon spárujete s uzlem jedním skenováním QR kódu, webová konzole se váže pouze na loopback, při každém spuštění mění náhodný token a zbyte vaší sítě LAN se k ní nedostane.",
+      },
+      {
+        q: "Skenuje uzel moji síť LAN a hledá zařízení?",
+        a: "Ne. Objevování je GET /v1/discovery/capabilities pouze pro čtení, který hlásí, co tenhle Mac už má: Ollama na loopbacku, složky pracovního prostoru, které jste autorizovali, stav oprávnění EventKit a to, zda se TCP spojení s hostitelem v síti LAN, který jste zadali v nastavení, podaří. V kódu není žádné mDNS vysílání, žádné skenování portů ani průchod podsítí. Cíl se připustí jen tehdy, když je loopback, literál RFC 1918, adresa ULA nebo jméno .local; veřejná adresa se zamítne dřív, než se otevře socket, a zdrojová linie nepřijímá jména hostitelů, která by vyžadovala dotaz do DNS.",
+      },
+      {
+        q: "Může nástroj MCP nebo příkaz chytré domácnosti proběhnout beze mě?",
+        a: "Nástroj pouze pro čtení může, v mezích, které nastavil vlastník. Akce, která mění stav, nemůže: změní se na návrh ve stavu pending_user_approval a potřebuje schválení, které vydá čtyřiadvacetiznakové potvrzení HMAC-SHA256 vázané na id návrhu a sloveso, platné patnáct minut. Vykonavatel spustí přesně ten payload, který byl ukázán, akce se zapíše do lokálního audit logu a vypnutí můstku zruší to, co čekalo. Akce zámku, alarmu, sirény, kamery nebo vysavače se považuje za vysoce rizikovou i v jinak permisivní konfiguraci.",
+      },
+      {
+        q: "Je párovací QR kód šifrovaný?",
+        a: "Je zapečetěný, a ten rozdíl je podstatný. QR kód a tlačítko kopírování nesou https://popopx.chat/i/v1/, a za ním obsah zašifrovaný algoritmem ChaCha20-Poly1305, jehož klíč se odvozuje pomocí HKDF-SHA256 ze vstupu zveřejněného ve zdrojovém kódu samotné aplikace. To skrývá adresu fronty SMP před náhledy odkazů, snímky obrazovky a přeposláním; neukrývá obsah před někým, kdo má aplikaci. Zařízení autorizuje podepsané, jednorázové, patnáctiminutové pověření uvnitř a surový kód PPXNODE1 i URI pozvánky zůstávají v diagnostickém šuplíku konzole, ne na tváři průvodce.",
       },
       {
         q: "Proč AGPL-3.0, a co mi ukládá článek 13?",

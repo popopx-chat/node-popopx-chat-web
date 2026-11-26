@@ -215,6 +215,18 @@ export const nl: Dictionary = {
       signature: "Ondertekend door",
       delivery: "Weergegeven als",
     },
+    sealedHeading: "De QR is een verzegelde envelop",
+    sealedSub:
+      "Sinds 040ef25 dragen de QR en de kopieerknop van de wizard één ondoorzichtige URL in plaats van het ruwe credential. De envelop houdt het relayadres buiten een screenshot, een linkvoorbeeld of een doorgestuurd bericht; het is geen geheim dat de houder van de app niet kan openen.",
+    sealedShapeLabel: "Vorm van de verzegelde link",
+    sealedFacts: {
+      kdf: "Sleutelafleiding",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Plafonds van de payload",
+    },
+    sealedBody:
+      "De sleutel wordt met HKDF-SHA256 afgeleid uit een invoer die in de app zelf gepubliceerd is, en de box is ChaCha20-Poly1305 met een vaste associated-data-string, dus iedereen die de bron leest kan een envelop openen. Dat is het ontwerp: de link verbergt het SMP-queueadres voor voorbeelden, screenshots en doorgestuurde berichten, terwijl het ondertekende, eenmalige credential van vijftien minuten erin is wat een apparaat echt autoriseert. De ruwe PPXNODE1-…-code en de uitnodigings-URI met het queueadres blijven in de diagnoselade van de console; de publieke sleutel van de node verschijnt daar en op de rijen van gekoppelde apparaten, nooit op de voorkant van de wizard. Het QR-beeld wordt lokaal gerenderd en alleen op loopback geserveerd op /api/pairing/qr.png.",
     portsHeading: "De luisterende kant van de node",
     portsSub:
       "De node zelf opent één poort. De andere twee zijn van programma's die hij start en als client benadert — dat telt als je een firewall-logboek leest: een verbinding met 11434 of 5225 is door de node gemaakt, niet door hem geaccepteerd.",
@@ -231,6 +243,57 @@ export const nl: Dictionary = {
     },
     portsFootnote:
       "Alle drie staan op loopback. De console is platte HTTP zonder TLS, en dat is alleen een redelijk ontwerp omdat ze de machine nooit verlaat: bindpogingen op 0.0.0.0, een LAN-adres of een hostname worden geweigerd vóór er een socket ontstaat, en het adres staat in de app in plaats van in een config-bestand. Wat hem wel beveilt, is een willekeurig token van vierentwintig bytes dat bij elke start opnieuw wordt uitgegeven, als X-PPX-Token meegaat, alleen in het geheugen blijft en met het proces verdwijnt. De control-socket van de chatdaemon heeft überhaupt geen authenticatie — dat is de eerlijke beschrijving ervan — en hij is alleen veilig zolang hij op 127.0.0.1 blijft.",
+  },
+
+  hub: {
+    badge: "BRONTAK · NIET IN DE ONDERTEKENDE 1.0.2-BUILD",
+    heading: "Vijf lokale mogelijkheden, één grens",
+    sub:
+      "De brontak voegt detectie van eigenaargebonden mogelijkheden, vier protocoladapters en een verzegelde koppelingslink toe. De bruggen staan standaard uit, elk doel wordt door dezelfde positieve allow-list toegelaten, en elke schrijfactie wordt een ondertekend voorstel dat een mens moet goedkeuren. Niets ervan is een gehoste dienst, en niets ervan opent een nieuwe listener.",
+    status:
+      "In de bron sinds 26 november 2026 (5858b3c en 040ef25). De ondertekende v1.0.2-download op deze site is ouder dan beide commits, dus lees dit deel als het contract van de brontak, niet als een functie van de image die je downloadt.",
+    cards: [
+      {
+        title: "Detectie die alleen over zichzelf antwoordt",
+        body:
+          "De console meldt wat deze Mac al heeft: Ollama op 127.0.0.1:11434 en de modellen die het serveert, de werkruimtemappen die je hebt toegestaan, de toestand van de EventKit-toestemming, en een TCP-bereikbaarheidsrij voor maximaal acht LAN-doelen die je zelf hebt ingetypt. Het is een alleen-lezen GET /v1/discovery/capabilities. Er is geen mDNS-adverteerder, geen poortscan en geen subnetwandeling; alleen loopback, RFC 1918-literalen, ULA en .local-namen worden toegelaten, en een publiek adres wordt geweigerd voordat er een socket opengaat.",
+      },
+      {
+        title: "MCP, binnen de allow-list",
+        body:
+          "Een lokale MCP-client spreekt JSON-RPC 2.0 initialize, tools/list en tools/call. Servers worden met de hand geregistreerd in config/mcp_servers.json — hoogstens acht. Een stdio-commando moet een absoluut pad zijn binnen een allowedCommands-lijst van zestien items, zonder shell-metatekens; een HTTP-server moet op loopback antwoorden. Een alleen-lezen tool mag draaien; een wijzigende tool wordt nooit op verzoek uitgevoerd, alleen omgezet in een voorstel.",
+      },
+      {
+        title: "Home Assistant en MQTT op de LAN",
+        body:
+          "Home Assistant via zijn lokale REST-API en een handgeschreven MQTT 3.1.1-client, beide beperkt tot loopback, RFC 1918 en .local. Alleen entiteiten die in exposedEntities genoemd zijn, bestaan voor de brug, de alleen-lezenmodus staat standaard aan, en een brokerpublicatie kan alleen een exposed entiteit onder een prefix die jij instelde adresseren. Credentials zijn Keychain-verwijzingen; settings.json bevat geen token.",
+      },
+      {
+        title: "CalDAV bewaart de gaten, niet de tekst",
+        body:
+          "PROPFIND en REPORT tegen maximaal vier zelfgehoste CalDAV-servers op de LAN. De iCalendar-parser bewaart DTSTART en DTEND en gooit SUMMARY, DESCRIPTION, LOCATION, ORGANIZER en elke ATTENDEE binnen de parse weg, dus er is geen latere redactiestap die fout kan gaan. Externe bezetblokken worden met een ondergrens van vijftien minuten uit lokale vrije slots gesneden; een herhaling die de parser niet kan evalueren wordt als ondergrens gemeld in plaats van geraden.",
+      },
+    ],
+    boundaryHeading: "Wat de grens weigert",
+    boundaryItems: [
+      {
+        title: "Publieke adressen en niet-opgeloste namen",
+        body:
+          "Een brugdoel moet loopback, RFC 1918, ULA of een .local-naam zijn. Een kale hostname wordt niet opgelost om te ontdekken of hij publiek is, credentials in een URL worden geweigerd, en een HTTP-brug volgt geen redirect — dus een host op de allow-list kan de node niet doorsturen naar de server van iemand anders.",
+      },
+      {
+        title: "Schrijfacties zonder een mens",
+        body:
+          "Een smart-home-actuatie of een wijzigende MCP-tool wordt een voorstel in pending_user_approval met een HMAC-SHA256-bewijs dat aan zijn id en werkwoord gebonden is en vijftien minuten geldig is. De payload die draait is de payload die je te zien kreeg, hij wordt geboekt in het lokale auditlogboek, en de brug uitzetten maakt wat openstond ongeldig.",
+      },
+      {
+        title: "Geheimen zonder terugval op platte tekst",
+        body:
+          "Het Home Assistant-token, het MQTT-wachtwoord en het CalDAV-wachtwoord zijn Keychain-items die via een verwijzing worden aangesproken; een run buiten het pakket houdt ze alleen in het geheugen, en niets valt terug op een bestand. Het MCP-document bewaart namen van omgevingsvariabelen, nooit waarden.",
+      },
+    ],
+    footnote:
+      "Privacy & controle zet dezelfde grens regel voor regel uiteen, inclusief wat de node niet kan beloven.",
   },
 
   engines: {
@@ -338,7 +401,7 @@ export const nl: Dictionary = {
       {
         title: "De iPhone koppelen",
         body:
-          "Genereer de koppelings-QR — vanuit de console, of vanuit het menubalk-item voor een nieuwe code — en scan hem met de POPOPX iOS-client. De code is ondertekend, eenmalig en verloopt over vijftien minuten. Het apparaat verschijnt in de lijst met gekoppelde apparaten van de console, met model, koppelingstijdstip en laatste sighting.",
+          "Genereer de koppelings-QR — vanuit de console, of vanuit het menubalk-item voor een nieuwe code — en scan hem met de POPOPX iOS-client. Sinds 040ef25 dragen de QR en de kopieerknop een verzegelde link https://popopx.chat/i/v1/… in plaats van het ruwe credential, zodat een screenshot of een chatvoorbeeld het queueadres niet blootlegt. De code erin is nog steeds ondertekend, eenmalig en verloopt over vijftien minuten; de ruwe PPXNODE1-code en de uitnodigings-URI blijven in de diagnoselade van de console. Het apparaat verschijnt in de lijst met gekoppelde apparaten van de console, met model, koppelingstijdstip en laatste sighting.",
       },
       {
         title: "De engines aanzetten",
@@ -364,7 +427,7 @@ export const nl: Dictionary = {
       {
         title: "Hem volledig verwijderen",
         body:
-          "Zet eerst Launch at Login uit en kies dan Quit in de menubalk — dat sluit de listener en geeft het login-item vrij. Verwijder /Applications/POPOPX Mac Node.app en daarna de data-root onder ~/Library/Application Support/PopopxMacNode als ook de verzegelde kluis, de ledger-bestanden en de artefacten weg moeten. Er is geen uninstaller en geen bewijs dat je kunt vergeten: buiten die twee paden is nooit iets geïnstalleerd, en er bestaan geen Keychain-items want de app gebruikt de Keychain nooit.",
+          "Zet eerst Launch at Login uit en kies dan Quit in de menubalk — dat sluit de listener en geeft het login-item vrij. Verwijder /Applications/POPOPX Mac Node.app en daarna de data-root onder ~/Library/Application Support/PopopxMacNode als ook de verzegelde kluis, de ledger-bestanden en de artefacten weg moeten. Er is geen uninstaller en geen bewijs dat je kunt vergeten: buiten die twee paden is nooit iets geïnstalleerd. Het enige dat die twee paden niet dekken is een Keychain-item — heb je een hubbrug ingesteld, dan overleeft het credential daarvan onder im.popopx.macnode.hub beide verwijderingen, want de Keychain is geen map; verwijder het in Keychain Access, of met de verbindingsknop van de brug zelf.",
       },
     ],
     bridgeTitle: "Bedien de engines vanuit je eigen script",
@@ -410,7 +473,7 @@ export const nl: Dictionary = {
       {
         title: "Sleutels en koppelingsstatus",
         body:
-          "De Ed25519-sleutel van de node, de lijst met gekoppelde apparaten en het huidige aanbod zijn gewone bestanden onder pairing/. Er is geen Keychain-item om te migreren, geen cloud-back-up van de sleutel en nergens een bewaring — wat twee kanten op werkt, zoals de paragraaf over verlies hieronder zegt.",
+          "De Ed25519-sleutel van de node, de lijst met gekoppelde apparaten en het huidige aanbod zijn gewone bestanden onder pairing/. Er is geen cloud-back-up van de sleutel en nergens een bewaring — wat twee kanten op werkt, zoals de paragraaf over verlies hieronder zegt. De enige uitzondering is het credential van een hubbrug: het Home Assistant-token, een MQTT-wachtwoord of een CalDAV-wachtwoord is een Keychain-item, en settings.json bevat alleen de verwijzing die het ophaalt.",
       },
       {
         title: "Het spoor van bewijs",
@@ -420,7 +483,7 @@ export const nl: Dictionary = {
     ],
     transitHeading: "Verlaat de machine",
     transitSub:
-      "Vier dingen doen dat, en elk van hen is ofwel je eigen apparaat, ofwel iets dat jij ingesteld hebt. Er is geen vijfde categorie, en er is geen analytics-endpoint om iets naartoe te sturen.",
+      "Vier soorten verkeer verlaten de machine naar het bredere netwerk, en elk ervan is ofwel je eigen apparaat, ofwel iets dat jij instelde. Een vijfde bestaat alleen als je een LAN-brug aanzet: verzoeken aan Home Assistant, MQTT en CalDAV, die op loopback-, RFC 1918- en .local-adressen blijven. Er is in geen ervan een analytics-endpoint om iets naartoe te sturen.",
     transitItems: [
       {
         title: "Resultaten, terug naar je eigen telefoon",
@@ -445,7 +508,7 @@ export const nl: Dictionary = {
     ],
     keysHeading: "Waar de geheimen echt staan",
     keysBody:
-      "Niet de Keychain. De node is een macOS-app zonder enige afhankelijkheid van de Keychain, en dat is een keuze en geen vergetelheid: koppelings- en kluismateriaal zijn bestanden onder zijn data-root, geschreven met een atomic write, POSIX mode 0600 en volledige bestandsbescherming, zodat ze in rust niet leesbaar zijn zolang de machine vergrendeld is. De ruil die je maakt is echt — bestandsrechten zijn auditbaar en verplaatsbaar, en ze zijn ook niets tussen jouw gebruikersaccount en een lezer die jouw gebruikersaccount al heeft. Behandel de data-root als het geheim dat hij is: hij staat niet in Time Machine, en hij is de enige kopie van de nodesleutel die er is.",
+      "Koppelings- en kluismateriaal zijn bestanden onder de data-root, geschreven met een atomic write, POSIX mode 0600 en volledige bestandsbescherming, zodat ze in rust niet leesbaar zijn zolang de machine vergrendeld is. De ruil die je maakt is echt — bestandsrechten zijn auditbaar en verplaatsbaar, en ze zijn ook niets tussen jouw gebruikersaccount en een lezer die jouw gebruikersaccount al heeft. Behandel de data-root als het geheim dat hij is: hij staat niet in Time Machine, en hij is de enige kopie van de nodesleutel die er is. Een hubcredential neemt de andere route. Het Home Assistant-token, het MQTT-wachtwoord en het CalDAV-wachtwoord zijn generic-password-items onder de dienst im.popopx.macnode.hub, aangemaakt met kSecAttrAccessibleWhenUnlockedThisDeviceOnly, en het instellingendocument bewaart alleen een verwijzing. Een proces zonder de bundle-identiteit van de app — swift run, een testharnas — krijgt in plaats daarvan een opslag in het geheugen; er is bewust geen terugval op een platte-tekstbestand, dus een credential dat de Keychain niet kan bereiken wordt helemaal niet opgeslagen.",
     dataNote: {
       output: "Gegenereerde artefacten, en de outbox-wachtrij die resultaten vasthoudt die op de telefoon wachten.",
       vault: "Tijdsvergrendelde verzegelde archieven en het ervingsmateriaal dat ze weer opent.",
@@ -456,6 +519,31 @@ export const nl: Dictionary = {
       config: "Instellingen, engineschakelaars en de config die de brug en de integrations delen.",
     },
     rootLabel: "Data-root",
+    hubHeading: "De eigen grens van de edgehub",
+    hubSub:
+      "De vier bruggen die de brontak toevoegt, houden zich aan de regels hierboven en aan nog vier. Ze staan hier en niet op een functiekaart, omdat het beweringen zijn die een lezer uit de code moet kunnen weerleggen.",
+    hubItems: [
+      {
+        title: "Eén toegangspunt",
+        body:
+          "Elk brugdoel — MCP over HTTP, Home Assistant, MQTT, CalDAV — passeert dezelfde EdgeBoundary-controle voordat er een socket bestaat: loopback, RFC 1918, ULA of .local, zonder DNS-lookup om te ontdekken of een naam publiek is, zonder credentials in de URL en zonder gevolgde redirect. Een weigering is een rij in de console, geen stille nieuwe poging elders.",
+      },
+      {
+        title: "Een bewijs, geen prompt",
+        body:
+          "Een wijzigende actie wordt niet afgeschermd door een tekstvak in de console. Ze wordt een voorstel in de toestand pending_user_approval, goedgekeurd met een HMAC-SHA256-bewijs van 24 tekens dat aan de id en het werkwoord van het voorstel gebonden is, vijftien minuten geldig is en in het lokale auditlogboek wordt vastgelegd. De payload die de uitvoerder draait is degene die de eigenaar zag, en de brug uitzetten maakt openstaande voorstellen ongeldig.",
+      },
+      {
+        title: "Keychain of geheugen, nooit een bestand",
+        body:
+          "Brugcredentials staan in Keychain-items die via een verwijzing worden aangesproken, of in het procesgeheugen bij een run buiten het pakket. Er is geen derde optie: niet settings.json, niet een logboek, niet een DMG. Het MCP-document bewaart namen van omgevingsvariabelen, dus een token dat via stdio aan een MCP-server wordt gegeven, komt uit de omgeving die de eigenaar instelde, niet uit een bestand dat de node schreef.",
+      },
+      {
+        title: "Het minimum leren",
+        body:
+          "CalDAV parst DTSTART en DTEND en gooit titels, beschrijvingen, locaties en deelnemers binnen de parser weg, dus de drukste velden komen helemaal niet in het model. Een voorbeeld van een voorstel toont korte scalaire argumenten en verbergt elke waarde waarvan de sleutel op de redactielijst staat — content, token, password, payload en meer. Discovery is een alleen-lezen GET die de eigen toestand van de machine meldt.",
+      },
+    ],
     controlHeading: "Jouw kant van de uitschakelaar",
     controlSub:
       "Vier bedieningen, allemaal lokaal, allemaal zichtbaar in de app in plaats van begraven in een instellingenscherm. Geen van hen heeft het netwerk nodig, en daarom werken ze ook als het netwerk juist het probleem is.",
@@ -631,6 +719,18 @@ export const nl: Dictionary = {
       {
         q: "Wat moet ik registreren?",
         a: "Niets. Er is nergens in het product een account, een telefoonnummer, een e-mailadres of een advertentie-identifier. De telefoon met de node koppelen is één scan van een QR-code, de webconsole bindt uitsluitend aan loopback, draait bij elke start een nieuw willekeurig token en is vanaf de rest van je LAN niet bereikbaar.",
+      },
+      {
+        q: "Scant de node mijn LAN naar apparaten?",
+        a: "Nee. Discovery is een alleen-lezen GET /v1/discovery/capabilities die meldt wat deze Mac al heeft: Ollama op loopback, de werkruimtemappen die je hebt toegestaan, de toestand van de EventKit-toestemming, en of een TCP-verbinding naar een LAN-host die je in de instellingen typte slaagt. Er zit geen mDNS-adverteerder, geen poortscan en geen subnetwandeling in de code. Een doel wordt alleen toegelaten als het loopback is, een RFC 1918-literaal, een ULA-adres of een .local-naam; een publiek adres wordt geweigerd voordat er een socket opengaat, en de brontak accepteert geen hostnames die een DNS-lookup zouden vereisen.",
+      },
+      {
+        q: "Kan een MCP-tool of een smart-home-commando zonder mij draaien?",
+        a: "Een alleen-lezen tool wel, binnen de grens die de eigenaar instelde. Een wijzigende niet: die wordt een voorstel in pending_user_approval en heeft een goedkeuring nodig die een HMAC-SHA256-bewijs van 24 tekens mint dat aan de id en het werkwoord van het voorstel gebonden is, vijftien minuten geldig. De uitvoerder draait precies de payload die getoond werd, de actie wordt in het lokale auditlogboek geboekt, en de brug uitzetten maakt wat openstond ongeldig. Een actie voor slot, alarm, sirene, camera of stofzuiger wordt ook in een verder ruime configuratie als hoog risico behandeld.",
+      },
+      {
+        q: "Is de koppelings-QR versleuteld?",
+        a: "Verzegeld, en dat verschil is belangrijk. De QR en de kopieerknop dragen https://popopx.chat/i/v1/ gevolgd door een ChaCha20-Poly1305-box waarvan de sleutel met HKDF-SHA256 is afgeleid uit een invoer die in de bron van de app zelf gepubliceerd is. Dat verbergt het SMP-queueadres voor linkvoorbeelden, screenshots en doorgestuurde berichten; het houdt de inhoud niet weg bij wie de app heeft. Wat het apparaat autoriseert is het ondertekende, eenmalige credential van vijftien minuten erin, en de ruwe PPXNODE1-code en de uitnodigings-URI blijven in de diagnoselade van de console in plaats van op de voorkant van de wizard.",
       },
       {
         q: "Waarom AGPL-3.0, en wat verplicht artikel 13 je?",

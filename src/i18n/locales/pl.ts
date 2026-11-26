@@ -215,6 +215,18 @@ export const pl: Dictionary = {
       signature: "Podpisany przez",
       delivery: "Renderowany jako",
     },
+    sealedHeading: "Kod QR to zapieczętowana koperta",
+    sealedSub:
+      "Od commita 040ef25 kod QR i przycisk kopiowania w kreatorze niosą jeden nieprzezroczysty adres URL zamiast surowego poświadczenia. Koperta trzyma adres przekaźnika z dala od zrzutu ekranu, podglądu linku i przekazania dalej; nie jest to sekret, którego posiadacz aplikacji nie potrafiłby otworzyć.",
+    sealedShapeLabel: "Postać zapieczętowanego linku",
+    sealedFacts: {
+      kdf: "Wyprowadzanie klucza",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Limity ładunku",
+    },
+    sealedBody:
+      "Klucz jest wyprowadzany przez HKDF-SHA256 z wejścia opublikowanego wewnątrz aplikacji, a sam ładunek jest zaszyfrowany algorytmem ChaCha20-Poly1305 ze stałym łańcuchem danych stowarzyszonych, więc każdy, kto czyta źródła, potrafi otworzyć kopertę. Taki jest zamysł: link ukrywa adres kolejki SMP przed podglądami, zrzutami ekranu i przekazywaniem dalej, a urządzenie autoryzuje tak naprawdę podpisane, jednorazowe, piętnastominutowe poświadczenie w środku. Surowy kod PPXNODE1-… i URI zaproszenia, który niesie adres kolejki, zostają w szufladzie diagnostycznej konsoli; klucz publiczny węzła pojawia się tam oraz w wierszach sparowanych urządzeń, nigdy na stronie kreatora. Obraz QR jest renderowany lokalnie i serwowany wyłącznie na loopbacku pod /api/pairing/qr.png.",
     portsHeading: "To, co w węźle nasłuchuje",
     portsSub:
       "Sam węzeł otwiera jeden port. Pozostałe dwa należą do programów, które on uruchamia i z którymi łączy się jako klient, a to ma znaczenie, gdy czytasz log zapory: połączenie z 11434 albo 5225 zostało przez węzeł nawiązane, a nie przez niego przyjęte.",
@@ -231,6 +243,57 @@ export const pl: Dictionary = {
     },
     portsFootnote:
       "Wszystkie trzy są na loopbacku. Konsola to zwykły HTTP bez TLS, co jest rozsądną konstrukcją tylko dlatego, że nigdy nie opuszcza maszyny: próby związania z 0.0.0.0, adresem LAN albo nazwą hosta są odrzucane, zanim w ogóle powstanie gniazdo, a adres jest zaszyty w aplikacji na stałe, a nie czytany z pliku konfiguracyjnego. Strzeże go zamiast tego losowy dwudziestoczterobajtowy token wydawany przy każdym uruchomieniu, wysyłany jako X-PPX-Token, trzymany wyłącznie w pamięci i martwy po zakończeniu procesu. Gniazdo sterujące demona czatu nie ma żadnej autoryzacji — tak brzmi jego uczciwy opis — i jest bezpieczne tylko o tyle, o ile zostaje na 127.0.0.1.",
+  },
+
+  hub: {
+    badge: "LINIA ŹRÓDŁOWA · NIEOBECNA W PODPISANYM BUDOWANIU 1.0.2",
+    heading: "Pięć lokalnych możliwości, jedna granica",
+    sub:
+      "Linia źródłowa dodaje wykrywanie zdolności w zakresie wyznaczonym przez właściciela, cztery adaptery protokołów i zapieczętowany link parujący. Mosty są domyślnie wyłączone, każdy cel przechodzi przez tę samą pozytywną listę dozwolonych, a każdy zapis staje się podpisaną propozycją, którą człowiek musi zatwierdzić. Nic z tego nie jest usługą hostowaną i nic nie otwiera nowego nasłuchu.",
+    status:
+      "W źródłach od 26 listopada 2026 (5858b3c i 040ef25). Podpisane pobranie v1.0.2 z tej strony powstało przed oboma commitami, więc czytaj tę sekcję jako kontrakt linii źródłowej, a nie jako cechę obrazu, który pobierasz.",
+    cards: [
+      {
+        title: "Wykrywanie, które odpowiada tylko o sobie samym",
+        body:
+          "Konsola raportuje to, co ten Mac już ma: Ollama na 127.0.0.1:11434 i modele, które serwuje, foldery obszaru roboczego, które autoryzowałeś, stan uprawnień EventKit oraz wiersz osiągalności TCP dla maksymalnie ośmiu celów w sieci LAN, które sam wpisałeś. To GET /v1/discovery/capabilities w trybie tylko do odczytu. Nie ma rozgłaszacza mDNS, przemiatania portów ani przejścia podsieci; dopuszczane są tylko loopback, literały RFC 1918, ULA i nazwy .local, a publiczny adres jest odrzucany, zanim zostanie otwarte gniazdo.",
+      },
+      {
+        title: "MCP, wewnątrz listy dozwolonych",
+        body:
+          "Lokalny klient MCP mówi JSON-RPC 2.0 initialize, tools/list i tools/call. Serwery rejestruje się ręcznie w config/mcp_servers.json — najwyżej osiem. Polecenie stdio musi być ścieżką bezwzględną z szesnastoelementowej listy allowedCommands i nie może zawierać metaznaków powłoki; serwer HTTP musi odpowiadać na loopbacku. Narzędzie tylko do odczytu może się uruchomić; narzędzie zmieniające stan nigdy nie jest wykonywane na żądanie, tylko zamieniane w propozycję.",
+      },
+      {
+        title: "Home Assistant i MQTT w sieci LAN",
+        body:
+          "Home Assistant przez lokalne REST API i ręcznie napisany klient MQTT 3.1.1, oba ograniczone do loopbacku, RFC 1918 i .local. Dla mostu istnieją wyłącznie encje wymienione w exposedEntities, tryb tylko do odczytu jest domyślnie włączony, a publikacja do brokera może trafić tylko do wyeksponowanej encji pod skonfigurowanym przez Ciebie prefiksem. Poświadczenia to referencje do Keychaina; settings.json nie trzyma żadnego tokenu.",
+      },
+      {
+        title: "CalDAV zachowuje luki, nie tekst",
+        body:
+          "PROPFIND i REPORT względem maksymalnie czterech samodzielnie hostowanych serwerów CalDAV w sieci LAN. Parser iCalendar zachowuje DTSTART i DTEND, a SUMMARY, DESCRIPTION, LOCATION, ORGANIZER i każde ATTENDEE odrzuca w trakcie parsowania, więc nie ma późniejszego kroku redakcji, który mógłby się pomylić. Zdalne bloki zajętości są wycinane z lokalnych wolnych okien z podłogą piętnastu minut; reguła powtarzania, której parser nie potrafi ocenić, jest raportowana jako podłoga, a nie zgadywana.",
+      },
+    ],
+    boundaryHeading: "Co odrzuca granica",
+    boundaryItems: [
+      {
+        title: "Publiczne adresy i nierozwiązywane nazwy",
+        body:
+          "Cel mostu musi być loopbackiem, adresem RFC 1918, adresem ULA albo nazwą .local. Goła nazwa hosta nie jest rozwiązywana, żeby sprawdzić, czy jest publiczna, poświadczenia w adresie URL są odrzucane, a most HTTP nie podąży za przekierowaniem — więc host z listy dozwolonych nie może odbić węzła na cudzy serwer.",
+      },
+      {
+        title: "Zapisy bez człowieka",
+        body:
+          "Włączenie w automatyce domowej albo narzędzie MCP zmieniające stan staje się propozycją pending_user_approval z pokwitowaniem HMAC-SHA256 związanym z jej identyfikatorem i czasownikiem, ważnym przez piętnaście minut. Wykonywany jest dokładnie ten ładunek, który Ci pokazano, trafia on do lokalnego dziennika audytu, a wyłączenie mostu unieważnia to, co czekało.",
+      },
+      {
+        title: "Sekrety bez awaryjnego zapisu jawnym tekstem",
+        body:
+          "Token Home Assistant, hasło MQTT i hasło CalDAV to elementy Keychaina wskazywane referencją; uruchomienie bez pakietu trzyma je wyłącznie w pamięci i nic nie spada awaryjnie do pliku. Dokument MCP przechowuje nazwy zmiennych środowiskowych, nigdy wartości.",
+      },
+    ],
+    footnote:
+      "Strona „Prywatność i kontrola” wypisuje tę samą granicę reguła po regule, łącznie z tym, czego węzeł nie może obiecać.",
   },
 
   engines: {
@@ -338,7 +401,7 @@ export const pl: Dictionary = {
       {
         title: "Sparuj iPhonea",
         body:
-          "Wygeneruj kod QR parowania — z konsoli albo z pozycji nowego kodu na pasku menu — i zeskanuj go klientem POPOPX iOS. Kod jest podpisany, jednorazowy i wygasa po piętnastu minutach. Urządzenie pojawia się na liście sparowanych w konsoli: z modelem, godziną parowania i ostatnim wykryciem.",
+          "Wygeneruj kod QR parowania — z konsoli albo z pozycji nowego kodu na pasku menu — i zeskanuj go klientem POPOPX iOS. Od commita 040ef25 kod QR i przycisk kopiowania niosą zapieczętowany link https://popopx.chat/i/v1/… zamiast surowego poświadczenia, więc zrzut ekranu ani podgląd czatu nie ujawniają adresu kolejki. Kod w środku nadal jest podpisany, jednorazowy i wygasa po piętnastu minutach; surowy kod PPXNODE1 i URI zaproszenia zostają w szufladzie diagnostycznej konsoli. Urządzenie pojawia się na liście sparowanych z modelem, godziną parowania i ostatnim wykryciem.",
       },
       {
         title: "Włącz silniki",
@@ -364,7 +427,7 @@ export const pl: Dictionary = {
       {
         title: "Całkowite usunięcie",
         body:
-          "Najpierw wyłącz Launch at Login, potem Quit z paska menu — to zamyka nasłuch i uwalnia element logowania. Usuń /Applications/POPOPX Mac Node.app, a potem korzeń danych pod ~/Library/Application Support/PopopxMacNode, jeśli mają zniknąć także zapieczętowany sejf, księgi zapisów i artefakty. Nie ma odinstalownika ani potwierdzenia, o którym można by zapomnieć: poza tymi dwiema ścieżkami nic nie zostało zainstalowane, a w Keychainie nie ma żadnych wpisów, bo aplikacja nigdy nie korzysta z Keychain.",
+          "Najpierw wyłącz Launch at Login, potem Quit z paska menu — to zamyka nasłuch i uwalnia element logowania. Usuń /Applications/POPOPX Mac Node.app, a potem korzeń danych pod ~/Library/Application Support/PopopxMacNode, jeśli mają zniknąć także zapieczętowany sejf, księgi zapisów i artefakty. Nie ma odinstalownika ani potwierdzenia, o którym można by zapomnieć: poza tymi dwiema ścieżkami nic nie zostało zainstalowane. Jedyne, czego te dwie ścieżki nie obejmują, to element Keychaina — jeśli skonfigurowałeś most edge huba, jego poświadczenie pod im.popopx.macnode.hub przeżywa oba usunięcia, bo Keychain nie jest folderem; usuń je w Keychain Access albo przyciskiem rozłączenia w samym moście.",
       },
     ],
     bridgeTitle: "Steruj silnikami z własnego skryptu",
@@ -410,7 +473,7 @@ export const pl: Dictionary = {
       {
         title: "Klucze i stan parowania",
         body:
-          "Klucz podpisujący Ed25519 węzła, lista sparowanych urządzeń i bieżąca oferta to zwykłe pliki pod pairing/. Nie ma wpisu w Keychainie do migracji, nie ma chmurowej kopii klucza i nie ma żadnego depozytu — co działa w obie strony, jak mówi akapit o utracie poniżej.",
+          "Klucz podpisujący Ed25519 węzła, lista sparowanych urządzeń i bieżąca oferta to zwykłe pliki pod pairing/. Nie ma chmurowej kopii klucza ani żadnego depozytu — co działa w obie strony, jak mówi akapit o utracie poniżej. Jedynym wyjątkiem jest poświadczenie mostu edge huba: token Home Assistant, hasło MQTT albo hasło CalDAV to element Keychaina, a settings.json niesie wyłącznie referencję, która go pobiera.",
       },
       {
         title: "Ślad dowodowy",
@@ -420,7 +483,7 @@ export const pl: Dictionary = {
     ],
     transitHeading: "Opuszcza maszynę",
     transitSub:
-      "Cztery rzeczy to robią i każda z nich jest albo Twoim własnym urządzeniem, albo czymś, co sam skonfigurowałeś. Nie ma piątej kategorii i nie ma punktu analitycznego, do którego miałoby coś iść.",
+      "Cztery rodzaje ruchu wychodzą do szerszej sieci i każdy z nich to albo Twoje własne urządzenie, albo coś, co sam skonfigurowałeś. Piąty istnieje tylko wtedy, gdy włączysz most w sieci LAN: żądania Home Assistant, MQTT i CalDAV, które zostają na loopbacku, adresach RFC 1918 i .local. W żadnym z nich nie ma punktu analitycznego, do którego miałoby coś iść.",
     transitItems: [
       {
         title: "Wyniki, z powrotem do Twojego własnego telefonu",
@@ -445,7 +508,7 @@ export const pl: Dictionary = {
     ],
     keysHeading: "Gdzie naprawdę mieszkają sekrety",
     keysBody:
-      "Nie w Keychainie. Węzeł jest aplikacją na macOS, która nie ma żadnej zależności od Keychain, i jest to decyzja, a nie przeoczenie: materiał parujący i materiał sejfu to pliki pod jego korzeniem danych, zapisane atomowym zapisem, z prawem POSIX 0600 i pełną ochroną plików, więc zablokowana maszyna nie pozwala odczytać ich z dysku. Cena, którą płacisz, jest realna — uprawnienia plików są audytowalne i przenośne, ale są też niczym pomiędzy Twoim kontem użytkownika a odczytującym, który już to konto ma. Traktuj korzeń danych jako sekret, którym jest: nie ma go w Time Machine i jest jedyną kopią klucza węzła, jaka istnieje.",
+      "Materiał parowania i materiał sejfu to pliki pod korzeniem danych, zapisane atomowym zapisem, z prawem POSIX 0600 i pełną ochroną plików, więc w spoczynku, przy zablokowanej maszynie, nie da się ich odczytać. Cena, którą płacisz, jest realna — uprawnienia plików są audytowalne i przenośne, ale są też niczym pomiędzy Twoim kontem użytkownika a odczytującym, który już to konto ma. Traktuj korzeń danych jako sekret, którym jest: nie ma go w Time Machine i jest jedyną kopią klucza węzła, jaka istnieje. Poświadczenie huba idzie inną drogą. Token Home Assistant, hasło MQTT i hasło CalDAV to elementy typu generic-password pod usługą im.popopx.macnode.hub, tworzone z kSecAttrAccessibleWhenUnlockedThisDeviceOnly, a dokument ustawień przechowuje wyłącznie referencję. Proces bez tożsamości pakietu aplikacji — swift run, harness testowy — dostaje zamiast tego magazyn w pamięci; celowo nie ma żadnego awaryjnego zapisu jawnym tekstem, więc poświadczenie, które nie dotrze do Keychaina, nie jest zapisywane wcale.",
     dataNote: {
       output: "Wygenerowane artefakty oraz kolejka outbox przechowująca wyniki czekające na telefon.",
       vault: "Zamknięte czasowo zapieczętowane archiwa i materiał sukcesyjny, który je otwiera.",
@@ -456,6 +519,31 @@ export const pl: Dictionary = {
       config: "Ustawienia, przełączniki silników oraz konfiguracja dzielona przez most i integracje.",
     },
     rootLabel: "Korzeń danych",
+    hubHeading: "Własna granica edge huba",
+    hubSub:
+      "Cztery mosty dodane w linii źródłowej podlegają powyższym regułom i jeszcze czterem. Są zapisane tutaj, a nie na karcie możliwości, bo to twierdzenia, które czytelnik powinien móc obalić na podstawie kodu.",
+    hubItems: [
+      {
+        title: "Jeden punkt wpuszczania",
+        body:
+          "Każdy cel mostu — MCP przez HTTP, Home Assistant, MQTT, CalDAV — przechodzi tę samą kontrolę EdgeBoundary, zanim w ogóle powstanie gniazdo: loopback, RFC 1918, ULA albo .local, bez odpytywania DNS o to, czy nazwa jest publiczna, bez poświadczeń w adresie URL i bez podążania za przekierowaniem. Odmowa to wiersz w konsoli, a nie cicha ponowna próba gdzie indziej.",
+      },
+      {
+        title: "Pokwitowanie, nie monit",
+        body:
+          "Zmieniająca stan akcja nie jest warunkowana polem tekstowym w konsoli. Staje się propozycją w stanie pending_user_approval, zatwierdzaną 24-znakowym pokwitowaniem HMAC-SHA256 związanym z identyfikatorem i czasownikiem propozycji, ważnym przez piętnaście minut, i zapisaną w lokalnym dzienniku audytu. Ładunek, który uruchamia wykonawca, to ten, który zobaczył właściciel, a wyłączenie mostu unieważnia oczekujące propozycje.",
+      },
+      {
+        title: "Keychain albo pamięć, nigdy plik",
+        body:
+          "Poświadczenia mostu mieszkają w elementach Keychaina wskazywanych referencją albo w pamięci procesu przy uruchomieniu bez pakietu. Trzeciej opcji nie ma: ani settings.json, ani dziennik, ani DMG. Dokument MCP przechowuje nazwy zmiennych środowiskowych, więc token przekazany serwerowi MCP przez stdio jest czytany ze środowiska ustawionego przez właściciela, a nie z pliku zapisanego przez węzeł.",
+      },
+      {
+        title: "Uczy się minimum",
+        body:
+          "CalDAV parsuje DTSTART i DTEND, a tytuły, opisy, lokalizacje i uczestników odrzuca wewnątrz parsera, więc najbardziej zajęte pola nigdy nie trafiają do modelu. Podgląd propozycji pokazuje krótkie argumenty skalarne i ukrywa każdą wartość, której klucz jest na liście redakcji — content, token, password, payload i inne. Wykrywanie to wyłącznie zapytanie GET do odczytu, które raportuje stan samej maszyny.",
+      },
+    ],
     controlHeading: "Twoja część wyłącznika",
     controlSub:
       "Cztery sterowania, wszystkie lokalne, wszystkie widoczne w aplikacji zamiast pogrzebane w ekranie ustawień. Żadne z nich nie potrzebuje sieci — właśnie dlatego działają, gdy problemem jest sieć.",
@@ -631,6 +719,18 @@ export const pl: Dictionary = {
       {
         q: "Co muszę zarejestrować?",
         a: "Nic. W całym produkcie nie ma konta, numeru telefonu, adresu e-mail ani identyfikatora reklamowego. Parowanie telefonu z węzłem to jedno zeskanowanie kodu QR, a konsola internetowa wiąże się wyłącznie z loopback, przy każdym uruchomieniu zmienia losowy token i jest niedostępna z reszty Twojej sieci LAN.",
+      },
+      {
+        q: "Czy węzeł skanuje moją sieć LAN w poszukiwaniu urządzeń?",
+        a: "Nie. Wykrywanie to GET /v1/discovery/capabilities w trybie tylko do odczytu, który raportuje to, co ten Mac już ma: Ollama na loopbacku, foldery obszaru roboczego, które autoryzowałeś, stan uprawnień EventKit oraz to, czy połączenie TCP z hostem w sieci LAN, który wpisałeś w ustawieniach, się udaje. W kodzie nie ma rozgłaszacza mDNS, przemiatania portów ani przejścia podsieci. Cel jest dopuszczany tylko wtedy, gdy jest loopbackiem, literałem RFC 1918, adresem ULA albo nazwą .local; publiczny adres jest odrzucany, zanim zostanie otwarte gniazdo, a linia źródłowa nie przyjmuje nazw hostów, które wymagałyby odpytywania DNS.",
+      },
+      {
+        q: "Czy narzędzie MCP albo polecenie automatyki domowej może zadziałać beze mnie?",
+        a: "Narzędzie tylko do odczytu może, w granicach skonfigurowanych przez właściciela. Narzędzie zmieniające stan nie może: staje się propozycją w pending_user_approval i wymaga zatwierdzenia, które wystawia 24-znakowe pokwitowanie HMAC-SHA256 związane z identyfikatorem i czasownikiem propozycji, ważne przez piętnaście minut. Wykonawca uruchamia dokładnie ten ładunek, który pokazano, akcja trafia do lokalnego dziennika audytu, a wyłączenie mostu unieważnia to, co czekało. Akcja zamka, alarmu, syreny, kamery albo odkurzacza jest traktowana jako wysokiego ryzyka nawet w skądinąd permisywnej konfiguracji.",
+      },
+      {
+        q: "Czy kod QR parowania jest szyfrowany?",
+        a: "Jest zapieczętowany, a to rozróżnienie ma znaczenie. Kod QR i przycisk kopiowania niosą https://popopx.chat/i/v1/, a dalej ładunek zaszyfrowany algorytmem ChaCha20-Poly1305, którego klucz jest wyprowadzany przez HKDF-SHA256 z wejścia opublikowanego w źródłach samej aplikacji. To ukrywa adres kolejki SMP przed podglądami linków, zrzutami ekranu i przekazywaniem dalej; nie ukrywa zawartości przed kimś, kto ma aplikację. Urządzenie autoryzuje podpisane, jednorazowe, piętnastominutowe poświadczenie w środku, a surowy kod PPXNODE1 i URI zaproszenia zostają w szufladzie diagnostycznej konsoli, a nie na stronie kreatora.",
       },
       {
         q: "Dlaczego AGPL-3.0 i do czego zobowiązuje mnie artykuł 13?",

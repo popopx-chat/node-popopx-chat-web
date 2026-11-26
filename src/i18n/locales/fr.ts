@@ -236,6 +236,18 @@ export const fr: Dictionary = {
       signature: "Signée par",
       delivery: "Généré sous forme de",
     },
+    sealedHeading: "Le QR est une enveloppe scellée",
+    sealedSub:
+      "Depuis 040ef25, le QR et le bouton de copie de l'assistant portent une seule URL opaque au lieu de l'attestation brute. L'enveloppe garde l'adresse du relais hors d'une capture d'écran, d'un aperçu de lien ou d'un transfert ; ce n'est pas un secret que le détenteur de l'app ne peut pas ouvrir.",
+    sealedShapeLabel: "Forme du lien scellé",
+    sealedFacts: {
+      kdf: "Dérivation de clé",
+      cipher: "AEAD",
+      nonce: "Nonce",
+      caps: "Plafonds de la charge utile",
+    },
+    sealedBody:
+      "La clé est dérivée avec HKDF-SHA256 à partir d'une entrée publiée dans l'app, et la boîte est en ChaCha20-Poly1305 avec une chaîne fixe de données associées, si bien que quiconque lit la source peut ouvrir une enveloppe. C'est la conception : le lien cache l'adresse de la file SMP aux aperçus, aux captures d'écran et aux transferts, tandis que l'attestation signée, à usage unique et de quinze minutes qu'il contient est ce qui autorise réellement un appareil. Le code brut PPXNODE1-… et l'URI d'invitation qui porte l'adresse de la file restent dans le tiroir de diagnostics de la console ; la clé publique du nœud y apparaît, ainsi que sur les lignes des appareils appairés, jamais sur la face de l'assistant. L'image du QR est générée en local et servie uniquement en loopback à /api/pairing/qr.png.",
     portsHeading: "Le côté à l'écoute du nœud",
     portsSub:
       "Le nœud lui-même ouvre un seul port. Les deux autres appartiennent à des programmes qu'il démarre et auxquels il se connecte en tant que client, ce qui compte quand vous lisez un journal de pare-feu : une connexion vers 11434 ou 5225 a été faite par le nœud, pas acceptée par lui.",
@@ -252,6 +264,57 @@ export const fr: Dictionary = {
     },
     portsFootnote:
       "Les trois sont en loopback. La console est du HTTP simple sans TLS, ce qui n'est une conception raisonnable que parce qu'elle ne quitte jamais la machine : les tentatives de liaison sur 0.0.0.0, une adresse LAN ou un nom d'hôte sont refusées avant même la création d'un socket, et l'adresse est codée en dur dans l'app plutôt que lue dans un fichier de configuration. Ce qui la protège à la place est un jeton aléatoire de vingt-quatre octets émis à chaque lancement, envoyé sous X-PPX-Token, conservé uniquement en mémoire, et mort quand le processus se termine. Le socket de contrôle du démon de messagerie n'a aucune authentification du tout — c'est la description honnête qu'on peut en faire — et il n'est sûr que tant qu'il reste sur 127.0.0.1.",
+  },
+
+  hub: {
+    badge: "LIGNE SOURCE · ABSENT DE LA COMPILATION 1.0.2 SIGNÉE",
+    heading: "Cinq capacités locales, une seule frontière",
+    sub:
+      "La ligne source ajoute une découverte des capacités limitée au propriétaire, quatre adaptateurs de protocole et un lien d'appairage scellé. Les ponts sont désactivés par défaut, chaque cible est admise par la même liste d'autorisation positive, et chaque écriture devient une proposition signée qu'un humain doit approuver. Rien de tout cela n'est un service hébergé, et rien de tout cela n'ouvre un nouvel écouteur.",
+    status:
+      "Dans la source depuis le 26 novembre 2026 (5858b3c et 040ef25). Le téléchargement v1.0.2 signé sur ce site est antérieur aux deux commits, alors lisez cette section comme le contrat de la ligne source, pas comme une fonctionnalité de l'image que vous êtes en train de télécharger.",
+    cards: [
+      {
+        title: "Une découverte qui ne répond que sur elle-même",
+        body:
+          "La console rapporte ce que ce Mac possède déjà : Ollama sur 127.0.0.1:11434 et les modèles qu'il sert, les dossiers d'espace de travail que vous avez autorisés, l'état de l'autorisation EventKit, et une ligne de joignabilité TCP pour un maximum de huit cibles LAN que vous avez saisies vous-même. C'est un GET /v1/discovery/capabilities en lecture seule. Il n'y a aucun annonceur mDNS, aucun balayage de ports et aucune exploration de sous-réseau ; seuls le loopback, les littéraux RFC 1918, les adresses ULA et les noms .local sont admis, et une adresse publique est refusée avant qu'un socket soit ouvert.",
+      },
+      {
+        title: "MCP, à l'intérieur de la liste d'autorisation",
+        body:
+          "Un client MCP local parle JSON-RPC 2.0 initialize, tools/list et tools/call. Les serveurs sont enregistrés à la main dans config/mcp_servers.json — huit au maximum. Une commande stdio doit être un chemin absolu figurant dans une liste allowedCommands de seize entrées, sans métacaractères de shell ; un serveur HTTP doit répondre en loopback. Un outil en lecture seule peut s'exécuter ; un outil qui modifie n'est jamais exécuté sur demande, il est seulement transformé en proposition.",
+      },
+      {
+        title: "Home Assistant et MQTT sur le réseau local",
+        body:
+          "Home Assistant via son API REST locale et un client MQTT 3.1.1 écrit à la main, tous deux limités au loopback, à RFC 1918 et à .local. Seules les entités nommées dans exposedEntities existent pour le pont, le mode lecture seule est actif par défaut, et une publication vers le broker ne peut viser qu'une entité exposée sous un préfixe que vous avez configuré. Les identifiants sont des références au Trousseau ; settings.json ne contient aucun jeton.",
+      },
+      {
+        title: "CalDAV garde les trous, pas le texte",
+        body:
+          "PROPFIND et REPORT contre jusqu'à quatre serveurs CalDAV auto-hébergés sur le réseau local. L'analyseur iCalendar conserve DTSTART et DTEND et abandonne SUMMARY, DESCRIPTION, LOCATION, ORGANIZER et chaque ATTENDEE à l'intérieur même de l'analyse, donc il n'y a pas d'étape de rédaction ultérieure à rater. Les blocs occupés distants sont découpés des créneaux libres locaux avec un plancher de quinze minutes ; une récurrence que l'analyseur ne peut pas évaluer est signalée comme un plancher plutôt que devinée.",
+      },
+    ],
+    boundaryHeading: "Ce que la frontière refuse",
+    boundaryItems: [
+      {
+        title: "Adresses publiques et noms non résolus",
+        body:
+          "Une cible de pont doit être en loopback, RFC 1918, ULA ou un nom .local. Un nom d'hôte nu n'est pas résolu pour découvrir s'il est public, les identifiants dans une URL sont refusés, et un pont HTTP ne suit pas de redirection — ainsi un hôte présent sur la liste d'autorisation ne peut pas faire rebondir le nœud vers le serveur de quelqu'un d'autre.",
+      },
+      {
+        title: "Des écritures sans humain",
+        body:
+          "Une action domotique ou un outil MCP qui modifie devient une proposition en pending_user_approval portant un reçu HMAC-SHA256 lié à son identifiant et à son verbe, valable quinze minutes. La charge qui s'exécute est celle qu'on vous a montrée, elle est consignée dans le journal d'audit local, et couper le pont annule ce qui était en attente.",
+      },
+      {
+        title: "Des secrets sans repli en clair",
+        body:
+          "Le jeton Home Assistant, le mot de passe MQTT et le mot de passe CalDAV sont des éléments du Trousseau désignés par une référence ; une exécution non empaquetée les garde uniquement en mémoire, et rien ne se replie sur un fichier. Le document MCP stocke des noms de variables d'environnement, jamais des valeurs.",
+      },
+    ],
+    footnote:
+      "Confidentialité et contrôle énonce la même frontière règle par règle, y compris ce que le nœud ne peut pas promettre.",
   },
 
   engines: {
@@ -359,7 +422,7 @@ export const fr: Dictionary = {
       {
         title: "Appairez l'iPhone",
         body:
-          "Générez le QR d'appairage — depuis la console, ou depuis l'élément de nouveau code de la barre de menus — et scannez-le avec le client POPOPX iOS. Le code est signé, à usage unique et expire au bout de quinze minutes. L'appareil apparaît dans la liste d'appairage de la console avec son modèle, son heure d'appairage et sa dernière apparition.",
+          "Générez le QR d'appairage — depuis la console, ou depuis l'élément de nouveau code de la barre de menus — et scannez-le avec le client POPOPX iOS. Depuis 040ef25, le QR et le bouton de copie portent un lien scellé https://popopx.chat/i/v1/… plutôt que l'attestation brute, donc une capture d'écran ou un aperçu de conversation n'expose pas l'adresse de la file. Le code qu'il contient est toujours signé, à usage unique et expire au bout de quinze minutes ; le code brut PPXNODE1 et l'URI d'invitation restent dans le tiroir de diagnostics de la console. L'appareil apparaît dans la liste d'appairage avec son modèle, son heure d'appairage et sa dernière apparition.",
       },
       {
         title: "Activez les moteurs",
@@ -385,7 +448,7 @@ export const fr: Dictionary = {
       {
         title: "Le supprimer complètement",
         body:
-          "Coupez d'abord Launch at Login, puis Quit depuis la barre de menus — cela ferme la socket d'écoute et libère l'élément de connexion. Supprimez /Applications/POPOPX Mac Node.app, puis la racine de données dans ~/Library/Application Support/PopopxMacNode si vous voulez aussi faire disparaître le coffre scellé, les registres et les artefacts. Il n'y a pas de désinstalleur et pas de trace à oublier : rien n'a jamais été installé en dehors de ces deux chemins, et il n'existe aucun élément du Trousseau parce que l'app ne l'utilise jamais.",
+          "Coupez d'abord Launch at Login, puis Quit depuis la barre de menus — cela ferme la socket d'écoute et libère l'élément de connexion. Supprimez /Applications/POPOPX Mac Node.app, puis la racine de données dans ~/Library/Application Support/PopopxMacNode si vous voulez aussi faire disparaître le coffre scellé, les registres et les artefacts. Il n'y a pas de désinstalleur et pas de trace à oublier : rien n'a jamais été installé en dehors de ces deux chemins. La seule chose que ces deux chemins ne couvrent pas est un élément du Trousseau — si vous avez configuré un pont de hub, son attestation sous im.popopx.macnode.hub survit aux deux suppressions, parce que le Trousseau n'est pas un dossier ; retirez-la dans Accès Trousseau, ou depuis le bouton de déconnexion du pont lui-même.",
       },
     ],
     bridgeTitle: "Pilotez les moteurs depuis votre propre script",
@@ -431,7 +494,7 @@ export const fr: Dictionary = {
       {
         title: "Clés et état d'appairage",
         body:
-          "La clé de signature Ed25519 du nœud, la liste des appareils appairés et l'offre en cours sont de simples fichiers sous pairing/. Il n'y a aucune entrée de Trousseau à migrer, aucune sauvegarde cloud de la clé et aucun séquestre nulle part — ce qui a deux tranchants, comme le dit le paragraphe sur la perte plus bas.",
+          "La clé de signature Ed25519 du nœud, la liste des appareils appairés et l'offre en cours sont de simples fichiers sous pairing/. Il n'y a aucune sauvegarde cloud de la clé et aucun séquestre nulle part — ce qui a deux tranchants, comme le dit le paragraphe sur la perte plus bas. La seule exception est l'attestation d'un pont de hub : le jeton Home Assistant, un mot de passe MQTT ou un mot de passe CalDAV est un élément du Trousseau, et settings.json ne porte que la référence qui le récupère.",
       },
       {
         title: "La piste de preuve",
@@ -441,7 +504,7 @@ export const fr: Dictionary = {
     ],
     transitHeading: "Ce qui quitte la machine",
     transitSub:
-      "Quatre choses le font, et chacune est soit votre propre appareil, soit quelque chose que vous avez configuré. Il n'y a pas de cinquième catégorie, et il n'y a aucun point de collecte d'analytics à qui envoyer quoi que ce soit.",
+      "Quatre types de trafic quittent la machine vers le réseau au sens large, et chacun d'eux est soit votre propre appareil, soit quelque chose que vous avez configuré. Un cinquième n'existe que lorsque vous activez un pont LAN : les requêtes Home Assistant, MQTT et CalDAV, qui restent sur le loopback, RFC 1918 et les adresses .local. Il n'y a dans aucun d'eux de point de collecte d'analytics à qui envoyer quoi que ce soit.",
     transitItems: [
       {
         title: "Les résultats, renvoyés à votre propre téléphone",
@@ -466,7 +529,7 @@ export const fr: Dictionary = {
     ],
     keysHeading: "Où vivent réellement les secrets",
     keysBody:
-      "Pas dans le Trousseau. Le nœud est une app macOS qui n'a aucune dépendance au Trousseau, ce qui est une décision et non un oubli : les matériaux d'appairage et de coffre sont des fichiers sous sa racine de données, écrits par une écriture atomique, avec le mode POSIX 0600 et une protection complète des fichiers, donc ils sont illisibles au repos tant que la machine est verrouillée. L'échange que vous faites est réel — les permissions de fichiers sont auditables et portables, et elles ne sont aussi rien entre votre compte utilisateur et un lecteur qui a déjà votre compte utilisateur. Traitez la racine de données comme le secret qu'elle est : elle n'est pas dans Time Machine, et elle est la seule copie de la clé du nœud qui existe.",
+      "Pas dans le Trousseau. Les matériaux d'appairage et de coffre sont des fichiers sous la racine de données, écrits par une écriture atomique, avec le mode POSIX 0600 et une protection complète des fichiers, donc ils sont illisibles au repos tant que la machine est verrouillée. L'échange que vous faites est réel — les permissions de fichiers sont auditables et portables, et elles ne sont aussi rien entre votre compte utilisateur et un lecteur qui a déjà votre compte utilisateur. Traitez la racine de données comme le secret qu'elle est : elle n'est pas dans Time Machine, et elle est la seule copie de la clé du nœud qui existe. Une attestation de hub prend l'autre chemin. Le jeton Home Assistant, le mot de passe MQTT et le mot de passe CalDAV sont des éléments de mot de passe génériques sous le service im.popopx.macnode.hub, créés avec kSecAttrAccessibleWhenUnlockedThisDeviceOnly, et le document de réglages ne stocke qu'une référence. Un processus dépourvu de l'identité de bundle de l'app — swift run, un banc de test — obtient à la place un magasin en mémoire ; il n'y a délibérément aucun repli vers un fichier en clair, donc un identifiant qui ne peut pas atteindre le Trousseau n'est pas enregistré du tout.",
     dataNote: {
       output:
         "Les artefacts générés, et la file d'envoi qui contient les résultats attendant le téléphone.",
@@ -478,6 +541,31 @@ export const fr: Dictionary = {
       config: "Les réglages, les interrupteurs des moteurs et la configuration que le pont et les intégrations partagent.",
     },
     rootLabel: "Racine de données",
+    hubHeading: "La frontière propre du hub de bordure",
+    hubSub:
+      "Les quatre ponts ajoutés par la ligne source sont tenus aux règles ci-dessus et à quatre autres. Elles sont écrites ici plutôt que sur une carte de fonctionnalité parce que ce sont les affirmations qu'un lecteur doit pouvoir réfuter à partir du code.",
+    hubItems: [
+      {
+        title: "Un seul point d'admission",
+        body:
+          "Chaque cible de pont — MCP via HTTP, Home Assistant, MQTT, CalDAV — passe le même contrôle EdgeBoundary avant qu'un socket existe : loopback, RFC 1918, ULA ou .local, sans recherche DNS pour découvrir si un nom est public, sans identifiants dans l'URL et sans redirection suivie. Un refus est une ligne dans la console, pas une nouvelle tentative silencieuse ailleurs.",
+      },
+      {
+        title: "Un reçu, pas une invite",
+        body:
+          "Une action qui modifie n'est pas contrôlée par une zone de texte dans la console. Elle devient une proposition dans l'état pending_user_approval, approuvée par un reçu HMAC-SHA256 de 24 caractères lié à l'identifiant et au verbe de la proposition, valable quinze minutes, et consignée dans le journal d'audit local. La charge que l'exécuteur lance est celle que le propriétaire a vue, et couper le pont annule les propositions en attente.",
+      },
+      {
+        title: "Trousseau, ou mémoire, jamais un fichier",
+        body:
+          "Les identifiants des ponts vivent dans des éléments du Trousseau désignés par une référence, ou dans la mémoire du processus pour une exécution non empaquetée. Il n'y a pas de troisième option : ni settings.json, ni un journal, ni un DMG. Le document MCP stocke des noms de variables d'environnement, donc un jeton transmis à un serveur MCP via stdio est lu dans l'environnement défini par le propriétaire, pas dans un fichier écrit par le nœud.",
+      },
+      {
+        title: "N'apprendre que le minimum",
+        body:
+          "CalDAV analyse DTSTART et DTEND et écarte les titres, les descriptions, les lieux et les participants à l'intérieur de l'analyseur, donc les champs les plus chargés n'entrent jamais dans le modèle. L'aperçu d'une proposition montre des arguments scalaires courts et masque toute valeur dont la clé figure sur la liste de rédaction — content, token, password, payload et d'autres. La découverte est un GET en lecture seule qui rapporte l'état de la machine elle-même.",
+      },
+    ],
     controlHeading: "Votre côté de l'interrupteur d'arrêt",
     controlSub:
       "Quatre commandes, toutes locales, toutes visibles dans l'app plutôt qu'enterrées dans un écran de réglages. Aucune n'a besoin du réseau, ce qui est précisément ce qui les fait marcher quand le réseau est le problème.",
@@ -653,6 +741,18 @@ export const fr: Dictionary = {
       {
         q: "Qu'est-ce que je dois enregistrer ?",
         a: "Rien. Il n'y a aucun compte, aucun numéro de téléphone, aucune adresse e-mail et aucun identifiant publicitaire nulle part dans le produit. Appairer le téléphone avec le nœud est un scan de QR code, et la console web ne se lie qu'à loopback, régénère un jeton aléatoire à chaque lancement et reste injoignable depuis le reste de votre réseau local.",
+      },
+      {
+        q: "Le nœud scanne-t-il mon réseau local à la recherche d'appareils ?",
+        a: "Non. La découverte est un GET /v1/discovery/capabilities en lecture seule qui rapporte ce que ce Mac possède déjà : Ollama en loopback, les dossiers d'espace de travail que vous avez autorisés, l'état de l'autorisation EventKit, et si une connexion TCP réussit vers un hôte LAN que vous avez saisi dans les réglages. Il n'y a dans le code aucun annonceur mDNS, aucun balayage de ports et aucune exploration de sous-réseau. Une cible n'est admise que si elle est en loopback, un littéral RFC 1918, une adresse ULA ou un nom .local ; une adresse publique est refusée avant qu'un socket soit ouvert, et la ligne source n'accepte pas de noms d'hôte qui exigeraient une recherche DNS.",
+      },
+      {
+        q: "Un outil MCP ou une commande de domotique peut-il s'exécuter sans moi ?",
+        a: "Un outil en lecture seule le peut, dans la frontière que le propriétaire a configurée. Un outil qui modifie ne le peut pas : il devient une proposition en pending_user_approval et exige une approbation qui fabrique un reçu HMAC-SHA256 de 24 caractères lié à l'identifiant et au verbe de la proposition, valable quinze minutes. L'exécuteur lance exactement la charge qui a été montrée, l'action est consignée dans le journal d'audit local, et couper le pont annule ce qui était en attente. Une action de serrure, d'alarme, de sirène, de caméra ou d'aspirateur est traitée comme à haut risque même dans une configuration par ailleurs permissive.",
+      },
+      {
+        q: "Le QR d'appairage est-il chiffré ?",
+        a: "Scellé, et la distinction compte. Le QR et le bouton de copie portent https://popopx.chat/i/v1/ suivi d'une boîte ChaCha20-Poly1305 dont la clé est dérivée avec HKDF-SHA256 à partir d'une entrée publiée dans le code source de l'app elle-même. Cela cache l'adresse de la file SMP aux aperçus de lien, aux captures d'écran et aux transferts ; cela ne soustrait pas le contenu à quiconque possède l'app. Ce qui autorise l'appareil est l'attestation signée, à usage unique et de quinze minutes qu'elle contient, et le code brut PPXNODE1 ainsi que l'URI d'invitation restent dans le tiroir de diagnostics de la console plutôt que sur la face de l'assistant.",
       },
       {
         q: "Pourquoi AGPL-3.0, et que m'oblige à faire l'article 13 ?",

@@ -125,6 +125,31 @@ export function SecurityPage() {
       </section>
 
       <section
+        id="edge-hub-boundary"
+        aria-labelledby="hub-title"
+        className="border-b border-edge px-5 py-20 sm:px-8"
+      >
+        <div className="mx-auto max-w-6xl">
+          <SubHeading
+            titleId="hub-title"
+            label="04"
+            title={security.hubHeading}
+            sub={security.hubSub}
+          />
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {security.hubItems.map((item) => (
+              <GlassPanel key={item.title} className="min-w-0 p-6">
+                <h4 className="text-[15.5px] font-semibold leading-snug text-ink">{item.title}</h4>
+                <p className="mt-3 text-pretty text-[13.5px] leading-relaxed text-ink-dim">
+                  {item.body}
+                </p>
+              </GlassPanel>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
         id="control"
         aria-labelledby="control-title"
         className="border-b border-edge px-5 py-20 sm:px-8"
@@ -132,7 +157,7 @@ export function SecurityPage() {
         <div className="mx-auto max-w-6xl">
           <SubHeading
             titleId="control-title"
-            label="04"
+            label="05"
             title={security.controlHeading}
             sub={security.controlSub}
           />

@@ -1,4 +1,5 @@
 import { DiscoverEnginesSection } from "../components/DiscoverEnginesSection";
+import { EdgeHubSection } from "../components/EdgeHubSection";
 import { HardwareLadderSection } from "../components/HardwareLadderSection";
 
 /**
@@ -15,6 +16,7 @@ export function FeaturesPage() {
     <>
       <DiscoverEnginesSection />
       <HardwareLadderSection />
+      <EdgeHubSection />
     </>
   );
 }
