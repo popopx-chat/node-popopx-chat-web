@@ -73,7 +73,7 @@ export function Navbar() {
           <Logo size={30} />
           <span className="text-[15px] font-semibold tracking-[-0.01em] text-ink">
             POPOPX
-            <span className="ml-1.5 font-normal text-ink-mute">Mac Node</span>
+            <span className="ms-1.5 font-normal text-ink-mute">Mac Node</span>
           </span>
         </RouteLink>
 

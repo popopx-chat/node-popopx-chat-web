@@ -10,11 +10,12 @@ import { en } from "./locales/en";
  * One chunk per catalog.
  *
  * English is imported eagerly because it is the fallback every reader sees before a
- * catalog lands; the other seventeen are fetched only when the reader actually
- * switches to them, so each literal specifier here becomes its own asset and a reader
- * on Thai downloads Thai, not the other sixteen.
+ * catalog lands; the other twenty are fetched only when the reader actually switches
+ * to them, so each literal specifier here becomes its own asset and a reader on Thai
+ * downloads Thai, not the other nineteen.
  */
 const LOADERS: Record<Exclude<LocaleCode, "en">, () => Promise<Dictionary>> = {
+  ar: () => import("./locales/ar").then((m) => m.ar),
   bg: () => import("./locales/bg").then((m) => m.bg),
   cs: () => import("./locales/cs").then((m) => m.cs),
   de: () => import("./locales/de").then((m) => m.de),
@@ -24,8 +25,10 @@ const LOADERS: Record<Exclude<LocaleCode, "en">, () => Promise<Dictionary>> = {
   hu: () => import("./locales/hu").then((m) => m.hu),
   it: () => import("./locales/it").then((m) => m.it),
   ja: () => import("./locales/ja").then((m) => m.ja),
+  ko: () => import("./locales/ko").then((m) => m.ko),
   nl: () => import("./locales/nl").then((m) => m.nl),
   pl: () => import("./locales/pl").then((m) => m.pl),
+  "pt-BR": () => import("./locales/ptBR").then((m) => m.ptBR),
   ru: () => import("./locales/ru").then((m) => m.ru),
   th: () => import("./locales/th").then((m) => m.th),
   tr: () => import("./locales/tr").then((m) => m.tr),
@@ -39,6 +42,7 @@ export const SWITCHER_ORDER: readonly LocaleCode[] = [
   "zh-Hans",
   "zh-Hant",
   "en",
+  "ar",
   "bg",
   "cs",
   "de",
@@ -48,8 +52,10 @@ export const SWITCHER_ORDER: readonly LocaleCode[] = [
   "hu",
   "it",
   "ja",
+  "ko",
   "nl",
   "pl",
+  "pt-BR",
   "ru",
   "th",
   "tr",
@@ -71,8 +77,11 @@ const TAG_ALIASES: Record<string, LocaleCode> = {
   "zh-hk": "zh-Hant",
   "zh-mo": "zh-Hant",
   "zh-hant": "zh-Hant",
-  "pt-br": "en",
-  "pt-pt": "en",
+  // Brazilian Portuguese is the one Portuguese catalog the site ships, so European
+  // and bare tags resolve to it rather than falling back to English.
+  pt: "pt-BR",
+  "pt-br": "pt-BR",
+  "pt-pt": "pt-BR",
 };
 
 function normalise(tag: string): string {
@@ -179,7 +188,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = locale;
-  }, [locale]);
+    // `dict` is still English during the first frame after choosing Arabic, so the
+    // direction has to come from the choice rather than from the loaded catalog.
+    document.documentElement.dir = locale === "ar" ? "rtl" : dict.dir;
+  }, [locale, dict]);
 
   const setLocale = useCallback((next: LocaleCode) => {
     setLocaleState(next);

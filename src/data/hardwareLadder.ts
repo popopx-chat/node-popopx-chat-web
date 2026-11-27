@@ -4,7 +4,7 @@
  * Cells are deliberately language-neutral: chip identifiers, model names and
  * quantisation tags are product literals, and the prose that used to sit in them
  * ("not rendered locally, routed to…") is carried instead by the localized `Mode`
- * column and by `hardware.rules`. That keeps one table honest in 18 languages
+ * column and by `hardware.rules`. That keeps one table honest in 21 languages
  * without re-translating a spec sheet.
  *
  * Source: PopopxMacNode README.md "Apple Silicon memory tier ladder", selected at

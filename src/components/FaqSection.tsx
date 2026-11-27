@@ -29,7 +29,7 @@ export function FaqSection() {
                     aria-expanded={expanded}
                     id={`faq-question-${i}`}
                     aria-controls={`faq-answer-${i}`}
-                    className="flex w-full items-start justify-between gap-6 py-5 text-left"
+                    className="flex w-full items-start justify-between gap-6 py-5 text-start"
                   >
                     <span className="text-[16px] font-medium leading-snug text-ink">{item.q}</span>
                     <ChevronDown
@@ -46,7 +46,7 @@ export function FaqSection() {
                   id={`faq-answer-${i}`}
                   role="region"
                   aria-labelledby={`faq-question-${i}`}
-                  className="pb-6 pr-10 text-pretty text-[14px] leading-relaxed text-ink-dim"
+                  className="pb-6 pe-10 text-pretty text-[14px] leading-relaxed text-ink-dim"
                 >
                   {item.a}
                 </div>

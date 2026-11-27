@@ -118,6 +118,27 @@
     line-height: 1.75;
   }
 
+  /* Arabic joins its letters; any positive tracking would break the joins, so the
+     script gets normal spacing and a little more leading than the Latin default. */
+  html:lang(ar) body {
+    line-height: 1.85;
+  }
+
+  html:lang(ar) * {
+    letter-spacing: normal !important;
+  }
+
+  /* Technical fields keep their internal LTR order in an RTL page. `isolate` also
+     stops an adjacent Arabic word from moving the first or last character of a hash,
+     path or command across the token boundary. */
+  code,
+  kbd,
+  samp,
+  pre {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -199,6 +220,11 @@
     border-radius: var(--radius-pill);
     background: linear-gradient(90deg, transparent, var(--color-brand-lift) 45%, transparent);
     animation: link-travel 3.4s var(--ease-out-soft) infinite;
+  }
+
+  /* The flex row flips in RTL, so the pulse has to run from the new first end. */
+  html[dir="rtl"] .link-line::after {
+    animation-direction: reverse;
   }
 
   /* Expanding ring behind a topology endpoint. */

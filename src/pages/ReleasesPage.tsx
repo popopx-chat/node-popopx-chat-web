@@ -99,11 +99,11 @@ export function ReleasesPage() {
               <p className="font-mono text-[11px] tracking-[0.22em] text-ink-mute">
                 {dict.hero.releaseLabel}
               </p>
-              <p className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight text-ink">
+              <p className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight text-ink" dir="ltr">
                 {release.tag}
               </p>
               {release.name === null ? null : (
-                <p className="mt-1.5 text-pretty text-[13px] text-ink-mute">{release.name}</p>
+                <p className="mt-1.5 text-pretty text-[13px] text-ink-mute" dir="ltr">{release.name}</p>
               )}
             </div>
             <a
@@ -126,12 +126,12 @@ export function ReleasesPage() {
               }`}
             />
             {source === "live" ? dict.hero.statusLive : dict.hero.statusFallback}
-            {note === null ? null : <span className="font-mono text-[11px]">({note})</span>}
+            {note === null ? null : <span className="font-mono text-[11px]" dir="ltr">({note})</span>}
           </p>
 
           <h3 className="mt-12 text-[16.5px] font-semibold text-ink">{releases.assetsHeading}</h3>
           <GlassPanel className="scroll-shadow mt-4 overflow-x-auto">
-            <table className="w-full min-w-[720px] border-collapse text-left">
+            <table className="w-full min-w-[720px] border-collapse text-start">
               <caption className="sr-only">{releases.assetsHeading}</caption>
               <thead>
                 <tr className="border-b border-edge-strong">
@@ -155,10 +155,11 @@ export function ReleasesPage() {
                       key={asset.name}
                       className="border-b border-edge align-top last:border-b-0 transition-colors duration-200 hover:bg-raise/60"
                     >
-                      <th scope="row" className="px-4 py-4 text-left">
+                      <th scope="row" className="px-4 py-4 text-start">
                         <a
                           href={asset.url}
                           className="wrap-anywhere font-mono text-[12.5px] text-ink underline decoration-edge-strong underline-offset-4 hover:decoration-brand-lift"
+                          dir="ltr"
                         >
                           {asset.name}
                         </a>
@@ -172,7 +173,7 @@ export function ReleasesPage() {
                         {releases.assetKinds[asset.kind]}
                       </td>
                       <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-mute">
-                        {size ?? "—"}
+                        <span dir="ltr">{size ?? "—"}</span>
                       </td>
                     </tr>
                   );
@@ -225,7 +226,7 @@ export function ReleasesPage() {
 
           <div className="mt-4 grid gap-4 lg:grid-cols-2">
             <GlassPanel quiet className="min-w-0 p-6">
-              <h4 className="font-mono text-[12.5px] text-brand-haze">
+              <h4 className="font-mono text-[12.5px] text-brand-haze" dir="ltr">
                 {release.sumsUrl === null ? "—" : SUMS_ASSET}
               </h4>
               <p className="mt-3 text-pretty text-[13.5px] leading-relaxed text-ink-dim">
@@ -233,7 +234,7 @@ export function ReleasesPage() {
               </p>
             </GlassPanel>
             <GlassPanel quiet className="min-w-0 p-6">
-              <h4 className="font-mono text-[12.5px] text-brand-haze">
+              <h4 className="font-mono text-[12.5px] text-brand-haze" dir="ltr">
                 {release.sidecarUrl === null ? "—" : SIDECAR_ASSET}
               </h4>
               <p className="mt-3 text-pretty text-[13.5px] leading-relaxed text-ink-dim">
@@ -317,7 +318,7 @@ export function ReleasesPage() {
             className="glass-quiet mt-6 inline-flex items-center gap-2 rounded-pill px-5 py-3 text-[14px] text-ink-dim transition-colors duration-200 hover:text-ink"
           >
             <ExternalLink size={16} aria-hidden="true" />
-            <span className="font-mono text-[12.5px]">{SOURCE_URL}</span>
+            <span className="font-mono text-[12.5px]" dir="ltr">{SOURCE_URL}</span>
           </a>
 
           <GlassPanel quiet className="mt-10 max-w-3xl p-6 sm:p-7">
@@ -332,6 +333,7 @@ export function ReleasesPage() {
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-block text-[13px] text-ink-dim underline decoration-edge-strong underline-offset-4 hover:text-ink"
+            dir="ltr"
           >
             {RELEASES_PAGE_URL}
           </a>

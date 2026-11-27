@@ -50,7 +50,7 @@ product will eventually contradict it.
 | The console preview card on `/` | `src/data/consolePreview.ts` — the published `LADDER` rows with a numeric size attached, plus a port of `ComputeTier`, `ModelPlan.recommend` and `meshMemoryCeilingGB` from `MacNodeModels.swift`. The three device rows are fixtures in the real `PairedDevice` shape; the card labels itself a UI preview and requests nothing |
 | The signing state on `/install` | `src/data/signing.ts` — recorded `codesign`/`spctl`/`stapler` output from the published v1.0.2 (build 4) bytes, with the mount-and-inspect recipe in that file's header and the same table under “How the published build is signed” below |
 | The three sibling portals in the ecosystem row | `src/data/ecosystem.ts`, checked with `curl -sIL --max-time 25` against each host's document title |
-| The 18 interface languages | `knownRegions` in `apps/ios/POPOPX.xcodeproj/project.pbxproj`, minus `Base`, which is an Xcode artefact rather than a locale |
+| The interface languages | 18 of the 21 are `knownRegions` in `apps/ios/POPOPX.xcodeproj/project.pbxproj`, minus `Base`, which is an Xcode artefact rather than a locale. `pt-BR`, `ko` and `ar` have no iOS catalog to copy, so their strings were written for this portal, and `ar` alone carries the RTL layout |
 
 Re-derive the language count yourself:
 
@@ -60,7 +60,15 @@ awk '/knownRegions = \(/,/\);/' apps/ios/POPOPX.xcodeproj/project.pbxproj \
 ```
 
 Nineteen entries, eighteen languages once `Base` — an Xcode artefact, not a locale —
-is dropped. `LOCALES` in `src/i18n/types.ts` is that eighteen.
+is dropped. `LOCALES` in `src/i18n/types.ts` holds those eighteen plus three
+portal-only codes: Brazilian Portuguese (`pt-BR`), Korean (`ko`) and Arabic (`ar`).
+`pt`, `pt-BR` and `pt-PT` browser tags all resolve to `pt-BR`.
+
+The engine catalog is generated for the eighteen iOS locales only. To avoid editing a
+generated file, the three portal-only locales translate its 64 unique English strings
+through `src/data/enginePortalStrings.ts`, an overlay keyed by the English source line
+and read through `src/data/engineLocalization.ts`. Those 192 strings are portal-authored,
+not iOS-source.
 
 `src/data/enginesCatalog.ts` is a generated file: edit
 `tools/generate_engines_catalog.py`, not the output.
@@ -190,14 +198,14 @@ build with no warnings. If you introduce a warning, fix the warning rather than
 raising the threshold that reports it.
 
 Translations are code-split: English is the fallback that ships in the entry chunk,
-and each of the other seventeen languages becomes its own chunk that loads only when
+and each of the other twenty languages becomes its own chunk that loads only when
 a reader switches to it. Language names are listed separately in
 `src/i18n/types.ts` so the language menu is complete before any catalog has arrived.
 
 `Dictionary` in `src/i18n/types.ts` is a total type, so `tsc -b` **is** the catalog parity
-gate: a missing key in any of the eighteen files is a compile error, and a key that exists
+gate: a missing key in any of the twenty-one files is a compile error, and a key that exists
 in a catalog but not in the interface is an excess-property error. Adding a string
-therefore means one key and eighteen values; adding a route means `ROUTES` in
+therefore means one key and twenty-one values; adding a route means `ROUTES` in
 `src/router.tsx`, one key in `routes`, and one nav label per locale.
 
 ## Deploy

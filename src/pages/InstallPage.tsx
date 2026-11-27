@@ -81,7 +81,7 @@ export function InstallPage() {
                 {PREREQUISITES.map((prereq) => (
                   <li key={prereq.name} className="flex flex-col gap-1 py-3.5 first:pt-0">
                     <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                      <span className="font-mono text-[13px] text-ink">{prereq.name}</span>
+                      <span className="font-mono text-[13px] text-ink" dir="ltr">{prereq.name}</span>
                       <span className="rounded-pill border border-edge px-2.5 py-0.5 text-[11.5px] text-ink-mute">
                         {install.prereqRequired[prereq.required]}
                       </span>
@@ -145,7 +145,7 @@ export function InstallPage() {
               <p className="mt-3 text-pretty text-[13.5px] leading-relaxed text-ink-dim">
                 {install.requirementBody}
               </p>
-              <p className="mt-5 border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute">
+              <p className="mt-5 border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute" dir="ltr">
                 {DMG_ASSET}
                 {"\n"}
                 {SIDECAR_ASSET}
@@ -183,7 +183,7 @@ export function InstallPage() {
                   />
                 ))}
               </ul>
-              <p className="mt-5 overflow-x-auto whitespace-pre border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute">
+              <p className="mt-5 overflow-x-auto whitespace-pre border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute" dir="ltr">
                 {SIGNATURE_EVIDENCE.join("\n")}
               </p>
               <div className="mt-5 space-y-4 border-t border-edge pt-4">
@@ -225,7 +225,7 @@ export function InstallPage() {
                   />
                 ))}
               </ul>
-              <p className="mt-5 border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute">
+              <p className="mt-5 border-t border-edge pt-4 font-mono text-[11.5px] leading-relaxed text-ink-mute" dir="ltr">
                 {PINNED_RELEASE.tag} · {DMG_ASSET} · {SUMS_ASSET}
               </p>
             </GlassPanel>

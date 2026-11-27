@@ -129,10 +129,11 @@ def ident(loc):
 
 
 def locale_map(strings, en_value):
-    """Record<LocaleCode, string> for one English source string.
+    """Record<CatalogLocale, string> for one English source string.
 
     A locale with no catalog entry gets the English literal, which is precisely what
-    NSLocalizedString does on the phone.
+    NSLocalizedString does on the phone. The three portal-only locales are not in this
+    map; they read `src/data/enginePortalStrings.ts` instead.
     """
     parts = []
     for loc in LOCALES:
@@ -165,10 +166,12 @@ def main():
     a("/* GENERATED FILE - do not edit by hand.\n")
     a(" * Source of truth: the POPOPX iOS Discover catalog and the Mac Node EngineKind.\n")
     a(" * Engine product names carry only en/zh-Hans/zh-Hant spellings because the shipping\n")
-    a(" * iOS catalogs have no name entry in any of the 18 locales; every other language\n")
-    a(" * reads the English product name, exactly as the phone and the node do.\n")
+    a(" * iOS catalogs have no name entry in any of the 21 portal locales; every other\n")
+    a(" * language reads the English product name, exactly as the phone and the node do.\n")
+    a(" * The catalog data itself covers the 18 official locales; the portal-only pt-BR, ko\n")
+    a(" * and ar strings live in the hand-maintained overlay `enginePortalStrings.ts`.\n")
     a(" */\n\n")
-    a('import type { LocaleCode } from "../i18n/types";\n\n')
+    a('import type { CatalogLocale, LocaleCode } from "../i18n/types";\n\n')
 
     a("export type EngineId =\n  %s;\n\n" % " | ".join(js(e[0]) for e in ENGINES))
     a('export type SectionId = "productivity" | "compute" | "sanctuary";\n\n')
@@ -176,7 +179,7 @@ def main():
     a("export interface EngineMenuAction {\n")
     a("  /** The token the node accepts on the NODE_CMD wire. Never localized. */\n")
     a("  action: string;\n")
-    a("  label: Record<LocaleCode, string>;\n")
+    a("  label: Record<CatalogLocale, string>;\n")
     a("}\n\n")
 
     a("export interface EngineName {\n")
@@ -189,16 +192,16 @@ def main():
     a("  substrate: string;\n  lucideIcon: string;\n  sfSymbol: string;\n")
     a("  deterministic: boolean;\n  worksWithoutLocalModels: boolean;\n")
     a("  name: EngineName;\n")
-    a("  tagline: Record<LocaleCode, string>;\n")
+    a("  tagline: Record<CatalogLocale, string>;\n")
     a("  menu: EngineMenuAction[];\n")
-    a("  highlights: Record<LocaleCode, string[]>;\n")
+    a("  highlights: Record<CatalogLocale, string[]>;\n")
     a("}\n\n")
 
     a('export const SECTIONS: SectionId[] = ["productivity", "compute", "sanctuary"];\n\n')
 
     a("export const SECTION_LABELS: Record<\n")
     a("  SectionId,\n")
-    a("  { title: Record<LocaleCode, string>; filter: Record<LocaleCode, string> }\n")
+    a("  { title: Record<CatalogLocale, string>; filter: Record<CatalogLocale, string> }\n")
     a("> = {\n")
     for sec, (title, filt) in SECTIONS.items():
         a("  %s: {\n" % sec)
@@ -207,9 +210,9 @@ def main():
         a("  },\n")
     a("};\n\n")
 
-    a("export const PRICE_FORMAT: Record<LocaleCode, string> =\n")
+    a("export const PRICE_FORMAT: Record<CatalogLocale, string> =\n")
     a(locale_block(strings, PRICE_KEY, 2) + ";\n\n")
-    a("export const PRICE_METERED: Record<LocaleCode, string> =\n")
+    a("export const PRICE_METERED: Record<CatalogLocale, string> =\n")
     a(locale_block(strings, METERED_KEY, 2) + ";\n\n")
 
     a("export const ENGINES: EngineDefinition[] = [\n")
@@ -255,8 +258,8 @@ def main():
     a("  return engine.name.en;\n")
     a("}\n\n")
 
-    a("/** The official price chip, e.g. \"200 Compute Credits / 30 days\". */\n")
-    a("export function priceLabel(engine: EngineDefinition, locale: LocaleCode): string {\n")
+    a("/** The official catalog price for an official locale; portal locales use engineLocalization. */\n")
+    a("export function priceLabel(engine: EngineDefinition, locale: CatalogLocale): string {\n")
     a("  if (engine.credits30d === null) return PRICE_METERED[locale];\n")
     a('  return PRICE_FORMAT[locale].replace("%lld", String(engine.credits30d));\n')
     a("}\n")

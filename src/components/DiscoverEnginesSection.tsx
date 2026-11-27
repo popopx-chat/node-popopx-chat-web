@@ -19,12 +19,18 @@ import { useI18n } from "../i18n/translations";
 import {
   ENGINES,
   SECTIONS,
-  SECTION_LABELS,
   engineName,
   enginesInSection,
-  priceLabel,
 } from "../data/enginesCatalog";
 import type { EngineDefinition, EngineId, SectionId } from "../data/enginesCatalog";
+import {
+  engineHighlights,
+  engineMenuLabel,
+  engineTagline,
+  priceLabelFor,
+  sectionFilter,
+  sectionTitle,
+} from "../data/engineLocalization";
 import { GlassPanel } from "./GlassPanel";
 import { SectionHeading } from "./SectionHeading";
 
@@ -81,7 +87,7 @@ export function DiscoverEnginesSection() {
           {SECTIONS.map((section) => (
             <FilterChip
               key={section}
-              label={SECTION_LABELS[section].filter[locale]}
+              label={sectionFilter(section, locale)}
               count={enginesInSection(section).length}
               active={filter === section}
               unit={dict.engines.shelfCount}
@@ -94,7 +100,7 @@ export function DiscoverEnginesSection() {
           <div key={section} className={filter === "all" ? "mb-12" : "mb-12 last:mb-0"}>
             <div className="mb-4 flex items-baseline gap-3">
               <h3 className="text-[17px] font-semibold text-ink">
-                {SECTION_LABELS[section].title[locale]}
+                {sectionTitle(section, locale)}
               </h3>
               <span className="font-mono text-[11px] text-ink-mute">
                 {enginesInSection(section).length} {dict.engines.shelfCount}
@@ -166,14 +172,14 @@ function EngineCard({ engine, onOpen }: { engine: EngineDefinition; onOpen: () =
         <div className="min-w-0">
           <h4 className="text-[16.5px] font-semibold leading-tight text-ink">{name}</h4>
           <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-dim">
-            {engine.tagline[locale]}
+            {engineTagline(engine, locale)}
           </p>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
         <span className="glass-quiet rounded-pill px-3 py-1 font-mono text-[11.5px] text-brand-haze">
-          {priceLabel(engine, locale)}
+          {priceLabelFor(engine, locale)}
         </span>
         {engine.deterministic ? (
           <Badge text={dict.engines.deterministicBadge} />
@@ -185,7 +191,7 @@ function EngineCard({ engine, onOpen }: { engine: EngineDefinition; onOpen: () =
 
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-edge pt-4">
         <span className="min-w-0 truncate font-mono text-[11px] text-ink-mute">
-          {dict.engines.substrateLabel}: {engine.substrate}
+          {dict.engines.substrateLabel}: <span dir="ltr">{engine.substrate}</span>
         </span>
         <button
           type="button"
@@ -193,7 +199,7 @@ function EngineCard({ engine, onOpen }: { engine: EngineDefinition; onOpen: () =
           className="inline-flex shrink-0 items-center gap-1.5 rounded-pill px-3 py-1.5 text-[13px] text-ink-dim transition-colors duration-200 hover:bg-raise hover:text-ink"
         >
           {dict.engines.openDetails}
-          <ArrowRight size={14} aria-hidden="true" />
+          <ArrowRight size={14} aria-hidden="true" className="rtl:-scale-x-100" />
         </button>
       </div>
     </GlassPanel>
@@ -265,7 +271,7 @@ function EngineDialog({ engine, onClose }: { engine: EngineDefinition; onClose: 
                 {name}
               </h3>
               <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-dim">
-                {engine.tagline[locale]}
+                {engineTagline(engine, locale)}
               </p>
             </div>
           </div>
@@ -284,18 +290,18 @@ function EngineDialog({ engine, onClose }: { engine: EngineDefinition; onClose: 
             <dt className="font-mono text-[11px] tracking-[0.14em] text-ink-mute">
               {dict.engines.substrateLabel}
             </dt>
-            <dd className="mt-1.5 text-[14px] text-ink">{engine.substrate}</dd>
+            <dd className="mt-1.5 text-[14px] text-ink" dir="ltr">{engine.substrate}</dd>
           </div>
           <div>
             <dt className="font-mono text-[11px] tracking-[0.14em] text-ink-mute">
               {dict.engines.creditsUnit}
             </dt>
-            <dd className="mt-1.5 text-[14px] text-ink">{priceLabel(engine, locale)}</dd>
+            <dd className="mt-1.5 text-[14px] text-ink">{priceLabelFor(engine, locale)}</dd>
           </div>
         </dl>
 
         <ul className="mt-6 space-y-2">
-          {engine.highlights[locale].map((highlight) => (
+          {engineHighlights(engine, locale).map((highlight) => (
             <li key={highlight} className="flex items-start gap-2.5 text-[14px] text-ink-dim">
               <span
                 aria-hidden="true"
@@ -317,7 +323,7 @@ function EngineDialog({ engine, onClose }: { engine: EngineDefinition; onClose: 
                 key={item.action}
                 className="glass-quiet flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 rounded-[14px] px-4 py-3"
               >
-                <span className="text-[14px] text-ink">{item.label[locale]}</span>
+                <span className="text-[14px] text-ink">{engineMenuLabel(item, locale)}</span>
                 <code className="scroll-shadow min-w-0 max-w-full overflow-x-auto whitespace-nowrap font-mono text-[11.5px] text-brand-haze">
                   {`${NODE_CMD_PREFIX}${engine.id}::${item.action}::{}`}
                 </code>

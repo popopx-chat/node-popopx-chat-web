@@ -73,11 +73,11 @@ export function DownloadPanel() {
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-mute">
             {dict.hero.releaseLabel}
           </p>
-          <p className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight text-ink">
+          <p className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight text-ink" dir="ltr">
             {release.tag}
           </p>
           {release.name === null ? null : (
-            <p className="mt-1.5 max-w-full text-pretty text-[12.5px] text-ink-mute">
+            <p className="mt-1.5 max-w-full text-pretty text-[12.5px] text-ink-mute" dir="ltr">
               {release.name}
             </p>
           )}
@@ -108,7 +108,7 @@ export function DownloadPanel() {
           }`}
         />
         {source === "live" ? dict.hero.statusLive : dict.hero.statusFallback}
-        {note === null ? null : <span className="font-mono text-[11px]">({note})</span>}
+        {note === null ? null : <span className="font-mono text-[11px]" dir="ltr">({note})</span>}
       </p>
 
       {digest === null ? null : (
@@ -175,6 +175,7 @@ export function DownloadPanel() {
           target="_blank"
           rel="noopener noreferrer"
           className="mt-4 inline-block text-[13px] text-ink-dim underline decoration-edge-strong underline-offset-4 hover:text-ink"
+          dir="ltr"
         >
           {RELEASES_PAGE_URL}
         </a>

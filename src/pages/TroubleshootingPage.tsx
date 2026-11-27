@@ -29,7 +29,7 @@ export function TroubleshootingPage() {
           />
 
           <GlassPanel className="scroll-shadow mt-2 overflow-x-auto">
-            <table className="w-full min-w-[840px] border-collapse text-left">
+            <table className="w-full min-w-[840px] border-collapse text-start">
               <caption className="sr-only">{trouble.heading}</caption>
               <thead>
                 <tr className="border-b border-edge-strong">
@@ -52,7 +52,7 @@ export function TroubleshootingPage() {
                   >
                     <th
                       scope="row"
-                      className="px-4 py-4 text-left text-[13.5px] font-semibold leading-snug text-ink"
+                      className="px-4 py-4 text-start text-[13.5px] font-semibold leading-snug text-ink"
                     >
                       {fault.symptom}
                     </th>

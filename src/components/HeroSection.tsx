@@ -24,7 +24,7 @@ export function HeroSection() {
         <div className="min-w-0">
           <Logo size={64} alt="POPOPX" />
 
-          <p className="glass-quiet mt-8 inline-flex items-center gap-2 rounded-pill px-3.5 py-1.5 font-mono text-[11px] tracking-[0.06em] text-brand-haze">
+          <p className="glass-quiet mt-8 inline-flex items-center gap-2 rounded-pill px-3.5 py-1.5 font-mono text-[11px] tracking-[0.06em] text-brand-haze" dir="ltr">
             {dict.hero.badge}
           </p>
 
@@ -52,7 +52,7 @@ export function HeroSection() {
               className="glass-quiet inline-flex items-center gap-2 rounded-pill px-5 py-3 text-[15px] text-ink-dim transition-colors duration-200 hover:text-ink"
             >
               {dict.hero.ctaSource}
-              <ArrowRight size={16} aria-hidden="true" />
+              <ArrowRight size={16} aria-hidden="true" className="rtl:-scale-x-100" />
             </a>
           </div>
 
@@ -93,7 +93,7 @@ function Topology() {
         <End label={dict.hero.nodeLabel} detail="POPOPX Mac Node" tone="brand" />
       </div>
 
-      <p className="mt-4 text-center font-mono text-[11px] text-ink-mute">
+      <p className="mt-4 text-center font-mono text-[11px] text-ink-mute" dir="ltr">
         SMP · XFTP · popopxmq
       </p>
 
@@ -132,7 +132,7 @@ function End({
         <Logo size={26} glow={false} className="rounded-[10px]" />
       </span>
       <span className="text-[13px] font-medium leading-tight text-ink">{label}</span>
-      <span className="font-mono text-[10px] leading-tight text-ink-mute">{detail}</span>
+      <span className="font-mono text-[10px] leading-tight text-ink-mute" dir="ltr">{detail}</span>
     </div>
   );
 }

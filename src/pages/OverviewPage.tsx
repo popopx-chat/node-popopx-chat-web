@@ -80,8 +80,8 @@ export function OverviewPage() {
                       {path.body}
                     </span>
                     <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-[13px] text-ink-mute">
-                      <span className="truncate font-mono text-[11.5px]">{to}</span>
-                      <ArrowRight size={14} aria-hidden="true" className="shrink-0" />
+                      <span className="truncate font-mono text-[11.5px]" dir="ltr">{to}</span>
+                      <ArrowRight size={14} aria-hidden="true" className="shrink-0 rtl:-scale-x-100" />
                     </span>
                   </RouteLink>
                 </li>
@@ -125,7 +125,7 @@ function Half({
         <h4 className="text-[17px] font-semibold leading-snug text-ink">{title}</h4>
       </div>
       <p className="text-pretty text-[14px] leading-relaxed text-ink-dim">{body}</p>
-      <p className="mt-auto border-t border-edge pt-4 font-mono text-[11px] text-ink-mute">
+      <p className="mt-auto border-t border-edge pt-4 font-mono text-[11px] text-ink-mute" dir="ltr">
         {meta}
       </p>
     </GlassPanel>

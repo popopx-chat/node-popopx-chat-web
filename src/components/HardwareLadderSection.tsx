@@ -36,7 +36,7 @@ export function HardwareLadderSection() {
         />
 
         <GlassPanel className="scroll-shadow overflow-x-auto">
-          <table className="w-full min-w-[860px] border-collapse text-left">
+          <table className="w-full min-w-[860px] border-collapse text-start">
             <caption className="sr-only">{dict.hardware.heading}</caption>
             <thead>
               <tr className="border-b border-edge-strong">
@@ -61,23 +61,25 @@ export function HardwareLadderSection() {
                     scope="row"
                     className="whitespace-nowrap px-4 py-4 text-[14px] font-semibold text-ink"
                   >
-                    {row.memory}
+                    <span dir="ltr">{row.memory}</span>
                   </th>
-                  <td className="px-4 py-4 text-[13.5px] text-ink-dim">{row.chip}</td>
-                  <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-dim">
-                    {row.textModel}
+                  <td className="px-4 py-4 text-[13.5px] text-ink-dim">
+                    <span dir="ltr">{row.chip}</span>
                   </td>
                   <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-dim">
-                    {row.videoModel}
+                    <span dir="ltr">{row.textModel}</span>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-dim">
+                    <span dir="ltr">{row.videoModel}</span>
                   </td>
                   <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-mute">
-                    {row.firstToken}
+                    <span dir="ltr">{row.firstToken}</span>
                   </td>
                   <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-mute">
-                    {row.throughput}
+                    <span dir="ltr">{row.throughput}</span>
                   </td>
                   <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-mute">
-                    {row.residentPeak}
+                    <span dir="ltr">{row.residentPeak}</span>
                   </td>
                   <td className="whitespace-nowrap px-4 py-4">
                     <span
@@ -119,7 +121,7 @@ export function HardwareLadderSection() {
           />
 
           <GlassPanel className="scroll-shadow mt-2 overflow-x-auto">
-            <table className="w-full min-w-[860px] border-collapse text-left">
+            <table className="w-full min-w-[860px] border-collapse text-start">
               <caption className="sr-only">{dict.hardware.plansHeading}</caption>
               <thead>
                 <tr className="border-b border-edge-strong">
@@ -140,8 +142,8 @@ export function HardwareLadderSection() {
                     key={plan.tier}
                     className="border-b border-edge align-top last:border-b-0 transition-colors duration-200 hover:bg-raise/60"
                   >
-                    <th scope="row" className="px-4 py-4 text-left">
-                      <span className="block whitespace-nowrap font-mono text-[13px] text-ink">
+                    <th scope="row" className="px-4 py-4 text-start">
+                      <span className="block whitespace-nowrap font-mono text-[13px] text-ink" dir="ltr">
                         {plan.band}
                       </span>
                       <span className="mt-1 block text-[12px] text-ink-mute">
@@ -149,11 +151,13 @@ export function HardwareLadderSection() {
                       </span>
                     </th>
                     <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-dim">
-                      {plan.llm}
+                      <span dir="ltr">{plan.llm}</span>
                     </td>
-                    <td className="px-4 py-4 font-mono text-[12.5px] text-ink-dim">{plan.video}</td>
+                    <td className="px-4 py-4 font-mono text-[12.5px] text-ink-dim">
+                      <span dir="ltr">{plan.video}</span>
+                    </td>
                     <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-mute">
-                      {plan.residentGB}
+                      <span dir="ltr">{plan.residentGB}</span>
                     </td>
                     <td className="whitespace-nowrap px-4 py-4">
                       <span
@@ -167,7 +171,7 @@ export function HardwareLadderSection() {
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-4 py-4 font-mono text-[12px] text-brand-haze">
-                      {plan.pull}
+                      <span dir="ltr">{plan.pull}</span>
                     </td>
                   </tr>
                 ))}

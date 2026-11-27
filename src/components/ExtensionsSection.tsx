@@ -156,7 +156,7 @@ function PanelHeader({
           <Glyph size={18} />
         </span>
         <h3 className="min-w-0 text-[18px] font-semibold leading-snug text-ink">{title}</h3>
-        <code className="ml-auto rounded-pill border border-edge px-2.5 py-1 font-mono text-[10.5px] text-ink-mute">
+        <code className="ms-auto rounded-pill border border-edge px-2.5 py-1 font-mono text-[10.5px] text-ink-mute">
           {commit}
         </code>
       </div>

@@ -50,7 +50,7 @@ function SubHeading({
   return (
     <div className="max-w-3xl">
       {label === undefined ? null : (
-        <p className="mb-2 font-mono text-[11px] tracking-[0.2em] text-brand-haze">{label}</p>
+        <p className="mb-2 font-mono text-[11px] tracking-[0.2em] text-brand-haze" dir="ltr">{label}</p>
       )}
       <h3
         id={titleId}

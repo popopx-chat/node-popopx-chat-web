@@ -53,7 +53,7 @@ export function SiteFooter() {
                   <span className="text-pretty text-[13px] leading-relaxed text-ink-dim">
                     {dict.ecosystem[`${KEYS[i]}Body`]}
                   </span>
-                  <span className="mt-1 font-mono text-[11px] text-brand-haze">
+                  <span className="mt-1 font-mono text-[11px] text-brand-haze" dir="ltr">
                     {link.host}
                   </span>
                 </a>

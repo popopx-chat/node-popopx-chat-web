@@ -75,7 +75,7 @@ export function SecurityPage() {
                       aria-hidden="true"
                       className={`inline-block h-1.5 w-1.5 rounded-full ${TONE_DOT[location.tone] ?? "bg-ink-mute"}`}
                     />
-                    {location.path}
+                    <span dir="ltr">{location.path}</span>
                   </span>
                   <span className="min-w-0 flex-1 text-pretty text-[13px] leading-relaxed text-ink-dim">
                     {security.dataNote[location.note]}

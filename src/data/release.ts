@@ -236,7 +236,8 @@ export async function lookupRelease(signal?: AbortSignal): Promise<ReleaseLookup
 export function formatSize(sizeBytes: number | null, locale: string): string | null {
   if (sizeBytes === null) return null;
   const mebibytes = sizeBytes / 1048576;
-  return `${new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(mebibytes)} MiB`;
+  // Latin digits keep a size readable beside the Latin asset name and digest it describes.
+  return `${new Intl.NumberFormat(locale, { maximumFractionDigits: 1, numberingSystem: "latn" }).format(mebibytes)} MiB`;
 }
 
 /** The digest recorded for a pinned asset, when we have one. */
@@ -248,7 +249,7 @@ export const PINNED_DIGESTS: Record<string, string> = {
 /**
  * The commands that actually check a downloaded copy, in the order to run them, in the
  * folder the files were saved to — and exactly two of them, because `releases.verifyBody`
- * says "two commands" in eighteen languages and a page that prints three contradicts itself.
+ * says "two commands" in twenty-one languages and a page that prints three contradicts itself.
  * One `curl` takes both files; `-L` and `-O` apply to every URL on the line.
  *
  * A release manifest is preferred because it names every artifact in the release and is

@@ -1,11 +1,13 @@
 /* GENERATED FILE - do not edit by hand.
  * Source of truth: the POPOPX iOS Discover catalog and the Mac Node EngineKind.
  * Engine product names carry only en/zh-Hans/zh-Hant spellings because the shipping
- * iOS catalogs have no name entry in any of the 18 locales; every other language
- * reads the English product name, exactly as the phone and the node do.
+ * iOS catalogs have no name entry in any of the 21 portal locales; every other
+ * language reads the English product name, exactly as the phone and the node do.
+ * The catalog data itself covers the 18 official locales; the portal-only pt-BR, ko
+ * and ar strings live in the hand-maintained overlay `enginePortalStrings.ts`.
  */
 
-import type { LocaleCode } from "../i18n/types";
+import type { CatalogLocale, LocaleCode } from "../i18n/types";
 
 export type EngineId =
   "shadow_cos" | "zero_trust_warroom" | "zerotrace_studio" | "solo_autopilot" | "creator_paywall_hub" | "edge_compute_mesh" | "morning_tv" | "phantom_sentinel" | "chrono_ark" | "health_sentinel";
@@ -15,7 +17,7 @@ export type SectionId = "productivity" | "compute" | "sanctuary";
 export interface EngineMenuAction {
   /** The token the node accepts on the NODE_CMD wire. Never localized. */
   action: string;
-  label: Record<LocaleCode, string>;
+  label: Record<CatalogLocale, string>;
 }
 
 export interface EngineName {
@@ -35,16 +37,16 @@ export interface EngineDefinition {
   deterministic: boolean;
   worksWithoutLocalModels: boolean;
   name: EngineName;
-  tagline: Record<LocaleCode, string>;
+  tagline: Record<CatalogLocale, string>;
   menu: EngineMenuAction[];
-  highlights: Record<LocaleCode, string[]>;
+  highlights: Record<CatalogLocale, string[]>;
 }
 
 export const SECTIONS: SectionId[] = ["productivity", "compute", "sanctuary"];
 
 export const SECTION_LABELS: Record<
   SectionId,
-  { title: Record<LocaleCode, string>; filter: Record<LocaleCode, string> }
+  { title: Record<CatalogLocale, string>; filter: Record<CatalogLocale, string> }
 > = {
   productivity: {
     title: { bg: "Работа и продуктивност", cs: "Práce a produktivita", de: "Arbeit & Produktivität", en: "Work & Productivity", es: "Trabajo y productividad", fi: "Työ & Tuottavuus", fr: "Travail & productivité", hu: "Munka és hatékonyság", it: "Lavoro e produttività", ja: "仕事と効率", nl: "Werk & productiviteit", pl: "Praca i produktywność", ru: "Работа и продуктивность", th: "งาน & ประสิทธิภาพ", tr: "İş & Üretkenlik", uk: "Робота й продуктивність", "zh-Hans": "工作与效率", "zh-Hant": "工作與效率" },
@@ -60,7 +62,7 @@ export const SECTION_LABELS: Record<
   },
 };
 
-export const PRICE_FORMAT: Record<LocaleCode, string> =
+export const PRICE_FORMAT: Record<CatalogLocale, string> =
 {
     bg: "%lld Изчислителни точки / 30 дни",
     cs: "%lld výpočetních bodů / 30 dní",
@@ -82,7 +84,7 @@ export const PRICE_FORMAT: Record<LocaleCode, string> =
     "zh-Hant": "%lld 算力點 / 30 天",
   };
 
-export const PRICE_METERED: Record<LocaleCode, string> =
+export const PRICE_METERED: Record<CatalogLocale, string> =
 {
     bg: "Таксува се и се разплаща на задача",
     cs: "Měřeno, účtováno za úkol",
@@ -491,8 +493,8 @@ export function engineName(engine: EngineDefinition, locale: LocaleCode): string
   return engine.name.en;
 }
 
-/** The official price chip, e.g. "200 Compute Credits / 30 days". */
-export function priceLabel(engine: EngineDefinition, locale: LocaleCode): string {
+/** The official catalog price for an official locale; portal locales use engineLocalization. */
+export function priceLabel(engine: EngineDefinition, locale: CatalogLocale): string {
   if (engine.credits30d === null) return PRICE_METERED[locale];
   return PRICE_FORMAT[locale].replace("%lld", String(engine.credits30d));
 }

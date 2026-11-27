@@ -51,7 +51,7 @@ export function LanguageSwitcher() {
       {open ? (
         <ul
           role="menu"
-          className="glass absolute right-0 z-50 mt-2 max-h-[60vh] w-56 list-none overflow-y-auto rounded-panel p-1.5 scroll-shadow"
+          className="glass absolute end-0 z-50 mt-2 max-h-[60vh] w-56 list-none overflow-y-auto rounded-panel p-1.5 scroll-shadow"
         >
           {locales.map((code) => {
             const selected = code === locale;
@@ -66,7 +66,7 @@ export function LanguageSwitcher() {
                     setLocale(code);
                     setOpen(false);
                   }}
-                  className={`w-full rounded-[12px] px-3 py-2 text-left text-sm transition-colors duration-150 ${
+                  className={`w-full rounded-[12px] px-3 py-2 text-start text-sm transition-colors duration-150 ${
                     selected
                       ? "bg-brand/18 text-ink"
                       : "text-ink-dim hover:bg-raise hover:text-ink"

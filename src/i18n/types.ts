@@ -1,12 +1,17 @@
 import type { RoutePath } from "../router";
 
 /**
- * The 18 languages the portal ships.
+ * The 21 languages the portal ships.
  *
- * This is the language set the POPOPX iOS client ships: `apps/ios/POPOPX.xcodeproj`
- * `knownRegions` minus `Base`, which is an Xcode artefact rather than a locale.
+ * Eighteen are the language set the POPOPX iOS client ships: `apps/ios/POPOPX.xcodeproj`
+ * `knownRegions` minus `Base`, which is an Xcode artefact rather than a locale. The
+ * other three — `pt-BR`, `ko` and `ar` — are portal-only additions: their interface
+ * copy lives in the resource catalogs like every other locale, and their engine copy
+ * comes from the portal overlay in `src/data/enginePortalStrings.ts` because the
+ * generated engine catalog only carries the eighteen official locales.
  */
 export const LOCALES = [
+  "ar",
   "bg",
   "cs",
   "de",
@@ -16,8 +21,10 @@ export const LOCALES = [
   "hu",
   "it",
   "ja",
+  "ko",
   "nl",
   "pl",
+  "pt-BR",
   "ru",
   "th",
   "tr",
@@ -30,6 +37,13 @@ export const LOCALES = [
 export type LocaleCode = (typeof LOCALES)[number];
 
 /**
+ * The locales the generated engine catalog carries. The three portal-only locales
+ * read their engine strings from the overlay instead, so this is the exact key type
+ * of `enginesCatalog.ts` rather than a stylistic narrowing.
+ */
+export type CatalogLocale = Exclude<LocaleCode, "pt-BR" | "ko" | "ar">;
+
+/**
  * What each language calls itself, in its own script.
  *
  * This list is deliberately separate from the dictionaries: the language menu has to
@@ -38,6 +52,7 @@ export type LocaleCode = (typeof LOCALES)[number];
  * is a compile error until it has both an entry here and a loader.
  */
 export const LOCALE_NAMES: Record<LocaleCode, string> = {
+  ar: "العربية",
   bg: "Български",
   cs: "Čeština",
   de: "Deutsch",
@@ -48,8 +63,10 @@ export const LOCALE_NAMES: Record<LocaleCode, string> = {
   hu: "Magyar",
   it: "Italiano",
   ja: "日本語",
+  ko: "한국어",
   nl: "Nederlands",
   pl: "Polski",
+  "pt-BR": "Português (Brasil)",
   ru: "Русский",
   th: "ไทย",
   tr: "Türkçe",
@@ -78,12 +95,15 @@ export interface FaultItem {
 /**
  * Site chrome only. Engine names, taglines, quick-menu labels, highlights, shelf
  * titles and the price chip are not here — they come from the official catalogs in
- * `src/data/enginesCatalog.ts`, so this file cannot drift from the apps. The same
- * rule holds for ports, model references and pairing strings, which live in
- * `src/data/nodeRuntime.ts` because they are wire values.
+ * `src/data/enginesCatalog.ts`, so this file cannot drift from the apps. The three
+ * portal-only locales read those strings from `src/data/enginePortalStrings.ts`
+ * instead, keyed by the English source. The same rule holds for ports, model
+ * references and pairing strings, which live in `src/data/nodeRuntime.ts` because
+ * they are wire values.
  */
 export interface Dictionary {
-  dir: "ltr";
+  /** Drives `<html dir>`. Arabic is the one RTL catalog; every other locale is LTR. */
+  dir: "ltr" | "rtl";
 
   nav: {
     overview: string;

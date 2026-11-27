@@ -117,7 +117,9 @@ export function NodePage() {
             {facts.map((fact) => (
               <div key={fact.label} className="glass-quiet rounded-[16px] px-5 py-4">
                 <dt className="text-[12.5px] text-ink-mute">{fact.label}</dt>
-                <dd className="mt-1.5 truncate font-mono text-[13px] text-ink">{fact.value}</dd>
+                <dd className="mt-1.5 truncate font-mono text-[13px] text-ink">
+                    <span dir="ltr">{fact.value}</span>
+                  </dd>
               </div>
             ))}
           </dl>
@@ -145,7 +147,9 @@ export function NodePage() {
               ].map((fact) => (
                 <div key={fact.label} className="glass-quiet rounded-[16px] px-5 py-4">
                   <dt className="text-[12.5px] text-ink-mute">{fact.label}</dt>
-                  <dd className="mt-1.5 truncate font-mono text-[13px] text-ink">{fact.value}</dd>
+                  <dd className="mt-1.5 truncate font-mono text-[13px] text-ink">
+                    <span dir="ltr">{fact.value}</span>
+                  </dd>
                 </div>
               ))}
             </dl>
@@ -170,7 +174,7 @@ export function NodePage() {
           />
 
           <GlassPanel className="scroll-shadow mt-8 overflow-x-auto">
-            <table className="w-full min-w-[720px] border-collapse text-left">
+            <table className="w-full min-w-[720px] border-collapse text-start">
               <caption className="sr-only">{node.portsHeading}</caption>
               <thead>
                 <tr className="border-b border-edge-strong">
@@ -192,16 +196,16 @@ export function NodePage() {
                     className="border-b border-edge last:border-b-0 transition-colors duration-200 hover:bg-raise/60"
                   >
                     <td className="whitespace-nowrap px-4 py-4 font-mono text-[13.5px] text-ink">
-                      :{entry.port}
+                      <span dir="ltr">:{entry.port}</span>
                     </td>
                     <td className="whitespace-nowrap px-4 py-4 text-[13.5px] text-ink-dim">
                       {node.portsOwner[entry.owner]}
                     </td>
                     <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-ink-dim">
-                      {entry.bind}
+                      <span dir="ltr">{entry.bind}</span>
                     </td>
                     <td className="px-4 py-4">
-                      <span className="block whitespace-nowrap font-mono text-[12.5px] text-ink-dim">
+                      <span className="block whitespace-nowrap font-mono text-[12.5px] text-ink-dim" dir="ltr">
                         {entry.protocol}
                       </span>
                       <span className="mt-1 block text-[12.5px] text-ink-mute">
@@ -209,7 +213,7 @@ export function NodePage() {
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-4 py-4 font-mono text-[12.5px] text-brand-haze">
-                      {entry.authenticated}
+                      <span dir="ltr">{entry.authenticated}</span>
                     </td>
                   </tr>
                 ))}

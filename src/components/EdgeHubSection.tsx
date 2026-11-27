@@ -53,7 +53,7 @@ export function EdgeHubSection() {
         />
 
         <GlassPanel quiet className="edge-brand mt-2 min-w-0 p-5 sm:p-6">
-          <p className="font-mono text-[10.5px] tracking-[0.18em] text-brand-haze">
+          <p className="font-mono text-[10.5px] tracking-[0.18em] text-brand-haze" dir="ltr">
             {SIGNED_RELEASE.name}
           </p>
           <p className="mt-3 max-w-4xl text-pretty text-[13px] leading-relaxed text-ink-dim">

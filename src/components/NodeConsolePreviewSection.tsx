@@ -2,7 +2,8 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { useI18n } from "../i18n/translations";
 import { SectionHeading } from "./SectionHeading";
-import { ENGINES, SECTIONS, SECTION_LABELS, engineName } from "../data/enginesCatalog";
+import { ENGINES, SECTIONS, engineName } from "../data/enginesCatalog";
+import { sectionTitle } from "../data/engineLocalization";
 import { RUNTIME_PORTS } from "../data/nodeRuntime";
 import { planFor, SAMPLE_DEVICES, SAMPLE_MACHINES } from "../data/consolePreview";
 
@@ -68,13 +69,13 @@ export function NodeConsolePreviewSection() {
             <span className="glass-quiet rounded-pill px-2.5 py-1 text-[11.5px] text-ink-dim">
               {d.daemonRunning}
             </span>
-            <span className="ml-auto font-mono text-[11px] text-ink-mute">
+            <span className="ms-auto font-mono text-[11px] text-ink-mute" dir="ltr">
               {CONSOLE.protocol} · {CONSOLE.bind}:{CONSOLE.port} · {CONSOLE.authenticated}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 border-b border-edge bg-brand/8 px-5 py-2.5">
-            <span className="edge-brand rounded-pill px-2.5 py-1 font-mono text-[10.5px] tracking-[0.14em] text-brand-haze">
+            <span className="edge-brand rounded-pill px-2.5 py-1 font-mono text-[10.5px] tracking-[0.14em] text-brand-haze" dir="ltr">
               UI PREVIEW
             </span>
             <p className="text-[12.5px] text-ink-dim">{d.badge}</p>
@@ -161,7 +162,7 @@ export function NodeConsolePreviewSection() {
                   {SECTIONS.map((section) => (
                     <div key={section}>
                       <p className="font-mono text-[11px] tracking-[0.14em] text-ink-mute">
-                        {SECTION_LABELS[section].title[locale]}
+                        {sectionTitle(section, locale)}
                       </p>
                       <ul className="mt-2 flex flex-wrap gap-1.5">
                         {ENGINES.filter((engine) => engine.section === section).map((engine) => (
@@ -177,7 +178,7 @@ export function NodeConsolePreviewSection() {
                   ))}
                 </div>
 
-                <table className="w-full border-collapse text-left">
+                <table className="w-full border-collapse text-start">
                   <caption className="sr-only">{d.servicesHeading}</caption>
                   <thead>
                     <tr className="border-b border-edge">
@@ -185,7 +186,7 @@ export function NodeConsolePreviewSection() {
                         <th
                           key={column}
                           scope="col"
-                          className="pb-2 pr-3 font-mono text-[10.5px] font-normal tracking-[0.1em] text-ink-mute"
+                          className="pb-2 pe-3 font-mono text-[10.5px] font-normal tracking-[0.1em] text-ink-mute"
                         >
                           {column}
                         </th>
@@ -195,20 +196,20 @@ export function NodeConsolePreviewSection() {
                   <tbody>
                     {RUNTIME_PORTS.map((entry) => (
                       <tr key={entry.port} className="border-b border-edge last:border-b-0">
-                        <td className="py-2.5 pr-3 font-mono text-[12.5px] text-ink">
-                          :{entry.port}
+                        <td className="py-2.5 pe-3 font-mono text-[12.5px] text-ink">
+                          <span dir="ltr">:{entry.port}</span>
                         </td>
-                        <td className="py-2.5 pr-3 text-[12.5px] text-ink-dim">
+                        <td className="py-2.5 pe-3 text-[12.5px] text-ink-dim">
                           {dict.node.portsOwner[entry.owner]}
                         </td>
-                        <td className="py-2.5 pr-3 font-mono text-[12px] text-ink-mute">
-                          {entry.bind}
+                        <td className="py-2.5 pe-3 font-mono text-[12px] text-ink-mute">
+                          <span dir="ltr">{entry.bind}</span>
                         </td>
-                        <td className="py-2.5 pr-3 font-mono text-[12px] text-ink-dim">
-                          {entry.protocol}
+                        <td className="py-2.5 pe-3 font-mono text-[12px] text-ink-dim">
+                          <span dir="ltr">{entry.protocol}</span>
                         </td>
                         <td className="py-2.5 font-mono text-[12px] text-brand-haze">
-                          {entry.authenticated}
+                          <span dir="ltr">{entry.authenticated}</span>
                         </td>
                       </tr>
                     ))}
@@ -229,7 +230,7 @@ export function NodeConsolePreviewSection() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[520px] border-collapse text-left">
+                <table className="w-full min-w-[520px] border-collapse text-start">
                   <caption className="sr-only">{d.devicesHeading}</caption>
                   <thead>
                     <tr className="border-b border-edge">
@@ -237,7 +238,7 @@ export function NodeConsolePreviewSection() {
                         <th
                           key={column}
                           scope="col"
-                          className="pb-2 pr-3 font-mono text-[10.5px] font-normal tracking-[0.1em] text-ink-mute"
+                          className="pb-2 pe-3 font-mono text-[10.5px] font-normal tracking-[0.1em] text-ink-mute"
                         >
                           {column}
                         </th>
@@ -247,17 +248,17 @@ export function NodeConsolePreviewSection() {
                   <tbody>
                     {devices.map((device) => (
                       <tr key={device.id} className="border-b border-edge last:border-b-0">
-                        <td className="py-3 pr-3">
-                          <span className="block text-[13.5px] text-ink">{device.model}</span>
-                          <span className="block font-mono text-[11px] text-ink-mute">
+                        <td className="py-3 pe-3">
+                          <span className="block text-[13.5px] text-ink" dir="ltr">{device.model}</span>
+                          <span className="block font-mono text-[11px] text-ink-mute" dir="ltr">
                             {device.keyPrefix}…
                           </span>
                         </td>
-                        <td className="py-3 pr-3 font-mono text-[12px] text-ink-dim">
-                          {device.pairedAt}
+                        <td className="py-3 pe-3 font-mono text-[12px] text-ink-dim">
+                          <span dir="ltr">{device.pairedAt}</span>
                         </td>
-                        <td className="py-3 pr-3 font-mono text-[12px] text-ink-dim">
-                          {device.lastSeen ?? d.neverSeen}
+                        <td className="py-3 pe-3 font-mono text-[12px] text-ink-dim">
+                          {device.lastSeen === null ? d.neverSeen : <span dir="ltr">{device.lastSeen}</span>}
                         </td>
                         <td className="py-3">
                           {device.revoked ? (
@@ -303,7 +304,7 @@ function Fact({ label, value, mono = false }: { label: string; value: string; mo
     <div>
       <dt className="text-[11.5px] text-ink-mute">{label}</dt>
       <dd className={`mt-0.5 text-[13.5px] text-ink ${mono ? "font-mono text-[12.5px]" : ""}`}>
-        {value}
+        {mono ? <span dir="ltr">{value}</span> : value}
       </dd>
     </div>
   );
