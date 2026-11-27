@@ -236,18 +236,35 @@ export interface Dictionary {
   };
 
   /**
-   * The source-line edge-hub bridges, shown on `/features`. Every limit and protocol name is in
-   * `src/data/edgeHub.ts`; this block is only prose. The badge and status exist because
-   * the bridges are on `main` but not yet in the signed v1.0.2 download.
+   * The edge-hub bridges, shown on `/features`. Every limit and protocol name is in
+   * `src/data/edgeHub.ts`; this block is only prose. Build 4 ships the bridges in the
+   * signed image, so the status line states that rather than warning about a source branch.
    */
   hub: {
-    badge: string;
     heading: string;
     sub: string;
     status: string;
     cards: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
     boundaryHeading: string;
     boundaryItems: [LocalizedText, LocalizedText, LocalizedText];
+    footnote: string;
+  };
+
+  /**
+   * The two local extensions in v1.0.2 build 4. Numbers in the rendered facts come from
+   * `src/data/extensions.ts`; these strings carry the behavior and the boundary only.
+   */
+  extensions: {
+    heading: string;
+    sub: string;
+    assistantTitle: string;
+    assistantSub: string;
+    assistantFeatures: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    godsEyeTitle: string;
+    godsEyeSub: string;
+    godsEyeFeatures: [LocalizedText, LocalizedText, LocalizedText];
+    boundaryHeading: string;
+    boundaryItems: [LocalizedText, LocalizedText];
     footnote: string;
   };
 
@@ -328,7 +345,7 @@ export interface Dictionary {
     localItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
     transitHeading: string;
     transitSub: string;
-    transitItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    transitItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText, LocalizedText];
     keysHeading: string;
     keysBody: string;
     /** Explains one directory under the data root; keyed by `DataLocation.note`. */
@@ -349,7 +366,7 @@ export interface Dictionary {
      */
     hubHeading: string;
     hubSub: string;
-    hubItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
+    hubItems: [LocalizedText, LocalizedText, LocalizedText, LocalizedText, LocalizedText];
     controlHeading: string;
     controlSub: string;
     controls: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];
@@ -381,7 +398,7 @@ export interface Dictionary {
     pipelineHeading: string;
     pipelineBody: string;
     supportedHeading: string;
-    supportedItems: [string, string, string, string];
+    supportedItems: [string, string, string, string, string];
     roadmapHeading: string;
     roadmapSub: string;
     roadmap: [LocalizedText, LocalizedText, LocalizedText, LocalizedText];

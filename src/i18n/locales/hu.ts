@@ -60,7 +60,7 @@ export const hu: Dictionary = {
     digestCopied: "Ellenőrzőösszeg kimásolva",
     verifyTitle: "Ellenőrizd, mielőtt megnyitod",
     verifyBody:
-      "Mentsd a lemezképet és a kiadás ellenőrzőösszeg-fájlját ugyanabba a mappába, és ellenőrizd őket, mielőtt bármit megnyitsz. A kísérőfájl formája kiadásonként változik – az újabb kiadás SHA256SUMS.txt jegyzéket tesz közzé, a régebbi egyetlen assethez tartozó .sha256 fájlt –, ezért a Kiadások és GitHub szakasz pontosan azt a két parancsot írja ki, amelyik épp a nézett kiadásra vonatkozik.",
+      "Mentsd a lemezképet és a kiadás ellenőrzőösszeg-fájlját ugyanabba a mappába, és ellenőrizd őket, mielőtt bármit megnyitsz. Egy kiadás közzétehet SHA256SUMS.txt jegyzéket, egyetlen assethez tartozó .sha256 kísérőfájlt, vagy mindkettőt – ezért a Kiadások és GitHub szakasz pontosan azt a két parancsot írja ki, amelyik a nézett kiadásra vonatkozik.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "A saját hardvered",
@@ -246,12 +246,11 @@ export const hu: Dictionary = {
   },
 
   hub: {
-    badge: "FORRÁSVONAL · NINCS BENNE AZ ALÁÍRT 1.0.2-ES BUILD-BEN",
     heading: "Öt helyi képesség, egy határ",
     sub:
-      "A forrásvonal tulajdonoshoz kötött képességfeltárást, négy protokolladaptert és lepecsételt párosítási hivatkozást ad. A hidak alapból kikapcsolva állnak, minden cél ugyanazon a pozitív engedélylistán megy át, és minden írás olyan aláírt javaslattá válik, amelyet embernek kell jóváhagynia. Ebből semmi nem hosztolt szolgáltatás, és semmi nem nyit új figyelőt.",
+      "A build 4 a tulajdonoshoz kötött képességfeltárást, négy protokolladaptert és egy lepecsételt párosítási hivatkozást tesz az aláírt lemezképbe. A hidak alapból kikapcsolva állnak, minden cél ugyanazon a pozitív engedélylistán megy át, és minden írás olyan aláírt javaslattá válik, amelyet embernek kell jóváhagynia. Ebből semmi nem hosztolt szolgáltatás, és semmi nem nyit új figyelőt.",
     status:
-      "A forrásban 2026. november 26. óta (5858b3c és 040ef25). Az oldalon lévő aláírt v1.0.2 letöltés mindkét commit előtt készült, ezért ezt a szakaszt a forrásvonal szerződéseként olvasd, nem a letöltött lemezkép funkciójaként.",
+      "Az aláírt v1.0.2 build 4-ben (6de6eb8, 2026. november 27.) és az ezen az oldalon letölthető univerzális DMG-ben. Az alábbi kártyák a letöltött lemezképet írják le, nem egy forrásvonalat.",
     cards: [
       {
         title: "Feltárás, amely csak önmagáról válaszol",
@@ -294,6 +293,72 @@ export const hu: Dictionary = {
     ],
     footnote:
       "Az „Adatvédelem és irányítás” oldal ugyanezt a határt sorolja fel szabályról szabályra, beleértve azt is, amit a node nem tud megígérni.",
+  },
+
+  extensions: {
+    heading: "Két helyi bővítmény, egy jóváhagyási határ",
+    sub:
+      "A 4-es build egy privát asszisztenst ad, amely olvas, javasol és vár, valamint egy hidat egy 3D földgömbhöz, amelyet magad telepítesz. Mindkettő alapból ki van kapcsolva, mindkettő ezen a Macen tartja az állapotát, és egyik sem fordítja a modell javaslatát írássá jóváhagyási nyugta nélkül.",
+    assistantTitle: "Privát asszisztens és szabályozott automatizálás",
+    assistantSub:
+      "Egyetlen kezelő négy darabból áll össze: ütemező, egy levélhíd, amely csak olvas és csak jóváhagyás után küld, egy otthoni eszközfigyelő, és a jóváhagyási kapu, amelyen minden írásnak át kell mennie.",
+    assistantFeatures: [
+      {
+        title: "Négy csatlakozási engedély",
+        body:
+          "Minden csatlakozó a négy szint egyikét jelenti: read, propose, write vagy admin. Az alapértelmezés a read és a propose; a write vagy admin műveletet a végrehajtó belépőjénél ellenőrzi újra a rendszer, nem a modell promptjában.",
+      },
+      {
+        title: "Egy ütemező, amelyet te kapcsolsz be",
+        body:
+          "Napi eligazítás 08:00 helyi idő szerint, és otthoni állapotfigyelés 30 percenként. Mindkettő alapból ki van kapcsolva, és csak a tulajdonos kapcsolhatja be; minden futás és állapotváltozás a ledger/assistant.sqlite3 fájlba íródik.",
+      },
+      {
+        title: "A levelezés csak olvasható, amíg jóvá nem hagyod",
+        body:
+          "Az IMAPS 993 EXAMINE és BODY.PEEK használatával nyitja meg a postaládát, a friss leveleket válaszra váró, számla, meghívó és értesítés kategóriába sorolja, és választervezeteket ír. Az SMTPS 465 csak akkor küld, miután a telefon kártyáján vagy a konzolban jóváhagyod; a jelszavak Keychain-hivatkozások, soha nem beállítások.",
+      },
+      {
+        title: "Egy figyelő, amely javasol, aztán megáll",
+        body:
+          "A járőr csak azokat a Home Assistant entitásokat olvassa, amelyeket kitettél. Egy entitás, amely a küszöbén (alapértelmezés szerint 15 perc) túl elérhetetlen marad, javítási javaslattá válik, amely a művelethez, az entitáshoz és a tartalom kivonatához kötődik; a javítás jóváhagyás után egyszer fut le, és egy csak olvasó híd akkor is elutasítja, ha érvényes nyugta van hozzá.",
+      },
+    ],
+    godsEyeTitle: "God's Eye View, ismétlődő ciklusban",
+    godsEyeSub:
+      "Egy külön, harmadik féltől származó program, amelyet te telepítesz és kezelsz ezen a Macen. A node csak a Swift hidat szállítja: JavaScriptet, térképcímkéket és adatot nem.",
+    godsEyeFeatures: [
+      {
+        title: "Te telepíted, a node ellenőrzi",
+        body:
+          "Meglévő telepítés vagy egy rögzített commit egy kattintásos klónozása – a klónozás külön bekapcsolandó, soha nem időzítőre. A csomagnév, a rögzített verzió, a package.json mérete és mindkét belépő szkript ellenőrzésre kerül, a belépő szkriptek SHA-256 értéke rögzítődik; egy útvonal, amely a telepítési gyökéren kívülre mutat, szimlinken át is, elutasításra kerül.",
+      },
+      {
+        title: "Állandó loopback cím",
+        body:
+          "A bind hoszt a szó szerinti 127.0.0.1, és nem állítható be; az alapértelmezett port a 18931. A rendszerkönyvtárak, a ~/.ssh, a ~/.gnupg, a Keychain mappa és a node saját gyökérmappája telepítési célként elutasításra kerülnek.",
+      },
+      {
+        title: "Az MCPToolGate csak szigoríthat",
+        body:
+          "A csak olvasó földrajzi eszközök az MCP engedélylistán belül futhatnak. Egy állapotot módosítóként osztályozott eszköz – vászonjelek, rajzolás, jelentésexport, vagy bármilyen név, amely nem ismerhető fel olvasásként – pending_user_approval állapotúvá válik akkor is, ha a szerver csak olvasónak hirdeti. A kapu szigoríthat egy szintet, lazítani soha nem tud.",
+      },
+    ],
+    boundaryHeading: "Mit fed a jóváhagyási nyugta",
+    boundaryItems: [
+      {
+        title: "Kilencszáz másodperc, egyetlen használat",
+        body:
+          "Egy asszisztens-írás 32 karakteres HMAC-SHA256 nyugtát hordoz, amely a művelet fajtájához, a célhoz, a tartalom kivonatához és a lejárathoz kötődik. 900 másodpercig érvényes, állandó idejű összehasonlítással ellenőrződik, a végrehajtó bármilyen I/O előtt felhasználja, és elutasításra kerül, ha a tartalom megváltozik, lejár, újrajátszás történik, vagy egy másik javaslathoz kötődik.",
+      },
+      {
+        title: "A földgömb a cikluson marad",
+        body:
+          "A God's Eye View a szó szerinti 127.0.0.1 címre köt ki, másra nem; az érzékeny könyvtárak, a Keychain mappa és a node saját gyökérmappája telepítési célként elutasításra kerülnek, a szimlinkfeloldás után is. Az élő hírcsatornákat a saját helyi programod tölti le, minden szolgáltató saját feltételei szerint – ez a node csak opcionális Keychain-hivatkozásokat tart, és soha nem proxyzik vagy gyorsítótárazza az adatot. A vászonírások és a jelentésexportok pending_user_approval állapotúvá válnak akkor is, ha a szerver csak olvasónak nevezi őket.",
+      },
+    ],
+    footnote:
+      "Az Adatvédelem és irányítás ugyanezeket a határokat sorolja fel az asszisztensre, a földgömbre és a négy LAN-hídra, beleértve azt is, amit egyikük sem tud megígérni.",
   },
 
   engines: {
@@ -386,7 +451,7 @@ export const hu: Dictionary = {
       {
         title: "A DMG ellenőrzése és megnyitása",
         body:
-          "Vedd a POPOPX-Mac-Node-Universal.dmg fájlt és a kiadás ellenőrzőösszeg-fájlját ugyanabba a mappába, és ellenőrizd őket, mielőtt bármit megnyitsz; a Kiadások és GitHub szakaszban találod a két parancsot az aktuális kiadásra. Húzd át a POPOPX Mac Node.app alkalmazást az /Applications mappába. A közzétett build Developer ID-aláírással és a lemezképre rátűzött notarizációs jeggyel érkezik, ezért a Gatekeeper minden segítséged nélkül elfogadja — a spctl -a -vv -t install parancs az accepted választ adja, forrásként pedig a source=Notarized Developer ID van mellette. Ezzel szemben a címke-munkafolyamat – amely a Scripts/build_dmg.sh-val csomagol – buildje, és a magad építette build ugyanazzal a szkripttel, csak ad hoc aláírtak, és valóban ezekhez kell az első indításkor a jobb klikkból választott megnyitás.",
+          "Vedd a POPOPX-Mac-Node-Universal.dmg fájlt és a kiadás ellenőrzőösszeg-fájlját ugyanabba a mappába, és ellenőrizd őket, mielőtt bármit megnyitsz; a Kiadások és GitHub szakaszban találod a két parancsot az aktuális kiadásra. Húzd át a POPOPX Mac Node.app alkalmazást az /Applications mappába. A közzétett build Developer ID-aláírással és a lemezképre rátűzött notarizációs jeggyel érkezik, ezért a Gatekeeper minden segítséged nélkül elfogadja — a spctl -a -vv -t install parancs az accepted választ adja, forrásként pedig a source=Notarized Developer ID van mellette. A magad építette, Scripts/build_dmg.sh-val készült build ezzel szembenbuild ezzel szemben ad hoc aláírt, és valóban ennek kell az első indításkor a jobb klikkból választott megnyitás.",
       },
       {
         title: "A gép profilalkotása",
@@ -411,13 +476,13 @@ export const hu: Dictionary = {
     ],
     buildHeading: "Vagy építsd fel ugyanabból a tagből",
     buildBody:
-      "A kiadási lemezképek abból a fából csomagolódnak, amelyet te is ki tudsz jelölni a saját gépedre. swift build, swift test, swift build -c release, majd a bash Scripts/build_dmg.sh --output dist --version v1.0.2 írja az univerzális DMG-t, ad hoc aláírja, és kiadja mellé a kísérőfájlt is. A közzétett archívumot viszont a másik szkript készíti: a Scripts/build-release.sh teszi hozzá a Developer ID-aláírást, a notarizációs beküldést és a ZIP-fájlt, éppen ezért a letöltött lemezkép átmegy a spctl vizsgálatán, a saját építésed viszont nem. Mindkettő csak macOS-en fut, mert hdiutil és codesign alkotják.",
+      "A kiadási lemezképek abból a fából csomagolódnak, amelyet te is ki tudsz jelölni a saját gépedre. swift build, swift test, swift build -c release, majd a bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4 írja az univerzális DMG-t, ad hoc aláírja, és kiadja mellé a kísérőfájlt is. A közzétett archívumot viszont a másik szkript készíti: a Scripts/build-release.sh teszi hozzá a Developer ID-aláírást, a notarizációs beküldést és a ZIP-fájlt, éppen ezért a letöltött lemezkép átmegy a spctl vizsgálatán, a saját építésed viszont nem. Mindkettő csak macOS-en fut, mert hdiutil és codesign alkotják.",
     lifecycleHeading: "Az első futás után",
     lifecycle: [
       {
         title: "Frissítés",
         body:
-          "Nincs frissítő, és frissítésellenőrzés sincs – ez is egy dolog,.amiről a node nem telefonál haza. A frissítés húzgálás: töltsd le az újabb DMG-t, ellenőrizd, és cseréld le az alkalmazást az /Applications mappában. A beállítások, a párosítási állapot, a node-kulcs, a széf és minden elkészült eredmény az Application Support alatt van, nem a csomag belsejében, ezért a kicserélt alkalmazás átveszi azt a gépet, amelyikre kerül.",
+          "A build 4 a tulajdonos által beállított frissítési kaput ad, nem automatikus telepítőt. Csak az általad megnevezett jegyzékkiszolgálót olvassa, a rögzített kulcsod Ed25519 aláírását ellenőrzi egy szigorúan újabb verzió felett, és semmit nem telepít, amíg jóvá nem hagyod a nyugtához kötött letöltést; eltérő ellenőrzőösszeg esetén az ajánlat eldobódik. Nincs gyártói végpont és nincs alapértelmezett ellenőrzés. Frissíthetsz továbbra is úgy, hogy letöltöd és ellenőrzöd az újabb DMG-t, és kicseréled az alkalmazást. A beállítások, a párosítási állapot, a node-kulcs, a széf és minden elkészült eredmény az Application Support alatt van, nem a csomag belsejében, ezért a kicserélt alkalmazás átveszi azt a gépet, amelyikre kerül.",
       },
       {
         title: "Mentés és másik gépre költözés",
@@ -438,16 +503,16 @@ export const hu: Dictionary = {
       "A node saját varázslójának 2. lépése, a párosítás QR-kódja és az SMP-híd egyaránt egy popopx-chat chat daemon-t igényel a PATH-odon. A node egyetlen futtatható fájlt vizsgál meg, és nincs tartalék útvonala, mert egy upstream build válaszol egy verziósorra, aztán minden utána jövő parancsra elbukik. A tíz motor maga nem igényli.",
     signHeading: "Hogy van aláírva a közzétett build",
     signBody:
-      "A lemezképen belül lévő alkalmazáscsomag Developer ID Application aláírást, a hardened runtime jelzőt és egy biztonságos időbélyeget hordoz, és rá van tűzve egy notarizációs jegy is. Ezért engedi futni a Gatekeeper minden segítség nélkül: a spctl -a -vv -t install parancs az accepted választ adja, forrásként pedig a source=Notarized Developer ID áll mellette. Az alábbi blokkot a v1.0.2 által közzétett pontos bájtokból olvastuk ki 2026-11-25-én – futtasd az első két parancsot az /Applications mappában lévő alkalmazáson, és ugyanezt az identitást kell visszaadnia. Egy Apple-fiókot sem kérdezünk meg, és szervert sem ellenőrzünk, mert a jegy az alkalmazással együtt a lemezen utazik.",
+      "A lemezképen belül lévő alkalmazáscsomag Developer ID Application aláírást, a hardened runtime jelzőt és egy biztonságos időbélyeget hordoz, és rá van tűzve egy notarizációs jegy is. Ezért engedi futni a Gatekeeper minden segítség nélkül: a spctl -a -vv -t install parancs az accepted választ adja, forrásként pedig a source=Notarized Developer ID áll mellette. Az alábbi blokkot a v1.0.2 build 4 által 2026-11-27-én közzétett pontos bájtokból olvastuk ki – futtasd az első két parancsot az /Applications mappában lévő alkalmazáson, és ugyanezt az identitást kell visszaadnia. Egy Apple-fiókot sem kérdezünk meg, és szervert sem ellenőrzünk, mert a jegy az alkalmazással együtt a lemezen utazik.",
     containerTitle: "Magát a lemezképet nem írják alá",
     containerBody:
       "Futtasd az spctl parancsot a letöltött .dmg fájlon, és a rejected választ adja, forrásként a source=no usable signature értékkel; a codesign -dvv pedig ugyanerről a fájlról azt mondja, hogy egyáltalán nincs aláírva. Ez a várt válasz, nem egy feltörésre utaló riasztás. Az Apple kódaláírása az alkalmazáscsomagon van, a notarizációs jegyet viszont mind a csomagra, mind az azt körülvevő lemezképre rá tűzik. A lemezkép egyetlen épségvizsgálata a saját SHA-256 értéke, ez az az ellenőrzés, amelyik ezen az oldalon lejjebb szerepel.",
     provenanceTitle: "Melyik szkript melyik eredményt állítja elő",
     provenanceBody:
-      "Két szkript csomagolja ezt az alkalmazást, és nem ugyanott végződnek. A Scripts/build_dmg.sh – azt futtatja le a tag workflow egy macOS futtatón, és ezzel végződnek a fenti buildelők is – ad-hoc módban írja alá a --sign - --timestamp=none kapcsolókkal, hardened runtime nélkül, ezért egy ezen az útvonalon épült buildnek valóban kell az első indításkori jobb klikkes megnyitás. A Scripts/build-release.sh a Developer ID-útvonal: hardened runtime-mal ír alá, beküldi a notarizációba, a jegyet mind a csomagra, mind a lemezképre rátűzi, és a ZIP-fájlt egy SHA256SUMS.txt jegyzék mellé írja. A letöltött lemezkép a második szkriptből jött, és egy olyan futtató, amelyik sosem tartotta a kezében a tanúsítványt, nem tudja előállítani.",
+      "Két szkript csomagolja ezt az alkalmazást, és nem ugyanott végződnek. A Scripts/build_dmg.sh a helyi csomagoló: összeállítja a csomagot, ad hoc módon írja alá a --sign - --timestamp=none kapcsolókkal, hardened runtime nélkül, és kiírja a DMG-t meg a kísérőfájlját, ezért az ezen az útvonalon épült buildnek valóban kell az első indításkor a jobb klikkes megnyitás. A Scripts/build-release.sh a Developer ID-útvonal: hardened runtime-mal ír alá, beküldi a notarizációba, a jegyet mind a csomagra, mind a lemezképre rátűzi, és a ZIP-fájlt egy SHA256SUMS.txt jegyzék mellé írja. A letöltött build 4 lemezkép a második fajta — Developer ID-vel aláírva, notarizálva és rátűzve —, amelyet csak az a szkript állít elő. A node tag-munkafolyamata a 6de6eb8-on továbbra is a Scripts/build_dmg.sh-t futtatja, ezért a munkafolyamat önmagában nem magyarázhatja az aláírt asseteket; egy olyan futtató, amelyik sosem tartotta a kezében a tanúsítványt, nem tudja előállítani őket.",
     digestHeading: "Ellenőrizd az ellenőrzőösszeget, mielőtt bármit megnyitsz",
     digestBody:
-      "Két parancs, abban a mappában futtatva, amelyikbe a fájlokat mentetted. A kiadási jegyzék az a fájl, amelyikhez viszonyítani kell, mert minden, a kiadásban szereplő eredményt néven nevesíti, és ugyanaz a lépés írja, amelyik a csomagokat elkészítette; ezzel szemben a v1.0.2 mellé közzétett, egyetlen assethez tartozó .dmg.sha256 egy olyan ellenőrzőösszeget nevez meg, amelyiket egyetlen közzétett asset sem adja ki. A Kiadások és GitHub szakasz azt a két parancsot írja ki, amelyik az éppen feloldott kiadáshoz tartozik – ez lehet újabb, mint amelyik alább szerepel.",
+      "Két parancs, abban a mappában futtatva, amelyikbe a fájlokat mentetted. A kiadási jegyzék az a fájl, amelyikhez viszonyítani kell, mert minden, a kiadásban szereplő eredményt néven nevesíti, és ugyanaz a lépés írja, amelyik a csomagokat elkészítette. A build 4-ben a .dmg.sha256 kísérőfájl és a SHA256SUMS.txt ugyanazt az ellenőrzőösszeget nevezi meg, ezért bármelyik ellenőrzés egyetért. A Kiadások és GitHub szakasz azt a két parancsot írja ki, amelyik az éppen feloldott kiadáshoz tartozik – ez lehet újabb, mint amelyik alább szerepel.",
     copyCommand: "Parancs másolása",
     commandCopied: "Kimásolva",
   },
@@ -473,7 +538,7 @@ export const hu: Dictionary = {
       {
         title: "A kulcsok és a párosítási állapot",
         body:
-          "A node Ed25519 aláíró kulcsa, a párosított eszközök listája és az érvényes ajánlat egyszerű fájlok a pairing/ alatt. A kulcsnak nincs felhőbeli mentése, és sehol sincs kulcsőrzés – ami kétélű fegyver, ahogy az alábbi, elvesztésről szóló bekezdés mondja. Az egyetlen kivétel az edge hub hídjának hitelesítője: a Home Assistant token, egy MQTT-jelszó vagy egy CalDAV-jelszó Keychain-elem, a settings.json pedig csak azt a hivatkozást hordozza, amelyik előhozza.",
+          "A node Ed25519 aláíró kulcsa, a párosított eszközök listája és az érvényes ajánlat egyszerű fájlok a pairing/ alatt. A kulcsnak nincs felhőbeli mentése, és sehol sincs kulcsőrzés – ami kétélű fegyver, ahogy az alábbi, elvesztésről szóló bekezdés mondja. A kivételek a hitelesítők: egy hub-híd tokene vagy jelszava, az asszisztens IMAP- és SMTP-jelszavai, valamint a God's Eye View hírcsatorna-kulcsai Keychain-elemek, a settings.json pedig csak az őket előhozó hivatkozásokat hordozza.",
       },
       {
         title: "A bizonyítéknyom",
@@ -483,7 +548,7 @@ export const hu: Dictionary = {
     ],
     transitHeading: "Kimegy a gépből",
     transitSub:
-      "Négyféle forgalom megy ki a tágabb hálózat felé, és mindegyik vagy a saját eszközöd, vagy valami, amit te állítottál be. Ötödik csak akkor létezik, ha bekapcsolsz egy LAN-hidat: a Home Assistant, MQTT és CalDAV kérések, amelyek loopbacken, RFC 1918-as és .local címeken maradnak. Egyikükben sincs olyan analitikai végpont, amerre bármit is el lehetne küldeni.",
+      "Négyféle forgalom megy ki a tágabb hálózat felé, és mindegyik vagy a saját eszközöd, vagy valami, amit te állítottál be. Az asszisztens postafiókja ötödikként jön hozzá, ha bekapcsolod, egy LAN-híd pedig helyi forgalmat ad a loopbacken, RFC 1918-as és .local címeken. Egyikükben sincs olyan analitikai végpont, amerre bármit is el lehetne küldeni.",
     transitItems: [
       {
         title: "Eredmények, vissza a saját telefonodra",
@@ -505,23 +570,28 @@ export const hu: Dictionary = {
         body:
           "A varázsló Homebrew-formulákat, FFmpeget, uv-t, Ollamát és a választott kvantizációt tölti le. Ez a forgalom egy telepítési lépés lényege, egyszer történik, a szemed láttára, a naplóval a képernyőn.",
       },
+      {
+        title: "Az asszisztens postafiókja",
+        body:
+          "Ki van kapcsolva, amíg be nem kapcsolod és be nem írod a kiszolgálót. Az IMAPS 993 EXAMINE és BODY.PEEK használatával olvas, amely sosem jelöl olvasottként egy üzenetet; az SMTPS 465 csak egy olyan piszkozatot küld el, amelyet nyugtával jóváhagytál. A kiszolgáló szó szerinti érték a beállításaiban, sosem derül ki; a két jelszó Keychain-hivatkozás. Más asszisztens-művelet nem hagyja el a gépet.",
+      },
     ],
     keysHeading: "Hol is laknak a titkok",
     keysBody:
-      "A párosítási és széfanyag a gyökérmappa alatt lévő fájlok, atomi írással, POSIX 0600 móddal és teljes fájlvédelemmel írva, így a gép lezárása alatt a lemezen nem olvashatók. A mérleg, amit elfogadsz, valós – a fájljogok ellenőrizhetők és hordozhatók, és ugyanakkor semmit nem érnek a felhasználói fiókod és olyan olvasó között, amelyik már rendelkezik a felhasználói fiókoddal. Kezeld a gyökérmappát úgy, mint a titkot, amelyik: nincs benne a Time Machine mentésben, és ez a node-kulcs egyetlen létező példánya. A hub hitelesítője a másik utat választja. A Home Assistant token, az MQTT-jelszó és a CalDAV-jelszó az im.popopx.macnode.hub szolgáltatás alatt lévő generic-password elemek, kSecAttrAccessibleWhenUnlockedThisDeviceOnly beállítással létrehozva, a beállításdokumentum pedig csak egy hivatkozást tárol. Az alkalmazás csomagidentitása nélküli folyamat – swift run, tesztkeret – helyette memóriabeli tárolót kap; szándékosan nincs egyszerű szöveges fájlos tartalék, így egy hitelesítő, amelyik nem ér el a Keychainig, egyáltalán nem íródik ki.",
+      "A párosítási és széfanyag a gyökérmappa alatt lévő fájlok, atomi írással, POSIX 0600 móddal és teljes fájlvédelemmel írva, így a gép lezárása alatt a lemezen nem olvashatók. A mérleg, amit elfogadsz, valós – a fájljogok ellenőrizhetők és hordozhatók, és ugyanakkor semmit nem érnek a felhasználói fiókod és olyan olvasó között, amelyik már rendelkezik a felhasználói fiókoddal. Kezeld a gyökérmappát úgy, mint a titkot, amelyik: nincs benne a Time Machine mentésben, és ez a node-kulcs egyetlen létező példánya. A hub hitelesítője a másik utat választja. A Home Assistant token, az MQTT-jelszó, a CalDAV-jelszó, az asszisztens IMAP- és SMTP-jelszavai, valamint a God's Eye View hírcsatorna-kulcsai az im.popopx.macnode.hub szolgáltatás alatt lévő generic-password elemek, kSecAttrAccessibleWhenUnlockedThisDeviceOnly beállítással létrehozva, a beállításdokumentum pedig csak egy hivatkozást tárol. Az alkalmazás csomagidentitása nélküli folyamat – swift run, tesztkeret – helyette memóriabeli tárolót kap; szándékosan nincs egyszerű szöveges fájlos tartalék, így egy hitelesítő, amelyik nem ér el a Keychainig, egyáltalán nem íródik ki.",
     dataNote: {
       output: "A generált eredmények, és az a kimeneti sor, amelyik a telefonra váró eredményeket tartja.",
       vault: "Időzítve lepecsételt archívumok és az öröklési anyag, amelyik kinyitja őket.",
       pairing: "Az Ed25519 node-kulcs, a párosított eszközök listája és az érvényes, egyszer használható ajánlat.",
       weights: "Modellsúlyok és az LTX-2.5 MLX munkaterület, amelyet a videó motorok hívnak.",
-      ledger: "A lezárási és a mesh-naplók, hash-bejegyzésekkel bővülve.",
+      ledger: "A lezárási és a mesh-naplók hash-bejegyzésekkel bővítve, valamint az asszisztens korlátozott SQLite vizsgálati naplója (ledger/assistant.sqlite3).",
       logs: "A telepítési és a vizsgálati napló, amelyiket az üzemelő olvasására írják.",
-      config: "A beállítások, a motor kapcsolók, és az a konfiguráció, amelyet a híd és az integrációk megosztanak.",
+      config: "A beállítások, a motor kapcsolók, és az a konfiguráció, amelyet a hidak, az asszisztens és a God's Eye View kártya megosztanak.",
     },
     rootLabel: "Gyökérmappa",
     hubHeading: "Az edge hub saját határa",
     hubSub:
-      "A forrásvonalban hozzáadott négy híd a fenti szabályokhoz és még négyhez tartja magát. Itt vannak leírva, nem egy funkciókártyán, mert ezek olyan állítások, amelyeket az olvasónak a kódból meg kell tudnia cáfolni.",
+      "A build 4-ben hozzáadott négy LAN-híd, a privát asszisztens és a God's Eye View híd a fenti szabályokhoz és ezekhez tartja magát. Itt vannak leírva, nem egy funkciókártyán, mert ezek olyan állítások, amelyeket az olvasónak a kódból meg kell tudnia cáfolni.",
     hubItems: [
       {
         title: "Egy beléptetési pont",
@@ -542,6 +612,11 @@ export const hu: Dictionary = {
         title: "Csak a minimumot tudja meg",
         body:
           "A CalDAV a DTSTART és DTEND mezőket dolgozza fel, a címeket, leírásokat, helyszíneket és résztvevőket pedig már a feldolgozón belül eldobja, így a legterheltebb mezők soha nem kerülnek be a modellbe. Egy javaslat előnézete rövid skaláris argumentumokat mutat, és minden olyan értéket elrejt, amelynek kulcsa a redakciós listán van — content, token, password, payload és mások. A feltárás egy csak olvasó GET, amely a gép saját állapotát jelenti.",
+      },
+      {
+        title: "Az asszisztens és a földgömb",
+        body:
+          "Egy levélküldés vagy egy otthoni javítás csak 32 karakteres HMAC-SHA256 nyugtával ér el a végrehajtóhoz, amely a fajtához, a célhoz, az összegzéshez és a lejárathoz kötött, 900 másodpercig érvényes és egyszer használható. A levél az asszisztens egyetlen megnevezett kimenő kivétele, a jelszavai Keychain-hivatkozások. A God's Eye View csak loopbacken fut, szimlinkfeloldás után ellenőrzi a telepítését, és az MCP-kapuja csak szigoríthat egy eszközön: a vászonírások és a jelentésexportok pending_user_approval állapotba kerülnek akkor is, ha a kiszolgáló csak olvashatónak nevezi őket. A tároló csak a Swift hidat tartalmazza.",
       },
     ],
     controlHeading: "A te részed a leállító kapcsolón",
@@ -574,7 +649,7 @@ export const hu: Dictionary = {
       "A konzol párosított eszköz listájában minden soron van egy Revoke gomb. A jelöli az eszközt visszavontnak, eltávolítja a hozzá tartozó névjegyet, és onnantól eldobja a parancsait – de az SMP-kapcsolatot nem bontja meg, és az alkalmazás ezt ugyanabban az üzenetben írja, amelyet neked mutat. A munka befejezéséhez töröld a névjegyet a chat kliensben. Ami egyszer a lemezeden íródott, azon a lemezen is marad; a visszavonás a jövőbeli parancsokat állítja le, nem távoli törlés, és a node-nak sosem volt távoli törlés képessége, amelyet el lehetett volna venni tőle.",
     limitsHeading: "Amit ez az oldal nem ígér le",
     limitsBody:
-      "A biztonságos megsemmisítés véletlen adatokkal történő felülírás, egy szinkron és egy unlink. APFS-formátumon a módosított fájl új blokkokba íródik, az SSD pedig átlépködi a logikai blokkokat, tehát ez eltünteti a fájlt és hatástalanítja a szokványos helyreállító eszközöket, de nem bizonyítja, hogy a régi fizikai bájtok eltűntek. Ez a legjobb, amit egy felhasználói térbeli fájl-API tud, és a kód ezt a visszaadott eredményben ki is mondja. Ezen túlmenően: nincs globális szünet a leállításon kívül, nincs távoli törlés, nincs kulcsőrzés, ezért nincs helyreállítás sem, ha a gépet és a gyökérmappát együtt veszíted el, és nincs frissítő sem, amelyet rá lehetne beszélni, hogy olyat telepítsen, amit nem kértél.",
+      "A biztonságos megsemmisítés véletlen adatokkal történő felülírás, egy szinkron és egy unlink. APFS-formátumon a módosított fájl új blokkokba íródik, az SSD pedig átlépködi a logikai blokkokat, tehát ez eltünteti a fájlt és hatástalanítja a szokványos helyreállító eszközöket, de nem bizonyítja, hogy a régi fizikai bájtok eltűntek. Ez a legjobb, amit egy felhasználói térbeli fájl-API tud, és a kód ezt a visszaadott eredményben ki is mondja. Ezen túlmenően: nincs globális szünet a leállításon kívül, nincs távoli törlés, nincs kulcsőrzés, ezért nincs helyreállítás sem, ha a gépet és a gyökérmappát együtt veszíted el, és nincs csendes frissítő. A build 4 egy frissítési kaput ad, amelyik csak az általad megnevezett jegyzékkiszolgálót olvassa, csak a rögzített kulcsod aláírását fogadja el egy szigorúan újabb verzió felett, és nyugta nélkül semmit nem tölt le vagy telepít; nincs gyártói végpont és nincs alapértelmezett cél.",
   },
 
   troubleshooting: {
@@ -664,16 +739,17 @@ export const hu: Dictionary = {
     verifySumsBody:
       "A kiadási jegyzék minden eredményt felsorol, ezért egy olyan fájl, amelyet nem töltöttél le, nem hiányzik, hanem várható: add át a --ignore-missing kapcsolót, és olvasd el azt a sort, amelyik a letöltött fájlodhoz tartozik. A jegyzéket ugyanaz a lépés írja, amelyik az általa megnevezett tartalmat csomagolja.",
     verifySidecarBody:
-      "Egy régebbi kiadás ilyenkor egyetlen assethez tartozó kísérőfájlt tesz közzé, és azzal kell ellenőrizni. Ha egy kiadáson mindkettő ott van és nem egyeznek, a jegyzékben bízz: a kísérőfájl származhat ugyanannak a verziónak egy másik buildjéből.",
+      "Egy régebbi kiadás ilyenkor egyetlen assethez tartozó kísérőfájlt tesz közzé, és azzal kell ellenőrizni. A build 4 mindkettőt közzéteszi, és ugyanazt az ellenőrzőösszeget nevezik meg; ahol egy kiadás fájljai ellentmondanak, a jegyzékben bízz, mert a kísérőfájl ugyanazon verzió másik buildjéből is származhat.",
     pipelineHeading: "Hogyan kerül ide egy verzió",
     pipelineBody:
-      "Egy tag beküldése a kiadási workflow-t futtatja le egy macOS futtatón: felépíti a fát, lefuttatja a szerződésteszteket, a Scripts/build_dmg.sh segítségével becsomagolja az univerzális lemezképet, megtagadja egy abszolút útvonalat tartalmazó ellenőrzőösszeg-fájl közzétételét, és feltölti, amit a szkript kiírt. Egy notarialisan hitelesített lemezkép egy SHA256SUMS.txt jegyzék mellett a Scripts/build-release.sh-ból származik, amely Developer ID aláírást, Apple notarizációs beküldést és a ZIP-et is hozzáadja. Mindkét út ugyanott végződik: egy ellenőrzőösszegnél, amelyet anélől ellenőrizhetsz, hogy ezen az oldalon kellene megbíznod.",
+      "Egy tag beküldése a kiadási munkafolyamatot futtatja le egy macOS futtatón: felépíti a fát, lefuttatja a szerződésteszteket, a Scripts/build_dmg.sh-val csomagolja az univerzális lemezképet, megtagadja egy abszolút útvonalat tartalmazó ellenőrzőösszeg-fájl közzétételét, és feltölti a DMG-t meg a kísérőfájlját. Ez az ad hoc útvonal. Az aláírt build 4 lemezkép, a ZIP-je és a SHA256SUMS.txt a Scripts/build-release.sh-tól jön, amelyik a Developer ID identitással, a hardened runtime-mal és biztonságos időbélyeggel ír alá, beküldi az Apple notarizációs szolgáltatásába, és a jegyet a csomagra meg a lemezképre is rátűzi. A 6de6eb8-on álló címke-munkafolyamat nem hívja meg azt a szkriptet, ezért az aláírt assetek nem lehetnek a munkafolyamat kimenete. Mindkét útvonal ugyanoda fut ki: egy ellenőrzőösszeghez, amelyet ennek az oldalnak a megbízása nélkül is ellenőrizhetsz.",
     supportedHeading: "Ma fut",
     supportedItems: [
       "Mind a tíz motor, mindegyik a saját műveletkészletével és elutasítási útjaival, egyenként bekapcsolva.",
       "Automatikus szintválasztás a sysctl adataiból, az egyes szinthez tartozó modellletöltéssel.",
       "Aláírt, egyszer használható, tizenöt perces párosítás, és egy konzol, amelyik csak a loopbackre köt ki.",
       "A TypeScript-híd és két ügynökadapter ugyanazon a konzolon és ugyanazzal a tokennel.",
+      "A privát asszisztens és a God's Eye View híd: nyugtához kötött írások, csak loopbackes eszközkapu, és mindkettő alapból kikapcsolva.",
     ],
     roadmapHeading: "Még nem",
     roadmapSub:
@@ -722,7 +798,7 @@ export const hu: Dictionary = {
       },
       {
         q: "Átpásztázza a node a helyi hálózatomat eszközök után?",
-        a: "Nem. A feltárás egy csak olvasó GET /v1/discovery/capabilities, amely azt jelenti, ami ezen a Macen már megvan: az Ollama loopbacken, az általad engedélyezett munkaterület-mappák, az EventKit engedélyállapota, és hogy sikerül-e egy TCP-kapcsolat ahhoz a LAN-hoszthoz, amelyet a beállításokban beírtál. A kódban nincs mDNS-hirdető, nincs portpásztázás és nincs alhálózat-bejárás. Egy cél csak akkor kerülhet be, ha loopback, RFC 1918 literál, ULA-cím vagy .local név; egy nyilvános cím még a socket megnyitása előtt elutasításra kerül, és a forrásvonal nem fogad el olyan hosztneveket, amelyek DNS-lekérdezést igényelnének.",
+        a: "Nem. A feltárás egy csak olvasó GET /v1/discovery/capabilities, amely azt jelenti, ami ezen a Macen már megvan: az Ollama loopbacken, az általad engedélyezett munkaterület-mappák, az EventKit engedélyállapota, és hogy sikerül-e egy TCP-kapcsolat ahhoz a LAN-hoszthoz, amelyet a beállításokban beírtál. A kódban nincs mDNS-hirdető, nincs portpásztázás és nincs alhálózat-bejárás. Egy cél csak akkor kerülhet be, ha loopback, RFC 1918 literál, ULA-cím vagy .local név; egy nyilvános cím még a socket megnyitása előtt elutasításra kerül, és az aláírt build nem fogad el olyan hosztneveket, amelyek DNS-lekérdezést igényelnének. A build 4 LAN Discover funkciója alapból ki van kapcsolva, és csak az általad beállított mappákat, hírcsatornákat és MCP-kiszolgálókat figyeli, a frissítések között hatvan másodperces alsó határral.",
       },
       {
         q: "Lefuthat egy MCP-eszköz vagy egy okosotthon-parancs nélkülem?",
@@ -751,6 +827,14 @@ export const hu: Dictionary = {
       {
         q: "Melyik gépek támogatottak?",
         a: "macOS 14 vagy újabb, Apple Silicon gépeken. A szintlétra, a Metal és az MLX is egységesített memóriával számol, és az MLX nem fut Intelen, ezért az Intel Mac nem olyan gazdagép, amelyet ez a projekt célozna, még akkor sem, ha az univerzális DMG továbbra is tartalmaz x86_64 szeletet. Maga az alkalmazás nem linkel harmadik féltől származó könyvtárat: csak Apple-keretrendszerek. Amit vezérel, az tervezés szerint különálló: az Ollama, az FFmpeg és az LTX-2.5 súlyok olyan helyi eszközök, amelyeket a motorok hívnak, és minden motor megadja, melyekre szükséged van.",
+      },
+      {
+        q: "Küldhet az asszisztens levelet vagy kapcsolhat át egy eszközt nélkülem?",
+        a: "Nem. Az olvasás és a piszkozatírás helyi és csak olvasó; egy küldés vagy egy javítás pending_user_approval állapotú javaslat. A végrehajtó csak 32 karakteres HMAC-SHA256 nyugtát fogad el, amely a művelethez, a célhoz, az összegzéshez és a lejárathoz kötött, 900 másodpercig érvényes és egyszer használható. A levél hitelesítői a macOS Keychainben élnek, és egy csak olvasó Home Assistant híd a javítást érvényes nyugtával is elutasítja.",
+      },
+      {
+        q: "A God's Eye View híd felhőt hív vagy a hálózatomat pásztázza?",
+        a: "Nem. Egy általad erre a Macre telepített programot indít el, a 127.0.0.1-hez rögzíti, szimlinkfeloldás után ellenőrzi a belépő szkriptjeit, és csak akkor húz forrást, ha bekapcsolod. A node opcionális Keychain-hivatkozásokat tart a hírcsatorna-kulcsokhoz; a helyi programod tölti le a hírcsatornákat az egyes szolgáltatók feltételei szerint, a node pedig sosem proxizik és nem gyorsítótárazza őket. A vászonírások és a jelentésexportok pending_user_approval állapotba kerülnek akkor is, ha a kiszolgáló csak olvashatónak nevezi őket.",
       },
     ],
   },

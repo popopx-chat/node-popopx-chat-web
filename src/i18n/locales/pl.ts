@@ -60,7 +60,7 @@ export const pl: Dictionary = {
     digestCopied: "Skrót skopiowany",
     verifyTitle: "Zweryfikuj, zanim otworzysz",
     verifyBody:
-      "Zapisz obraz i plik ze skrótem wydania w tym samym folderze i sprawdź je, zanim otworzysz cokolwiek. Ten plik różni się między wydaniami — nowsze publikują manifest SHA256SUMS.txt, starsze pojedynczy .sha256 dla jednego zasobu — więc w sekcji Wydania i GitHub wypisane są dwa dokładne polecenia dla wydania, które akurat oglądasz.",
+      "Zapisz obraz i plik ze skrótem wydania w tym samym folderze i sprawdź je, zanim otworzysz cokolwiek. Wydanie może opublikować manifest SHA256SUMS.txt, pojedynczy plik sidecar .sha256 dla jednego zasobu albo oba — więc w sekcji Wydania i GitHub wypisane są dwa dokładne polecenia dla wydania, które akurat oglądasz.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "Twój własny sprzęt",
@@ -246,12 +246,11 @@ export const pl: Dictionary = {
   },
 
   hub: {
-    badge: "LINIA ŹRÓDŁOWA · NIEOBECNA W PODPISANYM BUDOWANIU 1.0.2",
     heading: "Pięć lokalnych możliwości, jedna granica",
     sub:
-      "Linia źródłowa dodaje wykrywanie zdolności w zakresie wyznaczonym przez właściciela, cztery adaptery protokołów i zapieczętowany link parujący. Mosty są domyślnie wyłączone, każdy cel przechodzi przez tę samą pozytywną listę dozwolonych, a każdy zapis staje się podpisaną propozycją, którą człowiek musi zatwierdzić. Nic z tego nie jest usługą hostowaną i nic nie otwiera nowego nasłuchu.",
+      "Build 4 dodaje do podpisanego obrazu wykrywanie zdolności w zakresie wyznaczonym przez właściciela, cztery adaptery protokołów i zapieczętowany link parujący. Mosty są domyślnie wyłączone, każdy cel przechodzi przez tę samą pozytywną listę dozwolonych, a każdy zapis staje się podpisaną propozycją, którą człowiek musi zatwierdzić. Nic z tego nie jest usługą hostowaną i nic nie otwiera nowego nasłuchu.",
     status:
-      "W źródłach od 26 listopada 2026 (5858b3c i 040ef25). Podpisane pobranie v1.0.2 z tej strony powstało przed oboma commitami, więc czytaj tę sekcję jako kontrakt linii źródłowej, a nie jako cechę obrazu, który pobierasz.",
+      "W podpisanym buildzie 4 wydania v1.0.2 (6de6eb8, 27 listopada 2026) i w uniwersalnym DMG na tej stronie. Karty poniżej opisują obraz, który pobierasz, a nie gałąź źródła.",
     cards: [
       {
         title: "Wykrywanie, które odpowiada tylko o sobie samym",
@@ -294,6 +293,72 @@ export const pl: Dictionary = {
     ],
     footnote:
       "Strona „Prywatność i kontrola” wypisuje tę samą granicę reguła po regule, łącznie z tym, czego węzeł nie może obiecać.",
+  },
+
+  extensions: {
+    heading: "Dwa lokalne rozszerzenia, jedna granica zatwierdzania",
+    sub:
+      "Build 4 dodaje prywatnego asystenta, który czyta, proponuje i czeka, oraz most do globusa 3D, który instalujesz sam. Oba są domyślnie wyłączone, oba trzymają swój stan na tym Macu i żaden nie zamienia sugestii modelu w zapis bez pokwitowania zatwierdzenia.",
+    assistantTitle: "Prywatny asystent i kontrolowana automatyzacja",
+    assistantSub:
+      "Jeden menedżer składa cztery elementy: harmonogram, most pocztowy, który czyta tylko do odczytu i wysyła dopiero po zatwierdzeniu, wartownika urządzeń domowych oraz bramę zatwierdzania, przez którą musi przejść każdy zapis.",
+    assistantFeatures: [
+      {
+        title: "Cztery uprawnienia łącznika",
+        body:
+          "Każdy łącznik zgłasza jeden z czterech poziomów — read, propose, write albo admin. Domyślne są read i propose; akcja write lub admin jest sprawdzana ponownie przy wejściu wykonawcy, a nie w monicie modelu.",
+      },
+      {
+        title: "Harmonogram, który włączasz sam",
+        body:
+          "Codzienny briefing o 08:00 czasu lokalnego i obchód stanu domu co 30 minut. Oba są domyślnie wyłączone i tylko właściciel może je włączyć; każde uruchomienie i każda zmiana stanu trafiają do ledger/assistant.sqlite3.",
+      },
+      {
+        title: "Poczta pozostaje tylko do odczytu, dopóki nie zatwierdzisz",
+        body:
+          "IMAPS 993 otwiera skrzynkę przez EXAMINE i BODY.PEEK, klasyfikuje ostatnią pocztę na wymagającą odpowiedzi, rachunek, zaproszenie i powiadomienie oraz przygotowuje szkice odpowiedzi. SMTPS 465 wysyła dopiero po Twoim zatwierdzeniu na karcie telefonu lub w konsoli; hasła to referencje do Keychaina, nigdy ustawienia.",
+      },
+      {
+        title: "Wartownik, który proponuje i się zatrzymuje",
+        body:
+          "Obchód czyta wyłącznie encje Home Assistant, które wyeksponowałeś. Encja, która pozostaje niedostępna dłużej niż jej próg (domyślnie 15 minut), staje się propozycją naprawy związaną z akcją, encją i skrótem ładunku; naprawa działa raz, po zatwierdzeniu, a most tylko do odczytu odmawia jej nawet z ważnym pokwitowaniem.",
+      },
+    ],
+    godsEyeTitle: "God's Eye View, w pętli",
+    godsEyeSub:
+      "Osobny program zewnętrzny, który sam instalujesz i utrzymujesz na tym Macu. Węzeł dostarcza wyłącznie most Swift: żadnego JavaScriptu, żadnych kafelków mapy i żadnych danych.",
+    godsEyeFeatures: [
+      {
+        title: "Instalowany przez Ciebie, weryfikowany przez węzeł",
+        body:
+          "Istniejąca instalacja albo jednoklikowe sklonowanie przypiętego commita — klonowanie jest opcjonalne, nigdy na timerze. Sprawdzane są nazwa pakietu, przypięta wersja, rozmiar package.json i oba skrypty wejściowe, a SHA-256 skryptów wejściowych jest zapisywany; ścieżka, która wychodzi poza katalog instalacji, także przez symlink, jest odrzucana.",
+      },
+      {
+        title: "Stały adres loopback",
+        body:
+          "Hostem bindowania jest literał 127.0.0.1 i nie da się go zmienić; domyślny port to 18931. Katalogi systemowe, ~/.ssh, ~/.gnupg, folder Keychaina i własny korzeń danych węzła są odrzucane jako cele instalacji.",
+      },
+      {
+        title: "MCPToolGate tylko zaostrza",
+        body:
+          "Geograficzne narzędzia tylko do odczytu mogą działać w ramach listy dozwolonych MCP. Narzędzie zaklasyfikowane jako zmieniające stan — znaczniki na kanwie, rysowanie, eksport raportu albo dowolna nazwa, której nie da się rozpoznać jako odczytu — staje się pending_user_approval nawet wtedy, gdy serwer reklamuje je jako tylko do odczytu. Brama może zaostrzyć poziom, nigdy go poluzować.",
+      },
+    ],
+    boundaryHeading: "Co obejmuje pokwitowanie zatwierdzenia",
+    boundaryItems: [
+      {
+        title: "Dziewięćset sekund, jedno użycie",
+        body:
+          "Zapis asystenta niesie 32-znakowe pokwitowanie HMAC-SHA256 związane z rodzajem operacji, celem, skrótem treści i terminem ważności. Jest ważne przez 900 sekund, porównywane w stałym czasie, zużywane przez wykonawcę przed jakimkolwiek I/O i odrzucane, jeśli ładunek się zmieni, wygaśnie, zostanie powtórzony albo związany z inną propozycją.",
+      },
+      {
+        title: "Globus zostaje na pętli",
+        body:
+          "God's Eye View wiąże się z literałem 127.0.0.1 i niczym więcej; wrażliwe katalogi, folder Keychaina i własny korzeń danych węzła są odrzucane jako cele instalacji, także po rozwiązaniu symlinków. Kanały na żywo pobiera Twój własny lokalny program na warunkach każdego dostawcy — ten węzeł trzyma tylko opcjonalne referencje do Keychaina i nigdy nie pośredniczy ani nie buforuje danych. Zapisy na kanwie i eksporty raportów stają się pending_user_approval nawet wtedy, gdy serwer nazywa je tylko do odczytu.",
+      },
+    ],
+    footnote:
+      "Strona „Prywatność i kontrola” wypisuje te same granice dla asystenta, globusa i czterech mostów LAN, łącznie z tym, czego żaden z nich nie może obiecać.",
   },
 
   engines: {
@@ -369,7 +434,7 @@ export const pl: Dictionary = {
       memory:
         "Metal, MLX i cała drabinka poziomów zakładają pamięć zunifikowaną. DMG niesie wycinek x86_64, ale żadna część stosu nie jest strojona pod Intela.",
       disk:
-        "Pobieranie wag modelu jest odrzucane, dopóki wolne miejsce wynosi 40 GB lub mniej, więc górny limit samej drabinki jest teżgórnym limitem Twojego dysku.",
+        "Pobieranie wag modelu jest odrzucane, dopóki wolne miejsce wynosi 40 GB lub mniej, więc górny limit samej drabinki jest też górnym limitem Twojego dysku.",
       media:
         "Pięć z dziesięciu silników wywołuje FFmpeg. Kreator instalacyjny może go doinstalować przez Homebrew.",
       inference:
@@ -386,7 +451,7 @@ export const pl: Dictionary = {
       {
         title: "Zweryfikuj i otwórz DMG",
         body:
-          "Weź POPOPX-Mac-Node-Universal.dmg i plik ze skrótem wydania do tego samego folderu i sprawdź je, zanim otworzysz cokolwiek; Wydania i GitHub wypisują dwa polecenia dla bieżącego wydania. Przeciągnij POPOPX Mac Node.app do /Applications. Opublikowany build niesie podpis Developer ID i zszyty bilet notarizacji, więc Gatekeeper akceptuje go bez pomocy — spctl -a -vv -t install odpowiada accepted z source=Notarized Developer ID. Build z obiegu tagu, który pakuje się przez Scripts/build_dmg.sh, i build, który zrobisz sam tym samym skryptem, są podpisane ad-hoc i to właśnie one wymagają pierwszego razem kliknięcia prawym przyciskiem i wybrania Open.",
+          "Weź POPOPX-Mac-Node-Universal.dmg i plik ze skrótem wydania do tego samego folderu i sprawdź je, zanim otworzysz cokolwiek; Wydania i GitHub wypisują dwa polecenia dla bieżącego wydania. Przeciągnij POPOPX Mac Node.app do /Applications. Opublikowany build niesie podpis Developer ID i zszyty bilet notarizacji, więc Gatekeeper akceptuje go bez pomocy — spctl -a -vv -t install odpowiada accepted z source=Notarized Developer ID. Build, który zrobisz sam przez Scripts/build_dmg.sh, jest natomiast podpisany ad-hoc i to właśnie on przy pierwszym uruchomieniu wymaga kliknięcia prawym przyciskiem i wybrania Open.",
       },
       {
         title: "Pozwól mu zmierzyć maszynę",
@@ -396,7 +461,7 @@ export const pl: Dictionary = {
       {
         title: "Wdróż lokalne silniki",
         body:
-          "Kreator schodzi po liście w dół: Homebrew, FFmpeg, uv, Ollama, kwantyzacja Qwen pasująca do Twojego poziomu, obszar roboczy LTX-2.5 i na koniec test samosprawdzający. Dziennik instalacji jest na bieżąco przesyłany na stronę konsoli, a zapisywany do logs/install.log, żeby awarię dało się odczytać po fakcie.",
+          "Kreator schodzi po liście w dół: Homebrew, FFmpeg, uv, Ollama, kwantyzacja Qwen pasująca do Twojego poziomu, obszar roboczy LTX-2.5 i na koniec test samosprawdzający. Dziennik instalacji jest na bieżąco przesyłany na stronę konsoli, a jednocześnie zapisywany do logs/install.log, żeby awarię dało się odczytać po fakcie.",
       },
       {
         title: "Sparuj iPhonea",
@@ -411,13 +476,13 @@ export const pl: Dictionary = {
     ],
     buildHeading: "Albo zbuduj to z tego samego taga",
     buildBody:
-      "Obrazy wydaniowe są pakowane z drzewa, które możesz checkoutować. swift build, swift test, swift build -c release, a potem bash Scripts/build_dmg.sh --output dist --version v1.0.2 zapisuje uniwersalne DMG, podpisuje je ad-hoc i odkłada obok niego plik sidecar. Publikowany artefakt robi inny skrypt: Scripts/build-release.sh dodaje podpis Developer ID, zgłoszenie do notarizacji oraz ZIP — dlatego pobrany obraz przechodzi spctl, a Twoja własna budowa nie. Oba działają tylko na macOS, bo hdiutil i codesign to cała ich materia.",
+      "Obrazy wydaniowe są pakowane z drzewa, które możesz checkoutować. swift build, swift test, swift build -c release, a potem bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4 zapisuje uniwersalne DMG, podpisuje je ad-hoc i odkłada obok niego plik sidecar. Publikowany artefakt robi inny skrypt: Scripts/build-release.sh dodaje podpis Developer ID, zgłoszenie do notarizacji oraz ZIP — dlatego pobrany obraz przechodzi spctl, a Twoja własna budowa nie. Oba działają tylko na macOS, bo hdiutil i codesign to cała ich materia.",
     lifecycleHeading: "Po pierwszym uruchomieniu",
     lifecycle: [
       {
         title: "Aktualizacja",
         body:
-          "Nie ma mechanizmu aktualizacji ani sprawdzania aktualizacji — to kolejna rzecz, której węzeł nie zgłasza do producenta. Aktualizacja to przeciągnięcie: pobierz nowsze DMG, zweryfikuj je i zamień aplikację w /Applications. Ustawienia, stan parowania, klucz węzła, sejf i każdy artefakt mieszkają pod Application Support, a nie wewnątrz bundla, więc podmieniona aplikacja przejmuje maszynę, na którą trafia.",
+          "Build 4 dodaje skonfigurowaną przez właściciela bramę aktualizacji, a nie automatyczny instalator. Czyta wyłącznie nazwany przez Ciebie host manifestu, weryfikuje podpis Ed25519 kluczem, który przypiąłeś, dla ściśle nowszej wersji i nic nie instaluje, dopóki nie zatwierdzisz pobrania związanego z pokwitowaniem; niezgodność skrótu odrzuca ofertę. Nie ma punktu końcowego producenta ani domyślnego sprawdzania. Nadal możesz zaktualizować, pobierając i weryfikując nowsze DMG i podmieniając aplikację. Ustawienia, stan parowania, klucz węzła, sejf i każdy artefakt mieszkają pod Application Support, a nie wewnątrz bundla, więc podmieniona aplikacja przejmuje maszynę, na którą trafia.",
       },
       {
         title: "Kopia zapasowa i przenosiny",
@@ -438,16 +503,16 @@ export const pl: Dictionary = {
       "Drugi krok kreatora samego węzła, kod QR parowania i most SMP potrzebują demona czatu popopx-chat w Twojej zmiennej PATH. Węzeł sprawdza dokładnie jeden plik wykonywalny i nie ma żadnej ścieżki awaryjnej, ponieważ build z upstreamu odpowiada na linię z wersją, a potem psuje każde kolejne polecenie. Dziesięć silników samych w sobie tego nie potrzebuje.",
     signHeading: "Jak podpisany jest opublikowany build",
     signBody:
-      "Bundle aplikacji wewnątrz obrazu niesie podpis Developer ID Application, flagę hardened runtime i bezpieczny znacznik czasu, a do tego jest w niego zszyty bilet notarizacji. Dlatego Gatekeeper pozwala go uruchomić bez niczyjej pomocy: spctl -a -vv -t install odpowiada accepted z source=Notarized Developer ID. Poniższy blok został odczytany z dokładnie tych bajtów, które v1.0.2 publikuje 2026-11-25 — uruchom pierwsze dwa polecenia względem aplikacji w /Applications, a w odpowiedzi powinieneś dostać tę samą tożsamość. Żadne konto Apple nie jest odpytywane i nic nie jest sprawdzane na serwerze, bo bilet jedzie na dysku razem z aplikacją.",
+      "Bundle aplikacji wewnątrz obrazu niesie podpis Developer ID Application, flagę hardened runtime i bezpieczny znacznik czasu, a do tego jest w niego zszyty bilet notarizacji. Dlatego Gatekeeper pozwala go uruchomić bez niczyjej pomocy: spctl -a -vv -t install odpowiada accepted z source=Notarized Developer ID. Poniższy blok został odczytany z dokładnie tych bajtów, które v1.0.2 build 4 publikuje 2026-11-27 — uruchom pierwsze dwa polecenia względem aplikacji w /Applications, a w odpowiedzi powinieneś dostać tę samą tożsamość. Żadne konto Apple nie jest odpytywane i nic nie jest sprawdzane na serwerze, bo bilet jedzie na dysku razem z aplikacją.",
     containerTitle: "Sam obraz nie jest podpisany",
     containerBody:
       "Uruchom spctl na pobranym .dmg, a odpowiedź to rejected z source=no usable signature; codesign -dvv mówi o tym samym pliku, że nie jest podpisany w ogóle. To oczekiwana odpowiedź, nie alarm o ingerencji. Podpis kodu Apple znajduje się na bundlu aplikacji, a bilet notarizacji jest zszyty z bundlem i z obrazem dysku wokół niego. Jedyną kontrolą integralności samego obrazu jest jego skrót SHA-256, czyli sprawdzenie opisane dalej na tej stronie.",
     provenanceTitle: "Który skrypt produkuje który artefakt",
     provenanceBody:
-      "Dwa skrypty pakują tę aplikację i nie kończą w tym samym miejscu. Scripts/build_dmg.sh — ten, który przepływ wydaniowy dla taga uruchamia na runnerze macOS, i ten, na którym kończą powyższe kroki budowania — podpisuje ad-hoc przez --sign - --timestamp=none i bez hardened runtime, więc build z tej ścieżki naprawdę wymaga pierwszego razem kliknięcia prawym przyciskiem i wybrania Open. Scripts/build-release.sh to ścieżka Developer ID: podpisuje z hardened runtime, zgłasza do notarizacji, zszywa bilet i z bundlem, i z obrazem, a potem odkłada ZIP obok manifestu SHA256SUMS.txt. Obraz, który pobierasz, powstał z tego drugiego skryptu, a runner, który nigdy nie trzymał certyfikatu, nie jest w stanie go wytworzyć.",
+      "Dwa skrypty pakują tę aplikację i nie kończą w tym samym miejscu. Scripts/build_dmg.sh to lokalny pakowacz: składa bundle, podpisuje ad-hoc przez --sign - --timestamp=none i bez hardened runtime, a potem zapisuje DMG wraz z sidecarem, więc build z tej ścieżki naprawdę wymaga pierwszego razu z kliknięciem prawym przyciskiem i wybraniem Open. Scripts/build-release.sh to ścieżka Developer ID: podpisuje z hardened runtime, zgłasza do notarizacji, zszywa bilet zarówno z bundlem, jak i z obrazem, i odkłada ZIP obok manifestu SHA256SUMS.txt. Pobierany obraz build 4 jest tego drugiego rodzaju — podpisany Developer ID, znotaryzowany i zszyty — a produkuje go wyłącznie ten skrypt. Przepływ wydaniowy dla taga w commicie 6de6eb8 nadal uruchamia Scripts/build_dmg.sh, więc sam przepływ nie może odpowiadać za podpisane zasoby; runner, który nigdy nie trzymał certyfikatu, nie jest w stanie ich wytworzyć.",
     digestHeading: "Sprawdź skrót, zanim otworzysz cokolwiek",
     digestBody:
-      "Dwa polecenia, uruchomione w folderze, do którego zapisałeś pliki. To względem manifestu wydania trzeba sprawdzać, bo wylicza on każdy artefakt wydania i zapisuje go ten sam krok, który je spakował, podczas gdy pojedynczy .dmg.sha256 dla jednego zasobu, opublikowany obok v1.0.2, podaje skrót, do którego nie haszuje żaden opublikowany zasób. Wydania i GitHub wypisują tę parę dla wydania, które akurat rozpoznają, a może ono być nowsze niż to poniżej.",
+      "Dwa polecenia, uruchomione w folderze, do którego zapisałeś pliki. Sprawdzać trzeba względem manifestu wydania, bo wylicza on każdy artefakt wydania i zapisuje go ten sam krok, który je spakował. W build 4 sidecar .dmg.sha256 i SHA256SUMS.txt podają ten sam skrót, więc oba sprawdzenia się zgadzają. Wydania i GitHub wypisują tę parę dla wydania, które akurat rozpoznają, a może ono być nowsze niż to poniżej.",
     copyCommand: "Kopiuj polecenie",
     commandCopied: "Skopiowano",
   },
@@ -473,7 +538,7 @@ export const pl: Dictionary = {
       {
         title: "Klucze i stan parowania",
         body:
-          "Klucz podpisujący Ed25519 węzła, lista sparowanych urządzeń i bieżąca oferta to zwykłe pliki pod pairing/. Nie ma chmurowej kopii klucza ani żadnego depozytu — co działa w obie strony, jak mówi akapit o utracie poniżej. Jedynym wyjątkiem jest poświadczenie mostu edge huba: token Home Assistant, hasło MQTT albo hasło CalDAV to element Keychaina, a settings.json niesie wyłącznie referencję, która go pobiera.",
+          "Klucz podpisujący Ed25519 węzła, lista sparowanych urządzeń i bieżąca oferta to zwykłe pliki pod pairing/. Nie ma chmurowej kopii klucza ani żadnego depozytu — co działa w obie strony, jak mówi akapit o utracie poniżej. Wyjątkiem są poświadczenia: token albo hasło mostu huba, hasła IMAP i SMTP asystenta oraz klucze kanałów God's Eye View to elementy Keychaina, a settings.json niesie wyłącznie referencje, które je pobierają.",
       },
       {
         title: "Ślad dowodowy",
@@ -483,7 +548,7 @@ export const pl: Dictionary = {
     ],
     transitHeading: "Opuszcza maszynę",
     transitSub:
-      "Cztery rodzaje ruchu wychodzą do szerszej sieci i każdy z nich to albo Twoje własne urządzenie, albo coś, co sam skonfigurowałeś. Piąty istnieje tylko wtedy, gdy włączysz most w sieci LAN: żądania Home Assistant, MQTT i CalDAV, które zostają na loopbacku, adresach RFC 1918 i .local. W żadnym z nich nie ma punktu analitycznego, do którego miałoby coś iść.",
+      "Cztery rodzaje ruchu wychodzą do szerszej sieci i każdy z nich to albo Twoje własne urządzenie, albo coś, co sam skonfigurowałeś. Konto pocztowe asystenta dokłada piąty, gdy je włączysz, a most w sieci LAN dokłada ruch lokalny na loopbacku, adresach RFC 1918 i .local. W żadnym z nich nie ma punktu analitycznego, do którego miałoby coś trafić.",
     transitItems: [
       {
         title: "Wyniki, z powrotem do Twojego własnego telefonu",
@@ -505,23 +570,28 @@ export const pl: Dictionary = {
         body:
           "Kreator pobiera formuły Homebrew, FFmpeg, uv, Ollama i wybraną kwantyzację. Ten ruch jest celem kroku instalacji, dzieje się raz, przed Twoimi oczami, z dziennikiem na ekranie.",
       },
+      {
+        title: "Konto pocztowe asystenta",
+        body:
+          "Wyłączone, dopóki go nie włączysz i nie wpiszesz serwera. IMAPS 993 czyta przez EXAMINE i BODY.PEEK, co nigdy nie oznacza wiadomości jako przeczytanej; SMTPS 465 wysyła wyłącznie szkic, który zatwierdziłeś pokwitowaniem. Host jest literałem w Twoich ustawieniach i nigdy nie jest wykrywany; oba hasła to referencje do Keychaina. Żadna inna akcja asystenta nie opuszcza maszyny.",
+      },
     ],
     keysHeading: "Gdzie naprawdę mieszkają sekrety",
     keysBody:
-      "Materiał parowania i materiał sejfu to pliki pod korzeniem danych, zapisane atomowym zapisem, z prawem POSIX 0600 i pełną ochroną plików, więc w spoczynku, przy zablokowanej maszynie, nie da się ich odczytać. Cena, którą płacisz, jest realna — uprawnienia plików są audytowalne i przenośne, ale są też niczym pomiędzy Twoim kontem użytkownika a odczytującym, który już to konto ma. Traktuj korzeń danych jako sekret, którym jest: nie ma go w Time Machine i jest jedyną kopią klucza węzła, jaka istnieje. Poświadczenie huba idzie inną drogą. Token Home Assistant, hasło MQTT i hasło CalDAV to elementy typu generic-password pod usługą im.popopx.macnode.hub, tworzone z kSecAttrAccessibleWhenUnlockedThisDeviceOnly, a dokument ustawień przechowuje wyłącznie referencję. Proces bez tożsamości pakietu aplikacji — swift run, harness testowy — dostaje zamiast tego magazyn w pamięci; celowo nie ma żadnego awaryjnego zapisu jawnym tekstem, więc poświadczenie, które nie dotrze do Keychaina, nie jest zapisywane wcale.",
+      "Materiał parowania i materiał sejfu to pliki pod korzeniem danych, zapisane atomowym zapisem, z uprawnieniami POSIX 0600 i pełną ochroną plików, więc w spoczynku, przy zablokowanej maszynie, nie da się ich odczytać. Cena, którą płacisz, jest realna — uprawnienia plików są audytowalne i przenośne, ale są też niczym pomiędzy Twoim kontem użytkownika a odczytującym, który już to konto ma. Traktuj korzeń danych jako sekret, którym jest: nie ma go w Time Machine i jest jedyną kopią klucza węzła, jaka istnieje. Poświadczenia idą inną drogą. Token Home Assistant, hasło MQTT, hasło CalDAV, hasła IMAP i SMTP asystenta oraz klucze kanałów God's Eye View to elementy typu generic-password pod usługą im.popopx.macnode.hub, tworzone z kSecAttrAccessibleWhenUnlockedThisDeviceOnly, a dokument ustawień przechowuje wyłącznie referencję. Proces bez tożsamości pakietu aplikacji — swift run, harness testowy — dostaje zamiast tego magazyn w pamięci; celowo nie ma żadnego awaryjnego zapisu jawnym tekstem, więc poświadczenie, które nie dotrze do Keychaina, nie jest zapisywane wcale.",
     dataNote: {
       output: "Wygenerowane artefakty oraz kolejka outbox przechowująca wyniki czekające na telefon.",
-      vault: "Zamknięte czasowo zapieczętowane archiwa i materiał sukcesyjny, który je otwiera.",
+      vault: "Zablokowane czasowo zapieczętowane archiwa i materiał sukcesyjny, który je otwiera.",
       pairing: "Klucz Ed25519 węzła, lista sparowanych urządzeń i bieżąca jednorazowa oferta.",
       weights: "Wagi modeli oraz obszar roboczy LTX-2.5 MLX, który wywołują silniki wideo.",
-      ledger: "Dopisywane przez łańcuch skrótów księgi blokad i meshu.",
+      ledger: "Dopisywane przez łańcuch skrótów księgi blokad i meshu oraz ograniczona księga audytu SQLite asystenta.",
       logs: "Dziennik instalacji i dziennik audytu, pisane po to, żeby operator je przeczytał.",
-      config: "Ustawienia, przełączniki silników oraz konfiguracja dzielona przez most i integracje.",
+      config: "Ustawienia, przełączniki silników oraz konfiguracja współdzielona przez mosty, asystenta i kartę God's Eye View.",
     },
     rootLabel: "Korzeń danych",
     hubHeading: "Własna granica edge huba",
     hubSub:
-      "Cztery mosty dodane w linii źródłowej podlegają powyższym regułom i jeszcze czterem. Są zapisane tutaj, a nie na karcie możliwości, bo to twierdzenia, które czytelnik powinien móc obalić na podstawie kodu.",
+      "Cztery mosty w sieci LAN dodane w build 4, prywatny asystent i most God's Eye View podlegają powyższym regułom i jeszcze tym. Są zapisane tutaj, a nie na karcie możliwości, bo to twierdzenia, które czytelnik powinien móc obalić na podstawie kodu.",
     hubItems: [
       {
         title: "Jeden punkt wpuszczania",
@@ -542,6 +612,11 @@ export const pl: Dictionary = {
         title: "Uczy się minimum",
         body:
           "CalDAV parsuje DTSTART i DTEND, a tytuły, opisy, lokalizacje i uczestników odrzuca wewnątrz parsera, więc najbardziej zajęte pola nigdy nie trafiają do modelu. Podgląd propozycji pokazuje krótkie argumenty skalarne i ukrywa każdą wartość, której klucz jest na liście redakcji — content, token, password, payload i inne. Wykrywanie to wyłącznie zapytanie GET do odczytu, które raportuje stan samej maszyny.",
+      },
+      {
+        title: "Asystent i globus",
+        body:
+          "Wysłanie poczty albo naprawa w domu dociera do wykonawcy tylko z 32-znakowym pokwitowaniem HMAC-SHA256 związanym z rodzajem operacji, celem, skrótem i terminem ważności, ważnym przez 900 sekund i zużywanym jednorazowo. Poczta to jedyny nazwany wyjątek wyjścia asystenta, a jej hasła to referencje do Keychaina. God's Eye View działa wyłącznie na loopbacku, weryfikuje instalację po rozwiązaniu symlinków, a jego brama MCP może tylko zaostrzyć klasyfikację narzędzia: zapisy na kanwie i eksporty raportów stają się pending_user_approval nawet wtedy, gdy serwer nazywa je tylko do odczytu. Repozytorium zawiera wyłącznie most Swift.",
       },
     ],
     controlHeading: "Twoja część wyłącznika",
@@ -574,7 +649,7 @@ export const pl: Dictionary = {
       "Lista sparowanych urządzeń w konsoli ma przycisk Revoke w każdym wierszu. Oznacza on urządzenie jako unieważnione, usuwa jego mapowanie kontaktów i od tej pory odrzuca jego polecenia — ale nie zrywa połączenia SMP, a aplikacja pisze o tym w tej samej wiadomości, którą Ci pokazuje. Żeby dokończyć robotę, usuń kontakt w kliencie czatu. To, co już zostało zapisane na Twoim dysku, na nim zostaje; unieważnienie zatrzymuje przyszłe polecenia, nie jest zdalnym wymazywaniem, a węzeł nigdy nie miał możliwości zdalnego wymazania, którą można by usunąć.",
     limitsHeading: "Czego ta strona nie obieca",
     limitsBody:
-      "Bezpieczne niszczenie to losowe nadpisanie, sync i unlink. Na APFS zmodyfikowany plik trafia do nowych bloków, a SSD remapuje bloki logiczne, więc ta operacja usuwa plik i udaremnia działanie zwykłych narzędzi do odzyskiwania danych, ale nie dowodzi, że stare fizyczne bajty zniknęły. To najlepsze, co potrafi userspace’owe API plików, a kod mówi o tym w zwracanym wyniku. Dalej: brak globalnej pauzy poza wyłączeniem, brak zdalnego wymazania, brak przechowywania kluczy u pośrednika, a więc brak odzyskania, jeśli zgubisz maszynę razem z korzeniem danych, i brak mechanizmu aktualizacji, którego dałoby się namówić na zainstalowanie czegoś, o co nie prosiłeś.",
+      "Bezpieczne niszczenie to losowe nadpisanie, sync i unlink. Na APFS zmodyfikowany plik trafia do nowych bloków, a SSD remapuje bloki logiczne, więc ta operacja usuwa plik i udaremnia działanie zwykłych narzędzi do odzyskiwania danych, ale nie dowodzi, że stare fizyczne bajty zniknęły. To najlepsze, co potrafi userspace’owe API plików, a kod mówi o tym w zwracanym wyniku. Dalej: brak globalnej pauzy poza wyłączeniem, brak zdalnego wymazania, brak przechowywania kluczy u pośrednika, a więc brak odzyskania, jeśli zgubisz maszynę razem z korzeniem danych, i brak cichego aktualizatora. Build 4 dodaje bramę aktualizacji, która czyta wyłącznie nazwany przez Ciebie host manifestu, przyjmuje tylko podpis z klucza, który przypiąłeś, dla ściśle nowszej wersji i wymaga pokwitowania, zanim cokolwiek pobierze lub zainstaluje; nie ma punktu końcowego producenta ani domyślnego celu.",
   },
 
   troubleshooting: {
@@ -664,16 +739,17 @@ export const pl: Dictionary = {
     verifySumsBody:
       "Manifest wydania wylicza każdy artefakt, więc plik, którego nie pobrałeś, jest oczekiwany, a nie brakujący: podaj --ignore-missing i przeczytaj wiersz pasujący do pliku, który wziąłeś. Manifest jest zapisywany w tym samym kroku, który pakuje wymieniany przezeń ładunek.",
     verifySidecarBody:
-      "Starsze wydanie publikuje zamiast tego sidecar dla jednego zasobu i to względem niego trzeba sprawdzać. Jeśli wydanie niesie oba, a się różnią, wierz manifestowi: sidecar może pochodzić z innej budowy tej samej wersji.",
+      "Starsze wydanie publikuje zamiast tego sidecar dla jednego zasobu i to względem niego trzeba sprawdzać. Build 4 publikuje oba i podają ten sam skrót; tam, gdzie pliki wydania się różnią, wierz manifestowi, bo sidecar może pochodzić z innej budowy tej samej wersji.",
     pipelineHeading: "Jak wersja trafia tutaj",
     pipelineBody:
-      "Wypchnięcie taga uruchamia przepływ wydaniowy na runnerze macOS: buduje drzewo, wykonuje testy kontraktu, pakuje uniwersalny obraz przez Scripts/build_dmg.sh, odmawia opublikowania pliku sum zawierającego ścieżkę bezwzględną i wgrywa to, co tamten skrypt zapisał. Podpisany i znotaryzowany obraz obok manifestu SHA256SUMS.txt pochodzi zamiast tego z Scripts/build-release.sh, który dodaje podpisanie Developer ID, zgłoszenie do notarizacji w Apple oraz ZIP. Obie drogi kończą w tym samym miejscu: skrótem, który sprawdzisz bez ufania tej stronie.",
+      "Wypchnięcie taga uruchamia przepływ wydaniowy na runnerze macOS: buduje drzewo, wykonuje testy kontraktu, pakuje uniwersalny obraz przez Scripts/build_dmg.sh, odmawia opublikowania pliku sum zawierającego ścieżkę bezwzględną i wgrywa DMG wraz z jego sidecarem. To ścieżka ad-hoc. Podpisany obraz build 4, jego ZIP i SHA256SUMS.txt pochodzą z Scripts/build-release.sh, który podpisuje tożsamością Developer ID, z hardened runtime i bezpiecznym znacznikiem czasu, zgłasza do usługi notarialnej Apple i zszywa bilet z bundlem oraz z obrazem. Przepływ wydaniowy dla taga w commicie 6de6eb8 nie wywołuje tego skryptu, więc podpisane zasoby nie mogą być jego wynikiem. Obie drogi kończą w tym samym miejscu: skrócie, który sprawdzisz bez ufania tej stronie.",
     supportedHeading: "Działa już dziś",
     supportedItems: [
       "Wszystkie dziesięć silników, każdy z własnym zestawem akcji i ścieżkami odmowy, włączane osobno.",
       "Automatyczny wybór poziomu z sysctl, razem z pobraniem modelu, który dany poziom oznacza.",
       "Podpisane, jednorazowe, piętnastominutowe parowanie i konsola, która wiąże się wyłącznie z loopback.",
       "Most TypeScript i dwa adaptery agentów na tej samej konsoli i z tym samym tokenem.",
+      "Prywatny asystent i most God's Eye View: zapisy warunkowane pokwitowaniem, brama narzędzi działająca wyłącznie na loopbacku, a oba domyślnie wyłączone.",
     ],
     roadmapHeading: "Jeszcze nie",
     roadmapSub:
@@ -722,7 +798,7 @@ export const pl: Dictionary = {
       },
       {
         q: "Czy węzeł skanuje moją sieć LAN w poszukiwaniu urządzeń?",
-        a: "Nie. Wykrywanie to GET /v1/discovery/capabilities w trybie tylko do odczytu, który raportuje to, co ten Mac już ma: Ollama na loopbacku, foldery obszaru roboczego, które autoryzowałeś, stan uprawnień EventKit oraz to, czy połączenie TCP z hostem w sieci LAN, który wpisałeś w ustawieniach, się udaje. W kodzie nie ma rozgłaszacza mDNS, przemiatania portów ani przejścia podsieci. Cel jest dopuszczany tylko wtedy, gdy jest loopbackiem, literałem RFC 1918, adresem ULA albo nazwą .local; publiczny adres jest odrzucany, zanim zostanie otwarte gniazdo, a linia źródłowa nie przyjmuje nazw hostów, które wymagałyby odpytywania DNS.",
+        a: "Nie. Wykrywanie to GET /v1/discovery/capabilities w trybie tylko do odczytu, który raportuje to, co ten Mac już ma: Ollama na loopbacku, foldery obszaru roboczego, które autoryzowałeś, stan uprawnień EventKit oraz to, czy połączenie TCP z hostem w sieci LAN, który wpisałeś w ustawieniach, się udaje. W kodzie nie ma rozgłaszacza mDNS, przemiatania portów ani przejścia podsieci. Cel jest dopuszczany tylko wtedy, gdy jest loopbackiem, literałem RFC 1918, adresem ULA albo nazwą .local; publiczny adres jest odrzucany, zanim zostanie otwarte gniazdo, a podpisany build nie przyjmuje nazw hostów, które wymagałyby odpytywania DNS. LAN Discover z builda 4 jest domyślnie wyłączony i obserwuje wyłącznie foldery, kanały i serwery MCP, które skonfigurujesz, z sześćdziesięciosekundową podłogą między odświeżeniami.",
       },
       {
         q: "Czy narzędzie MCP albo polecenie automatyki domowej może zadziałać beze mnie?",
@@ -752,11 +828,19 @@ export const pl: Dictionary = {
         q: "Jakie maszyny są obsługiwane?",
         a: "macOS 14 lub nowszy na Apple Silicon. Drabinka poziomów, Metal i MLX zakładają pamięć zunifikowaną, a MLX nie działa na Intelu, więc Mac z procesorem Intela nie jest hostem, dla którego ten projekt powstał, choć uniwersalny plik DMG nadal zawiera wycinek x86_64. Sama aplikacja nie linkuje żadnej zewnętrznej biblioteki: wyłącznie frameworki Apple. To, co napędza, jest z założenia odrębne — Ollama, FFmpeg i wagi LTX-2.5 to lokalne narzędzia, które silniki wywołują, a każdy silnik podaje, których potrzebuje.",
       },
+      {
+        q: "Czy asystent może wysłać pocztę albo przełączyć urządzenie beze mnie?",
+        a: "Nie. Czytanie i przygotowywanie szkiców są lokalne i tylko do odczytu; wysłanie albo naprawa to propozycja w pending_user_approval. Wykonawca przyjmuje wyłącznie 32-znakowe pokwitowanie HMAC-SHA256 związane z operacją, celem, skrótem i terminem ważności, ważne przez 900 sekund i jednorazowe. Poświadczenia poczty mieszkają w Keychain macOS, a most Home Assistant tylko do odczytu odmawia naprawy nawet z ważnym pokwitowaniem.",
+      },
+      {
+        q: "Czy most God's Eye View odwołuje się do chmury albo skanuje moją sieć?",
+        a: "Nie. Uruchamia program, który sam zainstalowałeś na tym Macu, przypina go do 127.0.0.1, weryfikuje jego skrypty wejściowe po rozwiązaniu symlinków i pobiera źródła tylko wtedy, gdy to włączysz. Węzeł trzyma opcjonalne referencje do Keychaina dla kluczy kanałów; kanały pobiera Twój lokalny program na warunkach każdego dostawcy, a węzeł nigdy ich nie pośredniczy ani nie buforuje. Zapisy na kanwie i eksporty raportów stają się pending_user_approval nawet wtedy, gdy serwer nazywa je tylko do odczytu.",
+      },
     ],
   },
 
   footer: {
-    tagline: "Lokalna moc obliczeniowa dla ekosystemu POPOPX. Twoja do uruchomienia, twoja do przeczytania.",
+    tagline: "Lokalna moc obliczeniowa dla ekosystemu POPOPX. Twoja do uruchomienia, Twoja do przeczytania.",
     licenceHeading: "Licencja",
     licenceBody:
       "Kod źródłowy węzła jest na licencji AGPL-3.0-only. Zasoby graficzne, które ten projekt utworzył, są AGPL-3.0-only albo — do Twojego wyboru — CC0-1.0.",

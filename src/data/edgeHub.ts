@@ -1,9 +1,11 @@
 /**
- * The source-line edge-hub bridges and the sealed pairing envelope, compiled into the page.
+ * The edge-hub bridges and the sealed pairing envelope, compiled into the page.
  *
  * Every value here is a policy limit, a wire string or a refusal rule read out of the
- * shipping node sources in `popopx-mac-node` at `040ef25` (pairing) and `5858b3c`
- * (the four hub bridges). Nothing here is copy written for the site, and no limit is
+ * shipping node sources in `popopx-mac-node` at `6de6eb8` (v1.0.2 build 4): the four hub
+ * bridges from `5858b3c`, the sealed pairing link from `040ef25`, the update gate and LAN
+ * Discover from `e40f5e3`, the private assistant from `7ddacdc`, and the God's Eye View
+ * bridge from `99694e2`. Nothing here is copy written for the site, and no limit is
  * rounded: a reader who edits the node can re-derive each number from the citation
  * beside it.
  *
@@ -15,10 +17,7 @@
  *   grep -n "linkPrefix\|maxSealableBytes\|maxOpenableBytes" \
  *     ../PopopxMacNode/Sources/PopopxMacNode/Pairing/OpaquePairingCodec.swift
  *
- * The status field is load-bearing. The bridges are in the source tree, but the signed
- * release this portal links is still 1.0.2/build 3 (`Scripts/build_dmg.sh:37-38`,
- * `MacNodeModels.swift:171`) and predates both commits, so the page must not present
- * them as features of the image a reader is about to download.
+ * The bridges are in the signed build-4 image this portal links, not only on `main`.
  */
 
 /** What a hub target is allowed to be. `EdgeBoundary.swift:124-227`. */
@@ -124,18 +123,4 @@ export const SEALED_PAIRING = {
   qrEndpoint: "/api/pairing/qr.png",
   /** What the envelope is for, in the codec's own words: `OpaquePairingCodec.swift:66-69`. */
   guarantee: "hides the relay from previews, screenshots and forwards",
-} as const;
-
-/**
- * The source-line status. The bridges are on `main`; the signed release is not.
- *
- * `5858b3c` — discovery, MCP, Home Assistant/MQTT, CalDAV.
- * `040ef25` — the `/i/v1/` opaque pairing link.
- * `Scripts/build_dmg.sh:37-38` and `MacNodeModels.swift:171` still say 1.0.2 / 3.
- */
-export const SOURCE_LINE = {
-  commits: ["5858b3c", "040ef25"],
-  date: "2026-11-26",
-  signedRelease: "v1.0.2",
-  signedBuild: "3",
 } as const;

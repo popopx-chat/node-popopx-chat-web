@@ -25,7 +25,7 @@ const BUILD_COMMANDS = [
   "swift build",
   "swift test",
   "swift build -c release",
-  "bash Scripts/build_dmg.sh --output dist --version v1.0.2",
+  "bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4",
 ];
 
 const BRIDGE_COMMANDS = [

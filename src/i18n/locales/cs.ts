@@ -60,7 +60,7 @@ export const cs: Dictionary = {
     digestCopied: "Otisk zkopírován",
     verifyTitle: "Ověřte, než ho otevřete",
     verifyBody:
-      "Uložte obraz i soubor s otisky vydání do stejné složky a zkontrolujte je, než něco otevřete. Ten soubor se podle vydání liší — novější vydání publikují manifest SHA256SUMS.txt, starší jediný .sha256 pro jednu přílohu — proto stránka Vydání a GitHub vypíše přesně ty dva příkazy pro vydání, které právě prohlížíte.",
+      "Uložte obraz i soubor s otisky vydání do stejné složky a zkontrolujte je, než něco otevřete. Vydání může publikovat manifest SHA256SUMS.txt, sidecar .sha256 pro jednu přílohu, nebo obojí — proto stránka Vydání a GitHub vypíše přesně ty dva příkazy pro vydání, které právě prohlížíte.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "Váš vlastní hardware",
@@ -246,12 +246,11 @@ export const cs: Dictionary = {
   },
 
   hub: {
-    badge: "ZDROJOVÁ LINIE · NENÍ V PODEPSANÉM SESTAVENÍ 1.0.2",
     heading: "Pět lokálních schopností, jedna hranice",
     sub:
-      "Zdrojová linie přidává objevování schopností v rozsahu vlastníka, čtyři protokolové adaptéry a zapečetěný párovací odkaz. Můstky jsou ve výchozím stavu vypnuté, každý cíl prochází stejným pozitivním seznamem povolených a každý zápis se změní na podepsaný návrh, který musí schválit člověk. Nic z toho není hostovaná služba a nic z toho neotevírá nový listener.",
+      "Do podepsaného obrazu přidává build 4 objevování schopností v rozsahu vlastníka, čtyři protokolové adaptéry a zapečetěný párovací odkaz. Můstky jsou ve výchozím stavu vypnuté, každý cíl prochází stejným pozitivním seznamem povolených a každý zápis se změní na podepsaný návrh, který musí schválit člověk. Nic z toho není hostovaná služba a nic z toho neotevírá nový listener.",
     status:
-      "Ve zdrojích od 26. listopadu 2026 (5858b3c a 040ef25). Podepsané vydání v1.0.2 na tomto webu vzniklo před oběma commity, takže tuto sekci čtěte jako smlouvu zdrojové linie, ne jako vlastnost obrazu, který si právě stahujete.",
+      "V podepsaném v1.0.2 build 4 (6de6eb8, 27. listopadu 2026) a v Universal DMG na tomto webu. Karty níže popisují obraz, který si stahujete, ne zdrojovou linii.",
     cards: [
       {
         title: "Objevování, které odpovídá jen samo o sobě",
@@ -294,6 +293,72 @@ export const cs: Dictionary = {
     ],
     footnote:
       "Stránka Soukromí a kontrola vypisuje stejnou hranici pravidlo po pravidle, včetně toho, co uzel nemůže slíbit.",
+  },
+
+  extensions: {
+    heading: "Dvě lokální rozšíření, jedna hranice schvalování",
+    sub:
+      "V build 4 přibývá soukromý asistent, který čte, navrhuje a čeká, a můstek k trojrozměrnému glóbu, který si nainstalujete sami. Oba jsou ve výchozím stavu vypnuté, oba drží svůj stav na tomto Macu a ani jeden nepromění návrh modelu v zápis bez potvrzení o schválení.",
+    assistantTitle: "Soukromý asistent a řízená automatizace",
+    assistantSub:
+      "Jeden správce skládá čtyři části: plánovač, poštovní můstek, který čte jen pro čtení a odesílá až po schválení, hlídku domácích zařízení a schvalovací bránu, kterou musí projít každý zápis.",
+    assistantFeatures: [
+      {
+        title: "Čtyři úrovně oprávnění konektorů",
+        body:
+          "Každý konektor hlásí jednu ze čtyř úrovní — read, propose, write nebo admin. Výchozí je read plus propose; akce write nebo admin se kontroluje znovu na vstupu vykonavatele, ne v podnětu pro model.",
+      },
+      {
+        title: "Plánovač, který zapnete",
+        body:
+          "Denní briefing v 08:00 místního času a hlídka zdraví domácnosti každých 30 minut. Obě jsou ve výchozím stavu vypnuté a zapnout je může jen vlastník; každý běh a každá změna stavu se zapisuje do ledger/assistant.sqlite3.",
+      },
+      {
+        title: "Pošta zůstává jen pro čtení, dokud neschválíte",
+        body:
+          "IMAPS 993 otevírá schránku pomocí EXAMINE a BODY.PEEK, klasifikuje nedávnou poštu na vyžaduje odpověď, fakturu, pozvánku a oznámení a připravuje odpovědi. SMTPS 465 odešle jen to, co schválíte na kartě v telefonu nebo v konzoli; hesla jsou odkazy do Keychainu, nikdy nastavení.",
+      },
+      {
+        title: "Hlídka, která navrhne a pak se zastaví",
+        body:
+          "Hlídka čte jen entity Home Assistant, které jste vystavili. Entita, která zůstane nedostupná přes svůj práh (ve výchozím stavu 15 minut), se stane návrhem na opravu vázaným na akci, entitu a otisk datové části; oprava proběhne jednou, po schválení, a můstek pouze pro čtení ji odmítne i s platným potvrzením.",
+      },
+    ],
+    godsEyeTitle: "God's Eye View, ve smyčce",
+    godsEyeSub:
+      "Samostatný program třetí strany, který si na tomto Macu nainstalujete a spravujete sami. Uzel dodává jen swiftový můstek: žádný JavaScript, žádné mapové dlaždice a žádná data.",
+    godsEyeFeatures: [
+      {
+        title: "Nainstalováno vámi, ověřeno uzlem",
+        body:
+          "Existující instalace, nebo klonování připnutého commitu jedním kliknutím — klonování je volitelné, nikdy na časovači. Kontroluje se název balíčku, připnutá verze, velikost package.json a oba vstupní skripty a zaznamenává se SHA-256 vstupních skriptů; cesta, která po rozřešení vede mimo kořen instalace, včetně cesty přes symlink, se odmítne.",
+      },
+      {
+        title: "Neměnná adresa loopback",
+        body:
+          "Hostitel pro navázání je literál 127.0.0.1 a nelze ho konfigurovat; výchozí port je 18931. Systémové adresáře, ~/.ssh, ~/.gnupg, složka Keychainu i datový kořen uzlu se jako cíle instalace odmítají.",
+      },
+      {
+        title: "MCPToolGate jen přitvrzuje",
+        body:
+          "Geografické nástroje pouze pro čtení se mohou spustit uvnitř seznamu povolených MCP. Nástroj klasifikovaný jako měnící stav — značky na plátně, kreslení, export zprávy nebo jakýkoli název, který není rozpoznatelně čtením — se změní na pending_user_approval, i když ho server inzeruje jako pouze pro čtení. Brána může úroveň přitvrdit, nikdy ji neuvolnit.",
+      },
+    ],
+    boundaryHeading: "Co potvrzení o schválení pokrývá",
+    boundaryItems: [
+      {
+        title: "Devět set sekund, jedno použití",
+        body:
+          "Zápis asistenta nese 32znakové potvrzení HMAC-SHA256 vázané na druh operace, cíl, otisk obsahu a expiraci. Platí 900 sekund, porovnává se v konstantním čase, vykonavatel ho spotřebuje před jakýmkoli I/O a odmítne se, pokud se datová část změní, vyprší, je přehraná nebo je vázaná k jinému návrhu.",
+      },
+      {
+        title: "Glóbus zůstává na smyčce",
+        body:
+          "God's Eye View se váže na literál 127.0.0.1 a na nic jiného; citlivé adresáře, složka Keychainu a datový kořen uzlu se jako cíle instalace odmítají, i po rozřešení symlinku. Živé kanály stahuje váš vlastní místní program za podmínek každého poskytovatele — tento uzel drží jen volitelné odkazy do Keychainu a data nikdy neproxuje ani nekešuje. Zápisy na plátno a exporty zpráv se změní na pending_user_approval, i když je server nazývá pouze pro čtení.",
+      },
+    ],
+    footnote:
+      "Stránka Soukromí a kontrola vypisuje stejné hranice pro asistenta, glóbus a čtyři LAN můstky, včetně toho, co žádný z nich nemůže slíbit.",
   },
 
   engines: {
@@ -386,7 +451,7 @@ export const cs: Dictionary = {
       {
         title: "Ověřte a otevřete DMG",
         body:
-          "Vezměte POPOPX-Mac-Node-Universal.dmg a soubor s otisky vydání do stejné složky a zkontrolujte je, než něco otevřete; Vydání a GitHub vypíše ty dva příkazy pro aktuální vydání. Aplikaci POPOPX Mac Node.app přetáhněte do /Applications. Zveřejněné sestavení nese podpis Developer ID a v obrazu přiložený notarizační tiket, takže Gatekeeper ho přijme sám — spctl -a -vv -t install odpoví accepted se source=Notarized Developer ID. Sestavení z workflow štítku, které balí přes Scripts/build_dmg.sh, i sestavení, které si uděláte sami týmž skriptem, mají jen ad-hoc podpis, a právě ta při prvním spuštění vyžadují klik pravým tlačítkem a Otevřít.",
+          "Vezměte POPOPX-Mac-Node-Universal.dmg a soubor s otisky vydání do stejné složky a zkontrolujte je, než něco otevřete; Vydání a GitHub vypíše ty dva příkazy pro aktuální vydání. Aplikaci POPOPX Mac Node.app přetáhněte do /Applications. Zveřejněné sestavení nese podpis Developer ID a v obrazu přiložený notarizační tiket, takže Gatekeeper ho přijme sám — spctl -a -vv -t install odpoví accepted se source=Notarized Developer ID. Sestavení, které si uděláte sami skriptem Scripts/build_dmg.sh, má jen ad-hoc podpis, a právě to při prvním spuštění vyžaduje klik pravým tlačítkem a Otevřít.",
       },
       {
         title: "Nechte ho změřit stroj",
@@ -411,13 +476,13 @@ export const cs: Dictionary = {
     ],
     buildHeading: "Nebo ho sestavte ze stejného tagu",
     buildBody:
-      "Obrazy vydání se balí ze zdrojového stromu, který si můžete zkopírovat. swift build, swift test, swift build -c release a pak bash Scripts/build_dmg.sh --output dist --version v1.0.2 napíšou univerzální DMG, opatří ho ad-hoc podpisem a vyprodukují k němu sidecar. Publikovaný artifact dělá ten druhý skript: Scripts/build-release.sh přidává podpis Developer ID, podání k notarizaci Applem a ZIP — proto stažený obraz projde přes spctl a vaše vlastní sestavení ne. Oba skripty běží jen na macOS, protože se skládají z hdiutil a codesign.",
+      "Obrazy vydání se balí ze zdrojového stromu, který si můžete zkopírovat. swift build, swift test, swift build -c release a pak bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4 napíšou univerzální DMG, opatří ho ad-hoc podpisem a vyprodukují k němu sidecar. Publikovaný artifact dělá ten druhý skript: Scripts/build-release.sh přidává podpis Developer ID, podání k notarizaci Applem a ZIP — proto stažený obraz projde přes spctl a vaše vlastní sestavení ne. Oba skripty běží jen na macOS, protože se skládají z hdiutil a codesign.",
     lifecycleHeading: "Po prvním spuštění",
     lifecycle: [
       {
         title: "Upgrade",
         body:
-          "Není tu žádná aktualizace ani kontrola aktualizací — další věc, kterou uzel nikam nehlásí. Upgrade je přetažení: stáhněte novější DMG, ověřte ho a nahraďte aplikaci v /Applications. Nastavení, stav párování, klíč uzlu, trezor i všechny výstupy žijí pod Application Support, ne uvnitř bundle, takže nahrazená aplikace převezme stroj, na který dopadne.",
+          "V build 4 je brána aktualizací, kterou si nastaví vlastník, ne automatický instalátor. Čte jen hostitele manifestu, kterého jmenujete, ověřuje podpis Ed25519 z klíče, který jste připnuli, nad striktně novější verzí a nic nenainstaluje, dokud neschválíte stažení vázané na potvrzení; neshoda otisku nabídku zahodí. Neexistuje žádný endpoint výrobce ani výchozí kontrola. Aktualizovat lze i nadále stažením a ověřením novějšího DMG a nahrazením aplikace. Nastavení, stav párování, klíč uzlu, trezor i všechny výstupy žijí pod Application Support, ne uvnitř bundle, takže nahrazená aplikace převezme stroj, na který dopadne.",
       },
       {
         title: "Záloha a přechod na jiný stroj",
@@ -438,16 +503,16 @@ export const cs: Dictionary = {
       "Druhý krok průvodce samotného uzlu, párovací QR kód i SMP můstek potřebují demona chatu popopx-chat ve vaší proměnné PATH. Uzel zkouší přesně jeden spustitelný soubor a žádnou zálohu nemá, protože build z upstreamu sice odpoví na řádek s verzí, ale potom zkazí každý další příkaz. Samotných deset enginů ho nepotřebuje.",
     signHeading: "Jak je podepsané zveřejněné sestavení",
     signBody:
-      "Bundle aplikace uvnitř obrazu nese podpis Developer ID Application, příznak hardened runtime a bezpečné časové razítko a notarizační tiket je v něm přiložený. Proto Gatekeeper dovolí aplikaci spustit bez cizí pomoci: spctl -a -vv -t install odpoví accepted se source=Notarized Developer ID. Ten blok níže byl přečten z přesně těch bajtů, které vydání v1.0.2 zveřejnilo dne 2026-11-25 — spusťte ty první dva příkazy proti aplikaci v /Applications a měli byste dostat tu samou identitu. Žádný účet Apple se na nic neptá a nic se nekontroluje proti serveru, protože tiket jede na disku spolu s aplikací.",
+      "Bundle aplikace uvnitř obrazu nese podpis Developer ID Application, příznak hardened runtime a bezpečné časové razítko a notarizační tiket je v něm přiložený. Proto Gatekeeper dovolí aplikaci spustit bez cizí pomoci: spctl -a -vv -t install odpoví accepted se source=Notarized Developer ID. Ten blok níže byl přečten z přesně těch bajtů, které v1.0.2 build 4 zveřejnilo dne 2026-11-27 — spusťte ty první dva příkazy proti aplikaci v /Applications a měli byste dostat tu samou identitu. Žádný účet Apple se na nic neptá a nic se nekontroluje proti serveru, protože tiket jede na disku spolu s aplikací.",
     containerTitle: "Samotný obraz podepsaný není",
     containerBody:
       "Spusťte spctl na staženém .dmg a odpoví rejected se source=no usable signature; codesign -dvv řekne o témže souboru, že není podepsaný vůbec. To je očekávaná odpověď, ne poplach o manipulaci. Podpis kódu od Applu je na bundle aplikace, zatímco notarizační tiket je přiložený na bundle i na diskový obraz kolem něj. Jedinou kontrolou integrity obrazu je jeho SHA-256, což je ta kontrola níže na této stránce.",
     provenanceTitle: "Který skript vyrobil který artifact",
     provenanceBody:
-      "Tuhle aplikaci balí dva skripty a nekončí na stejném místě. Scripts/build_dmg.sh — ten, který spouští workflow ze tagu na runneru s macOS, a ten, kterým končí i kroky sestavení výše — podepisuje ad-hoc pomocí --sign - --timestamp=none a bez hardened runtime, takže sestavení z téhle cesty při prvním spuštění opravdu chce klik pravým tlačítkem a Otevřít. Scripts/build-release.sh je ta cesta Developer ID: podepisuje s hardened runtime, podává to k notarizaci, přiloží tiket na bundle i na obraz a napíše ZIP vedle manifestu SHA256SUMS.txt. Obraz, který stahujete, vzešel z toho druhého skriptu a runner, který certifikát nikdy neměl v ruce, ho nedokáže vyrobit.",
+      "Tuhle aplikaci balí dva skripty a nekončí na stejném místě. Scripts/build_dmg.sh je místní pakovač: sestaví bundle, podepíše ad-hoc pomocí --sign - --timestamp=none a bez hardened runtime a napíše DMG i jeho sidecar, takže sestavení z téhle cesty při prvním spuštění opravdu chce klik pravým tlačítkem a Otevřít. Scripts/build-release.sh je ta cesta Developer ID: podepisuje s hardened runtime, podává to k notarizaci, přiloží tiket na bundle i na obraz a napíše ZIP vedle manifestu SHA256SUMS.txt. Obraz z build 4, který stahujete, je ten druhý typ — podepsaný Developer ID, notarizovaný a s přiloženým tiketem — a vyrábí ho jen tento skript. Workflow štítku na commitu 6de6eb8 stále spouští Scripts/build_dmg.sh, takže samotný workflow nemůže vysvětlit podepsané assety; runner, který certifikát nikdy neměl v ruce, je nedokáže vyrobit.",
     digestHeading: "Zkontrolujte otisk, než něco otevřete",
     digestBody:
-      "Dva příkazy, spusťte je ve složce, do které soubory uložíte. Kontrolovat se má proti manifestu vydání, protože ten jmenuje každý artifact vydání a zapisuje ho stejný krok, který je zabalil — kdežto .dmg.sha256 pro jedinou přílohu, zveřejněný vedle v1.0.2, jmenuje otisk, který neodpovídá hash žádné zveřejněné přílohy. Vydání a GitHub vypíše tu dvojici pro jakékoli vydání, které právě vyhledalo, a ono může být novější než to níže.",
+      "Dva příkazy, spusťte je ve složce, do které soubory uložíte. Kontrolovat se má proti manifestu vydání, protože ten jmenuje každý artifact vydání a zapisuje ho stejný krok, který je zabalil. V build 4 jmenuje sidecar .dmg.sha256 a SHA256SUMS.txt stejný otisk, takže obě kontroly souhlasí. Vydání a GitHub vypíše tu dvojici pro jakékoli vydání, které právě vyhledalo, a ono může být novější než to níže.",
     copyCommand: "Zkopírovat příkaz",
     commandCopied: "Zkopírováno",
   },
@@ -473,7 +538,7 @@ export const cs: Dictionary = {
       {
         title: "Klíče a stav párování",
         body:
-          "Podepisovací klíč uzlu Ed25519, seznam spárovaných zařízení i aktuální nabídka jsou obyčejné soubory pod pairing/. Žádná cloudová záloha klíče neexistuje a nikde není žádná úschova — což platí oběma směry, jak říká odstavec o ztrátě níže. Jedinou výjimkou je pověření můstku edge hubu: token Home Assistant, heslo MQTT nebo heslo CalDAV je položka Keychainu a settings.json nese jen odkaz, který ji načte.",
+          "Podepisovací klíč uzlu Ed25519, seznam spárovaných zařízení i aktuální nabídka jsou obyčejné soubory pod pairing/. Žádná cloudová záloha klíče neexistuje a nikde není žádná úschova — což platí oběma směry, jak říká odstavec o ztrátě níže. Výjimkou jsou pověření: token nebo heslo můstku hubu, hesla IMAP a SMTP asistenta a klíče kanálů God's Eye View jsou položky Keychainu a settings.json nese jen odkazy, které je načtou.",
       },
       {
         title: "Stopa důkazů",
@@ -483,7 +548,7 @@ export const cs: Dictionary = {
     ],
     transitHeading: "Opouští stroj",
     transitSub:
-      "Ze stroje odcházejí čtyři druhy provozu a každý z nich je buď vaše vlastní zařízení, nebo něco, co jste si nastavili. Pátý existuje jen tehdy, když zapnete můstek v síti LAN: požadavky Home Assistant, MQTT a CalDAV, které zůstávají na loopbacku, adresách RFC 1918 a .local. V žádném z nich není analytický endpoint, kam by se dalo něco poslat.",
+      "Ze stroje odcházejí čtyři druhy provozu a každý z nich je buď vaše vlastní zařízení, nebo něco, co jste si nastavili. Poštovní účet asistenta přidává pátý, když ho zapnete, a můstek v síti LAN přidává místní provoz na loopbacku, adresách RFC 1918 a .local. V žádném z nich není analytický endpoint, kam by se dalo něco poslat.",
     transitItems: [
       {
         title: "Výsledky zpět do vašeho vlastního telefonu",
@@ -505,24 +570,29 @@ export const cs: Dictionary = {
         body:
           "Průvodce stahuje formula z Homebrewu, FFmpeg, uv, Ollama a kvantizaci, kterou jste zvolili. Ten provoz je smyslem instalačního kroku, děje se jednou, před vámi a se logem na obrazovce.",
       },
+      {
+        title: "Poštovní účet asistenta",
+        body:
+          "Vypnuto, dokud ho nezapnete a nezadáte server. IMAPS 993 čte pomocí EXAMINE a BODY.PEEK, které nikdy neoznačí zprávu jako přečtenou; SMTPS 465 odešle jen koncept, který jste schválili potvrzením. Hostitel je literál ve vašem nastavení a nikdy se neobjevuje; obě hesla jsou odkazy do Keychainu. Žádná jiná akce asistenta stroj neopouští.",
+      },
     ],
     keysHeading: "Kde tajné údaje skutečně leží",
     keysBody:
-      "Materiál párování i materiál trezoru jsou soubory pod datovým kořenem, zapsané atomickým zápisem, v POSIX módu 0600 a s úplným chráněním souborů, takže dokud je stroj zamčený, v klidu se přečíst nedají. Ten kompromis je reálný — oprávnění souborů jsou auditovatelná a přenositelná, a zároveň nejsou ničím mezi vaším uživatelským účtem a čtečkou, která váš uživatelský účet už má. Považujte datový kořen za to, čím je: není v záloze Time Machine a je to jediná kopie klíče uzlu, která existuje. Pověření hubu jde jinou cestou. Token Home Assistant, heslo MQTT a heslo CalDAV jsou položky typu generic-password pod službou im.popopx.macnode.hub, vytvořené s kSecAttrAccessibleWhenUnlockedThisDeviceOnly, a dokument nastavení ukládá jen odkaz. Proces bez identity balíčku aplikace — swift run, testovací harness — dostane místo toho úložiště v paměti; záložní cesta v podobě souboru s otevřeným textem záměrně neexistuje, takže pověření, které se do Keychainu nedostane, se neuloží vůbec.",
+      "Materiál párování i materiál trezoru jsou soubory pod datovým kořenem, zapsané atomickým zápisem, v POSIX módu 0600 a s úplným chráněním souborů, takže dokud je stroj zamčený, v klidu se přečíst nedají. Ten kompromis je reálný — oprávnění souborů jsou auditovatelná a přenositelná, a zároveň nejsou ničím mezi vaším uživatelským účtem a čtečkou, která váš uživatelský účet už má. Považujte datový kořen za to, čím je: není v záloze Time Machine a je to jediná kopie klíče uzlu, která existuje. Pověření jdou jinou cestou. Token Home Assistant, heslo MQTT, heslo CalDAV, hesla IMAP a SMTP asistenta a klíče kanálů God's Eye View jsou položky typu generic-password pod službou im.popopx.macnode.hub, vytvořené s kSecAttrAccessibleWhenUnlockedThisDeviceOnly, a dokument nastavení ukládá jen odkaz. Proces bez identity balíčku aplikace — swift run, testovací harness — dostane místo toho úložiště v paměti; záložní cesta v podobě souboru s otevřeným textem záměrně neexistuje, takže pověření, které se do Keychainu nedostane, se neuloží vůbec.",
     dataNote: {
       output:
         "Vygenerované výstupy a fronta outbox, která drží výsledky čekající na telefon.",
       vault: "Trezory se časovým zámkem a materiál pro dědice, který je otevírá.",
       pairing: "Klíč uzlu Ed25519, seznam spárovaných zařízení a aktuální jednorázová nabídka.",
       weights: "Váhy modelů a pracovní prostor LTX-2.5 MLX, který volají enginy videa.",
-      ledger: "Knihy uzamčení a meshu appendované řetězcem hashů.",
+      ledger: "Knihy uzamčení a meshu appendované řetězcem hashů, plus omezená SQLite kniha auditu asistenta.",
       logs: "Instalační log a audit log, psané proto, aby je operátor přečetl.",
-      config: "Nastavení, přepínače enginů a konfigurace, kterou si dělí můstek a integrations.",
+      config: "Nastavení, přepínače enginů a konfigurace, kterou sdílejí můstky, asistent a karta God's Eye View.",
     },
     rootLabel: "Datový kořen",
     hubHeading: "Vlastní hranice edge hubu",
     hubSub:
-      "Čtyři můstky přidané ve zdrojové linii se drží výše uvedených pravidel a ještě čtyř dalších. Jsou zapsané tady, ne na kartě vlastností, protože to jsou tvrzení, která by čtenář měl umět vyvrátit z kódu.",
+      "Čtyři můstky v síti LAN přidané v build 4, soukromý asistent a můstek God's Eye View se drží výše uvedených pravidel a ještě těchto. Jsou zapsané tady, ne na kartě vlastností, protože to jsou tvrzení, která by čtenář měl umět vyvrátit z kódu.",
     hubItems: [
       {
         title: "Jeden vstupní bod",
@@ -543,6 +613,11 @@ export const cs: Dictionary = {
         title: "Naučit se minimum",
         body:
           "CalDAV parsuje DTSTART a DTEND a tituly, popisy, místa i účastníky zahazuje uvnitř parseru, takže nejvytíženější pole se do modelu vůbec nedostanou. Náhled návrhu ukazuje krátké skalární argumenty a skrývá každou hodnotu, jejíž klíč je na seznamu redakce — content, token, password, payload a další. Objevování je pouze čtecí GET, který hlásí stav samotného stroje.",
+      },
+      {
+        title: "Asistent a glóbus",
+        body:
+          "Odeslání pošty nebo oprava domácnosti se k vykonavateli dostane jen s 32znakovým potvrzením HMAC-SHA256 vázaným na druh, cíl, otisk a expiraci, platným 900 sekund a spotřebovaným jednou. Pošta je jediná pojmenovaná výjimka pro odchozí provoz asistenta a její hesla jsou odkazy do Keychainu. God's Eye View je jen na loopbacku, ověřuje svou instalaci po rozřešení symlinku a jeho brána MCP může nástroj jen přitvrdit: zápisy na plátno a exporty zpráv se změní na pending_user_approval, i když je server nazývá pouze pro čtení. Repozitář obsahuje jen swiftový můstek.",
       },
     ],
     controlHeading: "Vaše strana vypínače",
@@ -575,7 +650,7 @@ export const cs: Dictionary = {
       "Seznam spárovaných zařízení v konzoli má tlačítko Revoke na každém řádku. Označí zařízení jako odvolané, sebere mu mapování kontaktu a jeho příkazy od té chvíle zahodí — ale nerozbije to spojení SMP, a aplikace to říká ve stejné zprávě, kterou vám ukáže. Abyste tu práci dokončili, smažte kontakt v chatovacím klientu. Co už bylo zapsáno na váš disk, na disku zůstává; odvolání zastavuje budoucí příkazy, není to vzdálené vymazání, a uzel nikdy žádnou schopnost vzdáleně vymazat neměl.",
     limitsHeading: "Co tato stránka neslibuje",
     limitsBody:
-      "Bezpečné zničení je náhodný přepis, sync a unlink. Na APFS se upravený soubor zapíše na nové bloky a SSD přemapovává ty logické, takže to soubor odstraní a znemožní práci běžných obnovovacích nástrojů, ale nedokazuje, že fyzické staré bajty jsou pryč. Je to to nejlepší, co umí userspace API souborů, a kód to říká i ve výsledku, který vrací. Dál už nic: žádné globální pozastavení kromě ukončení, žádné vzdálené vymazání, žádná úschova klíčů, a tedy ani obnova, pokud ztratíte stroj i datový kořen najednou, a žádná aktualizace, kterou by šlo přemluvit, aby nainstalovala něco, o co jste nežádali.",
+      "Bezpečné zničení je náhodný přepis, sync a unlink. Na APFS se upravený soubor zapíše na nové bloky a SSD přemapovává ty logické, takže to soubor odstraní a znemožní práci běžných obnovovacích nástrojů, ale nedokazuje, že fyzické staré bajty jsou pryč. Je to to nejlepší, co umí userspace API souborů, a kód to říká i ve výsledku, který vrací. Dál už nic: žádné globální pozastavení kromě ukončení, žádné vzdálené vymazání, žádná úschova klíčů, a tedy ani obnova, pokud ztratíte stroj i datový kořen najednou, a žádný tichý aktualizátor. V build 4 je brána aktualizací, která čte jen hostitele manifestu, kterého jmenujete, přijímá jen podpis z klíče, který jste připnuli, nad striktně novější verzí a před stažením nebo instalací vyžaduje potvrzení; neexistuje žádný endpoint výrobce ani výchozí cíl.",
   },
 
   troubleshooting: {
@@ -665,16 +740,17 @@ export const cs: Dictionary = {
     verifySumsBody:
       "Manifest vydání vypisuje všechny výsledky, takže soubor, který jste nestáhli, je očekávaný, nikoli chybějící: přidejte --ignore-missing a čtěte řádek, který odpovídá souboru, který jste vzali. Manifest se píše ve stejném kroku, který balí payload, jehož jméno obsahuje.",
     verifySidecarBody:
-      "Starší vydání místo toho publikuje sidecar pro jedinou přílohu, a ten je třeba brát jako předlohu. Když vydání nese obojí a ty dva si odporují, věřte manifestu: sidecar může pocházet z jiného sestavení téže verze.",
+      "Starší vydání místo toho publikuje sidecar pro jedinou přílohu, a ten je třeba brát jako předlohu. Vydání build 4 publikuje obojí a oba jmenují stejný otisk; kde si soubory jednoho vydání odporují, věřte manifestu, protože sidecar může pocházet z jiného sestavení téže verze.",
     pipelineHeading: "Jak se sem která verze dostane",
     pipelineBody:
-      "Pushnutí tagu spustí release workflow na runneru s macOS: sestaví strom, spustí kontraktové testy, zabalí univerzální obraz přes Scripts/build_dmg.sh, odmítne publikovat soubor s kontrolními součty, který obsahuje absolutní cestu, a nahraje to, co skript napsal. Notarizovaný obraz vedle manifestu SHA256SUMS.txt pochází ze Scripts/build-release.sh, který přidává podpis Developer ID, podání k notarizaci Applem a ZIP. Obě cesty končí stejně: otiskem, který zkontrolujete bez důvěry v tuto stránku.",
+      "Pushnutí tagu spustí release workflow na runneru s macOS: sestaví strom, spustí kontraktové testy, zabalí univerzální obraz přes Scripts/build_dmg.sh, odmítne publikovat soubor s kontrolními součty obsahující absolutní cestu a nahraje DMG a jeho sidecar. To je ta ad-hoc cesta. Podepsaný obraz z build 4, jeho ZIP a SHA256SUMS.txt pocházejí ze Scripts/build-release.sh, který podepisuje identitou Developer ID, s hardened runtime a bezpečným časovým razítkem, podává k notářské službě Applu a přiloží tiket na bundle i na obraz. Workflow štítku na commitu 6de6eb8 tento skript nevolá, takže podepsané assety nemohou být jeho výstupem. Obě cesty končí na stejném místě: otiskem, který zkontrolujete bez důvěry v tuto stránku.",
     supportedHeading: "Dnes běží",
     supportedItems: [
       "Všech deset enginů, každý s vlastní sadou akcí a cestami odmítnutí, zapínané samostatně.",
       "Automatická volba stupně ze sysctl včetně stažení modelu, který daný stupeň znamená.",
       "Podepsané, jednorázové, patnáctiminutové párování a konzole, která se váže jen na loopback.",
       "Můstek v TypeScriptu a dva adaptéry pro agenty přes tutéž konzoli a tentýž token.",
+      "Soukromý asistent a můstek God's Eye View: zápisy podmíněné potvrzením, brána nástrojů jen na loopbacku a oba ve výchozím stavu vypnuté.",
     ],
     roadmapHeading: "Ještě ne",
     roadmapSub:
@@ -723,7 +799,7 @@ export const cs: Dictionary = {
       },
       {
         q: "Skenuje uzel moji síť LAN a hledá zařízení?",
-        a: "Ne. Objevování je GET /v1/discovery/capabilities pouze pro čtení, který hlásí, co tenhle Mac už má: Ollama na loopbacku, složky pracovního prostoru, které jste autorizovali, stav oprávnění EventKit a to, zda se TCP spojení s hostitelem v síti LAN, který jste zadali v nastavení, podaří. V kódu není žádné mDNS vysílání, žádné skenování portů ani průchod podsítí. Cíl se připustí jen tehdy, když je loopback, literál RFC 1918, adresa ULA nebo jméno .local; veřejná adresa se zamítne dřív, než se otevře socket, a zdrojová linie nepřijímá jména hostitelů, která by vyžadovala dotaz do DNS.",
+        a: "Ne. Objevování je GET /v1/discovery/capabilities pouze pro čtení, který hlásí, co tenhle Mac už má: Ollama na loopbacku, složky pracovního prostoru, které jste autorizovali, stav oprávnění EventKit a to, zda se TCP spojení s hostitelem v síti LAN, který jste zadali v nastavení, podaří. V kódu není žádné mDNS vysílání, žádné skenování portů ani průchod podsítí. Cíl se připustí jen tehdy, když je loopback, literál RFC 1918, adresa ULA nebo jméno .local; veřejná adresa se zamítne dřív, než se otevře socket, a podepsané sestavení nepřijímá jména hostitelů, která by vyžadovala dotaz do DNS. LAN Discover v build 4 je ve výchozím stavu vypnutý a sleduje jen složky, kanály a servery MCP, které nastavíte, s šedesátisekundovou podlahou mezi obnoveními.",
       },
       {
         q: "Může nástroj MCP nebo příkaz chytré domácnosti proběhnout beze mě?",
@@ -752,6 +828,14 @@ export const cs: Dictionary = {
       {
         q: "Které stroje jsou podporovány?",
         a: "macOS 14 nebo novější na Apple Silicon. Žebříček stupňů, Metal i MLX počítají se sjednocenou pamětí a MLX na Intelu neběží, takže Intel Mac není hostitel, na který tento projekt cílí, přestože univerzální DMG má stále i část x86_64. Samotná aplikace nelinkuje žádnou knihovnu třetích stran: pouze frameworky Apple. Co ale ovládá, je záměrně mimo ni — Ollama, FFmpeg a váhy LTX-2.5 jsou lokální nástroje, které enginy volají, a každý engine uvádí, které potřebuje.",
+      },
+      {
+        q: "Může asistent odeslat poštu nebo přepnout zařízení bez mého vědomí?",
+        a: "Ne. Čtení a příprava konceptů jsou místní a pouze pro čtení; odeslání nebo oprava je návrh ve stavu pending_user_approval. Vykonavatel přijme jen 32znakové potvrzení HMAC-SHA256 vázané na operaci, cíl, otisk a expiraci, platné 900 sekund a použitelné jednou. Poštovní pověření žijí v Keychainu macOS a můstek Home Assistant pouze pro čtení opravu odmítne i s platným potvrzením.",
+      },
+      {
+        q: "Volá můstek God's Eye View cloud, nebo skenuje moji síť?",
+        a: "Ne. Spouští program, který jste si na tomto Macu nainstalovali, připíná ho na 127.0.0.1, ověřuje jeho vstupní skripty po rozřešení symlinku a zdroj stahuje jen tehdy, když to zapnete. Uzel drží volitelné odkazy do Keychainu pro klíče kanálů; kanály stahuje váš místní program za podmínek každého poskytovatele a uzel je nikdy neproxuje ani nekešuje. Zápisy na plátno a exporty zpráv se změní na pending_user_approval, i když je server nazývá pouze pro čtení.",
       },
     ],
   },

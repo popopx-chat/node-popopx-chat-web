@@ -102,6 +102,9 @@ export function ReleasesPage() {
               <p className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight text-ink">
                 {release.tag}
               </p>
+              {release.name === null ? null : (
+                <p className="mt-1.5 text-pretty text-[13px] text-ink-mute">{release.name}</p>
+              )}
             </div>
             <a
               href={release.dmgUrl}

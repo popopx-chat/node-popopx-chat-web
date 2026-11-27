@@ -60,7 +60,7 @@ export const zhHant: Dictionary = {
     digestCopied: "摘要已複製",
     verifyTitle: "開啟之前先驗證",
     verifyBody:
-      "把映像檔與發布頁的摘要檔放進同一個資料夾，在開啟任何東西之前先比對。摘要檔的形態因版本而異 —— 較新的發布提供 SHA256SUMS.txt 清單，較舊的只提供單一產物的 .sha256 —— 所以「發布與原始碼」會針對你正在看的那個版本，列出正確的那兩條指令。",
+      "把映像檔與發布的摘要檔存進同一個資料夾，在開啟任何東西之前先比對。一個發布可能提供 SHA256SUMS.txt 清單、單一產物的 .sha256 伴生檔，或兩者都有 —— 所以「發布與原始碼」會針對你正在看的那個發布，印出確切的那兩條指令。",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "你自己的硬體",
@@ -131,13 +131,13 @@ export const zhHant: Dictionary = {
     badge: "介面設計示意（UI Preview），非即時執行狀態",
     heading: "節點控制台介面示意",
     sub:
-      "節點自帶一份本機網頁控制台，這裡是它狀態頁的示意圖：辨識到的機器、決定保留的統一記憶體、可被要求執行的引擎，以及放進來的手機。版面、欄名與演算都取自真實產品，沒有任何一項讀數來自執行中的程序。",
+      "節點自帶一份本機網頁控制台，這裡是它狀態頁的示意圖：辨識到的機器、決定保留的統一記憶體、可被要求執行的引擎，以及放進來的手機。版面、欄名與演算都取自真實產品，沒有任何一項讀數來自執行中的行程。",
     machineLabel: "示例機型",
     machineHint:
       "統一記憶體以 GB 計，取自 Apple Silicon 的常見配置；本機真實數值由控制台第一步讀 sysctl 得出。網頁 API（navigator.deviceMemory）為了指紋防護最多只回報 8 GB，所以示意裡的數字不可能來自瀏覽器。",
     statusHeading: "執行狀態",
     statusConnected: "已連線",
-    daemonRunning: "守護程序執行中",
+    daemonRunning: "守護行程執行中",
     loopbackNote: "控制台綁定在 127.0.0.1，並拒絕綁定到 0.0.0.0、區域網路位址或主機名稱，所以只有這台 Mac 能存取它。",
     memHeading: "統一記憶體儀表",
     memTotalLabel: "統一記憶體",
@@ -155,7 +155,7 @@ export const zhHant: Dictionary = {
     revokedRow: "已撤銷",
     neverSeen: "尚未通訊",
     disclaimer:
-      "這張卡是示意圖，不是客戶端：它不建立任何連線，也不讀取任何程序。切換機型只是在你自己的瀏覽器裡套用節點公開的檔位規則，撤銷也只變動你正在看的這一行。真實控制台裡那個按鈕會把裝置標為已撤銷、從此丟棄它送來的指令，但不會切斷聊天連線——「隱私與控制」寫清了它不做什麼。",
+      "這張卡是示意圖，不是用戶端：它不建立任何連線，也不讀取任何行程。切換機型只是在你自己的瀏覽器裡套用節點公開的檔位規則，撤銷也只變動你正在看的這一行。真實控制台裡那個按鈕會把裝置標為已撤銷、從此丟棄它送來的指令，但不會切斷聊天連線——「隱私與控制」寫清了它不做什麼。",
   },
 
   node: {
@@ -228,7 +228,7 @@ export const zhHant: Dictionary = {
       "金鑰以 HKDF-SHA256 從 App 內公開的一段輸入衍生，盒子是 ChaCha20-Poly1305，並帶有一段固定的關聯資料字串，所以任何讀過原始碼的人都能打開一個信封。這就是設計本身：連結把 SMP 佇列位址擋在預覽、截圖和轉寄之外，而真正授權一台裝置的，是裡面那份簽章、一次性、15 分鐘有效的憑證。原始的 PPXNODE1-… 碼與攜帶佇列位址的邀請 URI 留在控制台的診斷抽屜裡；節點公鑰會出現在那裡與已配對裝置列上，從不出現在精靈正面。QR Code 影像在本機渲染，只在迴環上透過 /api/pairing/qr.png 提供。",
     portsHeading: "節點聆聽的那一側",
     portsSub:
-      "節點自己只開一個連接埠。另外兩個歸它啟動、並以用戶端身分連線的程序 —— 讀防火牆記錄時這點很重要：連向 11434 或 5225 的那條連線是節點發起的，不是節點接受的。",
+      "節點自己只開一個連接埠。另外兩個歸它啟動、並以用戶端身分連線的行程 —— 讀防火牆記錄時這點很重要：連向 11434 或 5225 的那條連線是節點發起的，不是節點接受的。",
     portsColumns: ["連接埠", "由誰綁定", "位址", "協定", "什麼在守護它"],
     portsOwner: {
       node: "節點本身",
@@ -245,12 +245,11 @@ export const zhHant: Dictionary = {
   },
 
   hub: {
-    badge: "原始碼主線 · 不在已簽章的 1.0.2 建置裡",
     heading: "五項本機能力，一條邊界",
     sub:
-      "原始碼主線新增了以擁有者為範圍的能力探索、四個協定配接器，以及一條密封配對連結。橋接預設關閉，每一個目標都由同一份正面允許清單放行，每一次寫入都變成一份需要人來核准的簽章提案。其中沒有任何一項是託管服務，也沒有任何一項新開監聽。",
+      "build 4 把以擁有者為範圍的能力探索、四個協定配接器，以及一條密封的配對連結加進已簽章的映像檔。橋接預設關閉，每一個目標都由同一份正面允許清單放行，每一次寫入都變成一份需要人來核准的簽章提案。其中沒有任何一項是託管服務，也沒有任何一項新開監聽。",
     status:
-      "自 2026 年 11 月 26 日起就在原始碼裡（5858b3c 與 040ef25）。本站提供的已簽章 v1.0.2 下載早於這兩個提交，所以請把這一節讀成原始碼主線的契約，而不是你正在下載的那個映像檔的功能。",
+      "就在已簽章的 v1.0.2 build 4 裡（6de6eb8，2026 年 11 月 27 日），也在本站的通用 DMG 裡。下面幾張卡片描述的就是你正在下載的那個映像檔，不是某一條原始碼分支。",
     cards: [
       {
         title: "只回答自身狀況的探索",
@@ -293,6 +292,72 @@ export const zhHant: Dictionary = {
     ],
     footnote:
       "「隱私與控制」逐條陳述同一條邊界，包括節點不能承諾的部分。",
+  },
+
+  extensions: {
+    heading: "兩個本機擴充，一條核准邊界",
+    sub:
+      "build 4 加進了一個會讀、會提案、會等待的私有助手，以及一座通往你自己安裝的 3D 地球的橋。兩者都預設關閉，兩者都把狀態留在這台 Mac 上，而且誰都不會在沒有核准回執的情況下，把模型的建議變成一次寫入。",
+    assistantTitle: "私有助手與受控自動化",
+    assistantSub:
+      "一個管理器由四部分組成：一個排程器、一座唯讀讀取且只在核准後才寄送的郵件橋、一個家庭裝置哨兵，以及每一次寫入都必須通過的核准閘門。",
+    assistantFeatures: [
+      {
+        title: "四級連接器權限",
+        body:
+          "每個連接器都回報四級之一 —— read、propose、write 或 admin。預設是 read 加 propose；write 或 admin 動作會在執行器入口再檢查一次，而不是在模型的提示詞裡。",
+      },
+      {
+        title: "由你開啟的排程器",
+        body:
+          "本機時間 08:00 的每日簡報，以及每 30 分鐘一次的家庭健康巡檢。兩者都預設關閉，且只有擁有者能開啟；每一次執行與狀態變化都寫進 ledger/assistant.sqlite3。",
+      },
+      {
+        title: "郵件在你核准之前保持唯讀",
+        body:
+          "IMAPS 993 用 EXAMINE 與 BODY.PEEK 開啟信箱，把最近的郵件分成待回覆、帳單、邀請與通知，並起草回覆。SMTPS 465 只在你於手機卡片或控制台裡核准之後才寄送；密碼是鑰匙圈參照，絕不寫進設定。",
+      },
+      {
+        title: "只提一次、然後停下的哨兵",
+        body:
+          "巡檢只讀你暴露出來的 Home Assistant 實體。一個實體超過它的閾值（預設 15 分鐘）仍不可用，就會變成一份修復提案，綁定動作、實體與酬載摘要；修復在核准之後只跑一次，而唯讀橋接即使拿到有效回執也會拒絕它。",
+      },
+    ],
+    godsEyeTitle: "God's Eye View，跑在迴環上",
+    godsEyeSub:
+      "一個你在這台 Mac 上自行安裝與管理的第三方程式。節點只附帶 Swift 橋接：沒有 JavaScript、沒有地圖圖磚、沒有資料。",
+    godsEyeFeatures: [
+      {
+        title: "你安裝，節點驗證",
+        body:
+          "用既有的安裝，或一鍵複製一個固定提交 —— 複製要你主動選擇，絕不定時進行。套件名稱、固定版本、package.json 大小與兩個入口腳本都會被檢查，入口腳本的 SHA-256 會被記錄下來；解析到安裝根目錄之外的路徑，包括透過 symlink 跳出去的，一律拒絕。",
+      },
+      {
+        title: "固定不變的迴環位址",
+        body:
+          "綁定主機就是字面量 127.0.0.1，不可設定；預設連接埠是 18931。系統目錄、~/.ssh、~/.gnupg、鑰匙圈資料夾和節點自己的資料根目錄都拒絕作為安裝目標。",
+      },
+      {
+        title: "MCPToolGate 只會收緊",
+        body:
+          "唯讀的地理工具可以在 MCP 允許清單內執行。被歸類為會改動東西的工具 —— 畫布標記、繪製、報告匯出，或任何認不出是讀取的名稱 —— 即使伺服器聲稱它唯讀，也會變成 pending_user_approval。這道閘門只能收緊檔位，永遠不能放鬆。",
+      },
+    ],
+    boundaryHeading: "核准回執涵蓋什麼",
+    boundaryItems: [
+      {
+        title: "九百秒，只使用一次",
+        body:
+          "一次助手寫入攜帶一張 32 字元的 HMAC-SHA256 回執，綁定操作種類、目標、內容摘要與到期時間。它在 900 秒內有效，以常數時間比對，在任何 I/O 之前就被執行器消耗掉；酬載一旦變動、過期、被重放，或綁定到另一份提案，就一律拒絕。",
+      },
+      {
+        title: "地球留在迴環上",
+        body:
+          "God's Eye View 只綁定字面量 127.0.0.1，別的什麼都不綁；敏感目錄、鑰匙圈資料夾與節點自己的資料根目錄都拒絕作為安裝目標，symlink 解析之後也算。即時資料由你自己的本機程式依各家提供者的條款去抓 —— 這個節點只保存可選的鑰匙圈參照，從不為這些資料代理或快取。畫布寫入與報告匯出即使伺服器說是唯讀，也會變成 pending_user_approval。",
+      },
+    ],
+    footnote:
+      "「隱私與控制」為助手、地球和四座區域網路橋接逐條陳述同樣的邊界，包括它們誰都承諾不了的部分。",
   },
 
   engines: {
@@ -385,7 +450,7 @@ export const zhHant: Dictionary = {
       {
         title: "驗證並開啟 DMG",
         body:
-          "把 POPOPX-Mac-Node-Universal.dmg 與發布頁的摘要檔取到同一個資料夾，在開啟任何東西之前先比對；「發布與原始碼」會列出目前那個版本對應的兩條指令。再把 POPOPX Mac Node.app 拖進 /Applications。發布出來的建置帶著 Developer ID 簽章，以及一枚釘附在映像檔上的公證票據，所以 Gatekeeper 會自己放行 —— spctl -a -vv -t install 回答 accepted，source=Notarized Developer ID。標籤工作流在 runner 上跑的是 Scripts/build_dmg.sh，你自己建置用的也是這個腳本，兩條路出來的只有 ad-hoc 簽章，而那一個首次啟動確實需要右鍵選「打開」。",
+          "把 POPOPX-Mac-Node-Universal.dmg 與發布的摘要檔取到同一個資料夾，在開啟任何東西之前先比對；「發布與原始碼」會針對目前這個版本印出那兩條指令。再把 POPOPX Mac Node.app 拖進 /Applications。發布出來的建置帶著 Developer ID 簽章，以及一枚釘附在映像檔上的公證票據，所以 Gatekeeper 不必你幫忙就會放行 —— spctl -a -vv -t install 回答 accepted，source=Notarized Developer ID。你自己用 Scripts/build_dmg.sh 做出來的建置則是 ad-hoc 簽章，那一個首次啟動確實需要右鍵選「打開」。",
       },
       {
         title: "讓它檢查這台機器",
@@ -410,13 +475,13 @@ export const zhHant: Dictionary = {
     ],
     buildHeading: "或者從同一個 tag 自行建置",
     buildBody:
-      "發布的映像檔，就是從你可以簽出的那棵樹打包出來的。swift build、swift test、swift build -c release，然後 bash Scripts/build_dmg.sh --output dist --version v1.0.2 會寫出通用 DMG、做 ad-hoc 簽章、並連同伴生摘要檔一起產出。發布出來的產檔則來自另一個腳本：Scripts/build-release.sh 會加上 Developer ID 簽章、向 Apple 提交公證、以及 ZIP，這就是為什麼下載的映像檔過得了 spctl，你自己的建置卻過不了。兩個都只能在 macOS 上跑，因為它們就是由 hdiutil 與 codesign 組成的。",
+      "發布的映像檔，就是從你可以簽出的那棵樹打包出來的。swift build、swift test、swift build -c release，然後 bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4 會寫出通用 DMG、對它做 ad-hoc 簽章，並連同伴生摘要檔一起產出。發布出去的成品走的是另一個腳本：Scripts/build-release.sh 會加上 Developer ID 簽章、公證提交與 ZIP，這就是為什麼下載來的映像檔過得了 spctl，你自己的建置卻過不了。兩個都只能在 macOS 上跑，因為它們就是由 hdiutil 與 codesign 組成的。",
     lifecycleHeading: "首次啟動之後",
     lifecycle: [
       {
         title: "升級",
         body:
-          "沒有自動更新器，也不會檢查更新 —— 這是節點不對外通話的又一項。升級就是拖曳：下載新的 DMG、驗證、取代 /Applications 裡的 App。設定、配對狀態、節點金鑰、保險庫和所有產物都在 Application Support 下面，不在 bundle 裡面，所以換上去的 App 會接手它落腳的那台機器的狀態。",
+          "build 4 加進的是一道由擁有者設定的更新閘門，不是自動安裝程式。它只讀取你指名的清單主機，驗證由你釘選的金鑰針對嚴格更新版本所簽的 Ed25519 簽章，而且在你核准一次綁定回執的下載之前，什麼都不會安裝；摘要對不上就丟棄這次提案。沒有廠商端點，也沒有預設檢查。你仍然可以下載並驗證新的 DMG、替換 App 來升級。設定、配對狀態、節點金鑰、保險庫和每一件產物都放在 Application Support 底下，而不是 bundle 裡面，所以換上去的 App 會接手它落腳的那台機器。",
       },
       {
         title: "備份與換機",
@@ -437,16 +502,16 @@ export const zhHant: Dictionary = {
       "節點自己精靈的第二步、配對 QR Code、還有 SMP 橋接，都需要 PATH 上有一個 popopx-chat 聊天守護行程。節點只探測一個可執行檔案，沒有任何備援：某個上游建置會先回應一行版本號，然後把之後每一條指令都弄失敗。十個引擎本身不需要它。",
     signHeading: "目前發布版怎麼簽章",
     signBody:
-      "映像檔裡的應用程式帶有 Developer ID Application 簽章、hardened runtime 旗標與安全時間戳，公證票據已釘附在套件內。所以 Gatekeeper 不需要你幫忙就會放行：spctl -a -vv -t install 回答 accepted、source=Notarized Developer ID。下面這塊是 2026-11-25 從 v1.0.2 實際發布的那份位元組裡讀出來的——把前兩條指令跑在 /Applications 裡的應用程式上，應該取回同一個身份。全程不查詢 Apple 帳號，也不向任何伺服器核對，因為票據就與應用程式一起帶在磁碟上。",
+      "映像檔裡的應用程式帶有 Developer ID Application 簽章、hardened runtime 旗標與安全時間戳，公證票據已釘附在套件內。所以 Gatekeeper 不需要你幫忙就會放行：spctl -a -vv -t install 回答 accepted、source=Notarized Developer ID。下面這塊是 2026-11-27 從 v1.0.2 build 4 實際發布的那份位元組裡讀出來的 —— 把前兩條指令跑在 /Applications 裡的應用程式上，應該取回同一個身分。全程不查詢 Apple 帳號，也不向任何伺服器核對，因為票據就與應用程式一起帶在磁碟上。",
     containerTitle: "映像檔本身沒有簽章",
     containerBody:
       "對下載的 .dmg 跑 spctl，它會回答 rejected、source=no usable signature；codesign -dvv 對同一個檔案說「完全沒有簽章」。這是預期答案，不是被竄改的警報。Apple 的簽章加在應用程式套件上，公證票據釘附在套件與外層磁碟映像檔上，而映像檔自身的完整性控制只有 SHA-256——就是這一頁往下那項檢查。",
     provenanceTitle: "哪個腳本產出哪個成品",
     provenanceBody:
-      "這個應用有兩條打包路徑，終點不同。Scripts/build_dmg.sh——標籤工作流在 macOS runner 上跑的就是它，也是本頁前面建置步驟的終點——用 --sign - --timestamp=none 做 ad-hoc 簽章，不開 hardened runtime，所以這條路產出的建置首次啟動確實需要右鍵選「打開」。Scripts/build-release.sh 是 Developer ID 路徑：帶 hardened runtime 簽章、提交公證、把票據釘附到應用程式與映像檔兩端，並在 ZIP 之外寫出 SHA256SUMS.txt。你下載到的映像檔出自第二個腳本；從未持有憑證的 runner 做不出它。",
+      "這個 App 由兩個腳本打包，而它們的終點並不相同。Scripts/build_dmg.sh 是本機打包器：它把 bundle 組起來，用 --sign - --timestamp=none 做 ad-hoc 簽章、不開 hardened runtime，寫出 DMG 與它的伴生檔，所以走這條路產出的建置，首次啟動確實需要右鍵選「打開」。Scripts/build-release.sh 是 Developer ID 路徑：它帶 hardened runtime 簽章、提交公證、把票據釘附到 bundle 與映像檔兩端，並在 SHA256SUMS.txt 清單旁邊寫出 ZIP。你下載到的 build 4 映像檔屬於第二種 —— 有 Developer ID 簽章、已公證、票據已釘附 —— 那是只有這個腳本才做得出來的。節點在 6de6eb8 的標籤工作流跑的仍然是 Scripts/build_dmg.sh，所以單靠那個工作流無法解釋那些已簽章的產物；一台從未持有憑證的 runner 做不出它們。",
     digestHeading: "先核對摘要，再打開任何東西",
     digestBody:
-      "兩條指令，在你儲存檔案的那個目錄裡跑。要對照的是發布清單：它列出該版本目錄下的每一個成品，且與打包在同一步寫出；而 v1.0.2 旁邊那份單檔 .dmg.sha256 寫著一個沒有任何已發布成品能對上哈希的摘要。「發布與原始碼」會依它解析到的版本印出這一對指令，可能比下面這個更新。",
+      "兩條指令，在你儲存檔案的那個資料夾裡跑。要對照的是發布清單，因為它點名了這次發布的每一件產物，而且是與打包產物同一步寫出來的。在 build 4 裡，.dmg.sha256 伴生檔與 SHA256SUMS.txt 寫著同一個摘要，所以兩種核對結果一致。「發布與原始碼」會依它解析到的版本印出這一對指令，那可能比下面這個更新。",
     copyCommand: "複製指令",
     commandCopied: "已複製",
   },
@@ -472,7 +537,7 @@ export const zhHant: Dictionary = {
       {
         title: "金鑰與配對狀態",
         body:
-          "節點的 Ed25519 簽章金鑰、已配對裝置清單、目前的提案，都是 pairing/ 下面的一般檔案。沒有金鑰的雲端備份，任何地方都沒有託管 —— 這件事是兩面的，下面談「遺失」那一段就說清楚了。唯一的例外是樞紐橋接的憑證：Home Assistant Token、MQTT 密碼或 CalDAV 密碼是一個鑰匙圈項目，而 settings.json 裡只存那條用來取它的參照。",
+          "節點的 Ed25519 簽章金鑰、已配對裝置清單、目前的提案，都是 pairing/ 下面的一般檔案。沒有金鑰的雲端備份，任何地方都沒有託管 —— 這件事是兩面的，下面談「遺失」那一段就說清楚了。例外是憑證：樞紐橋接的 Token 或密碼、助手的 IMAP 與 SMTP 密碼，以及 God's Eye View 的訂閱來源金鑰，都是鑰匙圈項目，而 settings.json 裡只存那條取用它們的參照。",
       },
       {
         title: "證據鏈",
@@ -482,7 +547,7 @@ export const zhHant: Dictionary = {
     ],
     transitHeading: "會離開這台機器",
     transitSub:
-      "有四類流量會離開、前往更大的網路，而每一類要嘛是你自己的裝置，要嘛是你自己設定的東西。第五類只在你打開區域網路橋接時才存在：Home Assistant、MQTT 與 CalDAV 請求，它們只留在迴環、RFC 1918 與 .local 位址上。這裡面沒有任何一個分析上報端點可以往外發東西。",
+      "有四類流量會離開、前往更大的網路，而每一類要嘛是你自己的裝置，要嘛是你自己設定的東西。助手的郵件帳號在你啟用它之後，再加上第五類；而區域網路橋接則在迴環、RFC 1918 與 .local 位址上增加本機流量。這裡面沒有任何一個分析上報端點可以往外發東西。",
     transitItems: [
       {
         title: "結果，回傳到你自己手機",
@@ -504,23 +569,28 @@ export const zhHant: Dictionary = {
         body:
           "精靈會下載 Homebrew formula、FFmpeg、uv、Ollama 和你選的那個量化版。這類流量本來就是安裝步驟的內容，它只發生一次，當著你的面，記錄就在螢幕上。",
       },
+      {
+        title: "助手的郵件帳號",
+        body:
+          "在你啟用並填上伺服器之前是關著的。IMAPS 993 用 EXAMINE 與 BODY.PEEK 讀取，從不把信件標成已讀；SMTPS 465 只寄出一份你帶著回執核准過的草稿。主機是你設定裡的一個字面量，永遠不會被自動探索；兩個密碼都是鑰匙圈參照。助手的其他動作都不離開這台機器。",
+      },
     ],
     keysHeading: "秘密到底存在哪裡",
     keysBody:
-      "配對與保險庫材料是資料根目錄下的檔案，以原子寫入、POSIX 0600 權限和完整檔案保護落盤，所以機器鎖定時靜態狀態下讀不到。你換來的取捨是真實的 —— 檔案權限既可稽核也可攜移，但在你的使用者帳號和一個已經拿到你使用者帳號的讀取者之間，它也擋不了什麼。請把資料根目錄當成它本身那個秘密看待：它不在 Time Machine 裡，而且它是節點金鑰唯一的一份複本。樞紐憑證走的是另一條路。Home Assistant Token、MQTT 密碼與 CalDAV 密碼是 service im.popopx.macnode.hub 下的通用密碼項目，以 kSecAttrAccessibleWhenUnlockedThisDeviceOnly 建立，設定文件裡只存一條參照。沒有 App bundle 身分的行程 —— swift run、測試框架 —— 拿到的是記憶體儲存；這裡刻意沒有任何明文檔案退路，所以一個到不了鑰匙圈的憑證根本不會被儲存。",
+      "配對與保險庫材料是資料根目錄下的檔案，以原子寫入、POSIX 0600 權限和完整檔案保護落盤，所以機器鎖定時靜態狀態下讀不到。你換來的取捨是真實的 —— 檔案權限既可稽核也可攜移，但在你的使用者帳號和一個已經拿到你使用者帳號的讀取者之間，它也擋不了什麼。請把資料根目錄當成它本身那個秘密看待：它不在 Time Machine 裡，而且它是節點金鑰唯一的一份複本。憑證走的是另一條路。Home Assistant Token、MQTT 密碼、CalDAV 密碼、助手的 IMAP 與 SMTP 密碼，以及 God's Eye View 的訂閱來源金鑰，都是 service im.popopx.macnode.hub 下的通用密碼項目，以 kSecAttrAccessibleWhenUnlockedThisDeviceOnly 建立，設定文件裡只存一條參照。沒有 App bundle 身分的行程 —— swift run、測試框架 —— 拿到的是記憶體儲存；這裡刻意沒有任何明文檔案退路，所以一個到不了鑰匙圈的憑證根本不會被儲存。",
     dataNote: {
       output: "產生的產物，以及等待手機的那條 outbox 佇列。",
       vault: "時間鎖封存檔，以及能開啟它們的繼承資料。",
       pairing: "Ed25519 節點金鑰、已配對裝置清單、以及目前那則一次性提案。",
       weights: "模型權重，以及影片引擎呼叫的 LTX-2.5 MLX 工作區。",
-      ledger: "以雜湊追加的封鎖與共享帳本。",
+      ledger: "以雜湊追加的封鎖與共享帳本，加上助手那份有邊界的 SQLite 稽核帳本。",
       logs: "安裝記錄與稽核記錄，寫給操作者自己讀。",
-      config: "設定、引擎開關，以及橋接與整合方案共用的那份設定檔。",
+      config: "設定、引擎開關，以及橋接、助手與 God's Eye View 卡片共用的那份設定。",
     },
     rootLabel: "資料根目錄",
     hubHeading: "邊緣樞紐自己的邊界",
     hubSub:
-      "原始碼主線新增的四個橋接，除了要守上面的規則，還要守另外四條。它們寫在這裡而不是寫在功能卡上，因為這些都是讀者應該能拿程式碼來否證的說法。",
+      "build 4 新增的四座區域網路橋接、私有助手與 God's Eye View 橋接，除了要守上面的規則，還要守下面這些。它們寫在這裡而不是寫在功能卡上，因為這些都是讀者應該能拿程式碼來否證的說法。",
     hubItems: [
       {
         title: "一個准入點",
@@ -541,6 +611,11 @@ export const zhHant: Dictionary = {
         title: "只學最少的那點",
         body:
           "CalDAV 解析 DTSTART 與 DTEND，在解析器內部就丟掉標題、描述、地點與參與者，所以最忙的那些欄位根本不會進模型。提案預覽只展示短的純量參數，凡是鍵在遮蔽清單上的值一律隱去 —— content、token、password、payload 等等。探索是一次唯讀 GET，回報機器自己的狀態。",
+      },
+      {
+        title: "助手與地球",
+        body:
+          "一次郵件寄送或一次家庭裝置修復，只有在帶著一張綁定種類、目標、摘要與到期時間、900 秒有效且只用一次的 32 字元 HMAC-SHA256 回執時，才會到達執行器。郵件是助手唯一被點名的外送例外，它的密碼是鑰匙圈參照。God's Eye View 只走迴環，在 symlink 解析之後驗證自己的安裝，它的 MCP 閘門只會收緊一個工具：畫布寫入與報告匯出即使伺服器說是唯讀，也會變成 pending_user_approval。倉庫裡只有 Swift 橋接。",
       },
     ],
     controlHeading: "你這一側的停止開關",
@@ -573,7 +648,7 @@ export const zhHant: Dictionary = {
       "控制台的已配對裝置清單，每一列都有一個 Revoke 按鈕。它會把那台裝置標為已撤銷、移除它的聯絡人對應，並從那一刻起丟棄它的指令 —— 但不會拆掉已經建立的 SMP 連線，而 App 在給你看的那則訊息裡就寫了這一點。要把這件事做完，請在聊天用戶端裡刪掉那個聯絡人。已經寫到你磁碟上的東西繼續留在你磁碟上；撤銷停止的是後續指令，它不是遠端抹除，而節點從來就沒有遠端抹除這個能力可以拿掉。",
     limitsHeading: "這一頁不承諾的事",
     limitsBody:
-      "那個安全銷毀是隨機覆寫加上 sync 加上 unlink。在 APFS 上，被修改的檔案會寫到新的區塊，而 SSD 會重新對應邏輯區塊，所以這一步移除了檔案、擋得住一般的復原工具，但不能證明舊的實體位元組已經消失。這已是使用者模式檔案 API 能做到的最好程度，程式碼在它回傳的結果裡就這樣寫著。再往外說：除了結束執行，沒有全域暫停；沒有遠端抹除；沒有金鑰託管，所以如果機器和資料根目錄一起不見，也就沒有復原；也沒有一個可能被說服去安裝你沒要求的東西的更新器。",
+      "那個安全銷毀是隨機覆寫加上 sync 加上 unlink。在 APFS 上，被修改的檔案會寫到新的區塊，而 SSD 會重新對應邏輯區塊，所以這一步移除了檔案、擋得住一般的復原工具，但不能證明舊的實體位元組已經消失。這已是使用者模式檔案 API 能做到的最好程度，程式碼在它回傳的結果裡就這樣寫著。再往外說：除了結束執行，沒有全域暫停；沒有遠端抹除；沒有金鑰託管，所以如果機器和資料根目錄一起不見，也就沒有復原；也沒有無聲更新器。build 4 加了一道更新閘門：它只讀取你指名的清單主機，只接受由你釘選的金鑰針對嚴格更新版本給出的簽章，下載或安裝之前必須有一張回執；沒有廠商端點，也沒有預設目的地。",
   },
 
   troubleshooting: {
@@ -663,16 +738,17 @@ export const zhHant: Dictionary = {
     verifySumsBody:
       "發布清單列出每個產物，所以沒被你下載的那個檔案是正常的缺席，而不是遺失：加上 --ignore-missing，然後讀對得上你取的那個檔案的那一列。清單與它點名的酬載是在同一步裡寫出來的。",
     verifySidecarBody:
-      "較舊的發布改為提供單一產物的伴生檔，那才是應該對照驗證的檔案。當一個發布同時帶著兩種、而它們不一致時，請信清單：伴生檔可能來自同一版本號的另一次建置。",
+      "較舊的發布改為提供單一產物的伴生檔，那才是應該對照驗證的檔案。build 4 兩種都發布，而且寫著同一個摘要；當一個發布的檔案彼此不一致時，請信清單，因為伴生檔可能來自同一版本號的另一次建置。",
     pipelineHeading: "一個版本是怎麼到這裡的",
     pipelineBody:
-      "推送 tag 會在 macOS runner 上執行發布 workflow：建置這棵樹、跑契約測試、用 Scripts/build_dmg.sh 打包通用映像檔、拒絕發布任何內含絕對路徑的驗證檔、並上傳那個腳本寫出來的東西。而一個已公證的映像檔配上 SHA256SUMS.txt 清單，則來自 Scripts/build-release.sh —— 它加上 Developer ID 簽章、向 Apple 提交公證、以及 ZIP。兩條路都終結在同一個地方：一個不必信任這個網站就能核對的摘要。",
+      "推送 tag 會在 macOS runner 上執行發布工作流：它建置這棵樹、跑契約測試、用 Scripts/build_dmg.sh 打包通用映像檔、拒絕發布任何內含絕對路徑的校驗檔，並上傳 DMG 與它的伴生檔。那就是 ad-hoc 這條路。已簽章的 build 4 映像檔、它的 ZIP 與 SHA256SUMS.txt 來自 Scripts/build-release.sh —— 它用 Developer ID 身分、hardened runtime 與安全時間戳簽章，提交到 Apple 的公證服務，再把票據釘附到 bundle 與映像檔上。6de6eb8 的標籤工作流並不呼叫那個腳本，所以那些已簽章的產物不可能是這個工作流的輸出。兩條路都終結在同一個地方：一個不必信任這個頁面就能核對的摘要。",
     supportedHeading: "今天就在執行",
     supportedItems: [
       "全部十個引擎，各有自己的動作集與拒絕路徑，逐一獨立開啟。",
       "從 sysctl 自動選檔，連帶該檔隱含的那次模型拉取。",
       "簽章、一次性、15 分鐘過期的配對，以及只綁定迴環的控制台。",
       "TypeScript 橋接與兩個 Agent 配接器，共用同一個控制台與同一個 Token。",
+      "私有助手與 God's Eye View 橋接：由回執把關的寫入、只走迴環的工具閘門，以及兩者預設都關閉。",
     ],
     roadmapHeading: "還沒有",
     roadmapSub:
@@ -721,7 +797,7 @@ export const zhHant: Dictionary = {
       },
       {
         q: "節點會掃描我的區域網路找裝置嗎？",
-        a: "不會。探索是一個唯讀的 GET /v1/discovery/capabilities，回報這台 Mac 已經有的東西：迴環上的 Ollama、你授權的工作區資料夾、EventKit 權限狀態，以及到你在設定裡輸入的某台區域網路主機的 TCP 連線是否成功。程式碼裡沒有 mDNS 廣播、沒有連接埠掃描、也不逐段走訪子網。只有迴環、RFC 1918 字面位址、ULA 位址或 .local 名稱才會被放行；公開位址在 socket 開啟之前就被拒絕，原始碼主線也不接受需要 DNS 查詢的主機名稱。",
+        a: "不會。探索是一個唯讀的 GET /v1/discovery/capabilities，回報這台 Mac 已經有的東西：迴環上的 Ollama、你授權的工作區資料夾、EventKit 權限狀態，以及到你在設定裡輸入的某台區域網路主機的 TCP 連線是否成功。程式碼裡沒有 mDNS 廣播、沒有連接埠掃描、也不逐段走訪子網。只有迴環、RFC 1918 字面位址、ULA 位址或 .local 名稱才會被放行；公開位址在 socket 開啟之前就被拒絕，而已簽章的建置也不接受需要 DNS 查詢的主機名稱。build 4 的區域網路探索預設關閉，只看你設定的資料夾、訂閱來源與 MCP 伺服器，兩次重新整理之間至少間隔 60 秒。",
       },
       {
         q: "一個 MCP 工具或一條智慧家庭指令能不經過我就執行嗎？",
@@ -750,6 +826,14 @@ export const zhHant: Dictionary = {
       {
         q: "支援哪些機器？",
         a: "Apple Silicon 上的 macOS 14 或更新。檔位階梯、Metal 與 MLX 都以統一記憶體為前提，而 MLX 不跑在 Intel 上；所以儘管通用（Universal）安裝檔照舊帶著 x86_64 切片，Intel Mac 也不是這個專案瞄準的主機。App 本身不連結任何第三方函式庫：只使用 Apple 的框架。它驅動的東西另有安排，這是設計使然 —— Ollama、FFmpeg 與 LTX-2.5 權重是引擎呼叫的本機工具，每個引擎都寫明了自己需要哪幾個。",
+      },
+      {
+        q: "助手能不經我同意就寄信或切換裝置嗎？",
+        a: "不能。讀取與起草都在本機、都是唯讀的；一次寄送或一次修復只是一則 pending_user_approval 狀態的提案。執行器只接受一張 32 字元的 HMAC-SHA256 回執，綁定操作、目標、摘要與到期時間，900 秒內有效且只能使用一次。郵件憑證存放在 macOS 的鑰匙圈裡，而唯讀的 Home Assistant 橋接即使拿到有效回執也會拒絕那次修復。",
+      },
+      {
+        q: "God's Eye View 橋接會呼叫雲端或掃描我的網路嗎？",
+        a: "不會。它啟動的是你自己安裝在這台 Mac 上的程式，把它固定在 127.0.0.1，在 symlink 解析之後驗證它的入口腳本，而且只有你打開那個開關才會拉取原始碼。節點只保存訂閱來源金鑰的可選鑰匙圈參照；訂閱來源由你本機的程式依各家提供者的條款去抓取，節點從不代理、也不快取它們。畫布寫入與報告匯出即使伺服器說是唯讀，也會變成 pending_user_approval。",
       },
     ],
   },

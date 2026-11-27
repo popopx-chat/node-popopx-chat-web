@@ -60,7 +60,7 @@ export const tr: Dictionary = {
     digestCopied: "Sağlama değeri kopyalandı",
     verifyTitle: "Açmadan önce doğrula",
     verifyBody:
-      "Disk görüntüsünü ve sürümün sağlama değer dosyasını aynı klasöre kaydedin, ardından hiçbir şeyi açmadan önce ikisini kontrol edin. Sağlama değer dosyası sürümden sürüme değişir — yeni sürümler bir SHA256SUMS.txt listesi yayımlar, eskileri tek varlıklı tek bir .sha256 taşır — bu yüzden Sürümler ve GitHub, baktığınız sürüm için tam olarak iki komut yazar.",
+      "Disk görüntüsünü ve sürümün sağlama değer dosyasını aynı klasöre kaydedin, ardından hiçbir şeyi açmadan önce ikisini kontrol edin. Bir sürüm bir SHA256SUMS.txt listesi, tek varlıklı bir .sha256 yan dosyası ya da ikisini birden yayımlayabilir — bu yüzden Sürümler ve GitHub, baktığınız sürüm için tam olarak iki komut yazar.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "Kendi donanımın",
@@ -246,12 +246,11 @@ export const tr: Dictionary = {
   },
 
   hub: {
-    badge: "KAYNAK HATTI · İMZALI 1.0.2 DERLEMESİNDE YOK",
     heading: "Beş yerel yetenek, tek sınır",
     sub:
-      "Kaynak hattı, sahibiyle sınırlı yetenek keşfini, dört protokol bağdaştırıcısını ve mühürlü bir eşleştirme bağlantısını ekler. Köprüler varsayılan olarak kapalıdır, her hedef aynı olumlu izin listesinden geçer ve her yazma, bir insanın onaylaması gereken imzalı bir öneriye dönüşür. Hiçbiri barındırılan bir hizmet değildir ve hiçbiri yeni bir dinleyici açmaz.",
+      "build 4, sahibiyle sınırlı yetenek keşfini, dört protokol bağdaştırıcısını ve mühürlü bir eşleştirme bağlantısını imzalı görüntüye ekler. Köprüler varsayılan olarak kapalıdır, her hedef aynı olumlu izin listesinden geçer ve her yazma, bir insanın onaylaması gereken imzalı bir öneriye dönüşür. Hiçbiri barındırılan bir hizmet değildir ve hiçbiri yeni bir dinleyici açmaz.",
     status:
-      "26 Kasım 2026'dan beri kaynakta (5858b3c ve 040ef25). Bu sitedeki imzalı v1.0.2 indirmesi her iki commit'ten de önce gelir; bu bölümü indirdiğiniz görüntünün bir özelliği olarak değil, kaynak hattının sözleşmesi olarak okuyun.",
+      "İmzalı v1.0.2 build 4 sürümünde (6de6eb8, 27 Kasım 2026) ve bu sitedeki Universal DMG'de. Aşağıdaki kartlar bir kaynak dalını değil, indirdiğiniz görüntüyü anlatır.",
     cards: [
       {
         title: "Yalnızca kendisi hakkında yanıt veren keşif",
@@ -294,6 +293,72 @@ export const tr: Dictionary = {
     ],
     footnote:
       "Gizlilik ve denetim aynı sınırı kural kural anlatır, düğümün söz veremeyeceği şeyler dahil.",
+  },
+
+  extensions: {
+    heading: "İki yerel uzantı, tek onay sınırı",
+    sub:
+      "build 4, okuyan, öneren ve bekleyen özel bir asistan ile kendi kurduğunuz 3B bir küreye köprü ekler. İkisi de varsayılan olarak kapalıdır, ikisi de durumunu bu Mac'te tutar ve hiçbiri bir modelin önerisini onay makbuzu olmadan yazmaya dönüştürmez.",
+    assistantTitle: "Özel asistan ve denetimli otomasyon",
+    assistantSub:
+      "Tek bir yönetici dört parçayı bir araya getirir: bir zamanlayıcı, salt okunur okuyan ve yalnızca onaydan sonra gönderen bir posta köprüsü, bir ev cihazı nöbetçisi ve her yazmanın geçmesi gereken onay kapısı.",
+    assistantFeatures: [
+      {
+        title: "Dört bağlayıcı izni",
+        body:
+          "Her bağlayıcı dört düzeyden birini bildirir — read, propose, write ya da admin. Varsayılan read artı propose'tur; write ya da admin eylemi model isteminde değil, yürütücünün girişinde yeniden denetlenir.",
+      },
+      {
+        title: "Kendi açtığınız bir zamanlayıcı",
+        body:
+          "Yerel saatle 08:00'de günlük bir brifing ve her 30 dakikada bir ev sağlığı devriyesi. İkisi de varsayılan olarak kapalıdır ve yalnızca sahibi açabilir; her çalıştırma ve durum değişikliği ledger/assistant.sqlite3 dosyasına yazılır.",
+      },
+      {
+        title: "Posta, siz onaylayana kadar salt okunur",
+        body:
+          "IMAPS 993, posta kutusunu EXAMINE ve BODY.PEEK ile açar, son postaları yanıt gerekli, fatura, davet ve bildirim olarak sınıflandırır ve yanıt taslakları hazırlar. SMTPS 465 yalnızca telefonda karttan ya da konsolda onayladıktan sonra gönderir; parolalar Keychain referanslarıdır, asla ayar değildir.",
+      },
+      {
+        title: "Öneren, sonra duran bir nöbetçi",
+        body:
+          "Devriye yalnızca açığa çıkardığınız Home Assistant varlıklarını okur. Eşiğini (varsayılan 15 dakika) aşan süre boyunca kullanılamaz kalan bir varlık, eyleme, varlığa ve yük özetine bağlı bir onarım önerisine dönüşür; onarım onaydan sonra bir kez çalışır ve salt okunur bir köprü, geçerli bir makbuz olsa bile onu reddeder.",
+      },
+    ],
+    godsEyeTitle: "God's Eye View, loopback üzerinde",
+    godsEyeSub:
+      "Bu Mac'te kendi kurduğunuz ve yönettiğiniz ayrı bir üçüncü taraf program. Düğüm yalnızca Swift köprüsünü taşır: JavaScript yok, harita döşemesi yok, veri yok.",
+    godsEyeFeatures: [
+      {
+        title: "Siz kurarsınız, düğüm doğrular",
+        body:
+          "Mevcut kurulum ya da sabitlenmiş bir commit'in tek tıkla klonu — klon isteğe bağlıdır, asla zamanlayıcıyla olmaz. Paket adı, sabitlenmiş sürüm, package.json boyutu ve iki giriş betiği denetlenir ve giriş betiklerinin SHA-256 değeri kaydedilir; kurulum kökünün dışına çözülen bir yol, symlink üzerinden olsa bile reddedilir.",
+      },
+      {
+        title: "Sabit loopback adresi",
+        body:
+          "Bağlanma ana bilgisayarı 127.0.0.1 sabitidir ve yapılandırılamaz; varsayılan bağlantı noktası 18931'dir. Sistem dizinleri, ~/.ssh, ~/.gnupg, Keychain klasörü ve düğümün kendi veri kökü kurulum hedefi olarak reddedilir.",
+      },
+      {
+        title: "MCPToolGate yalnızca sıkılaştırır",
+        body:
+          "Salt okunur coğrafi araçlar MCP izin listesi içinde çalışabilir. Değişiklik yapan olarak sınıflandırılan bir araç — tuval işaretleri, çizimler, rapor dışa aktarma ya da okuma olduğu anlaşılamayan her ad — sunucu onu salt okunur ilan etse bile pending_user_approval olur. Bu kapı bir düzeyi sıkılaştırabilir, asla gevşetemez.",
+      },
+    ],
+    boundaryHeading: "Onay makbuzunun kapsadıkları",
+    boundaryItems: [
+      {
+        title: "Dokuz yüz saniye, tek kullanım",
+        body:
+          "Bir asistan yazması, işlem türüne, hedefe, içerik özetine ve son kullanma zamanına bağlı 32 karakterlik bir HMAC-SHA256 makbuzu taşır. 900 saniye geçerlidir, sabit zamanda karşılaştırılır, herhangi bir G/Ç öncesinde yürütücü tarafından tüketilir ve yük değişirse, süresi dolarsa, yeniden oynatılırsa ya da başka bir öneriye bağlıysa reddedilir.",
+      },
+      {
+        title: "Küre loopback üzerinde kalır",
+        body:
+          "God's Eye View, 127.0.0.1 sabitine bağlanır ve başka hiçbir şeye bağlanmaz; hassas dizinler, Keychain klasörü ve düğümün kendi veri kökü, symlink çözümlemesinden sonra da dahil olmak üzere kurulum hedefi olarak reddedilir. Canlı beslemeleri, her sağlayıcının koşulları altında kendi yerel programınız çeker — bu düğüm yalnızca isteğe bağlı Keychain referansları tutar ve veriyi asla vekil olarak geçirmez ya da önbelleğe almaz. Tuval yazmaları ve rapor dışa aktarmaları, sunucu onları salt okunur saysa bile pending_user_approval olur.",
+      },
+    ],
+    footnote:
+      "Gizlilik ve denetim, asistan, küre ve dört yerel ağ köprüsü için aynı sınırları kural kural anlatır; hiçbirinin söz veremeyeceği şeyler dahil.",
   },
 
   engines: {
@@ -386,7 +451,7 @@ export const tr: Dictionary = {
       {
         title: "DMG dosyasını doğrula ve aç",
         body:
-          "POPOPX-Mac-Node-Universal.dmg ile sürümün sağlama değer dosyasını aynı klasöre alın ve hiçbir şeyi açmadan önce kontrol edin; Sürümler ve GitHub, o sürüm için gereken iki komutu yazar. POPOPX Mac Node.app'i /Applications klasörüne sürükleyin. Yayımlanan derleme bir Developer ID imzası ve dosyaya iliştirilmiş bir noter onay kaydı taşır, bu yüzden Gatekeeper ona ekstra bir şey yapmadan izin verir — spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını verir. Etiket iş akışının Scripts/build_dmg.sh ile paketleyip ürettiği derleme ile aynı betiği kendinizin çalıştırarak derlediği sürüm ad-hoc imzaladır; ilk açılışta sağ tıklayıp “Aç” demenizi isteyen de odur.",
+          "POPOPX-Mac-Node-Universal.dmg ile sürümün sağlama değer dosyasını aynı klasöre alın ve hiçbir şeyi açmadan önce kontrol edin; Sürümler ve GitHub, geçerli sürüm için gereken iki komutu yazar. POPOPX Mac Node.app'i /Applications klasörüne sürükleyin. Yayımlanan derleme bir Developer ID imzası ve dosyaya iliştirilmiş bir noter onay kaydı taşır, bu yüzden Gatekeeper ona ekstra bir şey yapmadan izin verir — spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını verir. Scripts/build_dmg.sh ile kendinizin yaptığı bir derleme ise ad-hoc imzalıdır ve ilk açılışta sağ tıklayıp “Aç” demenizi isteyen de odur.",
       },
       {
         title: "Makinenin profilini çıkarmasına izin verin",
@@ -411,13 +476,13 @@ export const tr: Dictionary = {
     ],
     buildHeading: "Ya da aynı etiketten kendiniz derleyin",
     buildBody:
-      "Sürüm görüntüleri, sizin de çekebileceğiniz o ağaçtan paketlenir. swift build, swift test, swift build -c release, ardından bash Scripts/build_dmg.sh --output dist --version v1.0.2 universal DMG'yi yazar, ad-hoc imzalar ve yan dosyayı da birlikte üretir. Yayımlanan çıktı ise öteki betikten gelir: Scripts/build-release.sh Developer ID imzasını, noter onayına gönderimi ve ZIP dosyasını ekler; indirilen bir görüntünün spctl'den geçip kendi derlemenizin geçmemesinin sebebi budur. İkisi de yalnızca macOS'ta çalışır, çünkü zaten hdiutil ile codesign'dan yapılmışlardır.",
+      "Sürüm görüntüleri, sizin de çekebileceğiniz o ağaçtan paketlenir. swift build, swift test, swift build -c release, ardından bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4 universal DMG'yi yazar, ad-hoc imzalar ve yan dosyayı da birlikte üretir. Yayımlanan çıktı ise öteki betikten gelir: Scripts/build-release.sh Developer ID imzasını, noter onayına gönderimi ve ZIP dosyasını ekler; indirilen bir görüntünün spctl'den geçip kendi derlemenizin geçmemesinin sebebi budur. İkisi de yalnızca macOS'ta çalışır, çünkü zaten hdiutil ile codesign'dan yapılmışlardır.",
     lifecycleHeading: "İlk çalıştırmadan sonra",
     lifecycle: [
       {
         title: "Yükseltme",
         body:
-          "Güncelleyici yok, güncelleme kontrolü de yok — düğümün dışarı aramadığı bir şey daha. Yükseltme bir sürükleme işidir: yeni DMG'yi indirin, doğrulayın ve /Applications içindeki uygulamanın yerine koyun. Ayarlar, eşleştirme durumu, düğüm anahtarı, kasa ve tüm çıktılar paketin içinde değil Application Support altında durur; bu yüzden yerine konan uygulama, düştüğü makineyi olduğu gibi devralır.",
+          "build 4, otomatik bir kurucu değil, sahibin yapılandırdığı bir güncelleme kapısı ekler. Yalnızca sizin adını verdiğiniz liste ana bilgisayarını okur, sabitlediğiniz anahtardan gelen ve kesinlikle daha yeni bir sürümü kapsayan bir Ed25519 imzasını doğrular ve makbuza bağlı bir indirmeyi onaylayana kadar hiçbir şey kurmaz; sağlama değeri uyuşmazsa teklif düşer. Satıcı uç noktası yoktur ve varsayılan denetim yoktur. Yükseltmeyi yine yeni DMG'yi indirip doğrulayarak ve uygulamanın yerine koyarak yapabilirsiniz. Ayarlar, eşleştirme durumu, düğüm anahtarı, kasa ve tüm çıktılar paketin içinde değil Application Support altında durur; bu yüzden yerine konan uygulama, düştüğü makineyi olduğu gibi devralır.",
       },
       {
         title: "Yedekleme ve makine taşıma",
@@ -438,16 +503,16 @@ export const tr: Dictionary = {
       "Düğümün kendi sihirbazının 2. adımı, eşleştirme QR kodu ve SMP köprüsü, hepsi PATH yolunda bir popopx-chat sohbet daemon'ı ister. Düğüm tam olarak bir çalıştırılabilir dosyayı yoklar ve yedeği yoktur; çünkü bir upstream derlemesi bir sürüm satırına yanıt verir, ardından gelen her komutta başarısız olur. On motorun kendisi buna ihtiyaç duymaz.",
     signHeading: "Yayımlanan derleme nasıl imzalanıyor",
     signBody:
-      "Görüntünün içindeki uygulama paketi bir Developer ID Application imzası, hardened runtime bayrağı ve güvenli bir zaman damgası taşıyor; bir noter onay kaydı da paketin içine iliştirilmiş durumda. Gatekeeper'ın hiçbir yardım olmadan çalışmasına izin vermesinin sebebi bu: spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını veriyor. Aşağıdaki blok, 2026-11-25 tarihinde v1.0.2'nin yayımladığı tam baytlardan okundu — ilk iki komutu /Applications içindeki uygulamaya karşı çalıştırın ve aynı kimliği geri almanız gerekir. Kayıt, uygulama ile birlikte diskte taşındığı için Apple hesabına danışılmaz ve hiçbir şey bir sunucuya karşı kontrol edilmez.",
+      "Görüntünün içindeki uygulama paketi bir Developer ID Application imzası, hardened runtime bayrağı ve güvenli bir zaman damgası taşıyor; bir noter onay kaydı da paketin içine iliştirilmiş durumda. Gatekeeper'ın hiçbir yardım olmadan çalışmasına izin vermesinin sebebi bu: spctl -a -vv -t install komutu source=Notarized Developer ID ile accepted yanıtını veriyor. Aşağıdaki blok, 2026-11-27 tarihinde v1.0.2 build 4'ün yayımladığı tam baytlardan okundu — ilk iki komutu /Applications içindeki uygulamaya karşı çalıştırın ve aynı kimliği geri almanız gerekir. Kayıt, uygulama ile birlikte diskte taşındığı için Apple hesabına danışılmaz ve hiçbir şey bir sunucuya karşı kontrol edilmez.",
     containerTitle: "Görüntünün kendisi imzalı değil",
     containerBody:
       "İndirdiğiniz .dmg üzerinde spctl çalıştırırsanız source=no usable signature ile rejected yanıtı alırsınız; codesign -dvv ise aynı dosyanın hiç imzalanmadığını söyler. Bu beklenen yanıt, bir kurcalama uyarısı değil. Apple'ın kod imzası uygulama paketinin üstünde, noter onay kaydı ise hem pakete hem onu saran disk görüntüsüne iliştirilmiş. Görüntünün tek bütünlük denetimi kendi SHA-256 değeridir ve bu sayfanın aşağısında yapılan kontrol de odur.",
     provenanceTitle: "Hangi betik hangi çıktıyı üretiyor",
     provenanceBody:
-      "Bu uygulamayı iki betik paketliyor ve ikisi aynı yerde bitmiyor. Scripts/build_dmg.sh — üstteki derleme adımlarının vardığı yer ve etiket iş akışının bir macOS çalıştırıcısında yürüttüğü betik — hardened runtime olmadan, --sign - --timestamp=none ile ad-hoc imzalıyor; o yüzden bu yoldan çıkan bir derleme ilk açılışta gerçekten sağ tıklayıp “Aç” demenizi istiyor. Scripts/build-release.sh ise Developer ID yolu: hardened runtime ile imzalıyor, noter onayına gönderiyor, kaydı hem pakete hem görüntüye iliştiriyor ve ZIP dosyasını bir SHA256SUMS.txt listesinin yanına yazıyor. İndirdiğiniz görüntü ikinci betikten çıktı ve sertifikayı hiç elinde tutmamış bir çalıştırıcı onu üretemez.",
+      "Bu uygulamayı iki betik paketliyor ve ikisi aynı yerde bitmiyor. Scripts/build_dmg.sh yerel paketleyicidir: paketi bir araya getirir, --sign - --timestamp=none ile ve hardened runtime olmadan ad-hoc imzalar, DMG'yi ve yan dosyasını yazar; bu yüzden o yoldan çıkan bir derleme ilk açılışta gerçekten sağ tıklayıp “Aç” demenizi ister. Scripts/build-release.sh ise Developer ID yolu: hardened runtime ile imzalar, noter onayına gönderir, kaydı hem pakete hem görüntüye iliştirir ve ZIP dosyasını bir SHA256SUMS.txt listesinin yanına yazar. İndirdiğiniz build 4 görüntüsü ikinci türdendir — Developer ID ile imzalı, noter onaylı ve kaydı iliştirilmiş — ve onu yalnızca o betik üretir. Düğümün 6de6eb8'deki etiket iş akışı hâlâ Scripts/build_dmg.sh çalıştırıyor, yani iş akışı tek başına imzalı varlıkları açıklayamaz; sertifikayı hiç elinde tutmamış bir çalıştırıcı onları üretemez.",
     digestHeading: "Bir şeyi açmadan önce sağlama değerini kontrol edin",
     digestBody:
-      "İki komut, dosyaları kaydettiğiniz klasörde çalıştırılıyor. Esas alınacak dosya sürüm listesidir: sürümdeki her çıktıyı adlandırıyor ve o dosyayı, çıktıları paketleyen aynı adım yazıyor. Oysa v1.0.2'nin yanına yayımlanan tek varlıklı .dmg.sha256, yayımlanmış hiçbir varlığın sağlama değeriyle uyuşmayan bir değer adlandırıyor. Sürümler ve GitHub, kendi çözdüğü sürüm için o iki komutu yazar ve bu, aşağıdaki sürümden daha yeni olabilir.",
+      "İki komut, dosyaları kaydettiğiniz klasörde çalıştırılıyor. Esas alınacak dosya sürüm listesidir: sürümdeki her çıktıyı adlandırıyor ve o dosyayı, çıktıları paketleyen aynı adım yazıyor. build 4'te .dmg.sha256 yan dosyası ile SHA256SUMS.txt aynı sağlama değerini adlandırıyor, yani iki kontrol de aynı sonucu veriyor. Sürümler ve GitHub, kendi çözdüğü sürüm için o iki komutu yazar ve bu, aşağıdaki sürümden daha yeni olabilir.",
     copyCommand: "Komutu kopyala",
     commandCopied: "Kopyalandı",
   },
@@ -473,7 +538,7 @@ export const tr: Dictionary = {
       {
         title: "Anahtarlar ve eşleştirme durumu",
         body:
-          "Düğümün Ed25519 imzalama anahtarı, eşleştirilmiş cihazların listesi ve güncel teklif, pairing/ altında düz dosyalardır. Anahtarın bulut yedeği ya da herhangi bir yerde bir emanet yoktur — bunun iki ucu da keser; aşağıdaki kayıp paragrafı bunu söylüyor. Tek istisna bir hub köprüsünün kimlik bilgisidir: Home Assistant token'ı, bir MQTT parolası ya da bir CalDAV parolası bir Keychain öğesidir ve settings.json yalnızca onu getiren referansı taşır.",
+          "Düğümün Ed25519 imzalama anahtarı, eşleştirilmiş cihazların listesi ve güncel teklif, pairing/ altında düz dosyalardır. Anahtarın bulut yedeği ya da herhangi bir yerde bir emanet yoktur — bunun iki ucu da keser; aşağıdaki kayıp paragrafı bunu söylüyor. İstisna kimlik bilgileridir: bir hub köprüsünün token'ı ya da parolası, asistanın IMAP ve SMTP parolaları ve God's Eye View besleme anahtarları Keychain öğeleridir ve settings.json yalnızca onları getiren referansları taşır.",
       },
       {
         title: "Kanıt izi",
@@ -483,7 +548,7 @@ export const tr: Dictionary = {
     ],
     transitHeading: "Makineden çıkar",
     transitSub:
-      "Dört tür trafik daha geniş ağa çıkar ve her biri ya kendi cihazınızdır ya da sizin yapılandırdığınız bir şeydir. Beşincisi yalnızca bir yerel ağ köprüsü açıkken vardır: loopback, RFC 1918 ve .local adreslerinde kalan Home Assistant, MQTT ve CalDAV istekleri. Hiçbirinde bir şey gönderilecek bir analitik uç noktası yoktur.",
+      "Dört tür trafik daha geniş ağa çıkar ve her biri ya kendi cihazınızdır ya da sizin yapılandırdığınız bir şeydir. Asistanın posta hesabı, siz açtığınızda beşinciyi ekler; bir yerel ağ köprüsü ise loopback, RFC 1918 ve .local adreslerinde yerel trafik ekler. Hiçbirinde bir şey gönderilecek bir analitik uç noktası yoktur.",
     transitItems: [
       {
         title: "Sonuçlar, kendi telefonunuza geri",
@@ -505,23 +570,28 @@ export const tr: Dictionary = {
         body:
           "Sihirbaz Homebrew formüllerini, FFmpeg'i, uv'yi, Ollama'yı ve seçtiğiniz kuantizasyonu indirir. Bu trafik zaten bir kurulum adımının kendisidir; bir kez, sizin önünüzde, günlük ekranın üzerindeyken olur.",
       },
+      {
+        title: "Asistanın posta hesabı",
+        body:
+          "Siz açıp sunucuyu yazana kadar kapalıdır. IMAPS 993, EXAMINE ve BODY.PEEK ile okur; bu hiçbir zaman bir iletiyi okundu olarak işaretlemez. SMTPS 465 yalnızca makbuza onay verdiğiniz bir taslağı gönderir. Ana bilgisayar ayarlarınızdaki bir sabittir ve asla keşfedilmez; iki parola Keychain referansıdır. Asistanın başka hiçbir eylemi makineden çıkmaz.",
+      },
     ],
     keysHeading: "Sırların gerçekte durduğu yer",
     keysBody:
-      "Eşleştirme ve kasa malzemesi, veri kökünün altındaki dosyalardır; atomik yazma, POSIX kipi 0600 ve tam dosya korumasıyla diske inerler, böylece makine kilitliyken diskteki hâlleri okunamaz. Göze aldığınız değişiklik gerçek: dosya izinleri denetlenebilir ve taşınabilir, ama sizin kullanıcı hesabınız ile kullanıcı hesabınızı zaten ele geçirmiş bir okuyucu arasına hiçbir şey koymazlar. Veri köküne bir sır gibi davranın: Time Machine içinde değildir ve düğüm anahtarının var olan tek kopyası odur. Bir hub kimlik bilgisi öteki yolu izler. Home Assistant token'ı, MQTT parolası ve CalDAV parolası, im.popopx.macnode.hub servisi altında kSecAttrAccessibleWhenUnlockedThisDeviceOnly ile oluşturulmuş generic-password öğeleridir ve ayarlar belgesi yalnızca bir referans saklar. Uygulamanın paket kimliği olmayan bir süreç — swift run, bir test koşum takımı — bunun yerine bellek içi bir depo alır; düz metin dosyasına düşüş bilerek yoktur, yani Keychain'e ulaşamayan bir kimlik bilgisi hiç kaydedilmez.",
+      "Eşleştirme ve kasa malzemesi, veri kökünün altındaki dosyalardır; atomik yazma, POSIX kipi 0600 ve tam dosya korumasıyla diske inerler, böylece makine kilitliyken diskteki hâlleri okunamaz. Göze aldığınız değişiklik gerçek: dosya izinleri denetlenebilir ve taşınabilir, ama sizin kullanıcı hesabınız ile kullanıcı hesabınızı zaten ele geçirmiş bir okuyucu arasına hiçbir şey koymazlar. Veri köküne bir sır gibi davranın: Time Machine içinde değildir ve düğüm anahtarının var olan tek kopyası odur. Bir hub kimlik bilgisi öteki yolu izler. Home Assistant token'ı, MQTT parolası, CalDAV parolası, asistanın IMAP ve SMTP parolaları ve God's Eye View besleme anahtarları, im.popopx.macnode.hub servisi altında kSecAttrAccessibleWhenUnlockedThisDeviceOnly ile oluşturulmuş generic-password öğeleridir ve ayarlar belgesi yalnızca bir referans saklar. Uygulamanın paket kimliği olmayan bir süreç — swift run, bir test koşum takımı — bunun yerine bellek içi bir depo alır; düz metin dosyasına düşüş bilerek yoktur, yani Keychain'e ulaşamayan bir kimlik bilgisi hiç kaydedilmez.",
     dataNote: {
       output: "Üretilen çıktılar ve telefonunu bekleyen sonuçları tutan outbox kuyruğu.",
       vault: "Zamana kilitli mühürlü arşivler ve onları açan halefiyet malzemesi.",
       pairing: "Ed25519 düğüm anahtarı, eşleştirilmiş cihaz listesi ve güncel tek kullanımlık teklif.",
       weights: "Model ağırlıkları ve video motorlarının çağırdığı LTX-2.5 MLX çalışma alanı.",
-      ledger: "Hash ile eklenen kilitlenme ve mesh defterleri.",
+      ledger: "Hash ile eklenen kilitlenme ve mesh defterleri ile asistanın sınırlı SQLite denetim defteri.",
       logs: "Kurulum günlüğü ve denetim günlüğü; operatör okusun diye yazılır.",
-      config: "Ayarlar, motor anahtarları ve köprü ile entegrasyonların paylaştığı yapılandırma.",
+      config: "Ayarlar, motor anahtarları ve köprülerin, asistanın ve God's Eye View kartının paylaştığı yapılandırma.",
     },
     rootLabel: "Veri kökü",
     hubHeading: "Uç hub'ın kendi sınırı",
     hubSub:
-      "Kaynak hattında eklenen dört köprü, yukarıdaki kurallara ve dört kurala daha uyar. Bunlar bir özellik kartında değil burada yazılı, çünkü bir okurun koddan yanlışlayabilmesi gereken iddialardır.",
+      "build 4'te eklenen dört yerel ağ köprüsü, özel asistan ve God's Eye View köprüsü yukarıdaki kurallara ve aşağıdakilere uyar. Bunlar bir özellik kartında değil burada yazılı, çünkü bir okurun koddan yanlışlayabilmesi gereken iddialardır.",
     hubItems: [
       {
         title: "Tek giriş noktası",
@@ -542,6 +612,11 @@ export const tr: Dictionary = {
         title: "En azını öğren",
         body:
           "CalDAV, DTSTART ve DTEND'i ayrıştırır; başlıkları, açıklamaları, konumları ve katılımcıları ayrıştırıcının içinde atar, böylece en yoğun alanlar modele hiç girmez. Bir öneri önizlemesi kısa skaler argümanları gösterir ve anahtarı redaksiyon listesinde olan her değeri gizler — content, token, password, payload ve daha fazlası. Keşif, makinenin kendi durumunu bildiren salt okunur bir GET'tir.",
+      },
+      {
+        title: "Asistan ve küre",
+        body:
+          "Bir posta gönderimi ya da ev onarımı, yürütücüye ancak tür, hedef, özet ve son kullanma zamanına bağlı, 900 saniye geçerli ve bir kez tüketilen 32 karakterlik bir HMAC-SHA256 makbuzuyla ulaşır. Posta, asistanın adı konmuş tek dışa çıkış istisnasıdır ve parolaları Keychain referanslarıdır. God's Eye View yalnızca loopback'e bağlanır, kurulumunu symlink çözümlemesinden sonra doğrular ve MCP kapısı bir aracı yalnızca sıkılaştırabilir: tuval yazmaları ve rapor dışa aktarmaları, sunucu onları salt okunur saysa bile pending_user_approval olur. Depoda yalnızca Swift köprüsü vardır.",
       },
     ],
     controlHeading: "Kapanış düğmesinin sizin tarafınız",
@@ -574,7 +649,7 @@ export const tr: Dictionary = {
       "Konsoldaki eşleştirilmiş cihaz listesinde her satırda bir Revoke düğmesi var. Düğme o cihazı iptal edilmiş olarak işaretler, kişi eşlemesini kaldırır ve o andan sonra komutlarını düşürür — ama SMP bağlantısını sökmez ve uygulama bunu, size gösterdiği mesajın içinde kendisi söylüyor. İşe son vermek için sohbet istemcisinde kişiyi silin. Diske zaten yazılmış olan her şey diskinizde kalır; iptal gelecekteki komutları durdurur, uzaktan bir silme değildir ve düğümün hiç uzaktan silme yeteneği olmadı ki kaldırılmış olsun.",
     limitsHeading: "Bu sayfanın vaat etmeyecekleri",
     limitsBody:
-      "Güvenli yok etme; rastgele bir üzerine yazma, bir sync ve bir unlink. APFS üzerinde değiştirilen bir dosya yeni bloklara yazılır ve SSD mantıksal blokları yeniden eşler, dolayısıyla bu işlem dosyayı kaldırır ve sıradan kurtarma araçlarını atlatır, ama eski fiziksel baytların gittiğini kanıtlamaz. Bir kullanıcı alanı dosya API'sinin yapabileceği en iyi şey budur ve kod da döndürdüğü sonuçta bunu söylüyor. Ötesinde: Quit dışında küresel bir duraklatma yok, uzaktan silme yok, anahtar emaneti yok — yani makineyi ve veri kökünü birlikte kaybederseniz geri getirme de yok — ve siz istemediğiniz bir şeyi kurmaya ikna edilebilecek bir güncelleyici de yok.",
+      "Güvenli yok etme; rastgele bir üzerine yazma, bir sync ve bir unlink. APFS üzerinde değiştirilen bir dosya yeni bloklara yazılır ve SSD mantıksal blokları yeniden eşler, dolayısıyla bu işlem dosyayı kaldırır ve sıradan kurtarma araçlarını atlatır, ama eski fiziksel baytların gittiğini kanıtlamaz. Bir kullanıcı alanı dosya API'sinin yapabileceği en iyi şey budur ve kod da döndürdüğü sonuçta bunu söylüyor. Ötesinde: Quit dışında küresel bir duraklatma yok, uzaktan silme yok, anahtar emaneti yok — yani makineyi ve veri kökünü birlikte kaybederseniz geri getirme de yok — ve sessiz bir güncelleyici yok. build 4, yalnızca sizin adını verdiğiniz liste ana bilgisayarını okuyan, yalnızca sabitlediğiniz anahtardan gelen ve kesinlikle daha yeni bir sürümü kapsayan bir imzayı kabul eden ve indirmeden ya da kurmadan önce makbuz isteyen bir güncelleme kapısı ekler; satıcı uç noktası ve varsayılan hedef yoktur.",
   },
 
   troubleshooting: {
@@ -664,16 +739,17 @@ export const tr: Dictionary = {
     verifySumsBody:
       "Bir sürüm listesi her çıktıyı sıralar; dolayısıyla indirmediğiniz bir dosya eksik sayılmaz, beklenir: --ignore-missing geçirin ve aldığınız dosyaya denk gelen satırı okuyun. Liste dosyası, adını verdiği yükü paketleyen adımla aynı adımda yazılır.",
     verifySidecarBody:
-      "Eski bir sürüm bunun yerine tek varlıklı bir yan dosya yayımlar ve karşılaştırılacak dosya odur. Bir sürüm ikisini de taşıyıp da anlaşmıyorlarsa listeye inanın: yan dosya, aynı sürümün başka bir derlemesinden gelmiş olabilir.",
+      "Eski bir sürüm bunun yerine tek varlıklı bir yan dosya yayımlar ve karşılaştırılacak dosya odur. build 4 ikisini de yayımlar ve ikisi aynı sağlama değerini adlandırır; bir sürümün dosyaları anlaşmazsa listeye inanın, çünkü yan dosya aynı sürümün başka bir derlemesinden gelmiş olabilir.",
     pipelineHeading: "Bir sürüm buraya nasıl geliyor",
     pipelineBody:
-      "Bir etiket göndermek, bir macOS çalıştırıcısında sürüm iş akışını başlatır: ağacı derler, sözleşme testlerini çalıştırır, universal görüntüyü Scripts/build_dmg.sh ile paketler, içinde mutlak yol olan bir sağlama dosyasının yayımlanmasını reddeder ve o betiğin yazdıklarını yükler. Bir SHA256SUMS.txt listesiyle birlikte gelen noter onaylı görüntü ise Scripts/build-release.sh'ten çıkar; bu betik Developer ID imzası, Apple noter onayına gönderim ve ZIP ekler. İki yol da aynı yerde bitiyor: bu sayfaya güvenmeden doğrulayabileceğiniz bir sağlama değeri.",
+      "Bir etiket göndermek, bir macOS çalıştırıcısında sürüm iş akışını başlatır: ağacı derler, sözleşme testlerini çalıştırır, universal görüntüyü Scripts/build_dmg.sh ile paketler, mutlak yol içeren bir sağlama dosyasının yayımlanmasını reddeder ve DMG ile yan dosyasını yükler. Bu, ad-hoc yoldur. İmzalı build 4 görüntüsü, ZIP dosyası ve SHA256SUMS.txt ise Scripts/build-release.sh betiğinden gelir: Developer ID kimliğiyle, hardened runtime ile ve güvenli bir zaman damgasıyla imzalar, Apple'ın noter hizmetine gönderir ve kaydı hem pakete hem görüntüye iliştirir. 6de6eb8'deki etiket iş akışı o betiği çağırmıyor, dolayısıyla imzalı varlıklar iş akışının çıktısı olamaz. İki yol da aynı yerde bitiyor: bu sayfaya güvenmeden doğrulayabileceğiniz bir sağlama değeri.",
     supportedHeading: "Bugün çalışanlar",
     supportedItems: [
       "On motorun hepsi; her biri kendi eylem kümesi ve reddetme yollarıyla, ayrı ayrı açılıyor.",
       "sysctl'den otomatik katman seçimi ve her katmanın ima ettiği model çekmesi.",
       "İmzalı, tek kullanımlık, on beş dakikalık eşleştirme ve yalnızca loopback'e bağlanan konsol.",
       "Aynı konsol ve aynı jeton üzerinden çalışan TypeScript köprüsü ile iki ajan arayüzü.",
+      "Özel asistan ve God's Eye View köprüsü: makbuza bağlı yazmalar, yalnızca loopback'e açık bir araç kapısı ve ikisi de varsayılan olarak kapalı.",
     ],
     roadmapHeading: "Henüz yok",
     roadmapSub:
@@ -722,7 +798,7 @@ export const tr: Dictionary = {
       },
       {
         q: "Düğüm cihazlar için yerel ağımı tarıyor mu?",
-        a: "Hayır. Keşif, bu Mac'in zaten sahip olduklarını bildiren salt okunur bir GET /v1/discovery/capabilities isteğidir: loopback üzerindeki Ollama, yetkilendirdiğiniz çalışma klasörleri, EventKit izin durumu ve ayarlara yazdığınız bir yerel ağ ana bilgisayarına TCP bağlantısının kurulup kurulamadığı. Kodda ne bir mDNS duyurucusu, ne port taraması ne de alt ağ taraması var. Bir hedef yalnızca loopback, bir RFC 1918 sabiti, bir ULA adresi ya da .local adıysa kabul edilir; genel bir adres bir soket açılmadan reddedilir ve kaynak hattı DNS sorgusu gerektirecek ana bilgisayar adlarını kabul etmez.",
+        a: "Hayır. Keşif, bu Mac'in zaten sahip olduklarını bildiren salt okunur bir GET /v1/discovery/capabilities isteğidir: loopback üzerindeki Ollama, yetkilendirdiğiniz çalışma klasörleri, EventKit izin durumu ve ayarlara yazdığınız bir yerel ağ ana bilgisayarına TCP bağlantısının kurulup kurulamadığı. Kodda ne bir mDNS duyurucusu, ne port taraması ne de alt ağ taraması var. Bir hedef yalnızca loopback, bir RFC 1918 sabiti, bir ULA adresi ya da .local adıysa kabul edilir; genel bir adres bir soket açılmadan reddedilir ve imzalı derleme DNS sorgusu gerektirecek ana bilgisayar adlarını kabul etmez. build 4'ün yerel ağ Keşfi varsayılan olarak kapalıdır ve yalnızca yapılandırdığınız klasörleri, beslemeleri ve MCP sunucularını izler; yenilemeler arasında altmış saniyelik bir taban vardır.",
       },
       {
         q: "Bir MCP aracı ya da akıllı ev komutu bensiz çalışabilir mi?",
@@ -751,6 +827,14 @@ export const tr: Dictionary = {
       {
         q: "Hangi makineler destekleniyor?",
         a: "Apple Silicon üzerinde macOS 14 veya sonrası. Katman sıralaması, Metal ve MLX birleşik belleği varsayar; MLX Intel üzerinde çalışmaz, dolayısıyla Universal DMG bir x86_64 dilimi taşısa bile Intel Mac bu projenin hedeflediği bir ana makine değildir. Uygulamanın kendisi üçüncü taraf kitaplık bağlamaz: yalnızca Apple framework'leri. Sürdüğü şeyler tasarım gereği ayrıdır — Ollama, FFmpeg ve LTX-2.5 ağırlıkları motorların çağırdığı yerel araçlardır ve her motor hangilerine ihtiyaç duyduğunu belirtir.",
+      },
+      {
+        q: "Asistan benim olmadığım bir anda posta gönderebilir ya da bir cihazı değiştirebilir mi?",
+        a: "Hayır. Okuma ve taslak hazırlama yereldir ve salt okunurdur; bir gönderim ya da onarım, pending_user_approval içinde bir öneridir. Yürütücü yalnızca işleme, hedefe, özete ve son kullanma zamanına bağlı, 900 saniye geçerli ve bir kez kullanılabilen 32 karakterlik bir HMAC-SHA256 makbuzunu kabul eder. Posta kimlik bilgileri macOS Keychain'inde yaşar ve salt okunur bir Home Assistant köprüsü, geçerli bir makbuza rağmen onarımı reddeder.",
+      },
+      {
+        q: "God's Eye View köprüsü bulutu arıyor ya da ağımı tarıyor mu?",
+        a: "Hayır. Bu Mac'te kurduğunuz bir programı başlatır, onu 127.0.0.1'e sabitler, giriş betiklerini symlink çözümlemesinden sonra doğrular ve kaynağı yalnızca siz açarsanız çeker. Düğüm, besleme anahtarları için isteğe bağlı Keychain referansları tutar; beslemeleri yerel programınız her sağlayıcının koşulları altında çeker ve düğüm onları asla vekil olarak geçirmez ya da önbelleğe almaz. Tuval yazmaları ve rapor dışa aktarmaları, sunucu onları salt okunur saysa bile pending_user_approval olur.",
       },
     ],
   },

@@ -60,7 +60,7 @@ export const fi: Dictionary = {
     digestCopied: "Tiiviste kopioitu",
     verifyTitle: "Varmista ennen avaamista",
     verifyBody:
-      "Tallenna levykuva ja julkaisun tiivistetiedosto samaan kansioon ja tarkista ne ennen kuin avaat mitään. Tiivistetiedosto poikkeaa julkaisusta toiseen — uudemmat julkaisut sisältävät SHA256SUMS.txt-taulukon, vanhemmat yhden tiedoston .sha256 — joten Julkaisut ja GitHub -sivu tulostaa täsmälleen ne kaksi komentoa, jotka vastaavat katsomaasi julkaisua.",
+      "Tallenna levykuva ja julkaisun tiivistetiedosto samaan kansioon ja tarkista ne ennen kuin avaat mitään. Julkaisu voi sisältää SHA256SUMS.txt-taulukon, yhden tiedoston .sha256-saattotiedoston tai molemmat, joten Julkaisut ja GitHub -sivu tulostaa täsmälleen ne kaksi komentoa, jotka vastaavat katsomaasi julkaisua.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "Oma laitteistosi",
@@ -244,12 +244,11 @@ export const fi: Dictionary = {
       "Kaikki kolme ovat loopback-osoitteita. Konsoli on tavallista HTTP:tä ilman TLS:ää, mikä on järkevä suunnittelu ainoastaan siksi ettei se koskaan poistu koneelta: sidontayritykset osoitteeseen 0.0.0.0, lähiverkon osoitteeseen tai isäntänimeen evätään jo ennen kuin pistoke luodaan, ja osoite on kovakoodattu sovellukseen eikä lueta config-tiedostosta. Sen sijaan sitä vartioi satunnainen, jokaisessa käynnistyksessä uusi kaksikymmentäneljän tavun mittainen tunniste, joka lähetetään kentässä X-PPX-Token, jota pidetään ainoastaan muistissa ja joka kuolee prosessin päättyessä. Chat-daemonin hallintapistokkeella ei ole lainkaan todennusta — se on sen rehellinen kuvaus — ja se on turvallinen ainoastaan niin kauan kuin se pysyy osoitteessa 127.0.0.1.",
   },
   hub: {
-    badge: "LÄHDEHAARA · EI ALLEKIRJOITETUSSA 1.0.2-BUILDISSA",
     heading: "Viisi paikallista kykyä, yksi raja",
     sub:
-      "Lähdehaara lisää omistajakohtaisen kykyjen havaitsemisen, neljä protokollasovitinta ja sinetöidyn pariliitoslinkin. Sillat ovat oletuksena pois, jokainen kohde päästetään läpi samasta positiivisesta allow-listasta, ja jokaisesta kirjoituksesta tulee allekirjoitettu ehdotus, jonka ihmisen on hyväksyttävä. Mikään siitä ei ole isännöity palvelu, eikä mikään siitä avaa uutta kuuntelijaa.",
+      "Build 4 lisää allekirjoitettuun levykuvaan omistajakohtaisen kykyjen havaitsemisen, neljä protokollasovitinta ja sinetöidyn pariliitoslinkin. Sillat ovat oletuksena pois, jokainen kohde päästetään läpi samasta positiivisesta allow-listasta, ja jokaisesta kirjoituksesta tulee allekirjoitettu ehdotus, jonka ihmisen on hyväksyttävä. Mikään siitä ei ole isännöity palvelu, eikä mikään siitä avaa uutta kuuntelijaa.",
     status:
-      "Lähteessä 26. marraskuuta 2026 alkaen (5858b3c ja 040ef25). Tämän sivuston allekirjoitettu v1.0.2-lataus on molempia committeja vanhempi, joten lue tämä osio lähdehaaran sopimuksena, ei sen levykuvan ominaisuutena jonka lataat.",
+      "Allekirjoitetussa julkaisussa v1.0.2 build 4 (6de6eb8, 27. marraskuuta 2026) ja tämän sivuston universaalissa DMG:ssä. Alla olevat kortit kuvaavat levykuvaa, jonka lataat, eivät lähdehaaraa.",
     cards: [
       {
         title: "Havaitseminen, joka vastaa vain itsestään",
@@ -292,6 +291,71 @@ export const fi: Dictionary = {
     ],
     footnote:
       "Yksityisyys ja hallinta esittää saman rajan sääntö sääntöltä, mukaan lukien sen, mitä solmu ei voi luvata.",
+  },
+  extensions: {
+    heading: "Kaksi paikallista laajennusta, yksi hyväksyntäraja",
+    sub:
+      "Build 4 tuo mukanaan yksityisen avustajan, joka lukee, ehdottaa ja odottaa, ja sillan 3D-karttapalloon, jonka asennat itse. Molemmat ovat oletuksena pois, molemmat pitävät tilansa tällä Macilla, eikä kumpikaan muuta mallin ehdotusta kirjoitukseksi ilman hyväksyntätositetta.",
+    assistantTitle: "Yksityinen avustaja ja hallittu automaatio",
+    assistantSub:
+      "Yksi hallinnoija kokoaa neljä osaa: ajastimen, sähköpostisillan, joka lukee vain luku -tilassa ja lähettää vasta hyväksynnän jälkeen, kotilaitteiden vartijan ja hyväksyntäportin, jonka jokaisen kirjoituksen on läpäistävä.",
+    assistantFeatures: [
+      {
+        title: "Neljä liitinväyttöoikeutta",
+        body:
+          "Jokainen liitin ilmoittaa yhden neljästä tasosta: read, propose, write tai admin. Oletus on read ja propose; write- tai admin-toiminto tarkistetaan uudelleen suorittajan sisäänkäynnissä, ei mallin kehotteessa.",
+      },
+      {
+        title: "Ajastin, jonka itse kytket",
+        body:
+          "Päivittäinen katsaus kello 08:00 paikallista aikaa ja kodin terveystarkastus 30 minuutin välein. Molemmat ovat oletuksena pois ja vain omistaja voi ottaa ne käyttöön; jokainen ajo ja tilamuutos kirjoitetaan tiedostoon ledger/assistant.sqlite3.",
+      },
+      {
+        title: "Sähköposti pysyy vain luku -tilassa kunnes hyväksyt",
+        body:
+          "IMAPS 993 avaa postilaatikon komennoilla EXAMINE ja BODY.PEEK, luokittelee tuoreen postin luokkiin vastausta vaativa, lasku, kutsu ja ilmoitus, ja luonnostelee vastauksia. SMTPS 465 lähettää vasta kun hyväksyt puhelimen kortissa tai konsolissa; salasanat ovat Keychain-viittauksia, eivät koskaan asetuksia.",
+      },
+      {
+        title: "Vartija, joka ehdottaa ja sitten pysähtyy",
+        body:
+          "Vartiointi lukee vain ne Home Assistant -entiteetit, jotka paljastit. Entiteetti, joka pysyy poissa käytöstä kynnyksensä yli (oletuksena 15 minuuttia), muuttuu korjausehdotukseksi, joka on sidottu toimintoon, entiteettiin ja hyötykuorman tiivisteeseen; korjaus ajetaan kerran hyväksynnän jälkeen, ja vain luku -silta evää sen myös kelvollisella tositteella.",
+      },
+    ],
+    godsEyeTitle: "God's Eye View, silmukassa",
+    godsEyeSub:
+      "Erillinen kolmannen osapuolen ohjelma, jonka asennat ja jota hallinnoit tällä Macilla. Solmu toimittaa vain Swift-sillan: ei JavaScriptiä, ei karttalaattoja eikä dataa.",
+    godsEyeFeatures: [
+      {
+        title: "Sinä asennat, solmu varmistaa",
+        body:
+          "Olemassa oleva asennus tai yhden napsautuksen klooni kiinnitetystä commitista — kloonaus on vapaaehtoinen eikä koskaan ajastimella. Paketin nimi, kiinnitetty versio, package.json-tiedoston koko ja molemmat käynnistysskriptit tarkistetaan, ja käynnistysskriptien SHA-256 tallennetaan; polku, joka ratkeaa asennusjuuren ulkopuolelle, myös symbolisen linkin kautta, evätään.",
+      },
+      {
+        title: "Vakio loopback-osoite",
+        body:
+          "Sidontaosoite on literaali 127.0.0.1 eikä ole määritettävissä; oletusportti on 18931. Järjestelmähakemistot, ~/.ssh, ~/.gnupg, Keychain-kansio ja solmun oma data-juuri evätään asennuskohteina.",
+      },
+      {
+        title: "MCPToolGate vain kiristää",
+        body:
+          "Vain luku -tyyppiset maantieteelliset työkalut voivat suorittua MCP-allow-listan sisällä. Muuttavaksi luokiteltu työkalu — kanavapiirrot, piirrokset, raportin vienti tai mikä tahansa nimi, joka ei ole tunnistettavasti lukemista — muuttuu tilaan pending_user_approval myös silloin kun palvelin mainostaa sitä vain luku -tyyppisenä. Portti voi kiristää tasoa, ei koskaan löysätä sitä.",
+      },
+    ],
+    boundaryHeading: "Mitä hyväksyntätosite kattaa",
+    boundaryItems: [
+      {
+        title: "Yhdeksänsataa sekuntia, yksi käyttökerta",
+        body:
+          "Avustajan kirjoitus kuljettaa 32 merkin HMAC-SHA256-tositetta, joka on sidottu toiminnon lajiin, kohteeseen, sisällön tiivisteeseen ja vanhenemiseen. Se on voimassa 900 sekuntia, vertaillaan vakioajassa, suorittaja kuluttaa sen ennen mitään I/O:ta, ja se evätään jos hyötykuorma muuttuu, vanhenee, toistetaan tai on sidottu toiseen ehdotukseen.",
+      },
+      {
+        title: "Pallo pysyy silmukassa",
+        body:
+          "God's Eye View sitoo literaalin 127.0.0.1 eikä mitään muuta; arkaluontoiset hakemistot, Keychain-kansio ja solmun oma data-juuri evätään asennuskohteina, myös symbolisten linkkien ratkaisemisen jälkeen. Live-syötteet hakee oma paikallinen ohjelmasi kunkin tarjoajan ehtojen mukaisesti — tämä solmu pitää vain valinnaisia Keychain-viittauksia eikä koskaan välitä tai välimuistita dataa. Kanavakirjoitukset ja raporttiviennit muuttuvat tilaan pending_user_approval myös silloin kun palvelin kutsuu niitä vain luku -tyyppisiksi.",
+      },
+    ],
+    footnote:
+      "Yksityisyys ja hallinta esittää samat rajat avustajalle, pallolle ja neljälle lähiverkkosillalle, mukaan lukien sen, mitä mikään niistä ei voi luvata.",
   },
   engines: {
     heading: "Kymmenen suvereenia moottoria",
@@ -382,7 +446,7 @@ export const fi: Dictionary = {
       {
         title: "Tarkista DMG ja avaa se",
         body:
-          "Hae POPOPX-Mac-Node-Universal.dmg ja julkaisun tiivistetiedosto samaan kansioon ja tarkista ne ennen kuin avaat mitään; Julkaisut ja GitHub -sivu näyttää nykyisen julkaisun kaksi komentoa. Vedä POPOPX Mac Node.app kansioon /Applications. Julkaistu buildi tulee Developer ID -allekirjoituksen ja niitatun notarointitodistuksen kanssa, joten Gatekeeper hyväksyy sen ilman erillisiä toimia — spctl -a -vv -t install vastaa accepted ja source=Notarized Developer ID. Tagin työkulun Scripts/build_dmg.sh:llä paketoima buildi ja itse samalla skriptillä kääntämäsi buildi ovat sen sijaan ad-hoc-allekirjoitettuja, ja juuri ne vaativat ensimmäisellä käynnistyksellä oikean painikkeen “Open”-valintaa.",
+          "Hae POPOPX-Mac-Node-Universal.dmg ja julkaisun tiivistetiedosto samaan kansioon ja tarkista ne ennen kuin avaat mitään; Julkaisut ja GitHub -sivu näyttää nykyisen julkaisun kaksi komentoa. Vedä POPOPX Mac Node.app kansioon /Applications. Julkaistu buildi tulee Developer ID -allekirjoituksen ja niitatun notarointitodistuksen kanssa, joten Gatekeeper hyväksyy sen ilman erillisiä toimia — spctl -a -vv -t install vastaa accepted ja source=Notarized Developer ID. Itse skriptillä Scripts/build_dmg.sh tekemäsi buildi on sen sijaan ad-hoc-allekirjoitettu, ja juuri se vaatii ensimmäisellä käynnistyksellä oikean painikkeen “Open”-valintaa.",
       },
       {
         title: "Anna sen profiloida kone",
@@ -407,13 +471,13 @@ export const fi: Dictionary = {
     ],
     buildHeading: "Tai rakenna se samasta tagista",
     buildBody:
-      "Julkaisukuvat paketoidaan puusta, jonka voit hakea. swift build, swift test, swift build -c release ja sen jälkeen bash Scripts/build_dmg.sh --output dist --version v1.0.2 kirjoittaa universaalin DMG:n, allekirjoittaa sen ad-hoc ja tuottaa saattotiedoston sen kanssa. Julkaistu tiedosto tulee puolestaan toisesta skriptistä: Scripts/build-release.sh lisää siihen Developer ID -allekirjoituksen, notarointilähetyksen ja ZIP-paketin, ja siksi ladattu image läpäisee spctl-tarkistuksen mutta oma käännöksesi ei. Molemmat toimivat ainoastaan macOS:ssä, koska niiden pohjana ovat hdiutil ja codesign.",
+      "Julkaisukuvat paketoidaan puusta, jonka voit hakea. swift build, swift test, swift build -c release ja sen jälkeen bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4 kirjoittaa universaalin DMG:n, allekirjoittaa sen ad-hoc ja tuottaa saattotiedoston sen kanssa. Julkaistu tiedosto tulee puolestaan toisesta skriptistä: Scripts/build-release.sh lisää siihen Developer ID -allekirjoituksen, notarointilähetyksen ja ZIP-paketin, ja siksi ladattu image läpäisee spctl-tarkistuksen mutta oma käännöksesi ei. Molemmat toimivat ainoastaan macOS:ssä, koska niiden pohjana ovat hdiutil ja codesign.",
     lifecycleHeading: "Ensi käynnistyksen jälkeen",
     lifecycle: [
       {
         title: "Päivittäminen",
         body:
-          "Päivitysohjelmaa ei ole eikä päivitysten tarkistusta — yksi lisää asia, josta solmu ei soita kotiin. Päivitys on raahaamista: lataa uudempi DMG, varmista se ja korvaa sovellus kansiossa /Applications. Asetukset, pariliitoksen tila, solmun avain, holvi ja jokainen lopputulos asuvat Application Supportissa eivätkä paketin sisällä, joten korvattu sovellus perii sen koneen jolle se tulee.",
+          "Build 4 tuo mukanaan omistajan määrittämän päivitysportin, ei automaattista asennusohjelmaa. Se lukee vain nimeämäsi taulukkoisännän, varmentaa Ed25519-allekirjoituksen kiinnittämälläsi avaimella ehdottomasti uudemman version yli, eikä asenna mitään ennen kuin hyväksyt tositteeseen sidotun latauksen; tiivisteen poikkeama hylkää tarjouksen. Myyjän päätepistettä ja oletustarkistusta ei ole. Voit yhä päivittää lataamalla uudemman DMG:n, varmistamalla sen ja korvaamalla sovelluksen. Asetukset, pariliitoksen tila, solmun avain, holvi ja jokainen lopputulos asuvat Application Supportissa eivätkä paketin sisällä, joten korvattu sovellus perii sen koneen jolle se tulee.",
       },
       {
         title: "Varmuuskopiointi ja koneenvaihto",
@@ -434,16 +498,16 @@ export const fi: Dictionary = {
       "Solmun oman ohjatun asennuksen toinen vaihe, pariliitoksen QR-koodi ja SMP-silta tarvitsevat kaikki popopx-chat-ohjelman chat-daemonin PATH-polullasi. Solmu tutkii täsmälleen yhden suoritettavan tiedoston eikä sillä ole varamahdollisuutta, koska upstream-käännös vastaa versiokyselyyn mutta epäonnistuu sen jälkeen jokaisessa komennossa. Itse kymmenen moottoria eivät tarvitse sitä.",
     signHeading: "Miten julkaistu buildi on allekirjoitettu",
     signBody:
-      "Levykuvan sisällä olevassa sovelluspaketissa on Developer ID Application -allekirjoitus, hardened runtime -lippu ja suojattu aikaleima, ja siihen on niitattu notarointitodistus. Siksi Gatekeeper sallii sen suorittamisen ilman apua: spctl -a -vv -t install vastaa accepted ja source=Notarized Developer ID. Alla oleva lohko on luettu 2026-11-25 täsmälleen niistä tavuista, jotka v1.0.2 julkaisee — aja kaksi ensimmäistä komentoa kansiossa /Applications olevalle sovellukselle, ja sinun pitäisi saada takaisin sama identiteetti. Apple-tiliä ei kysytä eikä mitään tarkisteta palvelimelta, koska todistus kulkee levyllä sovelluksen mukana.",
+      "Levykuvan sisällä olevassa sovelluspaketissa on Developer ID Application -allekirjoitus, hardened runtime -lippu ja suojattu aikaleima, ja siihen on niitattu notarointitodistus. Siksi Gatekeeper sallii sen suorittamisen ilman apua: spctl -a -vv -t install vastaa accepted ja source=Notarized Developer ID. Alla oleva lohko on luettu 2026-11-27 täsmälleen niistä tavuista, jotka v1.0.2 build 4 julkaisee — aja kaksi ensimmäistä komentoa kansiossa /Applications olevalle sovellukselle, ja sinun pitäisi saada takaisin sama identiteetti. Apple-tiliä ei kysytä eikä mitään tarkisteta palvelimelta, koska todistus kulkee levyllä sovelluksen mukana.",
     containerTitle: "Itse levykuva ei ole allekirjoitettu",
     containerBody:
       "Jos ajat spctl:n ladatulle .dmg-tiedostolle, se vastaa rejected ja source=no usable signature; codesign -dvv sanoo, että sama tiedosto ei ole allekirjoitettu ollenkaan. Se on odotettu vastaus, ei hälytys manipuloinnista. Applen koodiallekirjoitus on sovelluspaketissa, kun taas notarointitodistus on niitattu sekä pakettiin että sitä ympäröivään levykuvaan. Levykuvan ainoaksi eheydenvalvonnaksi jää sen SHA-256, joka on tämä sivun alempana tehtävä tarkistus.",
     provenanceTitle: "Kumpi skripti on tuottanut mikäkin lopputulos",
     provenanceBody:
-      "Tätä sovellusta paketoivat kaksi skriptiä, eivätkä ne päätty samaan paikkaan. Scripts/build_dmg.sh — jota tagin julkaisutyönkulku ajaa macOS-ajajalla, ja siihen päättyvät yllä olevat rakennusvaiheet — allekirjoittaa ad-hoc arvoilla --sign - --timestamp=none eikä aseta hardened runtime -lippua, joten siitä polusta tuleva buildi todella vaatii ensimmäisellä käynnistyksellä oikean painikkeen “Open”-valintaa. Scripts/build-release.sh on Developer ID -polku: se allekirjoittaa hardened runtime -lippu päällä, lähettää notarointiin, niittaa todistuksen sekä pakettiin että levykuvaan ja kirjoittaa ZIP-paketin viereen SHA256SUMS.txt-taulukon. Latamasi levykuva tulee toisesta skriptistä, eikä macOS-ajaja, jolla ei ole koskaan ollut varmenetta hallussaan, voi tuottaa sitä.",
+      "Tätä sovellusta paketoivat kaksi skriptiä, eivätkä ne pääty samaan paikkaan. Scripts/build_dmg.sh on paikallinen paketoija: se kokoaa paketin, allekirjoittaa ad-hoc arvoilla --sign - --timestamp=none eikä aseta hardened runtime -lippua, ja kirjoittaa DMG:n sekä sen saattotiedoston, joten siitä polusta tuleva buildi todella vaatii ensimmäisellä käynnistyksellä oikean painikkeen “Open”-valintaa. Scripts/build-release.sh on Developer ID -polku: se allekirjoittaa hardened runtime -lippu päällä, lähettää notarointiin, niittaa todistuksen sekä pakettiin että levykuvaan ja kirjoittaa ZIP-paketin viereen SHA256SUMS.txt-taulukon. Lataamasi build 4:n levykuva on jälkimmäistä laatua — Developer ID -allekirjoitettu, notaroitu ja niitattu — ja vain tuo skripti tuottaa sen. Noden tagityönkulku commitissa 6de6eb8 ajaa yhä skriptiä Scripts/build_dmg.sh, joten pelkkä työnkulku ei voi selittää allekirjoitettuja tiedostoja; ajaja, jolla ei ole koskaan ollut varmennetta hallussaan, ei voi tuottaa niitä.",
     digestHeading: "Tarkista tiiviste ennen kuin avaat mitään",
     digestBody:
-      "Kaksi komentoa, jotka ajetaan kansiossa johon tallensit tiedostot. Julkaisun taulukko on se tiedosto jota vastaan tarkistetaan, koska se nimeää jokaisen julkaisun lopputuloksen ja sen kirjoittaa sama vaihe joka paketoi ne, kun taas v1.0.2:n vieressä julkaistu yksittäisen tiedoston .dmg.sha256 nimeää tiivisteen, jota mikään julkaistu lopputulos ei vastaa. Julkaisut ja GitHub -sivu tulostaa parin sen julkaisun mukaan jonka se on ratkaissut, ja se voi olla uudempi kuin alla oleva.",
+      "Kaksi komentoa, jotka ajetaan kansiossa johon tallensit tiedostot. Julkaisun taulukko on se tiedosto jota vastaan tarkistetaan, koska se nimeää jokaisen julkaisun lopputuloksen ja sen kirjoittaa sama vaihe joka paketoi ne. Build 4:n saattotiedosto .dmg.sha256 ja SHA256SUMS.txt nimeävät saman tiivisteen, joten kumpi tahansa tarkistus täsmää. Julkaisut ja GitHub -sivu tulostaa parin sen julkaisun mukaan jonka se on ratkaissut, ja se voi olla uudempi kuin alla oleva.",
     copyCommand: "Kopioi komento",
     commandCopied: "Kopioitu",
   },
@@ -468,7 +532,7 @@ export const fi: Dictionary = {
       {
         title: "Avaimet ja pariliitoksen tila",
         body:
-          "Solmun Ed25519-allekirjoitusavain, luettelo pariliitetyistä laitteista ja voimassa oleva tarjous ovat tavallisia tiedostoja pairing/-hakemiston alla. Avaimesta ei ole pilvivarastointia eikä missään ole säilöntäpalvelua — ja leikkaa molempiin suuntiin, kuten alla oleva kappale menetyksestä kertoo. Ainoa poikkeus on reunakeskuksen sillan tunnus: Home Assistant -token, MQTT-salasana tai CalDAV-salasana on Keychain-tietue, ja settings.json sisältää vain sen viittauksen, joka sen hakee.",
+          "Solmun Ed25519-allekirjoitusavain, luettelo pariliitetyistä laitteista ja voimassa oleva tarjous ovat tavallisia tiedostoja pairing/-hakemiston alla. Avaimesta ei ole pilvivarastointia eikä missään ole säilöntäpalvelua — ja leikkaa molempiin suuntiin, kuten alla oleva kappale menetyksestä kertoo. Poikkeukset ovat tunnukset: reunakeskuksen sillan token tai salasana, avustajan IMAP- ja SMTP-salasanat sekä God's Eye View -syötteiden avaimet ovat Keychain-tietueita, ja settings.json sisältää vain ne viittaukset, jotka ne hakevat.",
       },
       {
         title: "Todistusketju",
@@ -478,7 +542,7 @@ export const fi: Dictionary = {
     ],
     transitHeading: "Poistuu koneelta",
     transitSub:
-      "Neljänlaista liikennettä poistuu laajempaan verkkoon, ja jokainen niistä on joko oma laitteesi tai jotain, jonka itse määritit. Viides on olemassa vain, kun kytket lähiverkkosillan päälle: Home Assistant-, MQTT- ja CalDAV-pyynnöt, jotka pysyvät loopback-, RFC 1918- ja .local-osoitteissa. Yhdessäkään niistä ei ole analytiikkapäätepistettä, jolle mitään lähetettäisiin.",
+      "Neljänlaista liikennettä poistuu laajempaan verkkoon, ja jokainen niistä on joko oma laitteesi tai jotain, jonka itse määritit. Avustajan sähköpostitili lisää viidennen, kun otat sen käyttöön, ja lähiverkkosilta lisää paikallista liikennettä loopback-, RFC 1918- ja .local-osoitteissa. Yhdessäkään niistä ei ole analytiikkapäätepistettä, jolle mitään lähetettäisiin.",
     transitItems: [
       {
         title: "Tulokset takaisin omaan puhelimeesi",
@@ -500,23 +564,28 @@ export const fi: Dictionary = {
         body:
           "Ohjattu asennus lataa Homebrew-kaavoja, FFmpeg:n, uv:n, Ollaman ja valitsemasi kvantisoinnin. Se liikenne on asennusvaiheen tarkoitus, ja se tapahtuu kerran, silmiesi edessä, loki ruudulla.",
       },
+      {
+        title: "Avustajan sähköpostitili",
+        body:
+          "Pois päältä kunnes otat sen käyttöön ja kirjoitat palvelimen. IMAPS 993 lukee komennoilla EXAMINE ja BODY.PEEK, jotka eivät koskaan merkitse viestiä luetuksi; SMTPS 465 lähettää vain luonnoksen, jonka hyväksyit tositteella. Isäntä on literaali asetuksissasi eikä sitä koskaan havaita; kaksi salasanaa ovat Keychain-viittauksia. Mikään muu avustajan toiminto ei poistu koneelta.",
+      },
     ],
     keysHeading: "Missä salaisuudet todella ovat",
     keysBody:
-      "Pariliitoksen ja holvin materiaali ovat tiedostoja data-juuren alla, kirjoitettuina atomisesti, POSIX-moodilla 0600 ja täydellistä tiedostonsuojaa käyttäen, joten ne eivät ole luettavissa levyllä koneen ollessa lukittuna. Tekemäsi vaihtokauppa on todellinen — tiedosto-oikeudet ovat tarkastettavissa ja siirrettäviä, mutta ne eivät merkitse mitään käyttäjätilisi ja sellaisen lukijan välillä, jolla on jo käyttäjätilisi. Kohtele data-juurta sellaisena salaisuutena kuin se on: se ei ole Time Machine -varmuuskopiossa, ja se on ainoa kopio solmun avaimesta. Reunakeskuksen tunnus kulkee toista reittiä. Home Assistant -token, MQTT-salasana ja CalDAV-salasana ovat generic-password-tietueita palvelun im.popopx.macnode.hub alla, luotuina asetuksella kSecAttrAccessibleWhenUnlockedThisDeviceOnly, ja asetustiedosto tallentaa vain viittauksen. Prosessi ilman sovelluksen paketti-identiteettiä — swift run, testiajuri — saa sen sijaan muistivaraston; selkokielistä tiedostovaraa ei tarkoituksella ole, joten tunnusta, joka ei yllä Keychainiin, ei tallenneta lainkaan.",
+      "Pariliitoksen ja holvin materiaali ovat tiedostoja data-juuren alla, kirjoitettuina atomisesti, POSIX-moodilla 0600 ja täydellistä tiedostonsuojaa käyttäen, joten ne eivät ole luettavissa levyllä koneen ollessa lukittuna. Tekemäsi vaihtokauppa on todellinen — tiedosto-oikeudet ovat tarkastettavissa ja siirrettäviä, mutta ne eivät merkitse mitään käyttäjätilisi ja sellaisen lukijan välillä, jolla on jo käyttäjätilisi. Kohtele data-juurta sellaisena salaisuutena kuin se on: se ei ole Time Machine -varmuuskopiossa, ja se on ainoa kopio solmun avaimesta. Tunnukset kulkevat toista reittiä. Home Assistant -token, MQTT-salasana, CalDAV-salasana, avustajan IMAP- ja SMTP-salasanat sekä God's Eye View -syötteiden avaimet ovat generic-password-tietueita palvelun im.popopx.macnode.hub alla, luotuina asetuksella kSecAttrAccessibleWhenUnlockedThisDeviceOnly, ja asetustiedosto tallentaa vain viittauksen. Prosessi ilman sovelluksen paketti-identiteettiä — swift run, testiajuri — saa sen sijaan muistivaraston; selkokielistä tiedostovaraa ei tarkoituksella ole, joten tunnusta, joka ei yllä Keychainiin, ei tallenneta lainkaan.",
     dataNote: {
       output: "Tuotetut lopputulokset, sekä outbox/-jono joka pitää sisällään ne tulokset jotka odottavat puhelinta.",
       vault: "Aikalukolla sinetöidyt arkistot ja perintämateriaali, joka avaa ne.",
       pairing: "Ed25519-solmuavain, pariliitettyjen laitteiden luettelo ja voimassa oleva kertaluonteinen tarjous.",
       weights: "Mallipainot ja LTX-2.5 MLX -työtila, jota videomoottorit kutsuvat.",
-      ledger: "Hajauksella peräkkäin täydennetyt lukituksen ja verkon kirjanpidot.",
+      ledger: "Hajauksella peräkkäin täydennetyt lukituksen ja verkon kirjanpidot sekä avustajan rajattu SQLite-tarkastuskirjanpito.",
       logs: "Asennusloki ja tarkastusloki, kirjoitettuina operaattoria varten.",
-      config: "Asetukset, moottorien kytkimet, sekä se config, jota silta ja integraatiot käyttävät yhteisesti.",
+      config: "Asetukset, moottorien kytkimet, sekä se config, jota sillat, avustaja ja God's Eye View -kortti käyttävät yhteisesti.",
     },
     rootLabel: "Data-juuri",
     hubHeading: "Reunakeskuksen oma raja",
     hubSub:
-      "Lähdehaarassa lisätyt neljä siltaa pidetään yllä olevien sääntöjen ja neljän muun varassa. Ne on kirjoitettu tähän eikä ominaisuuskortille, koska ne ovat väitteitä, jotka lukijan pitäisi voida kumota koodista.",
+      "Build 4:n neljä lähiverkkosiltaa, yksityinen avustaja ja God's Eye View -silta pidetään yllä olevien sääntöjen ja neljän muun varassa. Ne on kirjoitettu tähän eikä ominaisuuskortille, koska ne ovat väitteitä, jotka lukijan pitäisi voida kumota koodista.",
     hubItems: [
       {
         title: "Yksi päästökohta",
@@ -537,6 +606,11 @@ export const fi: Dictionary = {
         title: "Opi minimi",
         body:
           "CalDAV jäsentää kentät DTSTART ja DTEND ja hylkää otsikot, kuvaukset, sijainnit ja osallistujat jo jäsentimen sisällä, joten kiireisimmät kentät eivät koskaan päädy malliin. Ehdotuksen esikatselu näyttää lyhyet skalaariargumentit ja kätkee jokaisen arvon, jonka avain on redaktiolistalla — content, token, password, payload ja muut. Havaitseminen on vain luku -tyyppinen GET, joka raportoi koneen oman tilan.",
+      },
+      {
+        title: "Avustaja ja pallo",
+        body:
+          "Sähköpostin lähetys tai kotikorjaus yltää suorittajaan vain 32 merkin HMAC-SHA256-tositteella, joka on sidottu lajiin, kohteeseen, tiivisteeseen ja vanhenemiseen, voimassa 900 sekuntia ja kulutetaan kerran. Sähköposti on avustajan ainoa nimetty poikkeus ulospäin suuntautuvassa liikenteessä, ja sen salasanat ovat Keychain-viittauksia. God's Eye View on vain loopback, varmistaa asennuksensa symbolisten linkkien ratkaisemisen jälkeen, ja sen MCP-portti voi vain kiristää työkalua: kanavakirjoitukset ja raporttiviennit muuttuvat tilaan pending_user_approval myös silloin kun palvelin kutsuu niitä vain luku -tyyppisiksi. Arkisto sisältää vain Swift-sillan.",
       },
     ],
     controlHeading: "Sinun puolesi katkaisimesta",
@@ -569,7 +643,7 @@ export const fi: Dictionary = {
       "Konsolin pariliitettyjen laitteiden luettelossa on Revoke-painike jokaisella rivillä. Se merkitsee laitteen peruutetuksi, poistaa sen kontaktikartoituksen ja hylkää sen komennot siitä hetkestä — mutta se ei pura SMP-yhteyttä, ja sovellus sanoo niin samassa viestissä jonka se sinulle näyttää. Vie asia loppuun poistamalla kontakti chat-asiakkaassa. Kaikki mikä on jo kirjoitettu omalle levyllesi, pysyy omalla levylläsi; peruutus pysäyttää tulevat komennot, se ei ole etätyhjennys, eikä solmulla ole koskaan ollut etätyhjennyskykyä, jota voisi poistaa.",
     limitsHeading: "Mitä tämä sivu ei lupaa",
     limitsBody:
-      "Turvattu tuhoaminen on satunnaista ylikirjoitusta, sync ja unlink. APFS:llä muuttunut tiedosto kirjoitetaan uusiin lohkoihin ja SSD uudelleenkarttaa loogisia lohkoja, joten tämä poistaa tiedoston ja tekee tavallisista palautustyökaluista hyödyttömiä mutta ei todista että vanhat fyysiset tavut olisivat poissa. Se on parasta mitä käyttäjäavaruuden tiedosto-API voi tehdä, ja koodi sanoo niin palauttamassaan tuloksessa. Tämän lisäksi: ei globaalia tauotusta muuta kuin lopettaminen, ei etätyhjennystä, ei avainten säilöntää eikä siis palautusta jos menetät koneen ja data-juuren yhdessä, eikä päivitysohjelmaa jonka voisi puhua asentamaan jotain mitä ei ole pyydetty.",
+      "Turvattu tuhoaminen on satunnaista ylikirjoitusta, sync ja unlink. APFS:llä muuttunut tiedosto kirjoitetaan uusiin lohkoihin ja SSD uudelleenkarttaa loogisia lohkoja, joten tämä poistaa tiedoston ja tekee tavallisista palautustyökaluista hyödyttömiä mutta ei todista että vanhat fyysiset tavut olisivat poissa. Se on parasta mitä käyttäjäavaruuden tiedosto-API voi tehdä, ja koodi sanoo niin palauttamassaan tuloksessa. Tämän lisäksi: ei globaalia tauotusta muuta kuin lopettaminen, ei etätyhjennystä, ei avainten säilöntää eikä siis palautusta jos menetät koneen ja data-juuren yhdessä, eikä hiljaista päivitysohjelmaa. Build 4 lisää päivitysportin, joka lukee vain nimeämäsi taulukkoisännän, hyväksyy vain kiinnittämäsi avaimen allekirjoituksen ehdottomasti uudemman version yli ja vaatii tositteen ennen kuin se lataa tai asentaa mitään; myyjän päätepistettä ja oletusmääränpäätä ei ole.",
   },
   troubleshooting: {
     heading: "Kun se ei tee mitä odotit",
@@ -657,16 +731,17 @@ export const fi: Dictionary = {
     verifySumsBody:
       "Julkaisun taulukko listaa jokaisen lopputuloksen, joten tiedosto jota et ladannut on odotettu eikä puuttuva: lisää --ignore-missing ja lue se rivi joka vastaa lataamaasi tiedostoa. Taulukko kirjoitetaan samassa vaiheessa joka paketoi sen hyötykuorman joka siinä nimetään.",
     verifySidecarBody:
-      "Vanhempi julkaisu sisältää sen sijaan yhteen tiedostoon tarkoitetun saattotiedoston, ja nimenomaan sitä vasten tarkistus tehdään. Kun julkaisu sisältää molemmat eivätkä ne täsmää, usko taulukkoa: saattotiedosto voi olla peräisin saman version toisesta käännöksestä.",
+      "Vanhempi julkaisu sisältää sen sijaan yhteen tiedostoon tarkoitetun saattotiedoston, ja nimenomaan sitä vasten tarkistus tehdään. Build 4 sisältää molemmat ja ne nimeävät saman tiivisteen; kun julkaisun tiedostot eivät täsmää, usko taulukkoa, koska saattotiedosto voi olla peräisin saman version toisesta käännöksestä.",
     pipelineHeading: "Miten versio pääsee tänne",
     pipelineBody:
-      "Tagin pushaaminen ajaa julkaisutyönkulun macOS-ajajalla: se rakentaa puun, ajaa sopimustestit, paketoi universaalin levykuvan skriptillä Scripts/build_dmg.sh, kieltäytyy julkaisemasta tarkistustiedostoa jossa on absoluuttinen polku, ja lataa ylös sen mitä tuo skripti kirjoitti. Notarisoitu levykuva SHA256SUMS.txt-taulukon vieressä tulee sen sijaan skriptistä Scripts/build-release.sh, joka lisää Developer ID -allekirjoituksen, Apple-notarisointilähetyksen ja ZIP-paketin. Molemmat polut päättyvät samaan: tiivisteeseen jonka voit tarkistaa luottamatta tähän sivuun.",
+      "Tagin pushaaminen ajaa julkaisutyönkulun macOS-ajajalla: se rakentaa puun, ajaa sopimustestit, paketoi universaalin levykuvan skriptillä Scripts/build_dmg.sh, kieltäytyy julkaisemasta tarkistustiedostoa jossa on absoluuttinen polku, ja lataa ylös DMG:n ja sen saattotiedoston. Se on ad-hoc-polku. Allekirjoitettu build 4:n levykuva, sen ZIP ja SHA256SUMS.txt tulevat skriptistä Scripts/build-release.sh, joka allekirjoittaa Developer ID -identiteetillä, hardened runtime -lipulla ja suojatulla aikaleimalla, lähettää Applen notarointipalveluun ja niittaa todistuksen pakettiin ja levykuvaan. Tagityönkulku commitissa 6de6eb8 ei kutsu tuota skriptiä, joten allekirjoitetut tiedostot eivät voi olla sen tuotosta. Molemmat polut päättyvät samaan paikkaan: tiivisteeseen, jonka voit tarkistaa luottamatta tähän sivuun.",
     supportedHeading: "Käynnissä tänään",
     supportedItems: [
       "Kaikki kymmenen moottoria, joilla on kukin omat toimintonsa ja hylkäyspolkunsa, ja jotka otetaan käyttöön yksitellen.",
       "Automaattinen tason valinta sysctl-arvoista, mukaan lukien kunkin tason edellyttämän mallin haku.",
       "Allekirjoitettu, kertaluonteinen, viisitoista minuuttia voimassa oleva pariliitos, ja konsoli joka sitoutuu ainoastaan loopback-osoitteeseen.",
       "TypeScript-silta ja kaksi agenttisovitinta saman konsolin ja saman tunnisteen päällä.",
+      "Yksityinen avustaja ja God's Eye View -silta: tositteella portitellut kirjoitukset, vain loopbackissa toimiva työkaluportti, ja molemmat oletuksena pois.",
     ],
     roadmapHeading: "Ei vielä",
     roadmapSub:
@@ -714,7 +789,7 @@ export const fi: Dictionary = {
       },
       {
         q: "Skannaako solmu lähiverkkoani laitteiden varalta?",
-        a: "Ei. Havaitseminen on vain luku -tyyppinen GET /v1/discovery/capabilities, joka raportoi, mitä tällä Macilla jo on: Ollama loopback-osoitteessa, valtuuttamasi työtilakansiot, EventKit-käyttöoikeuden tila ja se, onnistuuko TCP-yhteys asetuksiin kirjoittamaasi lähiverkon isäntään. Koodissa ei ole mDNS-mainostajaa, porttiskannausta eikä aliverkon läpikäyntiä. Kohde päästetään läpi vain, jos se on loopback, RFC 1918 -literaali, ULA-osoite tai .local-nimi; julkinen osoite evätään ennen kuin pistoke avataan, eikä lähdehaara hyväksy isäntänimiä, jotka vaatisivat DNS-kyselyn.",
+        a: "Ei. Havaitseminen on vain luku -tyyppinen GET /v1/discovery/capabilities, joka raportoi, mitä tällä Macilla jo on: Ollama loopback-osoitteessa, valtuuttamasi työtilakansiot, EventKit-käyttöoikeuden tila ja se, onnistuuko TCP-yhteys asetuksiin kirjoittamaasi lähiverkon isäntään. Koodissa ei ole mDNS-mainostajaa, porttiskannausta eikä aliverkon läpikäyntiä. Kohde päästetään läpi vain, jos se on loopback, RFC 1918 -literaali, ULA-osoite tai .local-nimi; julkinen osoite evätään ennen kuin pistoke avataan, eikä allekirjoitettu buildi hyväksy isäntänimiä, jotka vaatisivat DNS-kyselyn. Build 4:n LAN Discover on oletuksena pois ja tarkkailee vain niitä kansioita, syötteitä ja MCP-palvelimia, jotka määrität, vähintään kuudenkymmenen sekunnin välillä päivitysten kesken.",
       },
       {
         q: "Voiko MCP-työkalu tai älykodin komento suorittua ilman minua?",
@@ -743,6 +818,14 @@ export const fi: Dictionary = {
       {
         q: "Mitkä koneet ovat tuettuja?",
         a: "macOS 14 tai uudempi Apple Silicon -koneilla. Tasojen portaat, Metal ja MLX olettavat kaikki yhtenäisen muistin arkkitehtuuria, eikä MLX toimi Intelissä, joten Intel-Mac ei ole isäntäkone, jota tämä projekti tukee, vaikka universaali DMG sisältääkin yhä x86_64-osion. Itse ohjelma ei linkitä yhtään kolmansien osapuolten kirjastoa: vain Apple-kehyksiä. Se, mitä se ohjaa, on tarkoitettu pysymään erossa: Ollama, FFmpeg ja LTX-2.5-painot ovat paikallisia työkaluja, joita moottorit kutsuvat, ja jokainen moottori kertoo, mitä niistä se tarvitsee.",
+      },
+      {
+        q: "Voiko avustaja lähettää sähköpostia tai kytkeä laitetta ilman minua?",
+        a: "Ei. Lukeminen ja luonnostelu ovat paikallisia ja vain luku -tyyppisiä; lähetys tai korjaus on ehdotus tilassa pending_user_approval. Suorittaja hyväksyy vain 32 merkin HMAC-SHA256-tositteen, joka on sidottu toimintoon, kohteeseen, tiivisteeseen ja vanhenemiseen, voimassa 900 sekuntia ja käytettävissä kerran. Sähköpostitunnukset ovat macOS:n Keychainissa, ja vain luku -tyyppinen Home Assistant -silta evää korjauksen myös kelvollisella tositteella.",
+      },
+      {
+        q: "Soittaako God's Eye View -silta pilveen vai skannaako se verkkoni?",
+        a: "Ei. Se käynnistää ohjelman, jonka itse asensit tälle Macille, sitoo sen osoitteeseen 127.0.0.1, varmistaa sen käynnistysskriptit symbolisten linkkien ratkaisemisen jälkeen ja hakee lähdekoodia vain jos kytket sen päälle. Solmu pitää valinnaisia Keychain-viittauksia syötteiden avaimille; paikallinen ohjelmasi hakee syötteet kunkin tarjoajan ehtojen mukaisesti, eikä solmu koskaan välitä niitä tai välimuistita niitä. Kanavakirjoitukset ja raporttiviennit muuttuvat tilaan pending_user_approval myös silloin kun palvelin kutsuu niitä vain luku -tyyppisiksi.",
       },
     ],
   },

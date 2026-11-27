@@ -8,18 +8,17 @@
  * third-party tracker has nothing to observe.
  *
  * The pinned figures below are not copied from a release note. They are the result of
- * downloading each published asset and hashing it, on 2026-11-25:
+ * downloading each published asset and hashing it, on 2026-11-27:
  *
- *   v1.0.2  POPOPX-Mac-Node-Universal.dmg  3189691 B  a8d762867381bc5f6cac7aee4b528e6cee8ace46c4400c6be4cb8d09d94a1d36
- *   v1.0.2  POPOPX-Mac-Node-Universal.zip  2632528 B  f6ed80ed1b666ef5e5aec581b6dce1a26450e3b49a28f4d606ca0e66e1a3d740
- *   v1.0.1  POPOPX-Mac-Node-Universal.dmg  3178178 B  135a587cdf3eabc6554e3f753df3da6bcb839d25a60c5e676cc8b4669e83dc3d
+ *   v1.0.2 (build 4)  POPOPX-Mac-Node-Universal.dmg  6184345 B  b1a7557664101aae57e24b7fb818593dbba8864b035958f7b9b9b7951f808a0a
+ *   v1.0.2 (build 4)  POPOPX-Mac-Node-Universal.zip  5492582 B  6015611dd864dbc09f91d18418ce246483477fe0f0ed57fde158942d00cee855
+ *   v1.0.1            POPOPX-Mac-Node-Universal.dmg  3178178 B  135a587cdf3eabc6554e3f753df3da6bcb839d25a60c5e676cc8b4669e83dc3d
  *
- * Both v1.0.2 digests are the SHA256SUMS.txt lines, and both matched the bytes. The
- * single-asset `.dmg.sha256` sidecar published beside v1.0.2 did not: it says
- * 9107bc89d54604f2c000afde8c92b374b33aef77cfd7022c2f6a146f71262eef, which no published
- * asset hashes to. The v1.0.1 sidecar did match. So a manifest, when a release carries
- * one, is the file to check against, and `verifyCommands` prefers it for that reason
- * rather than as a style choice. Re-derive with:
+ * Both v1.0.2 build-4 digests are the SHA256SUMS.txt lines, and both matched the
+ * bytes. The single-asset `.dmg.sha256` sidecar published beside build 4 names the
+ * same digest. A manifest is still the file to check against because it covers every
+ * artifact in one place and is written by the packaging step, so `verifyCommands`
+ * prefers it rather than choosing between two files. Re-derive with:
  *
  *   curl -sL -o SUMS  .../releases/download/<tag>/SHA256SUMS.txt
  *   curl -sL -o x.dmg .../releases/download/<tag>/POPOPX-Mac-Node-Universal.dmg
@@ -31,6 +30,14 @@
  */
 
 export const RELEASE_REPO = "popopx-chat/popopx-mac-node";
+
+export const SIGNED_RELEASE = {
+  tag: "v1.0.2",
+  build: "4",
+  commit: "6de6eb8",
+  date: "2026-11-27",
+  name: "POPOPX Mac Node 1.0.2 (build 4)",
+} as const;
 
 export const DMG_ASSET = "POPOPX-Mac-Node-Universal.dmg";
 export const ZIP_ASSET = "POPOPX-Mac-Node-Universal.zip";
@@ -51,11 +58,12 @@ function assetKind(name: string): AssetKind | null {
   return null;
 }
 
-const FALLBACK_TAG = "v1.0.2";
-const FALLBACK_SIZE_BYTES = 3189691;
-const FALLBACK_SHA256 = "a8d762867381bc5f6cac7aee4b528e6cee8ace46c4400c6be4cb8d09d94a1d36";
-const FALLBACK_ZIP_SHA256 = "f6ed80ed1b666ef5e5aec581b6dce1a26450e3b49a28f4d606ca0e66e1a3d740";
-const FALLBACK_ZIP_SIZE_BYTES = 2632528;
+const FALLBACK_TAG = SIGNED_RELEASE.tag;
+const FALLBACK_NAME = SIGNED_RELEASE.name;
+const FALLBACK_SIZE_BYTES = 6184345;
+const FALLBACK_SHA256 = "b1a7557664101aae57e24b7fb818593dbba8864b035958f7b9b9b7951f808a0a";
+const FALLBACK_ZIP_SHA256 = "6015611dd864dbc09f91d18418ce246483477fe0f0ed57fde158942d00cee855";
+const FALLBACK_ZIP_SIZE_BYTES = 5492582;
 
 export interface ReleaseAsset {
   name: string;
@@ -66,6 +74,8 @@ export interface ReleaseAsset {
 
 export interface ReleaseInfo {
   tag: string;
+  /** The release's own display name, e.g. "POPOPX Mac Node 1.0.2 (build 4)". */
+  name: string | null;
   /** The primary installer. A release without one is treated as unusable. */
   dmgUrl: string;
   zipUrl: string | null;
@@ -105,6 +115,7 @@ export function fallbackRelease(): ReleaseInfo {
   });
   return {
     tag: FALLBACK_TAG,
+    name: FALLBACK_NAME,
     dmgUrl: downloadUrl(FALLBACK_TAG, DMG_ASSET),
     zipUrl: downloadUrl(FALLBACK_TAG, ZIP_ASSET),
     sidecarUrl: downloadUrl(FALLBACK_TAG, SIDECAR_ASSET),
@@ -168,6 +179,7 @@ function parseRelease(payload: unknown): ReleaseInfo | null {
 
   return {
     tag,
+    name: nonEmptyString(payload.name),
     dmgUrl,
     zipUrl: urls.zip ?? null,
     sidecarUrl: urls.sidecar ?? null,

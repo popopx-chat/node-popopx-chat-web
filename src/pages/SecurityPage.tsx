@@ -115,7 +115,7 @@ export function SecurityPage() {
               <KeyRound size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-lift" />
               <div className="min-w-0">
                 <h4 className="text-[15.5px] font-semibold text-ink">{security.keysHeading}</h4>
-                <p className="mt-3 text-pretty text-[13.5px] leading-relaxed text-ink-dim">
+                <p className="mt-3 break-words text-pretty text-[13.5px] leading-relaxed text-ink-dim">
                   {security.keysBody}
                 </p>
               </div>

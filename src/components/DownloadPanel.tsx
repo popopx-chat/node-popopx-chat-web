@@ -76,6 +76,11 @@ export function DownloadPanel() {
           <p className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight text-ink">
             {release.tag}
           </p>
+          {release.name === null ? null : (
+            <p className="mt-1.5 max-w-full text-pretty text-[12.5px] text-ink-mute">
+              {release.name}
+            </p>
+          )}
           {size === null ? null : (
             <p className="mt-2 text-sm text-ink-dim">
               <span className="text-ink-mute">{dict.hero.sizeLabel} </span>

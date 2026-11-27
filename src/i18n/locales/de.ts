@@ -60,7 +60,7 @@ export const de: Dictionary = {
     digestCopied: "Prüfsumme kopiert",
     verifyTitle: "Prüfen, bevor Sie sie öffnen",
     verifyBody:
-      "Speichern Sie das Image und die Prüfsummendatei des Releases in denselben Ordner und prüfen Sie beide, bevor Sie irgendetwas öffnen. Das Format dieser Datei ist von Release zu Release verschieden – neuere Releases veröffentlichen ein SHA256SUMS.txt-Manifest, ältere eine einzelne .sha256 pro Asset –, darum stehen unter „Releases & GitHub“ die zwei exakten Befehle für das Release, das Sie sich gerade ansehen.",
+      "Speichern Sie das Image und die Prüfsummendatei des Releases in denselben Ordner und prüfen Sie beide, bevor Sie irgendetwas öffnen. Ein Release kann ein SHA256SUMS.txt-Manifest, ein .sha256-Sidecar für ein einzelnes Asset oder beides veröffentlichen – darum stehen unter „Releases & GitHub“ die zwei exakten Befehle für das Release, das Sie sich gerade ansehen.",
     iosLabel: "POPOPX iOS",
     nodeLabel: "POPOPX Mac Node",
     localLabel: "Ihre eigene Hardware",
@@ -246,12 +246,11 @@ export const de: Dictionary = {
   },
 
   hub: {
-    badge: "QUELLCODE-ZWEIG · NICHT IM SIGNIERTEN BUILD 1.0.2",
     heading: "Fünf lokale Fähigkeiten, eine Grenze",
     sub:
-      "Der Quellcode-Zweig fügt eine eigentümerbezogene Fähigkeitserkennung, vier Protokolladapter und einen versiegelten Pairing-Link hinzu. Die Brücken sind standardmäßig aus, jedes Ziel wird von derselben positiven Allow-List zugelassen, und jede Schreiboperation wird zu einem signierten Vorschlag, den ein Mensch freigeben muss. Nichts davon ist ein gehosteter Dienst, und nichts davon öffnet einen neuen Listener.",
+      "Das signierte Image in build 4 bringt eine eigentümerbezogene Fähigkeitserkennung, vier Protokolladapter und einen versiegelten Pairing-Link mit. Die Brücken sind standardmäßig aus, jedes Ziel wird von derselben positiven Allow-List zugelassen, und jede Schreiboperation wird zu einem signierten Vorschlag, den ein Mensch freigeben muss. Nichts davon ist ein gehosteter Dienst, und nichts davon öffnet einen neuen Listener.",
     status:
-      "Im Quellcode seit dem 26. November 2026 (5858b3c und 040ef25). Der signierte Download v1.0.2 auf dieser Seite ist älter als beide Commits, darum lesen Sie diesen Abschnitt als Vertrag des Quellcode-Zweigs, nicht als Funktion des Images, das Sie gerade herunterladen.",
+      "Im signierten v1.0.2 build 4 (6de6eb8, 27. November 2026) und im Universal-DMG auf dieser Seite. Die Karten unten beschreiben das Image, das Sie gerade herunterladen, keinen Quellcode-Zweig.",
     cards: [
       {
         title: "Erkennung, die nur über sich selbst Auskunft gibt",
@@ -294,6 +293,72 @@ export const de: Dictionary = {
     ],
     footnote:
       "„Privatsphäre & Kontrolle“ legt dieselbe Grenze Regel für Regel dar, einschließlich dessen, was der Node nicht versprechen kann.",
+  },
+
+  extensions: {
+    heading: "Zwei lokale Erweiterungen, eine Freigabegrenze",
+    sub:
+      "Mit build 4 kommen ein privater Assistent, der liest, vorschlägt und wartet, und eine Brücke zu einem 3D-Globus, den Sie selbst installieren. Beide sind standardmäßig aus, beide halten ihren Zustand auf diesem Mac, und keiner von beiden macht aus dem Vorschlag eines Modells eine Schreiboperation ohne Freigabequittung.",
+    assistantTitle: "Privater Assistent und kontrollierte Automatisierung",
+    assistantSub:
+      "Ein Verwalter setzt vier Teile zusammen: einen Scheduler, eine Mail-Brücke, die nur lesend liest und erst nach Freigabe sendet, einen Wächter für Hausgeräte und das Freigabe-Gate, das jede Schreiboperation passieren muss.",
+    assistantFeatures: [
+      {
+        title: "Vier Connector-Berechtigungen",
+        body:
+          "Jeder Connector meldet eine von vier Stufen — read, propose, write oder admin. Standard ist read plus propose; eine write- oder admin-Aktion wird am Eingang des Executors erneut geprüft, nicht im Modell-Prompt.",
+      },
+      {
+        title: "Ein Scheduler, den Sie einschalten",
+        body:
+          "Ein tägliches Briefing um 08:00 Ortszeit und eine Hausgesundheits-Patrouille alle 30 Minuten. Beide sind standardmäßig aus und nur der Eigentümer kann sie aktivieren; jeder Lauf und jede Zustandsänderung wird in ledger/assistant.sqlite3 geschrieben.",
+      },
+      {
+        title: "Mail bleibt lesend, bis Sie freigeben",
+        body:
+          "IMAPS 993 öffnet das Postfach mit EXAMINE und BODY.PEEK, ordnet aktuelle Mail in Antwort nötig, Rechnung, Einladung und Benachrichtigung ein und entwirft Antworten. SMTPS 465 sendet nur, nachdem Sie auf der Telefonkarte oder in der Konsole freigegeben haben; die Passwörter sind Keychain-Referenzen, nie Einstellungen.",
+      },
+      {
+        title: "Ein Wächter, der vorschlägt und dann stoppt",
+        body:
+          "Die Patrouille liest nur die Home-Assistant-Entitäten, die Sie exponiert haben. Eine Entität, die über ihre Schwelle hinaus nicht verfügbar bleibt (standardmäßig 15 Minuten), wird zu einem Reparaturvorschlag, gebunden an Aktion, Entität und Payload-Digest; die Reparatur läuft einmal, nach der Freigabe, und eine Nur-Lese-Brücke lehnt sie auch mit gültiger Quittung ab.",
+      },
+    ],
+    godsEyeTitle: "God's Eye View, in einer Schleife",
+    godsEyeSub:
+      "Ein separates Programm eines Drittanbieters, das Sie auf diesem Mac selbst installieren und verwalten. Der Node liefert nur die Swift-Brücke: kein JavaScript, keine Kartenkacheln und keine Daten.",
+    godsEyeFeatures: [
+      {
+        title: "Von Ihnen installiert, vom Node geprüft",
+        body:
+          "Bestehende Installation oder Ein-Klick-Klon eines gepinnten Commits — der Klon ist optional, nie auf einem Timer. Paketname, gepinnte Version, Größe der package.json und beide Entry-Skripte werden geprüft, und der SHA-256 der Entry-Skripte wird festgehalten; ein Pfad, der nach der Auflösung außerhalb der Installationswurzel liegt, auch über einen Symlink, wird abgewiesen.",
+      },
+      {
+        title: "Feste Loopback-Adresse",
+        body:
+          "Der Bind-Host ist das Literal 127.0.0.1 und nicht konfigurierbar; der Standardport ist 18931. Systemverzeichnisse, ~/.ssh, ~/.gnupg, der Keychain-Ordner und das eigene Datenstammverzeichnis des Nodes werden als Installationsziele abgewiesen.",
+      },
+      {
+        title: "MCPToolGate verschärft nur",
+        body:
+          "Rein lesende geografische Werkzeuge dürfen innerhalb der MCP-Allow-List laufen. Ein als verändernd eingestuftes Werkzeug — Canvas-Markierungen, Zeichnungen, Report-Export oder jeder Name, der nicht erkennbar ein Lesen ist — wird zu pending_user_approval, auch wenn der Server es als rein lesend anpreist. Das Gate kann eine Stufe verschärfen, nie lockern.",
+      },
+    ],
+    boundaryHeading: "Was die Freigabequittung abdeckt",
+    boundaryItems: [
+      {
+        title: "Neunhundert Sekunden, eine Nutzung",
+        body:
+          "Eine Schreiboperation des Assistenten trägt eine 32 Zeichen lange HMAC-SHA256-Quittung, gebunden an Operationsart, Ziel, Inhalts-Digest und Ablauf. Sie gilt 900 Sekunden, wird in konstanter Zeit verglichen, vom Executor vor jedem I/O verbraucht und abgewiesen, wenn sich die Nutzlast ändert, abläuft, wiedergegeben wird oder an einen anderen Vorschlag gebunden ist.",
+      },
+      {
+        title: "Der Globus bleibt auf dem Loop",
+        body:
+          "God's Eye View bindet das Literal 127.0.0.1 und nichts anderes; sensible Verzeichnisse, der Keychain-Ordner und das eigene Datenstammverzeichnis des Nodes werden als Installationsziele abgewiesen, auch nach Auflösung von Symlinks. Live-Feeds holt Ihr eigenes lokales Programm zu den Bedingungen des jeweiligen Anbieters — dieser Node hält nur optionale Keychain-Referenzen und proxyt oder cacht die Daten nie. Canvas-Schreiboperationen und Report-Exporte werden zu pending_user_approval, auch wenn der Server sie rein lesend nennt.",
+      },
+    ],
+    footnote:
+      "„Privatsphäre & Kontrolle“ legt dieselben Grenzen für den Assistenten, den Globus und die vier LAN-Brücken dar, einschließlich dessen, was keiner von ihnen versprechen kann.",
   },
 
   engines: {
@@ -386,7 +451,7 @@ export const de: Dictionary = {
       {
         title: "DMG prüfen und öffnen",
         body:
-          "Nehmen Sie POPOPX-Mac-Node-Universal.dmg und die Prüfsummendatei des Releases in denselben Ordner und prüfen Sie beide, bevor Sie irgendetwas öffnen; unter „Releases & GitHub“ stehen die zwei Befehle für das aktuelle Release. Ziehen Sie POPOPX Mac Node.app nach /Applications. Der veröffentlichte Build trägt eine Developer ID-Signatur und ein angeheftetes Notarisierungs-Ticket, darum akzeptiert Gatekeeper ihn ohne Ihr Zutun – spctl -a -vv -t install antwortet accepted mit source=Notarized Developer ID. Ein Build aus dem Tag-Workflow, der mit Scripts/build_dmg.sh paketiert, und ein Build, den Sie selbst mit demselben Skript erstellen, sind dagegen ad hoc signiert, und der erste Start verlangt dort ein Öffnen per Rechtsklick.",
+          "Nehmen Sie POPOPX-Mac-Node-Universal.dmg und die Prüfsummendatei des Releases in denselben Ordner und prüfen Sie beide, bevor Sie irgendetwas öffnen; unter „Releases & GitHub“ stehen die zwei Befehle für das aktuelle Release. Ziehen Sie POPOPX Mac Node.app nach /Applications. Der veröffentlichte Build trägt eine Developer ID-Signatur und ein angeheftetes Notarisierungs-Ticket, darum akzeptiert Gatekeeper ihn ohne Ihr Zutun – spctl -a -vv -t install antwortet accepted mit source=Notarized Developer ID. Ein Build, den Sie selbst mit Scripts/build_dmg.sh erstellen, ist dagegen ad hoc signiert, und der erste Start verlangt dort ein Öffnen per Rechtsklick.",
       },
       {
         title: "Die Maschine profilieren lassen",
@@ -411,13 +476,13 @@ export const de: Dictionary = {
     ],
     buildHeading: "Oder bauen Sie ihn aus demselben Tag",
     buildBody:
-      "Die Release-Images werden aus dem Baum verpackt, den Sie auschecken können. swift build, swift test, swift build -c release, dann schreibt bash Scripts/build_dmg.sh --output dist --version v1.0.2 das universelle DMG, signiert es ad hoc und gibt das Sidecar mit aus. Das veröffentlichte Artefakt kommt dagegen aus Scripts/build-release.sh, das die Signierung mit Developer ID, die Notarisierung bei Apple und das ZIP hinzufügt – deshalb besteht ein heruntergeladenes Image die spctl-Prüfung, Ihr eigener Build nicht. Beide Skripte laufen nur auf macOS, weil sie aus hdiutil und codesign bestehen.",
+      "Die Release-Images werden aus dem Baum verpackt, den Sie auschecken können. swift build, swift test, swift build -c release, dann schreibt bash Scripts/build_dmg.sh --output dist --version v1.0.2 --build 4 das universelle DMG, signiert es ad hoc und gibt das Sidecar mit aus. Das veröffentlichte Artefakt kommt dagegen aus Scripts/build-release.sh, das die Signierung mit Developer ID, die Notarisierung bei Apple und das ZIP hinzufügt – deshalb besteht ein heruntergeladenes Image die spctl-Prüfung, Ihr eigener Build nicht. Beide Skripte laufen nur auf macOS, weil sie aus hdiutil und codesign bestehen.",
     lifecycleHeading: "Nach dem ersten Lauf",
     lifecycle: [
       {
         title: "Aktualisieren",
         body:
-          "Es gibt keinen Updater und keine Update-Prüfung – auch das ist etwas, worüber der Node nicht nach Hause telefoniert. Aktualisieren ist Ziehen: das neuere DMG herunterladen, prüfen und die App in /Applications ersetzen. Einstellungen, Pairing-Zustand, der Node-Schlüssel, der Tresor und jedes Artefakt liegen unter Application Support statt im Bundle, darum übernimmt eine ersetzte App den Rechner, auf den sie trifft.",
+          "Mit build 4 kommt ein eigentümerkonfiguriertes Update-Gate, kein automatischer Installer. Es liest nur den Manifest-Host, den Sie benennen, prüft eine Ed25519-Signatur des Schlüssels, den Sie gepinnt haben, über einer strikt neueren Version und installiert nichts, bis Sie einen quittungsgebundenen Download freigeben; eine abweichende Prüfsumme verwirft das Angebot. Es gibt keinen Vendor-Endpunkt und keine Standardprüfung. Sie können weiterhin aktualisieren, indem Sie das neuere DMG herunterladen, prüfen und die App ersetzen. Einstellungen, Pairing-Zustand, der Node-Schlüssel, der Tresor und jedes Artefakt liegen unter Application Support statt im Bundle, darum übernimmt eine ersetzte App den Rechner, auf den sie trifft.",
       },
       {
         title: "Sichern und auf eine andere Maschine umziehen",
@@ -438,16 +503,16 @@ export const de: Dictionary = {
       "Schritt 2 des Assistenten des Nodes selbst, der Pairing-QR-Code und die SMP-Brücke brauchen einen popopx-chat-Chat-Daemon im PATH. Der Node prüft genau eine ausführbare Datei und hat keinen Fallback, weil ein Upstream-Build zwar eine Versionszeile beantwortet, danach aber jeden Befehl scheitern lässt. Die zehn Engines selbst brauchen ihn nicht.",
     signHeading: "So ist der veröffentlichte Build signiert",
     signBody:
-      "Das Anwendungsbundle in dem Image trägt eine Developer ID Application-Signatur, den hardened runtime-Flag und einen sicheren Zeitstempel, und ein Notarisierungs-Ticket ist in es hinein angeheftet. Deshalb lässt Gatekeeper es ohne Ihr Zutun laufen: spctl -a -vv -t install antwortet accepted mit source=Notarized Developer ID. Der Block darunter ist am 2026-11-25 aus genau den Bytes abgelesen worden, die v1.0.2 veröffentlicht – führen Sie die ersten zwei Befehle gegen die App in /Applications aus, und Sie sollten dieselbe Identität zurückbekommen. Kein Apple-Account wird befragt und nichts wird gegen einen Server geprüft, weil das Ticket zusammen mit der App auf der Festplatte mitwandert.",
+      "Das Anwendungsbundle in dem Image trägt eine Developer ID Application-Signatur, den hardened runtime-Flag und einen sicheren Zeitstempel, und ein Notarisierungs-Ticket ist in es hinein angeheftet. Deshalb lässt Gatekeeper es ohne Ihr Zutun laufen: spctl -a -vv -t install antwortet accepted mit source=Notarized Developer ID. Der Block darunter ist am 2026-11-27 aus genau den Bytes abgelesen worden, die v1.0.2 build 4 veröffentlicht – führen Sie die ersten zwei Befehle gegen die App in /Applications aus, und Sie sollten dieselbe Identität zurückbekommen. Kein Apple-Account wird befragt und nichts wird gegen einen Server geprüft, weil das Ticket zusammen mit der App auf der Festplatte mitwandert.",
     containerTitle: "Das Image selbst ist nicht signiert",
     containerBody:
       "Führen Sie spctl auf dem heruntergeladenen .dmg aus, antwortet es rejected mit source=no usable signature; codesign -dvv sagt über dieselbe Datei, dass sie gar nicht signiert ist. Das ist die erwartete Antwort, kein Alarm wegen Manipulation. Apples Codesignatur sitzt auf dem Anwendungsbundle, das Notarisierungs-Ticket dagegen ist an das Bundle und an das Disk-Image darum herum angeheftet. Die einzige Integritätskontrolle des Images ist sein SHA-256-Wert, und das ist die Prüfung weiter unten auf dieser Seite.",
     provenanceTitle: "Welches Skript liefert welches Artefakt",
     provenanceBody:
-      "Zwei Skripte verpacken diese App, und sie enden nicht am selben Ort. Scripts/build_dmg.sh – das Skript, das der Tag-Workflow auf einem macOS-Runner ausführt, und das Ende der Build-Schritte weiter oben – signiert ad-hoc mit --sign - --timestamp=none und ohne hardened runtime, darum verlangt ein Build aus diesem Pfad beim ersten Start tatsächlich ein Öffnen per Rechtsklick. Scripts/build-release.sh ist der Developer ID-Pfad: Er signiert mit hardened runtime, reicht die Notarisierung ein, heftet das Ticket an Bundle und Image und schreibt das ZIP neben ein SHA256SUMS.txt-Manifest. Das Image, das Sie herunterladen, stammt aus dem zweiten Skript, und ein Runner, der das Zertifikat nie in den Händen hielt, kann es nicht erzeugen.",
+      "Zwei Skripte verpacken diese App, und sie enden nicht am selben Ort. Scripts/build_dmg.sh ist der lokale Packer: Es baut das Bundle zusammen, signiert ad-hoc mit --sign - --timestamp=none und ohne hardened runtime und schreibt das DMG samt Sidecar, darum verlangt ein Build aus diesem Pfad beim ersten Start tatsächlich ein Öffnen per Rechtsklick. Scripts/build-release.sh ist der Developer ID-Pfad: Es signiert mit hardened runtime, reicht die Notarisierung ein, heftet das Ticket an Bundle und Image und schreibt das ZIP neben ein SHA256SUMS.txt-Manifest. Das Image von build 4, das Sie herunterladen, ist die zweite Art — mit Developer ID signiert, notarisiert und mit angeheftetem Ticket —, und nur dieses Skript erzeugt sie. Der Tag-Workflow des Node bei 6de6eb8 führt weiterhin Scripts/build_dmg.sh aus, deshalb kann der Workflow allein die signierten Assets nicht erklären; ein Runner, der das Zertifikat nie in den Händen hielt, kann sie nicht erzeugen.",
     digestHeading: "Prüfen Sie die Prüfsumme, bevor Sie irgendetwas öffnen",
     digestBody:
-      "Zwei Befehle, ausgeführt in dem Ordner, in den Sie die Dateien gespeichert haben. Das Release-Manifest ist die Datei, gegen die Sie prüfen sollen, denn es nennt jedes Artefakt des Releases und wird von demselben Schritt geschrieben, der sie verpackt hat – während die .dmg.sha256 für ein einzelnes Asset, die neben v1.0.2 veröffentlicht ist, eine Prüfsumme nennt, die bei keinem veröffentlichten Asset herauskommt. Unter „Releases & GitHub“ stehen die zwei Befehle für das Release, das die Seite gerade auflöst, und das kann neuer sein als das unten.",
+      "Zwei Befehle, ausgeführt in dem Ordner, in den Sie die Dateien gespeichert haben. Das Release-Manifest ist die Datei, gegen die Sie prüfen sollen, denn es nennt jedes Artefakt des Releases und wird von demselben Schritt geschrieben, der sie verpackt hat. In build 4 nennen das Sidecar .dmg.sha256 und SHA256SUMS.txt dieselbe Prüfsumme, also stimmen beide Prüfungen überein. Unter „Releases & GitHub“ stehen die zwei Befehle für das Release, das die Seite gerade auflöst, und das kann neuer sein als das unten.",
     copyCommand: "Befehl kopieren",
     commandCopied: "Kopiert",
   },
@@ -473,7 +538,7 @@ export const de: Dictionary = {
       {
         title: "Schlüssel und Pairing-Zustand",
         body:
-          "Der Ed25519-Signierschlüssel des Nodes, die Liste der gekoppelten Geräte und das aktuelle Angebot sind gewöhnliche Dateien unter pairing/. Es gibt kein Cloud-Backup des Schlüssels und nirgends eine Hinterlegung – was nach beiden Seiten wirkt, wie der Absatz über den Verlust unten sagt. Die eine Ausnahme ist das Credential einer Hub-Brücke: Der Home-Assistant-Token, ein MQTT-Passwort oder ein CalDAV-Passwort ist ein Keychain-Eintrag, und settings.json trägt nur die Referenz, die ihn holt.",
+          "Der Ed25519-Signierschlüssel des Nodes, die Liste der gekoppelten Geräte und das aktuelle Angebot sind gewöhnliche Dateien unter pairing/. Es gibt kein Cloud-Backup des Schlüssels und nirgends eine Hinterlegung – was nach beiden Seiten wirkt, wie der Absatz über den Verlust unten sagt. Die Ausnahmen sind Credentials: Der Token oder das Passwort einer Hub-Brücke, die IMAP- und SMTP-Passwörter des Assistenten und die Feed-Schlüssel von God's Eye View sind Keychain-Einträge, und settings.json trägt nur die Referenzen, die sie holen.",
       },
       {
         title: "Die Beweisspur",
@@ -483,7 +548,7 @@ export const de: Dictionary = {
     ],
     transitHeading: "Verlässt die Maschine",
     transitSub:
-      "Vier Arten von Verkehr verlassen den Rechner ins weitere Netz, und jede davon ist entweder Ihr eigenes Gerät oder etwas, das Sie eingerichtet haben. Eine fünfte existiert nur, wenn Sie eine LAN-Brücke einschalten: Anfragen an Home Assistant, MQTT und CalDAV, die auf loopback-, RFC 1918- und .local-Adressen bleiben. Es gibt in keinem davon einen Analytics-Endpunkt, an den man etwas schicken könnte.",
+      "Vier Arten von Verkehr verlassen den Rechner ins weitere Netz, und jede davon ist entweder Ihr eigenes Gerät oder etwas, das Sie eingerichtet haben. Das Mailkonto des Assistenten fügt eine fünfte hinzu, sobald Sie es einschalten, und eine LAN-Brücke fügt lokalen Verkehr auf loopback-, RFC 1918- und .local-Adressen hinzu. Es gibt in keinem davon einen Analytics-Endpunkt, an den man etwas schicken könnte.",
     transitItems: [
       {
         title: "Ergebnisse, zurück auf Ihr eigenes Telefon",
@@ -505,23 +570,28 @@ export const de: Dictionary = {
         body:
           "Der Assistent lädt Homebrew-Formeln, FFmpeg, uv, Ollama und die Quantisierung herunter, die Sie gewählt haben. Dieser Verkehr ist der Sinn eines Installationsschritts, und er passiert einmal, vor Ihren Augen, mit dem Protokoll auf dem Bildschirm.",
       },
+      {
+        title: "Das Mailkonto des Assistenten",
+        body:
+          "Aus, bis Sie es einschalten und den Server eintragen. IMAPS 993 liest mit EXAMINE und BODY.PEEK, was eine Nachricht nie als gelesen markiert; SMTPS 465 verschickt nur einen Entwurf, den Sie mit einem Beleg freigegeben haben. Der Host ist ein Literal in Ihren Einstellungen und wird nie ermittelt; die beiden Passwörter sind Keychain-Referenzen. Keine andere Aktion des Assistenten verlässt die Maschine.",
+      },
     ],
     keysHeading: "Wo die Geheimnisse wirklich liegen",
     keysBody:
-      "Pairing- und Tresormaterial sind Dateien unter dem Datenstammverzeichnis, geschrieben mit atomarem Write, POSIX-Modus 0600 und vollständigem Dateischutz, sodass sie im Ruhezustand nicht lesbar sind, solange der Rechner gesperrt ist. Der Tausch, den Sie eingehen, ist real – Dateirechte sind auditierbar und portabel, und sie sind auch nichts zwischen Ihrem Benutzerkonto und einem Leser, der Ihr Benutzerkonto bereits hat. Behandeln Sie das Datenstammverzeichnis als das Geheimnis, das es ist: Es steht nicht in Time Machine, und es ist die einzige Kopie des Node-Schlüssels, die es gibt. Ein Hub-Credential nimmt den anderen Weg. Der Home-Assistant-Token, das MQTT-Passwort und das CalDAV-Passwort sind generic-password-Einträge unter dem Dienst im.popopx.macnode.hub, angelegt mit kSecAttrAccessibleWhenUnlockedThisDeviceOnly, und das Einstellungsdokument speichert nur eine Referenz. Ein Prozess ohne die Bundle-Identität der App – swift run, ein Test-Harness – bekommt stattdessen einen Store im Speicher; es gibt bewusst keinen Klartext-Datei-Rückfall, also wird ein Credential, das den Keychain nicht erreichen kann, gar nicht gespeichert.",
+      "Pairing- und Tresormaterial sind Dateien unter dem Datenstammverzeichnis, geschrieben mit atomarem Write, POSIX-Modus 0600 und vollständigem Dateischutz, sodass sie im Ruhezustand nicht lesbar sind, solange der Rechner gesperrt ist. Der Tausch, den Sie eingehen, ist real – Dateirechte sind auditierbar und portabel, und sie sind auch nichts zwischen Ihrem Benutzerkonto und einem Leser, der Ihr Benutzerkonto bereits hat. Behandeln Sie das Datenstammverzeichnis als das Geheimnis, das es ist: Es steht nicht in Time Machine, und es ist die einzige Kopie des Node-Schlüssels, die es gibt. Credentials nehmen den anderen Weg. Der Home-Assistant-Token, das MQTT-Passwort, das CalDAV-Passwort, die IMAP- und SMTP-Passwörter des Assistenten und die Feed-Schlüssel von God's Eye View sind generic-password-Einträge unter dem Dienst im.popopx.macnode.hub, angelegt mit kSecAttrAccessibleWhenUnlockedThisDeviceOnly, und das Einstellungsdokument speichert nur eine Referenz. Ein Prozess ohne die Bundle-Identität der App – swift run, ein Test-Harness – bekommt stattdessen einen Store im Speicher; es gibt bewusst keinen Klartext-Datei-Rückfall, also wird ein Credential, das den Keychain nicht erreichen kann, gar nicht gespeichert.",
     dataNote: {
       output: "Erzeugte Artefakte und die Outbox-Warteschlange, die Ergebnisse zurückhält, welche auf das Telefon warten.",
       vault: "Zeitversiegelte Archive und das Nachlassmaterial, das sie wieder öffnet.",
       pairing: "Der Ed25519-Node-Schlüssel, die Liste der gekoppelten Geräte und das aktuelle einmalige Angebot.",
       weights: "Modellgewichte und der LTX-2.5-MLX-Workspace, den die Video-Engines aufrufen.",
-      ledger: "Hash-appendierte Lockdown- und Mesh-Ledger.",
+      ledger: "Hash-appendierte Lockdown- und Mesh-Ledger sowie das begrenzte SQLite-Audit-Ledger des Assistenten.",
       logs: "Das Installationsprotokoll und das Audit-Protokoll, geschrieben damit der Betreiber sie liest.",
-      config: "Einstellungen, Engineschalter und die Konfiguration, die sich Brücke und Integrationen teilen.",
+      config: "Einstellungen, Engineschalter und die Konfiguration, die sich die Brücken, der Assistent und die God's Eye View-Karte teilen.",
     },
     rootLabel: "Datenstammverzeichnis",
     hubHeading: "Die eigene Grenze des Edge-Hubs",
     hubSub:
-      "Die vier Brücken, die der Quellcode-Zweig hinzufügt, halten sich an die Regeln oben und an vier weitere. Sie stehen hier statt auf einer Funktionskarte, weil es Behauptungen sind, die ein Leser aus dem Code widerlegen können sollte.",
+      "Die vier LAN-Brücken aus build 4, der private Assistent und die God's Eye View-Brücke halten sich an die Regeln oben und an vier weitere. Sie stehen hier statt auf einer Funktionskarte, weil es Behauptungen sind, die ein Leser aus dem Code widerlegen können sollte.",
     hubItems: [
       {
         title: "Ein einziger Zulassungspunkt",
@@ -542,6 +612,11 @@ export const de: Dictionary = {
         title: "Das Minimum lernen",
         body:
           "CalDAV parst DTSTART und DTEND und verwirft Titel, Beschreibungen, Orte und Teilnehmer innerhalb des Parsers, sodass die geschäftigsten Felder gar nicht erst ins Modell gelangen. Eine Vorschau eines Vorschlags zeigt kurze skalare Argumente und verbirgt jeden Wert, dessen Schlüssel auf der Schwärzungsliste steht – content, token, password, payload und mehr. Discovery ist ein rein lesendes GET, das den eigenen Zustand der Maschine berichtet.",
+      },
+      {
+        title: "Der Assistent und der Globus",
+        body:
+          "Ein Mailversand oder eine häusliche Reparatur erreicht den Executor nur mit einem 32 Zeichen langen HMAC-SHA256-Beleg, der an Art, Ziel, Digest und Ablauf gebunden ist, 900 Sekunden gilt und einmal verbraucht wird. Mail ist die einzige benannte Ausnahme beim ausgehenden Verkehr des Assistenten, und ihre Passwörter sind Keychain-Referenzen. God's Eye View läuft nur auf loopback, prüft seine Installation nach der Auflösung symbolischer Links, und sein MCP-Gate kann ein Tool nur enger fassen: Canvas-Schreibvorgänge und Report-Exporte werden zu pending_user_approval, selbst wenn der Server sie als rein lesend bezeichnet. Das Repository enthält nur die Swift-Brücke.",
       },
     ],
     controlHeading: "Ihr Teil des Abschaltknopfs",
@@ -574,7 +649,7 @@ export const de: Dictionary = {
       "Die Liste der gekoppelten Geräte in der Konsole hat in jeder Zeile einen Revoke-Knopf. Er markiert das Gerät als widerrufen, entfernt seine Kontaktzuordnung und verwirft von da an seine Befehle – aber er baut die SMP-Verbindung nicht ab, und die App sagt das in derselben Meldung, die sie Ihnen zeigt. Um die Arbeit zu Ende zu bringen, löschen Sie den Kontakt im Chat-Client. Was einmal auf Ihrer Festplatte steht, bleibt auf Ihrer Festplatte; Widerrufen stoppt künftige Befehle, es ist kein Fernlöschen, und eine Fähigkeit zum Fernlöschen hat es im Node nie gegeben, die man hätte entfernen können.",
     limitsHeading: "Was diese Seite nicht verspricht",
     limitsBody:
-      "Das sichere Zerstören ist ein Überschreiben mit Zufallsdaten, ein Sync und ein Unlink. Auf APFS wird eine geänderte Datei in neue Blöcke geschrieben und die SSD bildet logische Blöcke um, das entfernt also die Datei und macht gewöhnliche Recover-Tools unwirksam, beweist aber nicht, dass die alten physikalischen Bytes weg sind. Es ist das Beste, was eine Userspace-Datei-API kann, und der Code sagt das in dem Ergebnis, das er zurückgibt. Darüber hinaus: kein globales Anhalten außer Beenden, kein Fernlöschen, keine Schlüssel-Hinterlegung und darum keine Wiederherstellung, wenn Sie den Rechner und das Datenstammverzeichnis zusammen verlieren – und kein Updater, den man überreden könnte, etwas zu installieren, das Sie nicht verlangt haben.",
+      "Das sichere Zerstören ist ein Überschreiben mit Zufallsdaten, ein Sync und ein Unlink. Auf APFS wird eine geänderte Datei in neue Blöcke geschrieben und die SSD bildet logische Blöcke um, das entfernt also die Datei und macht gewöhnliche Recover-Tools unwirksam, beweist aber nicht, dass die alten physikalischen Bytes weg sind. Es ist das Beste, was eine Userspace-Datei-API kann, und der Code sagt das in dem Ergebnis, das er zurückgibt. Darüber hinaus: kein globales Anhalten außer Beenden, kein Fernlöschen, keine Schlüssel-Hinterlegung und darum keine Wiederherstellung, wenn Sie den Rechner und das Datenstammverzeichnis zusammen verlieren – und kein stiller Updater. Build 4 ergänzt ein Update-Gate, das nur den Manifest-Host liest, den Sie benennen, nur eine Signatur des Schlüssels akzeptiert, den Sie gepinnt haben, über einer strikt neueren Version, und einen Beleg verlangt, bevor es etwas herunterlädt oder installiert; es gibt keinen Vendor-Endpunkt und kein Standardziel.",
   },
 
   troubleshooting: {
@@ -664,16 +739,17 @@ export const de: Dictionary = {
     verifySumsBody:
       "Ein Release-Manifest listet jedes Artefakt, deshalb ist eine Datei, die Sie nicht geladen haben, erwartet und nicht fehlend: Übergeben Sie --ignore-missing und lesen Sie die Zeile, die zu Ihrer Datei passt. Das Manifest wird in demselben Schritt geschrieben, der auch den Inhalt verpackt, den es nennt.",
     verifySidecarBody:
-      "Ein älteres Release veröffentlicht stattdessen ein Sidecar für ein einzelnes Asset, und das ist die Datei, gegen die Sie prüfen sollten. Wenn ein Release beide trägt und sie widersprechen sich: glauben Sie dem Manifest, denn das Sidecar kann aus einem anderen Build derselben Version stammen.",
+      "Ein älteres Release veröffentlicht stattdessen ein Sidecar für ein einzelnes Asset, und das ist die Datei, gegen die Sie prüfen sollten. Build 4 veröffentlicht beides, und beide nennen dieselbe Prüfsumme; wo die Dateien eines Releases sich widersprechen, glauben Sie dem Manifest, denn das Sidecar kann aus einem anderen Build derselben Version stammen.",
     pipelineHeading: "Wie eine Version hierher kommt",
     pipelineBody:
-      "Ein Tag zu pushen läuft den Release-Workflow auf einem macOS-Runner: Er baut den Baum, führt die Vertragstests durch, verpackt das universelle Image mit Scripts/build_dmg.sh, verweigert das Veröffentlichen einer Prüfsummendatei mit absolutem Pfad und lädt hoch, was dieses Skript geschrieben hat. Ein notariertes Image neben einem SHA256SUMS.txt-Manifest kommt dagegen aus Scripts/build-release.sh, das die Signierung mit Developer ID, eine Notarisierung bei Apple und das ZIP hinzufügt. Beide Wege enden am selben Ort: einer Prüfsumme, die Sie prüfen können, ohne dieser Seite zu vertrauen.",
+      "Ein Tag-Push startet den Release-Workflow auf einem macOS-Runner: Er baut den Baum, führt die Vertragstests durch, verpackt das universelle Image mit Scripts/build_dmg.sh, verweigert das Veröffentlichen einer Prüfsummendatei mit absolutem Pfad und lädt das DMG samt Sidecar hoch. Das ist der Ad-hoc-Pfad. Das signierte Image von build 4, sein ZIP und SHA256SUMS.txt kommen aus Scripts/build-release.sh, das mit der Developer ID-Identität, der hardened runtime und einem sicheren Zeitstempel signiert, bei Apples Notardienst einreicht und das Ticket an Bundle und Image anheftet. Der Tag-Workflow bei 6de6eb8 ruft dieses Skript nicht auf, also können die signierten Assets nicht seine Ausgabe sein. Beide Wege enden am selben Ort: einer Prüfsumme, die Sie prüfen können, ohne dieser Seite zu vertrauen.",
     supportedHeading: "Läuft heute",
     supportedItems: [
       "Alle zehn Engines, jede mit ihren eigenen Aktionen und Ablehnungspfaden, einzeln zugeschaltet.",
       "Automatische Stufenwahl aus sysctl, samt dem Modell-Pull, den jede Stufe bedeutet.",
       "Signierte, einmalige, fünfzehnminütige Pairing-Codes und eine Konsole, die nur an loopback bindet.",
       "Die TypeScript-Brücke und zwei Agent-Adapter über dieselbe Konsole und denselben Token.",
+      "Der private Assistent und die God's Eye View-Brücke: beleggebundene Schreibvorgänge, ein Werkzeug-Gate nur auf loopback, und beides standardmäßig aus.",
     ],
     roadmapHeading: "Noch nicht",
     roadmapSub:
@@ -722,7 +798,7 @@ export const de: Dictionary = {
       },
       {
         q: "Durchsucht der Node mein LAN nach Geräten?",
-        a: "Nein. Discovery ist ein rein lesendes GET /v1/discovery/capabilities, das berichtet, was dieser Mac bereits hat: Ollama auf loopback, die von Ihnen freigegebenen Workspace-Ordner, den Berechtigungsstatus von EventKit und ob eine TCP-Verbindung zu einem LAN-Host gelingt, den Sie in den Einstellungen eingetragen haben. Es gibt keinen mDNS-Advertiser, keinen Port-Sweep und keinen Subnetz-Durchlauf im Code. Ein Ziel wird nur zugelassen, wenn es loopback, ein RFC 1918-Literal, eine ULA-Adresse oder ein .local-Name ist; eine öffentliche Adresse wird abgewiesen, bevor ein Socket geöffnet wird, und der Quellcode-Zweig akzeptiert keine Hostnamen, die eine DNS-Abfrage bräuchten.",
+        a: "Nein. Discovery ist ein rein lesendes GET /v1/discovery/capabilities, das berichtet, was dieser Mac bereits hat: Ollama auf loopback, die von Ihnen freigegebenen Workspace-Ordner, den Berechtigungsstatus von EventKit und ob eine TCP-Verbindung zu einem LAN-Host gelingt, den Sie in den Einstellungen eingetragen haben. Es gibt keinen mDNS-Advertiser, keinen Port-Sweep und keinen Subnetz-Durchlauf im Code. Ein Ziel wird nur zugelassen, wenn es loopback, ein RFC 1918-Literal, eine ULA-Adresse oder ein .local-Name ist; eine öffentliche Adresse wird abgewiesen, bevor ein Socket geöffnet wird, und der signierte Build akzeptiert keine Hostnamen, die eine DNS-Abfrage bräuchten. LAN Discover von build 4 ist standardmäßig aus und beobachtet nur die Ordner, Feeds und MCP-Server, die Sie konfigurieren, mit mindestens sechzig Sekunden zwischen zwei Aktualisierungen.",
       },
       {
         q: "Kann ein MCP-Tool oder ein Smart-Home-Befehl ohne mich laufen?",
@@ -751,6 +827,14 @@ export const de: Dictionary = {
       {
         q: "Welche Rechner werden unterstützt?",
         a: "macOS 14 oder neuer auf Apple Silicon. Die Skala der Ausbaustufen, Metal und MLX gehen durchweg von Unified Memory aus, und MLX läuft nicht auf Intel, deshalb ist ein Intel-Mac kein Host, den dieses Projekt anstrebt, auch wenn das Universal-DMG weiterhin einen x86_64-Slice enthält. Die App selbst bindet keine Bibliothek von Dritten ein: ausschließlich Apple-Frameworks. Was sie ansteuert, ist bewusst getrennt davon – Ollama, FFmpeg und die LTX-2.5-Gewichte sind lokale Werkzeuge, die die Engines aufrufen, und jede Engine gibt an, welche sie braucht.",
+      },
+      {
+        q: "Kann der Assistent ohne mich Mail senden oder ein Gerät schalten?",
+        a: "Nein. Lesen und Entwerfen sind lokal und rein lesend; ein Versand oder eine Reparatur ist ein Vorschlag in pending_user_approval. Der Executor akzeptiert nur einen 32 Zeichen langen HMAC-SHA256-Beleg, der an Vorgang, Ziel, Digest und Ablauf gebunden ist, 900 Sekunden gilt und einmal verwendbar ist. Mail-Credentials liegen im Keychain von macOS, und eine rein lesende Home Assistant-Brücke lehnt die Reparatur auch mit gültigem Beleg ab.",
+      },
+      {
+        q: "Ruft die God's Eye View-Brücke die Cloud an oder durchsucht sie mein Netz?",
+        a: "Nein. Sie startet ein Programm, das Sie auf diesem Mac installiert haben, bindet es an 127.0.0.1, prüft seine Einstiegsskripte nach der Auflösung symbolischer Links und zieht Quellcode nur, wenn Sie das einschalten. Der Node hält optionale Keychain-Referenzen für Feed-Schlüssel; Ihr lokales Programm ruft die Feeds zu den Bedingungen des jeweiligen Anbieters ab, und der Node leitet sie nie weiter und speichert sie nie zwischen. Canvas-Schreibvorgänge und Report-Exporte werden zu pending_user_approval, selbst wenn der Server sie als rein lesend bezeichnet.",
       },
     ],
   },

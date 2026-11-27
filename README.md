@@ -15,7 +15,7 @@ Live: <https://node.popopx.chat> · Source: <https://github.com/popopx-chat/popo
 |---|---|
 | `/` | Hero, the network/machine split, the four entry points, architecture, the console UI preview, FAQ |
 | `/node` | What a node is, the command wire, pairing, the listening ports |
-| `/features` | The ten engines and the Apple Silicon memory ladder, including the tier plans |
+| `/features` | The ten engines, the Apple Silicon memory ladder, the LAN bridges, and the assistant and God's Eye View extensions |
 | `/install` | Prerequisites, the five steps, building from the tag, how the published build is signed and how to check its digest, upgrade/backup/removal, the bridge |
 | `/security` | What stays on disk, what leaves, where the keys live, the off switch, the limits |
 | `/troubleshooting` | The observed faults as a symptom / cause / fix table |
@@ -46,9 +46,9 @@ product will eventually contradict it.
 | The Apple Silicon memory ladder and the three tier rules | `PopopxMacNode/README.md`, with the band boundaries taken from `ComputeTier` in `MacNodeModels.swift` (`.light` below 48 GB, `.high` 48–95, `.flagship` from 96) |
 | The pairing code, the command wire, the ports, the data-root layout, the tier plans, the prerequisites | `src/data/nodeRuntime.ts`, read out of `MacNodeModels.swift`, `MacNodePopopxBridge.swift` and `HardwareProfilerAndInstaller.swift`, with the file:line citations kept in that file's comments |
 | The release version, asset URLs, sizes and digests | `https://api.github.com/repos/popopx-chat/popopx-mac-node/releases/latest`, with a pinned fallback whose digests were measured by downloading and hashing each published asset (`src/data/release.ts` records the table and the recipe) |
-| The five source-line capabilities on `/features` and `/security` — discovery, MCP, Home Assistant/MQTT, CalDAV, sealed pairing — and every limit, protocol name and redaction field | `src/data/edgeHub.ts`, read out of `LocalCapabilityDiscovery.swift`, `HubBridgeConfig.swift`, `MCPBridge.swift`, `SmartHomeBridge.swift`, `CalDavBridge.swift`, `ICalendarFreeBusy.swift`, `PrivacyProposalLedger.swift`, `HubSecrets.swift` and `OpaquePairingCodec.swift`, with file:line citations in that file's header. The section badge says these are on `main` (5858b3c, 040ef25) and **not** in the signed v1.0.2 image the download button serves |
+| The LAN bridges, sealed pairing, update gate and LAN Discover, the private assistant and the God's Eye View bridge on `/features` and `/security` — every permission, limit, protocol name and redaction field | `src/data/edgeHub.ts` and `src/data/extensions.ts`, read out of `LocalCapabilityDiscovery.swift`, `HubBridgeConfig.swift`, `MCPBridge.swift`, `SmartHomeBridge.swift`, `CalDavBridge.swift`, `ICalendarFreeBusy.swift`, `PrivacyProposalLedger.swift`, `HubSecrets.swift`, `OpaquePairingCodec.swift`, `PersonalAssistantManager.swift` and `GodsEyeViewBridge.swift`, with file:line citations in those files' headers. All of it ships in the signed v1.0.2 (build 4) image at `6de6eb8`: the bridges from `5858b3c` and `040ef25`, the update gate and LAN Discover from `e40f5e3`, the assistant from `7ddacdc`, and the globe from `99694e2` |
 | The console preview card on `/` | `src/data/consolePreview.ts` — the published `LADDER` rows with a numeric size attached, plus a port of `ComputeTier`, `ModelPlan.recommend` and `meshMemoryCeilingGB` from `MacNodeModels.swift`. The three device rows are fixtures in the real `PairedDevice` shape; the card labels itself a UI preview and requests nothing |
-| The signing state on `/install` | `src/data/signing.ts` — recorded `codesign`/`spctl`/`stapler` output from the published v1.0.2 bytes, with the mount-and-inspect recipe in that file's header and the same table under “How the published build is signed” below |
+| The signing state on `/install` | `src/data/signing.ts` — recorded `codesign`/`spctl`/`stapler` output from the published v1.0.2 (build 4) bytes, with the mount-and-inspect recipe in that file's header and the same table under “How the published build is signed” below |
 | The three sibling portals in the ecosystem row | `src/data/ecosystem.ts`, checked with `curl -sIL --max-time 25` against each host's document title |
 | The 18 interface languages | `knownRegions` in `apps/ios/POPOPX.xcodeproj/project.pbxproj`, minus `Base`, which is an Xcode artefact rather than a locale |
 
@@ -69,13 +69,12 @@ is dropped. `LOCALES` in `src/i18n/types.ts` is that eighteen.
 
 The site prints the download-verification commands rather than asserting a digest of its
 own, and it prefers a release manifest (`SHA256SUMS.txt`) over the single-asset
-`.dmg.sha256` sidecar. That preference is a measurement, not a style choice: on
-2026-11-25 both v1.0.2 assets were downloaded and hashed, and the manifest lines matched
-the bytes while the sidecar published beside them named a digest
-(`9107bc89d54604f2c000afde8c92b374b33aef77cfd7022c2f6a146f71262eef`) that no published
-asset hashes to. The v1.0.1 sidecar did match, so the discrepancy is per-release and
-belongs upstream in `popopx-mac-node`'s packaging scripts, not in this repository. Re-derive
-from a release you can reach:
+`.dmg.sha256` sidecar because the manifest covers every asset. That preference is a
+measurement, not a style choice: on 2026-11-27 both v1.0.2 (build 4) assets were
+downloaded and hashed, and the manifest and the sidecar both name
+`b1a7557664101aae57e24b7fb818593dbba8864b035958f7b9b9b7951f808a0a`, which is what the
+DMG bytes hash to. The sidecar mismatch observed on the earlier v1.0.2 build is not
+present in build 4. Re-derive from a release you can reach:
 
 ```sh
 curl -sL -o SUMS  https://github.com/popopx-chat/popopx-mac-node/releases/download/<tag>/SHA256SUMS.txt
@@ -87,9 +86,9 @@ shasum -a 256 -c --ignore-missing SUMS
 ### How the published build is signed
 
 `/install` prints the signing state as measured, including the part that looks like a
-problem. Every value below is tool output read off the artifact, recorded on 2026-11-25
-against `POPOPX-Mac-Node-Universal.dmg` for v1.0.2 — the local build hashed to
-`a8d762867381bc5f6cac7aee4b528e6cee8ace46c4400c6be4cb8d09d94a1d36`, which is exactly the
+problem. Every value below is tool output read off the artifact, recorded on 2026-11-27
+against `POPOPX-Mac-Node-Universal.dmg` for v1.0.2 (build 4) — the local build hashed to
+`b1a7557664101aae57e24b7fb818593dbba8864b035958f7b9b9b7951f808a0a`, which is exactly the
 digest `src/data/release.ts` pins for the published asset, so these are the published bytes
 under inspection rather than a reconstruction of them. The same table, in code, is the
 comment header of `src/data/signing.ts`.
@@ -108,14 +107,16 @@ notarized; the UDIF image wrapped around it carries a stapled ticket but no code
 of its own, so a reader who runs `spctl` on the downloaded file gets `rejected` and needs to
 be told that is expected. The image's only integrity control is the SHA-256 above.
 
-Provenance, from the node repository: `Scripts/build_dmg.sh:615-619` signs ad-hoc
-(`--sign - --timestamp=none`, no hardened runtime) and `:780` expects `spctl` to reject that
-— and `.github/workflows/release.yml:115` runs only `build_dmg.sh`, so the tag pipeline
-publishes an ad-hoc image with a single-asset sidecar. `Scripts/build-release.sh` is the
-Developer ID path: it signs with the runtime flag, submits to notarization, staples the
-ticket to bundle and image, and writes the ZIP beside a `SHA256SUMS.txt` manifest. The
-container, ZIP and manifest that are actually on the release can only come from that second
-script, which needs the certificate, so a runner that never held it cannot produce them.
+Provenance, from the node repository at `6de6eb8`: the published build 4 bytes are
+Developer ID signed, notarized and stapled, which only `Scripts/build-release.sh`
+produces. That script signs with the hardened runtime, submits to notarization, staples
+the ticket to bundle and image, and writes the ZIP beside a `SHA256SUMS.txt` manifest.
+`Scripts/build_dmg.sh` is the local ad-hoc packer (`--sign - --timestamp=none`, no
+hardened runtime), and `:780` expects `spctl` to reject that local output.
+`.github/workflows/release.yml:115` still invokes only `build_dmg.sh`, so the tag
+workflow alone cannot produce the signed assets on the release; a runner that has never
+held the certificate cannot. The certificate on the published app is
+`gang sun (PDBA6XRBQT)`.
 
 Re-derive it from the image on your own machine:
 
